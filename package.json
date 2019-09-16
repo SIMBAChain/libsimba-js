@@ -1,0 +1,84 @@
+{
+    "name": "libsimba-js",
+    "version": "0.0.1",
+    "description": "Simbachain Blockchain abstraction and interaction library",
+    "main": "dist/libsimba.js",
+    "module": "dist/libsimba.js",
+    "scripts": {
+        "test": "npx nyc npx mocha --reporter mocha-junit-reporter --require @babel/register",
+        "testonly": "npx mocha --reporter mocha-junit-reporter --require @babel/register",
+        "docs": "typedoc -p . --theme minimal --target 'es6' --excludeNotExported --excludePrivate --ignoreCompilerErrors --exclude \"**/src/**/__tests__/*.*\" --out docs src/",
+        "start": "webpack-dev-server --config webpack.dev.js --mode development",
+        "commit": "git-cz",
+        "prerelease": "npm run build",
+        "release": "standard-version",
+        "postrelease": "npm publish dist",
+        "build": "webpack --config webpack.prod.js --mode production",
+        "preview": "npm run build && http-server dist"
+    },
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "nyc": {
+        "reporter": [
+            "text",
+            "cobertura",
+            "html"
+        ]
+    },
+    "keywords": [
+        "simba",
+        "simbachain",
+        "blockchain",
+        "ethereum"
+    ],
+    "author": "Kieran David Evans <kieran.evans@simbachain.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": ""
+    },
+    "homepage": "",
+    "dependencies": {
+        "@ethersproject/wallet": "^5.0.0-beta.131",
+        "core-js": "3.2.1",
+        "poll-js": "0.0.3"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.6.0",
+        "@babel/plugin-transform-classes": "^7.5.5",
+        "@babel/plugin-transform-proto-to-assign": "^7.5.5",
+        "@babel/plugin-transform-runtime": "^7.6.0",
+        "@babel/polyfill": "^7.6.0",
+        "@babel/preset-env": "^7.6.0",
+        "@babel/register": "^7.6.0",
+        "@babel/runtime": "^7.6.0",
+        "ajv": "6.10.2",
+        "babel-loader": "8.0.6",
+        "chai": "^4.2.0",
+        "clean-webpack-plugin": "3.0.0",
+        "commitizen": "^4.0.3",
+        "copy-webpack-plugin": "^5.0.4",
+        "cz-conventional-changelog": "^3.0.2",
+        "file-loader": "4.2.0",
+        "html-webpack-plugin": "^4.0.0-beta.8",
+        "http-server": "0.11.1",
+        "mocha": "^6.2.0",
+        "mocha-junit-reporter": "^1.23.1",
+        "nyc": "^14.1.1",
+        "sinon": "^7.4.2",
+        "source-map-loader": "0.2.4",
+        "standard-version": "^7.0.0",
+        "typedoc": "^0.15.0",
+        "url-loader": "2.1.0",
+        "webpack": "4.40.2",
+        "webpack-bundle-analyzer": "^3.5.0",
+        "webpack-cli": "3.3.8",
+        "webpack-dev-server": "3.8.1"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    }
+}

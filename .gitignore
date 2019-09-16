@@ -1,0 +1,7 @@
+.idea
+/node_modules
+dist
+.nyc_output
+stats.json
+test-results.xml
+/coverage

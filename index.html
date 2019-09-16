@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>libsimba-js</title>
+</head>
+<body>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", async () => {
+        //Create a new wallet instance
+        let wallet = new libsimba.LocalWallet(
+            ()=>{
+                return Promise.resolve(window.confirm("Do you want to sign this transaction?"))
+            }
+        );
+
+        //Check if there's an existing local wallet
+        if(wallet.walletExists()){
+            //There is a local wallet, unlock it
+            console.log("Unlocking Wallet");
+            await wallet.unlockWallet(
+                'test1234',
+                (progress)=>{
+                    console.log(`Decrypting Wallet ${progress*100}`);
+                }
+            );
+        }else{
+            //There is no local wallet, let
+            console.log("Creating Wallet");
+            await wallet.generateWallet(
+                'test1234',
+                (progress)=>{
+                    console.log(`Encrypting Wallet ${progress*100}`);
+                });
+
+            // We can also generate a wallet from a private key, or from a mnemonic
+            // await wallet.generateWalletFromPrivateKey(
+            //     'cf0811297a0e539128025b8558df2b434e9425bd93886e5d43dfd14f9da44c14',
+            //     'test1234',
+            //     (progress)=>{
+            //         console.log(`Encrypting Wallet ${progress*100}`);
+            //     });
+        }
+
+        //Print out the wallet address, you don't need to do this, but useful to see
+        console.log('Eth Address', await wallet.getAddress());
+
+        //We create a Simba instance, passing in your API URL, API Key, Management Key, and wallet instance
+        let simba = new libsimba.Simba('https://api.simbachain.com/v1/libSimba-SimbaChat/',
+            '43283073fd5bebff453fa0e56284612d176d2f942961dab66b3205907f09bc35',
+            '2e2ae3014030bae2668439c9d5bf03456b6748e7ee42ed228fbb08214587e5db',
+            wallet);
+
+        //These are the parameters to pass to the method call
+        let methodParams = {
+            assetId: "0xbad65ff688a28efdd17d979c12f0ab2e2de305dbc8a2aa6be45ed644da822cfb",
+            name: "A Test Room",
+            createdBy: "Kieran"
+        };
+
+        //Call the `createRoom` method, with the above params. The txn is signed with the wallet we created/loaded above
+        simba.callMethod('createRoom', methodParams)
+            .then((ret)=>{
+                console.log("Successful!", ret);
+
+                //The request and signing were successful, now we wait for the API to
+                // tell us if the txn was successful or not.
+                const { future, cancel } = simba.waitForSuccessOrError(ret);
+
+                //`future` is a JS Promise that will resolve when we know the status
+                //`cancel` is a function, you can call it to cancel the above request if needed
+                future
+                    .then(txn=>{
+                        //txn will hold the txn details
+                        //txn.status will hold the status
+                        console.log(txn.status,txn);
+                    })
+                    .catch((error)=>{
+                        console.error("Failure!", error);
+                    })
+            })
+            .catch((error)=>{
+                console.error("Failure!", error);
+            })
+    });
+</script>
+</body>
+</html>
