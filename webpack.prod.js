@@ -61,15 +61,7 @@ module.exports = {
             'README.md',
             'CHANGELOG.md',
             'LICENSE',
-            '.gitignore',
-            {}
-        ]),
-        new CopyPlugin(
-            {
-                from: 'index.html',
-                to: 'dist/docs/_example.html',
-                toType: 'file'
-            }
-        )
+            '.gitignore'
+        ])
     ]
 };

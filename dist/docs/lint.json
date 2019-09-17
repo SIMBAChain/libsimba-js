@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Simbachain#callMethodWithFile",
+    "filePath": "src/simba/simba.js",
+    "lines": [
+      {
+        "lineNumber": 264,
+        "line": "    /**"
+      },
+      {
+        "lineNumber": 265,
+        "line": "     * Not yet implemented - Call a method on the API with files"
+      },
+      {
+        "lineNumber": 266,
+        "line": "     * @param {string} method - the method to call"
+      },
+      {
+        "lineNumber": 267,
+        "line": "     * @param {Object} parameters- the parameters for the method"
+      },
+      {
+        "lineNumber": 268,
+        "line": "     * @param {Array} files - the files"
+      },
+      {
+        "lineNumber": 269,
+        "line": "     * @return {Promise<Object>} - a promise resolving with the transaction details"
+      },
+      {
+        "lineNumber": 270,
+        "line": "     */"
+      },
+      {
+        "lineNumber": 271,
+        "line": "    async callMethodWithFile(method, parameters, files) {"
+      }
+    ],
+    "codeParams": [
+      "method",
+      "parameters",
+      "files"
+    ],
+    "docParams": [
+      "method",
+      "parameters-",
+      "files"
+    ]
+  }
+]

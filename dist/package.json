@@ -1,0 +1,101 @@
+{
+    "name": "@simbachain/libsimba-js",
+    "version": "0.1.1",
+    "description": "libsimba-js is a library simplifying the use of SIMBAChain APIs. We aim to abstract away the various blockchain concepts, reducing the necessary time needed to get to working code.",
+    "homepage": "",
+    "main": "libsimba.js",
+    "module": "libsimba.js",
+    "scripts": {
+        "test": "npx nyc npx mocha --reporter mocha-junit-reporter --require @babel/register",
+        "testonly": "npx mocha --reporter mocha-junit-reporter --require @babel/register",
+        "start": "webpack-dev-server --config webpack.dev.js --mode development",
+        "commit": "git-cz",
+        "build": "webpack --config webpack.prod.js --mode production",
+        "buildonly": "webpack --config webpack.prod.js --mode production",
+        "postbuild": "npm run docs",
+        "preview": "npm run buildonly && http-server dist",
+        "version": "npx standard-version",
+        "prerelease": "npm run test",
+        "release-prerelease": "npm version -- --prerelease",
+        "release-patch": "npm version --release-as patch",
+        "release-minor": "npm version --release-as minor",
+        "release-major": "npm version --release-as major",
+        "preversion": "node ./.hooks/checkBranch.js && npm test",
+        "postversion": "git push && git push --tags",
+        "release": "npm run build && npm publish dist --access public && npm run docs && npm run deploydocs",
+        "docs": "npx esdoc",
+        "deploydocs": "npx gh-pages -d dist/docs/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/simbachain/libsimba-js.git"
+    },
+    "bugs": {
+        "url": "https://github.com/simbachain/libsimba-js/issues"
+    },
+    "nyc": {
+        "reporter": [
+            "text",
+            "cobertura",
+            "html"
+        ]
+    },
+    "engines": {
+        "npm": ">=6",
+        "node": ">=10"
+    },
+    "keywords": [
+        "simba",
+        "simbachain",
+        "blockchain",
+        "ethereum"
+    ],
+    "author": "Kieran David Evans <kieran.evans@simbachain.com>",
+    "license": "MIT",
+    "dependencies": {
+        "@ethersproject/wallet": "^5.0.0-beta.131",
+        "core-js": "3.2.1",
+        "poll-js": "0.0.3"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.6.0",
+        "@babel/plugin-transform-classes": "^7.5.5",
+        "@babel/plugin-transform-proto-to-assign": "^7.5.5",
+        "@babel/plugin-transform-runtime": "^7.6.0",
+        "@babel/polyfill": "^7.6.0",
+        "@babel/preset-env": "^7.6.0",
+        "@babel/register": "^7.6.0",
+        "@babel/runtime": "^7.6.0",
+        "ajv": "6.10.2",
+        "babel-loader": "8.0.6",
+        "chai": "^4.2.0",
+        "clean-webpack-plugin": "3.0.0",
+        "commitizen": "^4.0.3",
+        "copy-webpack-plugin": "^5.0.4",
+        "cz-conventional-changelog": "^3.0.2",
+        "esdoc": "^1.1.0",
+        "esdoc-ecmascript-proposal-plugin": "^1.0.0",
+        "esdoc-standard-plugin": "^1.0.0",
+        "file-loader": "4.2.0",
+        "gh-pages": "^2.1.1",
+        "html-webpack-plugin": "^4.0.0-beta.8",
+        "http-server": "0.11.1",
+        "mocha": "^6.2.0",
+        "mocha-junit-reporter": "^1.23.1",
+        "nyc": "^14.1.1",
+        "sinon": "^7.4.2",
+        "source-map-loader": "0.2.4",
+        "standard-version": "^7.0.0",
+        "typedoc": "^0.15.0",
+        "url-loader": "2.1.0",
+        "webpack": "4.40.2",
+        "webpack-bundle-analyzer": "^3.5.0",
+        "webpack-cli": "3.3.8",
+        "webpack-dev-server": "3.8.1"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    }
+}
