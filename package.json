@@ -19,8 +19,8 @@
         "release-patch": "npm version --release-as patch",
         "release-minor": "npm version --release-as minor",
         "release-major": "npm version --release-as major",
-        "preversion": "node ./.hooks/checkBranch.js && npm test && npm run commit",
-        "postversion": "git push && git push --tags && rm -rf build/temp",
+        "preversion": "node ./.hooks/checkBranch.js && npm test",
+        "postversion": " npm run commit && git push && git push --tags && rm -rf build/temp",
         "release": "npm run build && npm publish dist && npm run docs && npm run deploydocs",
         "docs": "npx esdoc",
         "deploydocs": "npx gh-pages -d dist/docs/"
