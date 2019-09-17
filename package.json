@@ -1,24 +1,36 @@
 {
-    "name": "libsimba-js",
+    "name": "@simbachain/libsimba-js",
     "version": "0.0.1",
-    "description": "Simbachain Blockchain abstraction and interaction library",
+    "description": "libsimba-js is a library simplifying the use of SIMBAChain APIs. We aim to abstract away the various blockchain concepts, reducing the necessary time needed to get to working code.",
+    "homepage": "",
     "main": "dist/libsimba.js",
     "module": "dist/libsimba.js",
     "scripts": {
         "test": "npx nyc npx mocha --reporter mocha-junit-reporter --require @babel/register",
         "testonly": "npx mocha --reporter mocha-junit-reporter --require @babel/register",
-        "docs": "typedoc -p . --theme minimal --target 'es6' --excludeNotExported --excludePrivate --ignoreCompilerErrors --exclude \"**/src/**/__tests__/*.*\" --out docs src/",
         "start": "webpack-dev-server --config webpack.dev.js --mode development",
         "commit": "git-cz",
-        "prerelease": "npm run build",
-        "release": "standard-version",
-        "postrelease": "npm publish dist",
         "build": "webpack --config webpack.prod.js --mode production",
-        "preview": "npm run build && http-server dist"
+        "postbuild": "npm run docs",
+        "preview": "npm run build && http-server dist",
+        "version": "npx standard-version",
+        "prerelease": "npm run test",
+        "release-prerelease": "npm version -- --prerelease",
+        "release-patch": "npm version --release-as patch",
+        "release-minor": "npm version --release-as minor",
+        "release-major": "npm version --release-as major",
+        "preversion": "node ./.hooks/checkBranch.js && npm test && npm run commit",
+        "postversion": "git push && git push --tags && rm -rf build/temp",
+        "release": "npm run build && npm publish dist && npm run docs && npm run deploydocs",
+        "docs": "npx esdoc",
+        "deploydocs": "npx gh-pages -d dist/docs/"
     },
     "repository": {
         "type": "git",
-        "url": ""
+        "url": "git+https://github.com/simbachain/libsimba-js.git"
+    },
+    "bugs": {
+        "url": "https://github.com/simbachain/libsimba-js/issues"
     },
     "nyc": {
         "reporter": [
@@ -26,6 +38,10 @@
             "cobertura",
             "html"
         ]
+    },
+    "engines": {
+        "npm": ">=6",
+        "node": ">=10"
     },
     "keywords": [
         "simba",
@@ -35,10 +51,6 @@
     ],
     "author": "Kieran David Evans <kieran.evans@simbachain.com>",
     "license": "MIT",
-    "bugs": {
-        "url": ""
-    },
-    "homepage": "",
     "dependencies": {
         "@ethersproject/wallet": "^5.0.0-beta.131",
         "core-js": "3.2.1",
