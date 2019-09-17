@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import { Simba } from '../src/simba';
+import { Simba } from '../src/simba/simba';
 import { Wallet } from '../src/wallet';
 
 const TestData = {

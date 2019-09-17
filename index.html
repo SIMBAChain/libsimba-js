@@ -46,11 +46,24 @@
         //Print out the wallet address, you don't need to do this, but useful to see
         console.log('Eth Address', await wallet.getAddress());
 
-        //We create a Simba instance, passing in your API URL, API Key, Management Key, and wallet instance
-        let simba = new libsimba.Simba('https://api.simbachain.com/v1/libSimba-SimbaChat/',
+        let simba = await libsimba.getSimbaInstance(
+            'https://api.simbachain.com/v1/libSimba-SimbaChat/',
+            wallet,
             '43283073fd5bebff453fa0e56284612d176d2f942961dab66b3205907f09bc35',
-            '2e2ae3014030bae2668439c9d5bf03456b6748e7ee42ed228fbb08214587e5db',
-            wallet);
+            '2e2ae3014030bae2668439c9d5bf03456b6748e7ee42ed228fbb08214587e5db');
+
+        let balance = await simba.getBalance();
+        console.log('Balance: ', balance);
+
+        let result = await simba.addFunds();
+        if(result.poa){
+            console.log("Didn't add funds: PoA network.", result);
+        }else if(result.faucet_url){
+            console.log("Didn't add funds: External faucet: " + result.faucet_url, result);
+            console.log("To top up, you need to ask the user to visit the url in `faucet_url`");
+        }else{
+            console.log('Funded - May take up to a minute for the transaction to process: ', result);
+        }
 
         //These are the parameters to pass to the method call
         let methodParams = {

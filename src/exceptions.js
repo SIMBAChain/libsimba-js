@@ -1,4 +1,12 @@
+/**
+ * Base exception that all libsimba Exceptions extend
+ */
 export class BaseException extends Error{
+    /**
+     * Base exception that all libsimba Exceptions extend
+     * @param {string} message - the error message
+     * @param {Error|string} [cause] - (Optional) wrap an existing error
+     */
     constructor(message, cause){
         super();
         this.name = 'BaseException';
@@ -12,6 +20,30 @@ export class BaseException extends Error{
     }
 }
 
+/**
+ * Thrown when a method that should be implemented is not
+ */
+export class NotImplementedException extends BaseException{
+    constructor(...args){
+        super(...args);
+        this.name = 'NotImplementedException';
+    }
+}
+
+/**
+ * Thrown when a method on a class inheriting [SimbaBase]{@link SimbaBase} is called before
+ * metadata is retrieved.
+ */
+export class MissingMetadataException extends BaseException{
+    constructor(...args){
+        super(...args);
+        this.name = 'MissingMetadataException';
+    }
+}
+
+/**
+ * Thrown when the server fails to generate the transaction for signing
+ */
 export class GenerateTransactionException extends BaseException{
     constructor(...args){
         super(...args);
@@ -19,6 +51,9 @@ export class GenerateTransactionException extends BaseException{
     }
 }
 
+/**
+ * Thrown when the server returns an error after submitting a signed transaction
+ */
 export class SubmitTransactionException extends BaseException{
     constructor(...args){
         super(...args);
@@ -26,6 +61,9 @@ export class SubmitTransactionException extends BaseException{
     }
 }
 
+/**
+ * Thrown when an error occurs checking a transactions status
+ */
 export class TransactionStatusCheckException extends BaseException{
     constructor(...args){
         super(...args);
@@ -33,6 +71,9 @@ export class TransactionStatusCheckException extends BaseException{
     }
 }
 
+/**
+ * Thrown when there's an error signing a transaction
+ */
 export class SigningException extends BaseException{
     constructor(...args){
         super(...args);
@@ -40,6 +81,9 @@ export class SigningException extends BaseException{
     }
 }
 
+/**
+ * Thrown when the user rejects the request to sign
+ */
 export class UserRejectedSigningException extends SigningException{
     constructor(...args){
         super(...args);
@@ -47,6 +91,10 @@ export class UserRejectedSigningException extends SigningException{
     }
 }
 
+/**
+ * Thrown when a method on a class inheriting [SimbaBase]{@link SimbaBase} is called that requires
+ * a [Wallet]{@link Wallet} to be set, and it isn't.
+ */
 export class WalletNotFoundException extends SigningException{
     constructor(...args){
         super(...args);
@@ -54,6 +102,10 @@ export class WalletNotFoundException extends SigningException{
     }
 }
 
+/**
+ * Thrown when a method on a class inheriting [SimbaBase]{@link SimbaBase} is called that requires
+ * a [Wallet]{@link Wallet} to be unlocked, and it isn't.
+ */
 export class WalletLockedException extends SigningException{
     constructor(...args){
         super(...args);
