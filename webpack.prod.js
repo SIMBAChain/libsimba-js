@@ -57,10 +57,19 @@ module.exports = {
             analyzerMode: 'disabled'
         }),
         new CopyPlugin([
+            'package.json',
             'README.md',
             'CHANGELOG.md',
             'LICENSE',
-            '.gitignore'
-        ])
+            '.gitignore',
+            {}
+        ]),
+        new CopyPlugin(
+            {
+                from: 'index.html',
+                to: 'dist/docs/_example.html',
+                toType: 'file'
+            }
+        )
     ]
 };
