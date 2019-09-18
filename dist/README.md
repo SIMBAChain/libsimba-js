@@ -17,7 +17,7 @@
 ## Install
 
 ```sh
-npm install libsimba-js
+npm install @simbachain/libsimba-js
 ```
 
 ## Examples
