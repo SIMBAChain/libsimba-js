@@ -41,10 +41,6 @@ export default class SimbaBase {
             throw new NotImplementedException('Please implement abstract method checkTransactionStatusFromObject.');
         }
 
-        if (this.checkTransactionStatusFromObject === SimbaBase.prototype.checkTransactionStatusFromObject) {
-            throw new NotImplementedException('Please implement abstract method checkTransactionStatusFromObject.');
-        }
-
         if (this.checkTransactionDone === SimbaBase.prototype.checkTransactionDone) {
             throw new NotImplementedException('Please implement abstract method checkTransactionDone.');
         }
