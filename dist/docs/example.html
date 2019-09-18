@@ -287,14 +287,14 @@
                 };
                 //Call the `createRoom` method, with the above params. The txn is signed with the wallet we created/loaded above
                 await simba.callMethod('createRoom', methodParams)
-                    .then((ret)=>{
+                    .then(async (ret)=>{
                         console.log(`Successful!  ${JSON.stringify(ret)}`);
                         //The request and signing were successful, now we wait for the API to
                         // tell us if the txn was successful or not.
                         const { future, cancel } = simba.waitForSuccessOrError(ret);
                         //`future` is a JS Promise that will resolve when we know the status
                         //`cancel` is a function, you can call it to cancel the above request if needed
-                        future
+                        return await future
                             .then(txn=>{
                                 //txn will hold the txn details
                                 //txn.status will hold the status
