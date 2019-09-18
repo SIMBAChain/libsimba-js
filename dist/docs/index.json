@@ -1586,7 +1586,7 @@
     "__docId__": 97,
     "kind": "file",
     "name": "src/simba/simbabase.js",
-    "content": "import {pollWrapper} from \"poll-js\";\nimport {NotImplementedException} from '../exceptions';\n\n/**\n * Base class for libsimba API Interaction implementations\n */\nexport default class SimbaBase {\n    /**\n     * Base class for libsimba API Interaction implementations\n     * @param {string} endpoint - The endpoint of the API\n     * @param {Wallet} [wallet] - an optional {@link Wallet} instance\n     */\n    constructor(endpoint, wallet) {\n        if (!endpoint.endsWith('/')) {\n            this.endpoint = `${endpoint}/`;\n        } else {\n            this.endpoint = endpoint;\n        }\n        this.wallet = wallet;\n\n        this.metadata = {};\n\n        if (this.constructor === SimbaBase) {\n            // Error Type 1. Abstract class can not be constructed.\n            throw new TypeError('Can not construct abstract class.');\n        }\n\n        if (this.initialize === SimbaBase.prototype.initialize) {\n            throw new NotImplementedException('Please implement abstract method callMethod.');\n        }\n\n        if (this.callMethod === SimbaBase.prototype.callMethod) {\n            throw new NotImplementedException('Please implement abstract method callMethod.');\n        }\n\n        if (this.getTransactionStatus === SimbaBase.prototype.getTransactionStatus) {\n            throw new NotImplementedException('Please implement abstract method getTransactionStatus.');\n        }\n\n        if (this.checkTransactionStatusFromObject === SimbaBase.prototype.checkTransactionStatusFromObject) {\n            throw new NotImplementedException('Please implement abstract method checkTransactionStatusFromObject.');\n        }\n\n        if (this.checkTransactionStatusFromObject === SimbaBase.prototype.checkTransactionStatusFromObject) {\n            throw new NotImplementedException('Please implement abstract method checkTransactionStatusFromObject.');\n        }\n\n        if (this.checkTransactionDone === SimbaBase.prototype.checkTransactionDone) {\n            throw new NotImplementedException('Please implement abstract method checkTransactionDone.');\n        }\n\n        if (this.checkTransactionStatus === SimbaBase.prototype.checkTransactionStatus) {\n            throw new NotImplementedException('Please implement abstract method checkTransactionStatus.');\n        }\n\n        if (this.getBalance === SimbaBase.prototype.getBalance) {\n            throw new NotImplementedException('Please implement abstract method getBalance.');\n        }\n\n        if (this.addFunds === SimbaBase.prototype.addFunds) {\n            throw new NotImplementedException('Please implement abstract method addFunds.');\n        }\n    }\n\n    /**\n     * (Abstract) Perform any asynchronous actions needed to initialise this class\n     */\n    initialize() {\n        throw new NotImplementedException('SimbaBase.initialize Not Implemented');\n    }\n\n    /**\n     * (Abstract) Call a method on the API\n     * @param {string} method - the method to call\n     * @param {Object} parameters - the parameters for the method\n     * @return {Promise} - a promise resolving with the transaction details\n     */\n    callMethod(method, parameters) {\n        throw new NotImplementedException('SimbaBase.callMethod Not Implemented');\n    }\n\n    /**\n     * (Abstract) Call a method on the API with files\n     * @param {string} method - the method to call\n     * @param {Object} parameters - the parameters for the method\n     * @param {Array} files - the files\n     * @return {Promise<Object>} - a promise resolving with the transaction details\n     */\n    callMethodWithFile(method, parameters, files) {\n        throw new NotImplementedException('SimbaBase.callMethod Not Implemented');\n    }\n\n    /**\n     * (Abstract) Get the status of a transaction by ID\n     * @param {string} txnId - the transaction ID\n     * @return {Promise<Object>} - a promise resolving with the transaction details\n     */\n    getTransactionStatus(txnId){\n        throw new NotImplementedException('SimbaBase.getTransactionStatus Not Implemented');\n    }\n\n    /**\n     * (Abstract) Gets the status of a transaction\n     * @param {Object} txn - a transaction object\n     * @return {Object} - an object with status details\n     */\n    checkTransactionStatusFromObject(txn){\n        throw new NotImplementedException('SimbaBase.checkTransactionStatusFromObject Not Implemented');\n    }\n\n    /**\n     * (Abstract) Check if the transaction is complete\n     * @param {Object} txn - the transaction object\n     * @return {boolean} - is the transaction complete\n     */\n    checkTransactionDone(txn){\n        throw new NotImplementedException('SimbaBase.checkTransactionDone Not Implemented');\n    }\n\n    /**\n     * (Abstract) Gets the status of a transaction by ID\n     * @param {string} txnId - a transaction ID\n     * @return {Object} - an object with status details\n     */\n    checkTransactionStatus(txnId){\n        throw new NotImplementedException('SimbaBase.checkTransactionStatus Not Implemented');\n    }\n\n    /**\n     * (Abstract) Get the balance for the attached Wallet\n     * @return {Promise<Object>} - the balance\n     */\n    getBalance(){\n        throw new NotImplementedException('SimbaBase.getBalance Not Implemented');\n    }\n\n    /**\n     * (Abstract) Add funds to the attached Wallet.\n     * Please check the output of this method. It is of the form\n     * ```\n     * {\n     *     txnId: null,\n     *     faucet_url: null,\n     *     poa: true\n     * }\n     * ```\n     *\n     * If successful, txnId will be populated.\n     * If the network is PoA, then poa will be true, and txnId will be null\n     * If the faucet for the network is external (e.g. Rinkeby, Ropsten, etc), then txnId will be null,\n     * and faucet_url will be populated with a URL. You should present this URL to your users to direct them\n     * to request funds there.\n     * @return {Promise<Object>} - details of the txn\n     */\n    addFunds(){\n        throw new NotImplementedException('SimbaBase.addFunds Not Implemented');\n    }\n\n    /**\n     * Returns an object with 'future' and 'cancel' keys.\n     * future is the promise to listen on for the response or an error.\n     * cancel is a function - call it to cancel the polling.\n     * @param {string} txnId - the transaction ID\n     * @param {number} [pollInterval=5000] - the interval in ms for polling\n     */\n    waitForSuccessOrError(txnId, pollInterval){\n        if(!pollInterval) pollInterval = 5000;\n\n        return pollWrapper({\n            request: () => this.getTransactionStatus(txnId),\n            pollingPeriod: pollInterval, // ms\n            shouldStop: (txn)=> this.checkTransactionDone(this.checkTransactionStatusFromObject(txn))\n        });\n    }\n\n    /**\n     * Set the wallet\n     * @param {Wallet} wallet - the wallet\n     */\n    setWallet(wallet){\n        this.wallet = wallet;\n    }\n\n    /**\n     * Set the API Key to authenticate calls\n     * @param {string} apiKey - the API Key\n     */\n    setApiKey(apiKey){\n        this.apiKey = apiKey;\n    }\n\n    /**\n     * Set the API Key to authenticate management calls\n     * @param {string} managementKey - the management API Key\n     */\n    setManagementKey(managementKey){\n        this.managementKey = managementKey;\n    }\n\n    /**\n     * Get API Call auth headers\n     * @returns {{APIKEY: *, \"Content-Type\": string}}\n     */\n    apiAuthHeaders() {\n        return {\n            'Content-Type': 'application/json',\n            APIKEY: this.apiKey,\n        }\n    }\n\n    /**\n     * Get management API Call auth headers\n     * @returns {{APIKEY: *, \"Content-Type\": string}}\n     */\n    managementAuthHeaders() {\n        return {\n            'Content-Type': 'application/json',\n            APIKEY: this.managementKey,\n        }\n    }\n}\n",
+    "content": "import {pollWrapper} from \"poll-js\";\nimport {NotImplementedException} from '../exceptions';\n\n/**\n * Base class for libsimba API Interaction implementations\n */\nexport default class SimbaBase {\n    /**\n     * Base class for libsimba API Interaction implementations\n     * @param {string} endpoint - The endpoint of the API\n     * @param {Wallet} [wallet] - an optional {@link Wallet} instance\n     */\n    constructor(endpoint, wallet) {\n        if (!endpoint.endsWith('/')) {\n            this.endpoint = `${endpoint}/`;\n        } else {\n            this.endpoint = endpoint;\n        }\n        this.wallet = wallet;\n\n        this.metadata = {};\n\n        if (this.constructor === SimbaBase) {\n            // Error Type 1. Abstract class can not be constructed.\n            throw new TypeError('Can not construct abstract class.');\n        }\n\n        if (this.initialize === SimbaBase.prototype.initialize) {\n            throw new NotImplementedException('Please implement abstract method callMethod.');\n        }\n\n        if (this.callMethod === SimbaBase.prototype.callMethod) {\n            throw new NotImplementedException('Please implement abstract method callMethod.');\n        }\n\n        if (this.getTransactionStatus === SimbaBase.prototype.getTransactionStatus) {\n            throw new NotImplementedException('Please implement abstract method getTransactionStatus.');\n        }\n\n        if (this.checkTransactionStatusFromObject === SimbaBase.prototype.checkTransactionStatusFromObject) {\n            throw new NotImplementedException('Please implement abstract method checkTransactionStatusFromObject.');\n        }\n\n        if (this.checkTransactionDone === SimbaBase.prototype.checkTransactionDone) {\n            throw new NotImplementedException('Please implement abstract method checkTransactionDone.');\n        }\n\n        if (this.checkTransactionStatus === SimbaBase.prototype.checkTransactionStatus) {\n            throw new NotImplementedException('Please implement abstract method checkTransactionStatus.');\n        }\n\n        if (this.getBalance === SimbaBase.prototype.getBalance) {\n            throw new NotImplementedException('Please implement abstract method getBalance.');\n        }\n\n        if (this.addFunds === SimbaBase.prototype.addFunds) {\n            throw new NotImplementedException('Please implement abstract method addFunds.');\n        }\n    }\n\n    /**\n     * (Abstract) Perform any asynchronous actions needed to initialise this class\n     */\n    initialize() {\n        throw new NotImplementedException('SimbaBase.initialize Not Implemented');\n    }\n\n    /**\n     * (Abstract) Call a method on the API\n     * @param {string} method - the method to call\n     * @param {Object} parameters - the parameters for the method\n     * @return {Promise} - a promise resolving with the transaction details\n     */\n    callMethod(method, parameters) {\n        throw new NotImplementedException('SimbaBase.callMethod Not Implemented');\n    }\n\n    /**\n     * (Abstract) Call a method on the API with files\n     * @param {string} method - the method to call\n     * @param {Object} parameters - the parameters for the method\n     * @param {Array} files - the files\n     * @return {Promise<Object>} - a promise resolving with the transaction details\n     */\n    callMethodWithFile(method, parameters, files) {\n        throw new NotImplementedException('SimbaBase.callMethod Not Implemented');\n    }\n\n    /**\n     * (Abstract) Get the status of a transaction by ID\n     * @param {string} txnId - the transaction ID\n     * @return {Promise<Object>} - a promise resolving with the transaction details\n     */\n    getTransactionStatus(txnId){\n        throw new NotImplementedException('SimbaBase.getTransactionStatus Not Implemented');\n    }\n\n    /**\n     * (Abstract) Gets the status of a transaction\n     * @param {Object} txn - a transaction object\n     * @return {Object} - an object with status details\n     */\n    checkTransactionStatusFromObject(txn){\n        throw new NotImplementedException('SimbaBase.checkTransactionStatusFromObject Not Implemented');\n    }\n\n    /**\n     * (Abstract) Check if the transaction is complete\n     * @param {Object} txn - the transaction object\n     * @return {boolean} - is the transaction complete\n     */\n    checkTransactionDone(txn){\n        throw new NotImplementedException('SimbaBase.checkTransactionDone Not Implemented');\n    }\n\n    /**\n     * (Abstract) Gets the status of a transaction by ID\n     * @param {string} txnId - a transaction ID\n     * @return {Object} - an object with status details\n     */\n    checkTransactionStatus(txnId){\n        throw new NotImplementedException('SimbaBase.checkTransactionStatus Not Implemented');\n    }\n\n    /**\n     * (Abstract) Get the balance for the attached Wallet\n     * @return {Promise<Object>} - the balance\n     */\n    getBalance(){\n        throw new NotImplementedException('SimbaBase.getBalance Not Implemented');\n    }\n\n    /**\n     * (Abstract) Add funds to the attached Wallet.\n     * Please check the output of this method. It is of the form\n     * ```\n     * {\n     *     txnId: null,\n     *     faucet_url: null,\n     *     poa: true\n     * }\n     * ```\n     *\n     * If successful, txnId will be populated.\n     * If the network is PoA, then poa will be true, and txnId will be null\n     * If the faucet for the network is external (e.g. Rinkeby, Ropsten, etc), then txnId will be null,\n     * and faucet_url will be populated with a URL. You should present this URL to your users to direct them\n     * to request funds there.\n     * @return {Promise<Object>} - details of the txn\n     */\n    addFunds(){\n        throw new NotImplementedException('SimbaBase.addFunds Not Implemented');\n    }\n\n    /**\n     * Returns an object with 'future' and 'cancel' keys.\n     * future is the promise to listen on for the response or an error.\n     * cancel is a function - call it to cancel the polling.\n     * @param {string} txnId - the transaction ID\n     * @param {number} [pollInterval=5000] - the interval in ms for polling\n     */\n    waitForSuccessOrError(txnId, pollInterval){\n        if(!pollInterval) pollInterval = 5000;\n\n        return pollWrapper({\n            request: () => this.getTransactionStatus(txnId),\n            pollingPeriod: pollInterval, // ms\n            shouldStop: (txn)=> this.checkTransactionDone(this.checkTransactionStatusFromObject(txn))\n        });\n    }\n\n    /**\n     * Set the wallet\n     * @param {Wallet} wallet - the wallet\n     */\n    setWallet(wallet){\n        this.wallet = wallet;\n    }\n\n    /**\n     * Set the API Key to authenticate calls\n     * @param {string} apiKey - the API Key\n     */\n    setApiKey(apiKey){\n        this.apiKey = apiKey;\n    }\n\n    /**\n     * Set the API Key to authenticate management calls\n     * @param {string} managementKey - the management API Key\n     */\n    setManagementKey(managementKey){\n        this.managementKey = managementKey;\n    }\n\n    /**\n     * Get API Call auth headers\n     * @returns {{APIKEY: *, \"Content-Type\": string}}\n     */\n    apiAuthHeaders() {\n        return {\n            'Content-Type': 'application/json',\n            APIKEY: this.apiKey,\n        }\n    }\n\n    /**\n     * Get management API Call auth headers\n     * @returns {{APIKEY: *, \"Content-Type\": string}}\n     */\n    managementAuthHeaders() {\n        return {\n            'Content-Type': 'application/json',\n            APIKEY: this.managementKey,\n        }\n    }\n}\n",
     "static": true,
     "longname": "C:/Users/Kieran David Evans/Code/libsimba-js/src/simba/simbabase.js",
     "access": "public",
@@ -1705,7 +1705,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#initialize",
     "access": "public",
     "description": "(Abstract) Perform any asynchronous actions needed to initialise this class",
-    "lineNumber": 68,
+    "lineNumber": 64,
     "params": [],
     "return": null
   },
@@ -1720,7 +1720,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#callMethod",
     "access": "public",
     "description": "(Abstract) Call a method on the API",
-    "lineNumber": 78,
+    "lineNumber": 74,
     "params": [
       {
         "nullable": null,
@@ -1763,7 +1763,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#callMethodWithFile",
     "access": "public",
     "description": "(Abstract) Call a method on the API with files",
-    "lineNumber": 89,
+    "lineNumber": 85,
     "params": [
       {
         "nullable": null,
@@ -1816,7 +1816,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#getTransactionStatus",
     "access": "public",
     "description": "(Abstract) Get the status of a transaction by ID",
-    "lineNumber": 98,
+    "lineNumber": 94,
     "params": [
       {
         "nullable": null,
@@ -1849,7 +1849,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#checkTransactionStatusFromObject",
     "access": "public",
     "description": "(Abstract) Gets the status of a transaction",
-    "lineNumber": 107,
+    "lineNumber": 103,
     "params": [
       {
         "nullable": null,
@@ -1882,7 +1882,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#checkTransactionDone",
     "access": "public",
     "description": "(Abstract) Check if the transaction is complete",
-    "lineNumber": 116,
+    "lineNumber": 112,
     "params": [
       {
         "nullable": null,
@@ -1915,7 +1915,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#checkTransactionStatus",
     "access": "public",
     "description": "(Abstract) Gets the status of a transaction by ID",
-    "lineNumber": 125,
+    "lineNumber": 121,
     "params": [
       {
         "nullable": null,
@@ -1948,7 +1948,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#getBalance",
     "access": "public",
     "description": "(Abstract) Get the balance for the attached Wallet",
-    "lineNumber": 133,
+    "lineNumber": 129,
     "return": {
       "nullable": null,
       "types": [
@@ -1970,7 +1970,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#addFunds",
     "access": "public",
     "description": "(Abstract) Add funds to the attached Wallet.\nPlease check the output of this method. It is of the form\n```\n{\n    txnId: null,\n    faucet_url: null,\n    poa: true\n}\n```\n\nIf successful, txnId will be populated.\nIf the network is PoA, then poa will be true, and txnId will be null\nIf the faucet for the network is external (e.g. Rinkeby, Ropsten, etc), then txnId will be null,\nand faucet_url will be populated with a URL. You should present this URL to your users to direct them\nto request funds there.",
-    "lineNumber": 155,
+    "lineNumber": 151,
     "return": {
       "nullable": null,
       "types": [
@@ -1992,7 +1992,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#waitForSuccessOrError",
     "access": "public",
     "description": "Returns an object with 'future' and 'cancel' keys.\nfuture is the promise to listen on for the response or an error.\ncancel is a function - call it to cancel the polling.",
-    "lineNumber": 166,
+    "lineNumber": 162,
     "params": [
       {
         "nullable": null,
@@ -2034,7 +2034,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#setWallet",
     "access": "public",
     "description": "Set the wallet",
-    "lineNumber": 180,
+    "lineNumber": 176,
     "params": [
       {
         "nullable": null,
@@ -2060,7 +2060,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#setApiKey",
     "access": "public",
     "description": "Set the API Key to authenticate calls",
-    "lineNumber": 188,
+    "lineNumber": 184,
     "params": [
       {
         "nullable": null,
@@ -2084,7 +2084,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#apiKey",
     "access": "public",
     "description": null,
-    "lineNumber": 189,
+    "lineNumber": 185,
     "undocument": true,
     "type": {
       "types": [
@@ -2103,7 +2103,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#setManagementKey",
     "access": "public",
     "description": "Set the API Key to authenticate management calls",
-    "lineNumber": 196,
+    "lineNumber": 192,
     "params": [
       {
         "nullable": null,
@@ -2127,7 +2127,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#managementKey",
     "access": "public",
     "description": null,
-    "lineNumber": 197,
+    "lineNumber": 193,
     "undocument": true,
     "type": {
       "types": [
@@ -2146,7 +2146,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#apiAuthHeaders",
     "access": "public",
     "description": "Get API Call auth headers",
-    "lineNumber": 204,
+    "lineNumber": 200,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2174,7 +2174,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#managementAuthHeaders",
     "access": "public",
     "description": "Get management API Call auth headers",
-    "lineNumber": 215,
+    "lineNumber": 211,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3014,7 +3014,7 @@
   },
   {
     "kind": "index",
-    "content": "<h1 align=\"center\">Welcome to libsimba-js</h1>\n<p>\n  <img alt=\"Version\" src=\"https://img.shields.io/badge/version-0.0.1-blue.svg?cacheSeconds=2592000\" />\n  <a href=\"https://github.com/simbachain/libsimba-js#readme\">\n    <img alt=\"Documentation\" src=\"https://img.shields.io/badge/documentation-yes-brightgreen.svg\" target=\"_blank\" />\n  </a>\n  <a href=\"https://github.com/SIMBAChain/libsimba-js/blob/master/LICENSE\">\n    <img alt=\"License: MIT\" src=\"https://img.shields.io/badge/License-MIT-yellow.svg\" target=\"_blank\" />\n  </a>\n</p>\n\n> libsimba-js is a library simplifying the use of SIMBAChain APIs. We aim to abstract away the various blockchain concepts, reducing the necessary time needed to get to working code.\n\n### [🏠 Homepage](https://github.com/simbachain/libsimba-js#readme)\n### [📝 Documentation](https://simbachain.github.io/libsimba-js)\n\n## Install\n\n```sh\nnpm install libsimba-js\n```\n\n## Examples\n\nSee [here](https://github.com/SIMBAChain/libsimba-js/blob/master/index.html)\n\n## Contributing\n\nContributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/simbachain/libsimba-js/issues).\n\n## License\n\nCopyright © 2019 [SIMBAChain Inc](https://simbachain.com/).<br />\nThis project is [MIT](https://github.com/SIMBAChain/libsimba-js/blob/master/LICENSE) licensed.\n",
+    "content": "<h1 align=\"center\">Welcome to libsimba-js</h1>\n<p>\n  <img alt=\"Version\" src=\"https://img.shields.io/badge/version-0.0.1-blue.svg?cacheSeconds=2592000\" />\n  <a href=\"https://github.com/simbachain/libsimba-js#readme\">\n    <img alt=\"Documentation\" src=\"https://img.shields.io/badge/documentation-yes-brightgreen.svg\" target=\"_blank\" />\n  </a>\n  <a href=\"https://github.com/SIMBAChain/libsimba-js/blob/master/LICENSE\">\n    <img alt=\"License: MIT\" src=\"https://img.shields.io/badge/License-MIT-yellow.svg\" target=\"_blank\" />\n  </a>\n</p>\n\n> libsimba-js is a library simplifying the use of SIMBAChain APIs. We aim to abstract away the various blockchain concepts, reducing the necessary time needed to get to working code.\n\n### [🏠 Homepage](https://github.com/simbachain/libsimba-js#readme)\n### [📝 Documentation](https://simbachain.github.io/libsimba-js)\n\n## Install\n\n```sh\nnpm install libsimba-js\n```\n\n## Examples\n\nSee [here](https://simbachain.github.io/libsimba-js/example.html)\n\n## Contributing\n\nContributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/simbachain/libsimba-js/issues).\n\n## License\n\nCopyright © 2019 [SIMBAChain Inc](https://simbachain.com/).<br />\nThis project is [MIT](https://github.com/SIMBAChain/libsimba-js/blob/master/LICENSE) licensed.\n",
     "longname": "C:\\Users\\Kieran David Evans\\Code\\libsimba-js\\README.md",
     "name": "./README.md",
     "static": true,

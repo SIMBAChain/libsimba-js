@@ -248,10 +248,9 @@
                 //Initialise Simba
                 console.log('Initialising Simba');
                 let simba = await libsimba.getSimbaInstance(
-                    'https://api.simbachain.com/v1/libSimba-SimbaChat/',
+                    'https://api.simbachain.com/v1/libSimba-SimbaChat-Quorum/',
                     wallet,
-                    '43283073fd5bebff453fa0e56284612d176d2f942961dab66b3205907f09bc35',
-                    '2e2ae3014030bae2668439c9d5bf03456b6748e7ee42ed228fbb08214587e5db');
+                    '04d1729f7144873851a745d2ae85639f55c8e3de5aea626a2bcd0055c01ba6fc');
                 let balance = await simba.getBalance();
                 console.log('Balance: ', balance);
                 let result = await simba.addFunds();
