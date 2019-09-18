@@ -61,4 +61,4 @@ steps:
             workingFile: .npmrc
             customEndpoint: NPMJS.Simbachain
 
-    -   script: npm run publish
+    -   script: npm run publish-npmjs
