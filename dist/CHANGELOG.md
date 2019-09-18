@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.1](https://github.com/simbachain/libsimba-js/compare/v0.2.0...v0.3.1) (2019-09-18)
+
+
+### Bug Fixes
+
+* **pagedresponse:** fix bad url handling for next/prev page ([f54a6b1](https://github.com/simbachain/libsimba-js/commit/f54a6b1))
+
+
+### Features
+
+* **simba:** add new getTransaction and getTransactions calls ([44a11ae](https://github.com/simbachain/libsimba-js/commit/44a11ae))
+
 ### [0.2.1](https://github.com/simbachain/libsimba-js/compare/v0.1.2...v0.2.1) (2019-09-18)
 
 
