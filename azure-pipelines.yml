@@ -59,8 +59,9 @@ steps:
     -   task: Npm@1
         displayName: 'npm publish'
         inputs:
-            command: publish
+            command: custom
             verbose: false
+            customCommand: run publish
             publishRegistry: 'useExternalRegistry'
             publishPackageMetadata: true
             publishEndpoint: 'NPMJS Simbachain Org'
