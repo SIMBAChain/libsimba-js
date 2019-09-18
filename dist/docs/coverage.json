@@ -57,32 +57,32 @@
       "expectCount": 17,
       "actualCount": 16,
       "undocumentLines": [
-        34
+        35
       ]
     },
     "src/simba/simbabase.js": {
       "expectCount": 28,
       "actualCount": 23,
       "undocumentLines": [
-        15,
-        19,
-        21,
-        224,
-        232
+        16,
+        20,
+        22,
+        239,
+        247
       ]
     },
     "src/wallet/localwallet.js": {
       "expectCount": 15,
       "actualCount": 14,
       "undocumentLines": [
-        38
+        40
       ]
     },
     "src/wallet/wallet.js": {
       "expectCount": 9,
       "actualCount": 8,
       "undocumentLines": [
-        14
+        15
       ]
     }
   }

@@ -1736,7 +1736,7 @@
     "__docId__": 109,
     "kind": "file",
     "name": "src/simba/simba.js",
-    "content": "import SimbaBase from './simbabase';\nimport {\n    WalletNotFoundException,\n    MissingMetadataException,\n    GenerateTransactionException,\n    SubmitTransactionException,\n    TransactionStatusCheckException,\n    NotImplementedException,\n    GetTransactionsException\n} from '../exceptions';\nimport PagedResponse from \"./pagedresponse\";\n\n/**\n * libsimba API Interaction for Simbachain.com\n */\nexport default class Simbachain extends SimbaBase {\n    /**\n     * libsimba API Interaction for Simbachain.com\n     * @param {string} endpoint - The endpoint of the API\n     * @param {Wallet} [wallet] - an optional {@link Wallet} instance\n     */\n    constructor(endpoint, wallet) {\n        super(endpoint, wallet);\n    }\n\n    /**\n     * Perform asynchronous actions needed to initialise this class\n     */\n    async initialize() {\n        let result = await fetch(`${this.endpoint}?format=openapi`);\n        let swagger = await result.json();\n\n        if ('info' in swagger && 'x-simba-attrs' in swagger.info) {\n            this.metadata = swagger.info['x-simba-attrs'];\n        }\n    }\n\n    /**\n     * Call a method on the API\n     * @param {string} method - the method to call\n     * @param {Object} parameters - the parameters for the method\n     * @return {Promise} - a promise resolving with the transaction details\n     */\n    async callMethod(method, parameters) {\n        if (!this.wallet) {\n            throw new WalletNotFoundException(\"No Wallet found\");\n        }\n\n        this.validateCall(method, parameters);\n\n        let formData = new FormData();\n        let address = await this.wallet.getAddress();\n        formData.append('from', address);\n        for (let [key, value] of Object.entries(parameters)) {\n            formData.append(key, value);\n        }\n\n        return this.sendMethodRequest(method, formData);\n    }\n\n    /**\n     * Get the status of a transaction by ID\n     * @param {string} txnId - the transaction ID\n     * @return {Promise<Object>} - a promise resolving with the transaction details\n     */\n    getTransactionStatus(txnId) {\n        return fetch(`${this.endpoint}transaction/${txnId}/`, {\n            method: 'GET',\n            cache: 'no-cache',\n            headers: this.apiAuthHeaders(),\n        })\n            .then(async (response) => {\n                let data = await response.json();\n\n                if (response.status >= 400) {\n                    throw new TransactionStatusCheckException(JSON.stringify(data));\n                }\n\n                return data;\n            });\n    }\n\n    /**\n     * (Abstract) Gets the status of a transaction\n     * @param {Object} txn - a transaction object\n     * @return {Object} - an object with status details\n     */\n    checkTransactionStatusFromObject(txn) {\n        let ret = {\n            status: '',\n            transaction_hash: ''\n        };\n\n        if (txn.transaction_hash) {\n            ret.transaction_hash = txn.transaction_hash;\n        }\n\n        if (txn.error) {\n            ret.status = 'error';\n            ret.error = txn.error;\n            ret.error_details = txn.error_details;\n        } else if (!txn.receipt) {\n            ret.status = 'pending';\n        } else {\n            ret.status = 'success';\n        }\n\n        return ret;\n    }\n\n    /**\n     * Check if the transaction is complete\n     * @param {Object} txn - the transaction object\n     * @return {boolean} - is the transaction complete\n     */\n    checkTransactionDone(txn) {\n        return txn.status !== 'pending';\n    }\n\n    /**\n     * Gets the status of a transaction by ID\n     * @param {string} txnId - a transaction ID\n     * @return {Object} - an object with status details\n     */\n    checkTransactionStatus(txnId) {\n        return this.getTransactionStatus(txnId)\n            .then(this.checkTransactionStatusFromObject);\n    }\n\n    /**\n     * Get the balance for the attached Wallet\n     * @return {Promise<Object>} - the balance\n     */\n    async getBalance() {\n        if (!this.metadata) {\n            throw new MissingMetadataException(\"App Metadata not yet retrieved\");\n        }\n\n        if (!this.wallet) {\n            throw new WalletNotFoundException(\"No Wallet found\");\n        }\n\n        if (this.metadata.poa) {\n            return Promise.resolve({\n                amount: -1,\n                currency: \"\",\n                poa: true\n            });\n        }\n\n        let address = await this.wallet.getAddress();\n        let response = await fetch(\n            `${this.endpoint}balance/${address}/`,\n            {\n                method: 'GET',\n                cache: 'no-cache',\n                headers: this.apiAuthHeaders()\n            }\n        );\n        let data = await response.json();\n\n        return Promise.resolve({\n            ...data,\n            poa: false\n        });\n    }\n\n    /**\n     * Add funds to the attached Wallet.\n     * Please check the output of this method. It is of the form\n     * ```\n     * {\n     *     txnId: null,\n     *     faucet_url: null,\n     *     poa: true\n     * }\n     * ```\n     *\n     * If successful, txnId will be populated.\n     * If the network is PoA, then poa will be true, and txnId will be null\n     * If the faucet for the network is external (e.g. Rinkeby, Ropsten, etc), then txnId will be null,\n     * and faucet_url will be populated with a URL. You should present this URL to your users to direct them\n     * to request funds there.\n     * @return {Promise<Object>} - details of the txn\n     */\n    async addFunds() {\n        if (!this.metadata) {\n            throw new MissingMetadataException(\"App Metadata not yet retrieved\");\n        }\n\n        if (!this.wallet) {\n            throw new WalletNotFoundException(\"No Wallet found\");\n        }\n\n        let address = await this.wallet.getAddress();\n\n        if (this.metadata.poa) {\n            return Promise.resolve({\n                txnId: null,\n                poa: true,\n                faucet_url: null\n            });\n        }\n\n        if (!this.metadata.simba_faucet) {\n            return Promise.resolve({\n                txnId: null,\n                poa: false,\n                faucet_url: this.metadata.faucet\n            });\n        }\n\n        let requestData = {\n            account: address,\n            value: \"1\",\n            currency: \"ether\"\n        };\n\n        let response = await fetch(\n            `${this.endpoint}balance/${address}/`,\n            {\n                method: 'POST',\n                cache: 'no-cache',\n                headers: this.apiAuthHeaders(),\n                body: JSON.stringify(requestData)\n            }\n        );\n\n        let data = await response.json();\n\n        return Promise.resolve({\n            ...data,\n            poa: false,\n            faucet_url: null\n        });\n    }\n\n    /**\n     * Call a method on the API with files\n     * @param {string} method - the method to call\n     * @param {Object} parameters- the parameters for the method\n     * @param {Array<Blob|File>} files - the files\n     * @return {Promise<Object>} - a promise resolving with the transaction details\n     */\n    async callMethodWithFile(method, parameters, files) {\n        if (!this.wallet) {\n            throw new WalletNotFoundException(\"No Wallet found\");\n        }\n\n        this.validateCall(method, parameters, files);\n\n        let formData = new FormData();\n        let address = await this.wallet.getAddress();\n        formData.append('from', address);\n        for (let [key, value] of Object.entries(parameters)) {\n            formData.append(key, value);\n        }\n\n        for(let i = 0; i < files.length; i++){\n            formData.append(`file[${i}]`, files[i]);\n        }\n\n        return this.sendMethodRequest(method, formData);\n    }\n\n    /**\n     * Internal method for sending method calls\n     * @param {string} url - the url\n     * @param {FormData} formdata - Formdata for the POST\n     * @returns {Promise<Response>} - The response with transaction data\n     */\n    async sendMethodRequest(method, formdata){\n        let txnId = null;\n\n        return fetch(`${this.endpoint}${method}/`, {\n            method: 'POST',\n            cache: 'no-cache',\n            headers: this.apiAuthHeaders(),\n            body: formdata,\n        })\n            .then(async (response) => {\n                let data = await response.json();\n\n                if (response.status >= 400) {\n                    throw new GenerateTransactionException(JSON.stringify(data));\n                }\n                // tslint:disable-next-line: no-unsafe-any\n                txnId = data.id;\n                // tslint:disable-next-line: no-unsafe-any\n                const payload = data.payload.raw;\n                // tslint:disable-next-line: no-unsafe-any\n                const signed = await this.wallet.sign(payload);\n\n                return fetch(`${this.endpoint}transaction/${txnId}/`, {\n                    method: 'POST',\n                    cache: 'no-cache',\n                    headers: Object.assign({'Content-Type':'application/json'},this.apiAuthHeaders()),\n                    body: JSON.stringify({payload: signed}),\n                })\n            })\n            .then(async (response) => {\n                let data = await response.json();\n\n                if (response.status >= 400) {\n                    throw new SubmitTransactionException(JSON.stringify(data));\n                }\n                // tslint:disable-next-line: no-console\n                console.log('Success!', data);\n\n                return txnId;\n            })\n    }\n\n    /**\n     * Gets a specific transaction\n     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash\n     * @returns {Promise<Object>} - The transaction\n     */\n    async getTransaction(transactionIdOrHash) {\n        this.validateAnyGetCall();\n\n        let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/`);\n\n        let response = await fetch(url, {\n            method: 'GET',\n            headers: this.apiAuthHeaders()\n        });\n\n        if (response.status >= 400) {\n            throw new GetTransactionsException(JSON.stringify(data));\n        }\n\n        return await response.json();\n    }\n\n    /**\n     * Gets a paged list of transactions\n     * @param {Object} parameters - The query parameters\n     * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper\n     */\n    async getTransactions(parameters) {\n        this.validateAnyGetCall();\n\n        let url = new URL(`${this.endpoint}transaction/`);\n\n        for (let [key, value] of Object.entries(parameters)) {\n            url.searchParams.set(key, value);\n        }\n\n        return this.sendTransactionRequest(url);\n    }\n\n    /**\n     * Gets a paged list of transactions for the method\n     * @param {string} method - The method\n     * @param {Object} parameters - The query parameters\n     * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper\n     */\n    async getMethodTransactions(method, parameters) {\n        this.validateGetCall(method, parameters);\n\n        let url = new URL(`${this.endpoint}${method}/`);\n\n        for (let [key, value] of Object.entries(parameters)) {\n            url.searchParams.set(key, value);\n        }\n\n        return this.sendTransactionRequest(url);\n    }\n\n    /**\n     * Internal function for sending transaction GET requests\n     * @param {URL} url - The URL\n     * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper\n     */\n    async sendTransactionRequest(url){\n        let response = await fetch(url, {\n            method: 'GET',\n            headers: this.apiAuthHeaders()\n        });\n\n        if (response.status >= 400) {\n            throw new GetTransactionsException(JSON.stringify(data));\n        }\n\n        let json = await response.json();\n\n        return new PagedResponse(json, url, this);\n    }\n}\n",
+    "content": "import SimbaBase from './simbabase';\nimport {\n    WalletNotFoundException,\n    MissingMetadataException,\n    GenerateTransactionException,\n    SubmitTransactionException,\n    TransactionStatusCheckException,\n    NotImplementedException,\n    GetTransactionsException\n} from '../exceptions';\nimport PagedResponse from \"./pagedresponse\";\n\n/**\n * libsimba API Interaction for Simbachain.com\n */\nexport default class Simbachain extends SimbaBase {\n    /**\n     * libsimba API Interaction for Simbachain.com\n     * @param {string} endpoint - The endpoint of the API\n     * @param {Wallet} [wallet] - an optional {@link Wallet} instance\n     */\n    constructor(endpoint, wallet) {\n        super(endpoint, wallet);\n    }\n\n    /**\n     * @private\n     * Perform asynchronous actions needed to initialise this class\n     */\n    async initialize() {\n        let result = await fetch(`${this.endpoint}?format=openapi`);\n        let swagger = await result.json();\n\n        if ('info' in swagger && 'x-simba-attrs' in swagger.info) {\n            this.metadata = swagger.info['x-simba-attrs'];\n        }\n    }\n\n    /**\n     * @override\n     * Call a method on the API\n     * @param {string} method - the method to call\n     * @param {Object} parameters - the parameters for the method\n     * @return {Promise} - a promise resolving with the transaction details\n     */\n    async callMethod(method, parameters) {\n        if (!this.wallet) {\n            throw new WalletNotFoundException(\"No Wallet found\");\n        }\n\n        this.validateCall(method, parameters);\n\n        let formData = new FormData();\n        let address = await this.wallet.getAddress();\n        formData.append('from', address);\n        for (let [key, value] of Object.entries(parameters)) {\n            formData.append(key, value);\n        }\n\n        return this.sendMethodRequest(method, formData);\n    }\n\n    /**\n     * @override\n     * Get the status of a transaction by ID\n     * @param {string} txnId - the transaction ID\n     * @return {Promise<Object>} - a promise resolving with the transaction details\n     */\n    getTransactionStatus(txnId) {\n        return fetch(`${this.endpoint}transaction/${txnId}/`, {\n            method: 'GET',\n            cache: 'no-cache',\n            headers: this.apiAuthHeaders(),\n        })\n            .then(async (response) => {\n                let data = await response.json();\n\n                if (response.status >= 400) {\n                    throw new TransactionStatusCheckException(JSON.stringify(data));\n                }\n\n                return data;\n            });\n    }\n\n    /**\n     * @override\n     * @private\n     * Gets the status of a transaction\n     * @param {Object} txn - a transaction object\n     * @return {Object} - an object with status details\n     */\n    checkTransactionStatusFromObject(txn) {\n        let ret = {\n            status: '',\n            transaction_hash: ''\n        };\n\n        if (txn.transaction_hash) {\n            ret.transaction_hash = txn.transaction_hash;\n        }\n\n        if (txn.error) {\n            ret.status = 'error';\n            ret.error = txn.error;\n            ret.error_details = txn.error_details;\n        } else if (!txn.receipt) {\n            ret.status = 'pending';\n        } else {\n            ret.status = 'success';\n        }\n\n        return ret;\n    }\n\n    /**\n     * @override\n     * @private\n     * Check if the transaction is complete\n     * @param {Object} txn - the transaction object\n     * @return {boolean} - is the transaction complete\n     */\n    checkTransactionDone(txn) {\n        return txn.status !== 'pending';\n    }\n\n    /**\n     * @override\n     * @private\n     * Gets the status of a transaction by ID\n     * @param {string} txnId - a transaction ID\n     * @return {Object} - an object with status details\n     */\n    checkTransactionStatus(txnId) {\n        return this.getTransactionStatus(txnId)\n            .then(this.checkTransactionStatusFromObject);\n    }\n\n    /**\n     * @override\n     * Get the balance for the attached Wallet\n     * @return {Promise<Object>} - the balance\n     */\n    async getBalance() {\n        if (!this.metadata) {\n            throw new MissingMetadataException(\"App Metadata not yet retrieved\");\n        }\n\n        if (!this.wallet) {\n            throw new WalletNotFoundException(\"No Wallet found\");\n        }\n\n        if (this.metadata.poa) {\n            return Promise.resolve({\n                amount: -1,\n                currency: \"\",\n                poa: true\n            });\n        }\n\n        let address = await this.wallet.getAddress();\n        let response = await fetch(\n            `${this.endpoint}balance/${address}/`,\n            {\n                method: 'GET',\n                cache: 'no-cache',\n                headers: this.apiAuthHeaders()\n            }\n        );\n        let data = await response.json();\n\n        return Promise.resolve({\n            ...data,\n            poa: false\n        });\n    }\n\n    /**\n     * @override\n     * Add funds to the attached Wallet.\n     * Please check the output of this method. It is of the form\n     * ```\n     * {\n     *     txnId: null,\n     *     faucet_url: null,\n     *     poa: true\n     * }\n     * ```\n     *\n     * If successful, txnId will be populated.\n     * If the network is PoA, then poa will be true, and txnId will be null\n     * If the faucet for the network is external (e.g. Rinkeby, Ropsten, etc), then txnId will be null,\n     * and faucet_url will be populated with a URL. You should present this URL to your users to direct them\n     * to request funds there.\n     * @return {Promise<Object>} - details of the txn\n     */\n    async addFunds() {\n        if (!this.metadata) {\n            throw new MissingMetadataException(\"App Metadata not yet retrieved\");\n        }\n\n        if (!this.wallet) {\n            throw new WalletNotFoundException(\"No Wallet found\");\n        }\n\n        let address = await this.wallet.getAddress();\n\n        if (this.metadata.poa) {\n            return Promise.resolve({\n                txnId: null,\n                poa: true,\n                faucet_url: null\n            });\n        }\n\n        if (!this.metadata.simba_faucet) {\n            return Promise.resolve({\n                txnId: null,\n                poa: false,\n                faucet_url: this.metadata.faucet\n            });\n        }\n\n        let requestData = {\n            account: address,\n            value: \"1\",\n            currency: \"ether\"\n        };\n\n        let response = await fetch(\n            `${this.endpoint}balance/${address}/`,\n            {\n                method: 'POST',\n                cache: 'no-cache',\n                headers: this.apiAuthHeaders(),\n                body: JSON.stringify(requestData)\n            }\n        );\n\n        let data = await response.json();\n\n        return Promise.resolve({\n            ...data,\n            poa: false,\n            faucet_url: null\n        });\n    }\n\n    /**\n     * @override\n     * Call a method on the API with files\n     * @param {string} method - the method to call\n     * @param {Object} parameters- the parameters for the method\n     * @param {Array<Blob|File>} files - the files\n     * @return {Promise<Object>} - a promise resolving with the transaction details\n     */\n    async callMethodWithFile(method, parameters, files) {\n        if (!this.wallet) {\n            throw new WalletNotFoundException(\"No Wallet found\");\n        }\n\n        this.validateCall(method, parameters, files);\n\n        let formData = new FormData();\n        let address = await this.wallet.getAddress();\n        formData.append('from', address);\n        for (let [key, value] of Object.entries(parameters)) {\n            formData.append(key, value);\n        }\n\n        for(let i = 0; i < files.length; i++){\n            formData.append(`file[${i}]`, files[i]);\n        }\n\n        return this.sendMethodRequest(method, formData);\n    }\n\n    /**\n     * @private\n     * Internal method for sending method calls\n     * @param {string} url - the url\n     * @param {FormData} formdata - Formdata for the POST\n     * @returns {Promise<Response>} - The response with transaction data\n     */\n    async sendMethodRequest(method, formdata){\n        let txnId = null;\n\n        return fetch(`${this.endpoint}${method}/`, {\n            method: 'POST',\n            cache: 'no-cache',\n            headers: this.apiAuthHeaders(),\n            body: formdata,\n        })\n            .then(async (response) => {\n                let data = await response.json();\n\n                if (response.status >= 400) {\n                    throw new GenerateTransactionException(JSON.stringify(data));\n                }\n                // tslint:disable-next-line: no-unsafe-any\n                txnId = data.id;\n                // tslint:disable-next-line: no-unsafe-any\n                const payload = data.payload.raw;\n                // tslint:disable-next-line: no-unsafe-any\n                const signed = await this.wallet.sign(payload);\n\n                return fetch(`${this.endpoint}transaction/${txnId}/`, {\n                    method: 'POST',\n                    cache: 'no-cache',\n                    headers: Object.assign({'Content-Type':'application/json'},this.apiAuthHeaders()),\n                    body: JSON.stringify({payload: signed}),\n                })\n            })\n            .then(async (response) => {\n                let data = await response.json();\n\n                if (response.status >= 400) {\n                    throw new SubmitTransactionException(JSON.stringify(data));\n                }\n                // tslint:disable-next-line: no-console\n                console.log('Success!', data);\n\n                return txnId;\n            })\n    }\n\n    /**\n     * @override\n     * Gets a specific transaction\n     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash\n     * @returns {Promise<Object>} - The transaction\n     */\n    async getTransaction(transactionIdOrHash) {\n        this.validateAnyGetCall();\n\n        let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/`);\n\n        let response = await fetch(url, {\n            method: 'GET',\n            headers: this.apiAuthHeaders()\n        });\n\n        if (response.status >= 400) {\n            throw new GetTransactionsException(JSON.stringify(data));\n        }\n\n        return await response.json();\n    }\n\n    /**\n     * @override\n     * Gets a paged list of transactions\n     * @param {Object} parameters - The query parameters\n     * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper\n     */\n    async getTransactions(parameters) {\n        this.validateAnyGetCall();\n\n        let url = new URL(`${this.endpoint}transaction/`);\n\n        for (let [key, value] of Object.entries(parameters)) {\n            url.searchParams.set(key, value);\n        }\n\n        return this.sendTransactionRequest(url);\n    }\n\n    /**\n     * @override\n     * Gets a paged list of transactions for the method\n     * @param {string} method - The method\n     * @param {Object} parameters - The query parameters\n     * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper\n     */\n    async getMethodTransactions(method, parameters) {\n        this.validateGetCall(method, parameters);\n\n        let url = new URL(`${this.endpoint}${method}/`);\n\n        for (let [key, value] of Object.entries(parameters)) {\n            url.searchParams.set(key, value);\n        }\n\n        return this.sendTransactionRequest(url);\n    }\n\n    /**\n     * @private\n     * Internal function for sending transaction GET requests\n     * @param {URL} url - The URL\n     * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper\n     */\n    async sendTransactionRequest(url){\n        let response = await fetch(url, {\n            method: 'GET',\n            headers: this.apiAuthHeaders()\n        });\n\n        if (response.status >= 400) {\n            throw new GetTransactionsException(JSON.stringify(data));\n        }\n\n        let json = await response.json();\n\n        return new PagedResponse(json, url, this);\n    }\n}\n",
     "static": true,
     "longname": "C:/Users/Kieran David Evans/Code/libsimba-js/src/simba/simba.js",
     "access": "public",
@@ -1805,9 +1805,9 @@
     "async": true,
     "static": false,
     "longname": "src/simba/simba.js~Simbachain#initialize",
-    "access": "public",
-    "description": "Perform asynchronous actions needed to initialise this class",
-    "lineNumber": 29,
+    "access": "private",
+    "description": "",
+    "lineNumber": 30,
     "params": [],
     "return": null
   },
@@ -1820,7 +1820,7 @@
     "longname": "src/simba/simba.js~Simbachain#metadata",
     "access": "public",
     "description": null,
-    "lineNumber": 34,
+    "lineNumber": 35,
     "undocument": true,
     "type": {
       "types": [
@@ -1838,8 +1838,8 @@
     "static": false,
     "longname": "src/simba/simba.js~Simbachain#callMethod",
     "access": "public",
-    "description": "Call a method on the API",
-    "lineNumber": 44,
+    "description": "",
+    "lineNumber": 46,
     "params": [
       {
         "nullable": null,
@@ -1869,7 +1869,8 @@
       ],
       "spread": false,
       "description": "a promise resolving with the transaction details"
-    }
+    },
+    "override": true
   },
   {
     "__docId__": 115,
@@ -1881,8 +1882,8 @@
     "static": false,
     "longname": "src/simba/simba.js~Simbachain#getTransactionStatus",
     "access": "public",
-    "description": "Get the status of a transaction by ID",
-    "lineNumber": 66,
+    "description": "",
+    "lineNumber": 69,
     "params": [
       {
         "nullable": null,
@@ -1902,7 +1903,8 @@
       ],
       "spread": false,
       "description": "a promise resolving with the transaction details"
-    }
+    },
+    "override": true
   },
   {
     "__docId__": 116,
@@ -1913,9 +1915,9 @@
     "async": false,
     "static": false,
     "longname": "src/simba/simba.js~Simbachain#checkTransactionStatusFromObject",
-    "access": "public",
-    "description": "(Abstract) Gets the status of a transaction",
-    "lineNumber": 88,
+    "access": "private",
+    "description": "",
+    "lineNumber": 93,
     "params": [
       {
         "nullable": null,
@@ -1935,7 +1937,8 @@
       ],
       "spread": false,
       "description": "an object with status details"
-    }
+    },
+    "override": true
   },
   {
     "__docId__": 117,
@@ -1946,9 +1949,9 @@
     "async": false,
     "static": false,
     "longname": "src/simba/simba.js~Simbachain#checkTransactionDone",
-    "access": "public",
-    "description": "Check if the transaction is complete",
-    "lineNumber": 116,
+    "access": "private",
+    "description": "",
+    "lineNumber": 123,
     "params": [
       {
         "nullable": null,
@@ -1968,7 +1971,8 @@
       ],
       "spread": false,
       "description": "is the transaction complete"
-    }
+    },
+    "override": true
   },
   {
     "__docId__": 118,
@@ -1979,9 +1983,9 @@
     "async": false,
     "static": false,
     "longname": "src/simba/simba.js~Simbachain#checkTransactionStatus",
-    "access": "public",
-    "description": "Gets the status of a transaction by ID",
-    "lineNumber": 125,
+    "access": "private",
+    "description": "",
+    "lineNumber": 134,
     "params": [
       {
         "nullable": null,
@@ -2001,7 +2005,8 @@
       ],
       "spread": false,
       "description": "an object with status details"
-    }
+    },
+    "override": true
   },
   {
     "__docId__": 119,
@@ -2013,8 +2018,8 @@
     "static": false,
     "longname": "src/simba/simba.js~Simbachain#getBalance",
     "access": "public",
-    "description": "Get the balance for the attached Wallet",
-    "lineNumber": 134,
+    "description": "",
+    "lineNumber": 144,
     "return": {
       "nullable": null,
       "types": [
@@ -2023,6 +2028,7 @@
       "spread": false,
       "description": "the balance"
     },
+    "override": true,
     "params": []
   },
   {
@@ -2035,8 +2041,8 @@
     "static": false,
     "longname": "src/simba/simba.js~Simbachain#addFunds",
     "access": "public",
-    "description": "Add funds to the attached Wallet.\nPlease check the output of this method. It is of the form\n```\n{\n    txnId: null,\n    faucet_url: null,\n    poa: true\n}\n```\n\nIf successful, txnId will be populated.\nIf the network is PoA, then poa will be true, and txnId will be null\nIf the faucet for the network is external (e.g. Rinkeby, Ropsten, etc), then txnId will be null,\nand faucet_url will be populated with a URL. You should present this URL to your users to direct them\nto request funds there.",
-    "lineNumber": 186,
+    "description": "",
+    "lineNumber": 197,
     "return": {
       "nullable": null,
       "types": [
@@ -2045,6 +2051,7 @@
       "spread": false,
       "description": "details of the txn"
     },
+    "override": true,
     "params": []
   },
   {
@@ -2057,8 +2064,8 @@
     "static": false,
     "longname": "src/simba/simba.js~Simbachain#callMethodWithFile",
     "access": "public",
-    "description": "Call a method on the API with files",
-    "lineNumber": 245,
+    "description": "",
+    "lineNumber": 257,
     "params": [
       {
         "nullable": null,
@@ -2098,7 +2105,8 @@
       ],
       "spread": false,
       "description": "a promise resolving with the transaction details"
-    }
+    },
+    "override": true
   },
   {
     "__docId__": 122,
@@ -2109,9 +2117,9 @@
     "async": true,
     "static": false,
     "longname": "src/simba/simba.js~Simbachain#sendMethodRequest",
-    "access": "public",
-    "description": "Internal method for sending method calls",
-    "lineNumber": 272,
+    "access": "private",
+    "description": "",
+    "lineNumber": 285,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2159,8 +2167,8 @@
     "static": false,
     "longname": "src/simba/simba.js~Simbachain#getTransaction",
     "access": "public",
-    "description": "Gets a specific transaction",
-    "lineNumber": 319,
+    "description": "",
+    "lineNumber": 333,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2186,7 +2194,8 @@
       ],
       "spread": false,
       "description": "The transaction"
-    }
+    },
+    "override": true
   },
   {
     "__docId__": 124,
@@ -2198,8 +2207,8 @@
     "static": false,
     "longname": "src/simba/simba.js~Simbachain#getTransactions",
     "access": "public",
-    "description": "Gets a paged list of transactions",
-    "lineNumber": 341,
+    "description": "",
+    "lineNumber": 356,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2225,7 +2234,8 @@
       ],
       "spread": false,
       "description": "A response wrapped in a {@link PagedResponse} helper"
-    }
+    },
+    "override": true
   },
   {
     "__docId__": 125,
@@ -2237,8 +2247,8 @@
     "static": false,
     "longname": "src/simba/simba.js~Simbachain#getMethodTransactions",
     "access": "public",
-    "description": "Gets a paged list of transactions for the method",
-    "lineNumber": 359,
+    "description": "",
+    "lineNumber": 375,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2274,7 +2284,8 @@
       ],
       "spread": false,
       "description": "A response wrapped in a {@link PagedResponse} helper"
-    }
+    },
+    "override": true
   },
   {
     "__docId__": 126,
@@ -2285,9 +2296,9 @@
     "async": true,
     "static": false,
     "longname": "src/simba/simba.js~Simbachain#sendTransactionRequest",
-    "access": "public",
-    "description": "Internal function for sending transaction GET requests",
-    "lineNumber": 376,
+    "access": "private",
+    "description": "",
+    "lineNumber": 393,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2319,7 +2330,7 @@
     "__docId__": 127,
     "kind": "file",
     "name": "src/simba/simbabase.js",
-    "content": "import {pollWrapper} from \"poll-js\";\nimport {MissingMetadataException, NotImplementedException, BadMetadataException, MethodCallValidationMetadataException} from '../exceptions';\n\n/**\n * Base class for libsimba API Interaction implementations\n */\nexport default class SimbaBase {\n    /**\n     * Base class for libsimba API Interaction implementations\n     * @param {string} endpoint - The endpoint of the API\n     * @param {Wallet} [wallet] - an optional {@link Wallet} instance\n     */\n    constructor(endpoint, wallet) {\n        if (!endpoint.endsWith('/')) {\n            this.endpoint = `${endpoint}/`;\n        } else {\n            this.endpoint = endpoint;\n        }\n        this.wallet = wallet;\n\n        this.metadata = {};\n\n        if (this.constructor === SimbaBase) {\n            // Error Type 1. Abstract class can not be constructed.\n            throw new TypeError('Can not construct abstract class.');\n        }\n\n        if (this.initialize === SimbaBase.prototype.initialize) {\n            throw new NotImplementedException('Please implement abstract method callMethod.');\n        }\n\n        if (this.callMethod === SimbaBase.prototype.callMethod) {\n            throw new NotImplementedException('Please implement abstract method callMethod.');\n        }\n\n        if (this.getTransactionStatus === SimbaBase.prototype.getTransactionStatus) {\n            throw new NotImplementedException('Please implement abstract method getTransactionStatus.');\n        }\n\n        if (this.checkTransactionStatusFromObject === SimbaBase.prototype.checkTransactionStatusFromObject) {\n            throw new NotImplementedException('Please implement abstract method checkTransactionStatusFromObject.');\n        }\n\n        if (this.checkTransactionDone === SimbaBase.prototype.checkTransactionDone) {\n            throw new NotImplementedException('Please implement abstract method checkTransactionDone.');\n        }\n\n        if (this.checkTransactionStatus === SimbaBase.prototype.checkTransactionStatus) {\n            throw new NotImplementedException('Please implement abstract method checkTransactionStatus.');\n        }\n\n        if (this.getBalance === SimbaBase.prototype.getBalance) {\n            throw new NotImplementedException('Please implement abstract method getBalance.');\n        }\n\n        if (this.addFunds === SimbaBase.prototype.addFunds) {\n            throw new NotImplementedException('Please implement abstract method addFunds.');\n        }\n\n        if (this.getMethodTransactions === SimbaBase.prototype.getMethodTransactions) {\n            throw new NotImplementedException('Please implement abstract method getMethodTransactions.');\n        }\n\n        if (this.getTransaction === SimbaBase.prototype.getTransaction) {\n            throw new NotImplementedException('Please implement abstract method getTransaction.');\n        }\n\n        if (this.getTransactions === SimbaBase.prototype.getTransactions) {\n            throw new NotImplementedException('Please implement abstract method getTransactions.');\n        }\n    }\n\n    /**\n     * (Abstract) Perform any asynchronous actions needed to initialise this class\n     */\n    initialize() {\n        throw new NotImplementedException('SimbaBase.initialize Not Implemented');\n    }\n\n    /**\n     * (Abstract) Call a method on the API\n     * @param {string} method - the method to call\n     * @param {Object} parameters - the parameters for the method\n     * @return {Promise} - a promise resolving with the transaction details\n     */\n    callMethod(method, parameters) {\n        throw new NotImplementedException('SimbaBase.callMethod Not Implemented');\n    }\n\n    /**\n     * (Abstract) Gets a paged list of transactions for the method\n     * @param {string} method - The method\n     * @param {Object} parameters - The query parameters\n     */\n    getMethodTransactions(method, parameters) {\n        throw new NotImplementedException('SimbaBase.callMethod Not Implemented');\n    }\n\n    /**\n     * (Abstract) Gets a specific transaction\n     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash\n     * @returns {Promise<Object>} - The transaction\n     */\n    getTransaction(transactionIdOrHash) {\n        throw new NotImplementedException('SimbaBase.getTransaction Not Implemented');\n    }\n\n    /**\n     * (Abstract) Gets a paged list of transactions\n     * @param {Object} parameters - The query parameters\n     * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper\n     */\n    getTransactions(parameters) {\n        throw new NotImplementedException('SimbaBase.callMethod Not Implemented');\n    }\n\n    /**\n     * (Abstract) Call a method on the API with files\n     * @param {string} method - the method to call\n     * @param {Object} parameters - the parameters for the method\n     * @param {Array<Blob|File>} files - the files\n     * @return {Promise<Object>} - a promise resolving with the transaction details\n     */\n    callMethodWithFile(method, parameters, files) {\n        throw new NotImplementedException('SimbaBase.callMethod Not Implemented');\n    }\n\n    /**\n     * (Abstract) Get the status of a transaction by ID\n     * @param {string} txnId - the transaction ID\n     * @return {Promise<Object>} - a promise resolving with the transaction details\n     */\n    getTransactionStatus(txnId){\n        throw new NotImplementedException('SimbaBase.getTransactionStatus Not Implemented');\n    }\n\n    /**\n     * (Abstract) Gets the status of a transaction\n     * @param {Object} txn - a transaction object\n     * @return {Object} - an object with status details\n     */\n    checkTransactionStatusFromObject(txn){\n        throw new NotImplementedException('SimbaBase.checkTransactionStatusFromObject Not Implemented');\n    }\n\n    /**\n     * (Abstract) Check if the transaction is complete\n     * @param {Object} txn - the transaction object\n     * @return {boolean} - is the transaction complete\n     */\n    checkTransactionDone(txn){\n        throw new NotImplementedException('SimbaBase.checkTransactionDone Not Implemented');\n    }\n\n    /**\n     * (Abstract) Gets the status of a transaction by ID\n     * @param {string} txnId - a transaction ID\n     * @return {Object} - an object with status details\n     */\n    checkTransactionStatus(txnId){\n        throw new NotImplementedException('SimbaBase.checkTransactionStatus Not Implemented');\n    }\n\n    /**\n     * (Abstract) Get the balance for the attached Wallet\n     * @return {Promise<Object>} - the balance\n     */\n    getBalance(){\n        throw new NotImplementedException('SimbaBase.getBalance Not Implemented');\n    }\n\n    /**\n     * (Abstract) Add funds to the attached Wallet.\n     * Please check the output of this method. It is of the form\n     * ```\n     * {\n     *     txnId: null,\n     *     faucet_url: null,\n     *     poa: true\n     * }\n     * ```\n     *\n     * If successful, txnId will be populated.\n     * If the network is PoA, then poa will be true, and txnId will be null\n     * If the faucet for the network is external (e.g. Rinkeby, Ropsten, etc), then txnId will be null,\n     * and faucet_url will be populated with a URL. You should present this URL to your users to direct them\n     * to request funds there.\n     * @return {Promise<Object>} - details of the txn\n     */\n    addFunds(){\n        throw new NotImplementedException('SimbaBase.addFunds Not Implemented');\n    }\n\n    /**\n     * Returns an object with 'future' and 'cancel' keys.\n     * future is the promise to listen on for the response or an error.\n     * cancel is a function - call it to cancel the polling.\n     * @param {string} txnId - the transaction ID\n     * @param {number} [pollInterval=5000] - the interval in ms for polling\n     */\n    waitForSuccessOrError(txnId, pollInterval){\n        if(!pollInterval) pollInterval = 5000;\n\n        return pollWrapper({\n            request: () => this.getTransactionStatus(txnId),\n            pollingPeriod: pollInterval, // ms\n            shouldStop: (txn)=> this.checkTransactionDone(this.checkTransactionStatusFromObject(txn))\n        });\n    }\n\n    /**\n     * Set the wallet\n     * @param {Wallet} wallet - the wallet\n     */\n    setWallet(wallet){\n        this.wallet = wallet;\n    }\n\n    /**\n     * Set the API Key to authenticate calls\n     * @param {string} apiKey - the API Key\n     */\n    setApiKey(apiKey){\n        this.apiKey = apiKey;\n    }\n\n    /**\n     * Set the API Key to authenticate management calls\n     * @param {string} managementKey - the management API Key\n     */\n    setManagementKey(managementKey){\n        this.managementKey = managementKey;\n    }\n\n    /**\n     * Get API Call auth headers\n     * @returns {{APIKEY: *, \"Content-Type\": string}}\n     */\n    apiAuthHeaders() {\n        return {\n            APIKEY: this.apiKey,\n        }\n    }\n\n    /**\n     * Get management API Call auth headers\n     * @returns {{APIKEY: *, \"Content-Type\": string}}\n     */\n    managementAuthHeaders() {\n        return {\n            APIKEY: this.managementKey,\n        }\n    }\n\n    /**\n     * Validate the method call against the app metadata\n     * @param {string} methodName - the methods name\n     * @param {Object} parameters - the parameters for the method call\n     * @param {Array} [files] - Optional array of files\n     * @returns {boolean}\n     * @throws {MissingMetadataException} - App Metadata not yet retrieved\n     * @throws {BadMetadataException} - App Metadata doesn't have methods\n     * @throws {MethodCallValidationMetadataException} - Method call fails validation\n     */\n    validateCall(methodName, parameters, files){\n        if (!this.metadata) {\n            throw new MissingMetadataException(\"App Metadata not yet retrieved\");\n        }\n\n        if (!this.metadata.methods) {\n            throw new BadMetadataException(\"App Metadata doesn't have methods!\");\n        }\n\n        if(!(methodName in this.metadata.methods)){\n            throw new MethodCallValidationMetadataException(`Method \"${methodName}\" not found`);\n        }\n\n        let methodMeta = this.metadata.methods[methodName];\n\n        if(files && !('_files' in methodMeta.parameters)){\n            throw new MethodCallValidationMetadataException(`Method \"${methodName}\" does not accept files`);\n        }\n\n        if(files){\n            for(let i = 0; i < files.length; i++){\n                if(!(files[i] instanceof Blob) || !(files[i] instanceof File)){\n                    throw new MethodCallValidationMetadataException(`Item at position ${i} of \"files\" is not a Blob or a File`);\n                }\n            }\n        }\n\n        let paramNames = Object.keys(parameters);\n\n        paramNames.forEach((key)=>{\n            if(!(key in methodMeta.parameters)){\n                throw new MethodCallValidationMetadataException(`Parameter \"${key}\" is not valid for method \"${methodName}\"`);\n            }\n            //TODO: Type checks\n        });\n\n        let missing = Object.keys(methodMeta.parameters).filter((key)=>key in paramNames);\n\n        if(missing.length){\n            throw new MethodCallValidationMetadataException(`Parameters [${missing.join(',')}] not present for method \"${methodName}\"`);\n        }\n\n        return true;\n    }\n\n    /**\n     * Validate the transaction list call against the app metadata\n     * @param {string} methodName - the methods name\n     * @param {Object} parameters - the parameters for the query\n     * @returns {boolean}\n     * @throws {MissingMetadataException} - App Metadata not yet retrieved\n     * @throws {BadMetadataException} - App Metadata doesn't have methods\n     * @throws {MethodCallValidationMetadataException} - Method call fails validation\n     */\n    validateGetCall(methodName, parameters){\n        if (!this.metadata) {\n            throw new MissingMetadataException(\"App Metadata not yet retrieved\");\n        }\n\n        if (!this.metadata.methods) {\n            throw new BadMetadataException(\"App Metadata doesn't have methods!\");\n        }\n\n        if(!(methodName in this.metadata.methods)){\n            throw new MethodCallValidationMetadataException(`Method \"${methodName}\" not found`);\n        }\n\n        return true;\n    }\n\n    /**\n     * Validate the transaction list call against the app metadata\n     * @returns {boolean}\n     * @throws {MissingMetadataException} - App Metadata not yet retrieved\n     * @throws {BadMetadataException} - App Metadata doesn't have methods\n     */\n    validateAnyGetCall(){\n        if (!this.metadata) {\n            throw new MissingMetadataException(\"App Metadata not yet retrieved\");\n        }\n\n        if (!this.metadata.methods) {\n            throw new BadMetadataException(\"App Metadata doesn't have methods!\");\n        }\n\n        return true;\n    }\n}\n",
+    "content": "import {pollWrapper} from \"poll-js\";\nimport {MissingMetadataException, NotImplementedException, BadMetadataException, MethodCallValidationMetadataException} from '../exceptions';\n\n/**\n * @interface\n * Base class for libsimba API Interaction implementations\n */\nexport default class SimbaBase {\n    /**\n     * Base class for libsimba API Interaction implementations\n     * @param {string} endpoint - The endpoint of the API\n     * @param {Wallet} [wallet] - an optional {@link Wallet} instance\n     */\n    constructor(endpoint, wallet) {\n        if (!endpoint.endsWith('/')) {\n            this.endpoint = `${endpoint}/`;\n        } else {\n            this.endpoint = endpoint;\n        }\n        this.wallet = wallet;\n\n        this.metadata = {};\n\n        if (this.constructor === SimbaBase) {\n            // Error Type 1. Abstract class can not be constructed.\n            throw new TypeError('Can not construct abstract class.');\n        }\n\n        if (this.initialize === SimbaBase.prototype.initialize) {\n            throw new NotImplementedException('Please implement abstract method callMethod.');\n        }\n\n        if (this.callMethod === SimbaBase.prototype.callMethod) {\n            throw new NotImplementedException('Please implement abstract method callMethod.');\n        }\n\n        if (this.getTransactionStatus === SimbaBase.prototype.getTransactionStatus) {\n            throw new NotImplementedException('Please implement abstract method getTransactionStatus.');\n        }\n\n        if (this.checkTransactionStatusFromObject === SimbaBase.prototype.checkTransactionStatusFromObject) {\n            throw new NotImplementedException('Please implement abstract method checkTransactionStatusFromObject.');\n        }\n\n        if (this.checkTransactionDone === SimbaBase.prototype.checkTransactionDone) {\n            throw new NotImplementedException('Please implement abstract method checkTransactionDone.');\n        }\n\n        if (this.checkTransactionStatus === SimbaBase.prototype.checkTransactionStatus) {\n            throw new NotImplementedException('Please implement abstract method checkTransactionStatus.');\n        }\n\n        if (this.getBalance === SimbaBase.prototype.getBalance) {\n            throw new NotImplementedException('Please implement abstract method getBalance.');\n        }\n\n        if (this.addFunds === SimbaBase.prototype.addFunds) {\n            throw new NotImplementedException('Please implement abstract method addFunds.');\n        }\n\n        if (this.getMethodTransactions === SimbaBase.prototype.getMethodTransactions) {\n            throw new NotImplementedException('Please implement abstract method getMethodTransactions.');\n        }\n\n        if (this.getTransaction === SimbaBase.prototype.getTransaction) {\n            throw new NotImplementedException('Please implement abstract method getTransaction.');\n        }\n\n        if (this.getTransactions === SimbaBase.prototype.getTransactions) {\n            throw new NotImplementedException('Please implement abstract method getTransactions.');\n        }\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Perform any asynchronous actions needed to initialise this class\n     */\n    initialize() {\n        throw new NotImplementedException('SimbaBase.initialize Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Call a method on the API\n     * @param {string} method - the method to call\n     * @param {Object} parameters - the parameters for the method\n     * @return {Promise} - a promise resolving with the transaction details\n     */\n    callMethod(method, parameters) {\n        throw new NotImplementedException('SimbaBase.callMethod Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Gets a paged list of transactions for the method\n     * @param {string} method - The method\n     * @param {Object} parameters - The query parameters\n     */\n    getMethodTransactions(method, parameters) {\n        throw new NotImplementedException('SimbaBase.callMethod Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Gets a specific transaction\n     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash\n     * @returns {Promise<Object>} - The transaction\n     */\n    getTransaction(transactionIdOrHash) {\n        throw new NotImplementedException('SimbaBase.getTransaction Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Gets a paged list of transactions\n     * @param {Object} parameters - The query parameters\n     * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper\n     */\n    getTransactions(parameters) {\n        throw new NotImplementedException('SimbaBase.callMethod Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Call a method on the API with files\n     * @param {string} method - the method to call\n     * @param {Object} parameters - the parameters for the method\n     * @param {Array<Blob|File>} files - the files\n     * @return {Promise<Object>} - a promise resolving with the transaction details\n     */\n    callMethodWithFile(method, parameters, files) {\n        throw new NotImplementedException('SimbaBase.callMethod Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Get the status of a transaction by ID\n     * @param {string} txnId - the transaction ID\n     * @return {Promise<Object>} - a promise resolving with the transaction details\n     */\n    getTransactionStatus(txnId){\n        throw new NotImplementedException('SimbaBase.getTransactionStatus Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * @private\n     * (Abstract) Gets the status of a transaction\n     * @param {Object} txn - a transaction object\n     * @return {Object} - an object with status details\n     */\n    checkTransactionStatusFromObject(txn){\n        throw new NotImplementedException('SimbaBase.checkTransactionStatusFromObject Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * @private\n     * (Abstract) Check if the transaction is complete\n     * @param {Object} txn - the transaction object\n     * @return {boolean} - is the transaction complete\n     */\n    checkTransactionDone(txn){\n        throw new NotImplementedException('SimbaBase.checkTransactionDone Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Gets the status of a transaction by ID\n     * @param {string} txnId - a transaction ID\n     * @return {Object} - an object with status details\n     */\n    checkTransactionStatus(txnId){\n        throw new NotImplementedException('SimbaBase.checkTransactionStatus Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Get the balance for the attached Wallet\n     * @return {Promise<Object>} - the balance\n     */\n    getBalance(){\n        throw new NotImplementedException('SimbaBase.getBalance Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Add funds to the attached Wallet.\n     * Please check the output of this method. It is of the form\n     * ```\n     * {\n     *     txnId: null,\n     *     faucet_url: null,\n     *     poa: true\n     * }\n     * ```\n     *\n     * If successful, txnId will be populated.\n     * If the network is PoA, then poa will be true, and txnId will be null\n     * If the faucet for the network is external (e.g. Rinkeby, Ropsten, etc), then txnId will be null,\n     * and faucet_url will be populated with a URL. You should present this URL to your users to direct them\n     * to request funds there.\n     * @return {Promise<Object>} - details of the txn\n     */\n    addFunds(){\n        throw new NotImplementedException('SimbaBase.addFunds Not Implemented');\n    }\n\n    /**\n     * Returns an object with 'future' and 'cancel' keys.\n     * future is the promise to listen on for the response or an error.\n     * cancel is a function - call it to cancel the polling.\n     * @param {string} txnId - the transaction ID\n     * @param {number} [pollInterval=5000] - the interval in ms for polling\n     */\n    waitForSuccessOrError(txnId, pollInterval){\n        if(!pollInterval) pollInterval = 5000;\n\n        return pollWrapper({\n            request: () => this.getTransactionStatus(txnId),\n            pollingPeriod: pollInterval, // ms\n            shouldStop: (txn)=> this.checkTransactionDone(this.checkTransactionStatusFromObject(txn))\n        });\n    }\n\n    /**\n     * Set the wallet\n     * @param {Wallet} wallet - the wallet\n     */\n    setWallet(wallet){\n        this.wallet = wallet;\n    }\n\n    /**\n     * Set the API Key to authenticate calls\n     * @param {string} apiKey - the API Key\n     */\n    setApiKey(apiKey){\n        this.apiKey = apiKey;\n    }\n\n    /**\n     * Set the API Key to authenticate management calls\n     * @param {string} managementKey - the management API Key\n     */\n    setManagementKey(managementKey){\n        this.managementKey = managementKey;\n    }\n\n    /**\n     * @private\n     * Get API Call auth headers\n     * @returns {{APIKEY: *, \"Content-Type\": string}}\n     */\n    apiAuthHeaders() {\n        return {\n            APIKEY: this.apiKey,\n        }\n    }\n\n    /**\n     * @private\n     * Get management API Call auth headers\n     * @returns {{APIKEY: *, \"Content-Type\": string}}\n     */\n    managementAuthHeaders() {\n        return {\n            APIKEY: this.managementKey,\n        }\n    }\n\n    /**\n     * @private\n     * Validate the method call against the app metadata\n     * @param {string} methodName - the methods name\n     * @param {Object} parameters - the parameters for the method call\n     * @param {Array} [files] - Optional array of files\n     * @returns {boolean}\n     * @throws {MissingMetadataException} - App Metadata not yet retrieved\n     * @throws {BadMetadataException} - App Metadata doesn't have methods\n     * @throws {MethodCallValidationMetadataException} - Method call fails validation\n     */\n    validateCall(methodName, parameters, files){\n        if (!this.metadata) {\n            throw new MissingMetadataException(\"App Metadata not yet retrieved\");\n        }\n\n        if (!this.metadata.methods) {\n            throw new BadMetadataException(\"App Metadata doesn't have methods!\");\n        }\n\n        if(!(methodName in this.metadata.methods)){\n            throw new MethodCallValidationMetadataException(`Method \"${methodName}\" not found`);\n        }\n\n        let methodMeta = this.metadata.methods[methodName];\n\n        if(files && !('_files' in methodMeta.parameters)){\n            throw new MethodCallValidationMetadataException(`Method \"${methodName}\" does not accept files`);\n        }\n\n        if(files){\n            for(let i = 0; i < files.length; i++){\n                if(!(files[i] instanceof Blob) || !(files[i] instanceof File)){\n                    throw new MethodCallValidationMetadataException(`Item at position ${i} of \"files\" is not a Blob or a File`);\n                }\n            }\n        }\n\n        let paramNames = Object.keys(parameters);\n\n        paramNames.forEach((key)=>{\n            if(!(key in methodMeta.parameters)){\n                throw new MethodCallValidationMetadataException(`Parameter \"${key}\" is not valid for method \"${methodName}\"`);\n            }\n            //TODO: Type checks\n        });\n\n        let missing = Object.keys(methodMeta.parameters).filter((key)=>key in paramNames);\n\n        if(missing.length){\n            throw new MethodCallValidationMetadataException(`Parameters [${missing.join(',')}] not present for method \"${methodName}\"`);\n        }\n\n        return true;\n    }\n\n    /**\n     * @private\n     * Validate the transaction list call against the app metadata\n     * @param {string} methodName - the methods name\n     * @param {Object} parameters - the parameters for the query\n     * @returns {boolean}\n     * @throws {MissingMetadataException} - App Metadata not yet retrieved\n     * @throws {BadMetadataException} - App Metadata doesn't have methods\n     * @throws {MethodCallValidationMetadataException} - Method call fails validation\n     */\n    validateGetCall(methodName, parameters){\n        if (!this.metadata) {\n            throw new MissingMetadataException(\"App Metadata not yet retrieved\");\n        }\n\n        if (!this.metadata.methods) {\n            throw new BadMetadataException(\"App Metadata doesn't have methods!\");\n        }\n\n        if(!(methodName in this.metadata.methods)){\n            throw new MethodCallValidationMetadataException(`Method \"${methodName}\" not found`);\n        }\n\n        return true;\n    }\n\n    /**\n     * @private\n     * Validate the transaction list call against the app metadata\n     * @returns {boolean}\n     * @throws {MissingMetadataException} - App Metadata not yet retrieved\n     * @throws {BadMetadataException} - App Metadata doesn't have methods\n     */\n    validateAnyGetCall(){\n        if (!this.metadata) {\n            throw new MissingMetadataException(\"App Metadata not yet retrieved\");\n        }\n\n        if (!this.metadata.methods) {\n            throw new BadMetadataException(\"App Metadata doesn't have methods!\");\n        }\n\n        return true;\n    }\n}\n",
     "static": true,
     "longname": "C:/Users/Kieran David Evans/Code/libsimba-js/src/simba/simbabase.js",
     "access": "public",
@@ -2337,8 +2348,8 @@
     "export": true,
     "importPath": "@simbachain/libsimba-js/src/simba/simbabase.js",
     "importStyle": "SimbaBase",
-    "description": "Base class for libsimba API Interaction implementations",
-    "lineNumber": 7,
+    "description": "",
+    "lineNumber": 8,
     "interface": false
   },
   {
@@ -2352,7 +2363,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#constructor",
     "access": "public",
     "description": "Base class for libsimba API Interaction implementations",
-    "lineNumber": 13,
+    "lineNumber": 14,
     "params": [
       {
         "nullable": null,
@@ -2385,7 +2396,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#endpoint",
     "access": "public",
     "description": null,
-    "lineNumber": 15,
+    "lineNumber": 16,
     "undocument": true,
     "type": {
       "types": [
@@ -2402,7 +2413,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#wallet",
     "access": "public",
     "description": null,
-    "lineNumber": 19,
+    "lineNumber": 20,
     "undocument": true,
     "type": {
       "types": [
@@ -2419,7 +2430,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#metadata",
     "access": "public",
     "description": null,
-    "lineNumber": 21,
+    "lineNumber": 22,
     "undocument": true,
     "type": {
       "types": [
@@ -2437,8 +2448,9 @@
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#initialize",
     "access": "public",
-    "description": "(Abstract) Perform any asynchronous actions needed to initialise this class",
-    "lineNumber": 76,
+    "description": "",
+    "lineNumber": 78,
+    "abstract": true,
     "params": [],
     "return": null
   },
@@ -2452,8 +2464,8 @@
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#callMethod",
     "access": "public",
-    "description": "(Abstract) Call a method on the API",
-    "lineNumber": 86,
+    "description": "",
+    "lineNumber": 89,
     "params": [
       {
         "nullable": null,
@@ -2483,7 +2495,8 @@
       ],
       "spread": false,
       "description": "a promise resolving with the transaction details"
-    }
+    },
+    "abstract": true
   },
   {
     "__docId__": 136,
@@ -2495,8 +2508,8 @@
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#getMethodTransactions",
     "access": "public",
-    "description": "(Abstract) Gets a paged list of transactions for the method",
-    "lineNumber": 95,
+    "description": "",
+    "lineNumber": 99,
     "params": [
       {
         "nullable": null,
@@ -2519,6 +2532,7 @@
         "description": "The query parameters"
       }
     ],
+    "abstract": true,
     "return": null
   },
   {
@@ -2531,8 +2545,8 @@
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#getTransaction",
     "access": "public",
-    "description": "(Abstract) Gets a specific transaction",
-    "lineNumber": 104,
+    "description": "",
+    "lineNumber": 109,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2558,7 +2572,8 @@
       ],
       "spread": false,
       "description": "The transaction"
-    }
+    },
+    "abstract": true
   },
   {
     "__docId__": 138,
@@ -2570,8 +2585,8 @@
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#getTransactions",
     "access": "public",
-    "description": "(Abstract) Gets a paged list of transactions",
-    "lineNumber": 113,
+    "description": "",
+    "lineNumber": 119,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2597,7 +2612,8 @@
       ],
       "spread": false,
       "description": "A response wrapped in a {@link PagedResponse} helper"
-    }
+    },
+    "abstract": true
   },
   {
     "__docId__": 139,
@@ -2609,8 +2625,8 @@
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#callMethodWithFile",
     "access": "public",
-    "description": "(Abstract) Call a method on the API with files",
-    "lineNumber": 124,
+    "description": "",
+    "lineNumber": 131,
     "params": [
       {
         "nullable": null,
@@ -2650,7 +2666,8 @@
       ],
       "spread": false,
       "description": "a promise resolving with the transaction details"
-    }
+    },
+    "abstract": true
   },
   {
     "__docId__": 140,
@@ -2662,8 +2679,8 @@
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#getTransactionStatus",
     "access": "public",
-    "description": "(Abstract) Get the status of a transaction by ID",
-    "lineNumber": 133,
+    "description": "",
+    "lineNumber": 141,
     "params": [
       {
         "nullable": null,
@@ -2683,7 +2700,8 @@
       ],
       "spread": false,
       "description": "a promise resolving with the transaction details"
-    }
+    },
+    "abstract": true
   },
   {
     "__docId__": 141,
@@ -2694,9 +2712,9 @@
     "async": false,
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#checkTransactionStatusFromObject",
-    "access": "public",
-    "description": "(Abstract) Gets the status of a transaction",
-    "lineNumber": 142,
+    "access": "private",
+    "description": "",
+    "lineNumber": 152,
     "params": [
       {
         "nullable": null,
@@ -2716,7 +2734,8 @@
       ],
       "spread": false,
       "description": "an object with status details"
-    }
+    },
+    "abstract": true
   },
   {
     "__docId__": 142,
@@ -2727,9 +2746,9 @@
     "async": false,
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#checkTransactionDone",
-    "access": "public",
-    "description": "(Abstract) Check if the transaction is complete",
-    "lineNumber": 151,
+    "access": "private",
+    "description": "",
+    "lineNumber": 163,
     "params": [
       {
         "nullable": null,
@@ -2749,7 +2768,8 @@
       ],
       "spread": false,
       "description": "is the transaction complete"
-    }
+    },
+    "abstract": true
   },
   {
     "__docId__": 143,
@@ -2761,8 +2781,8 @@
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#checkTransactionStatus",
     "access": "public",
-    "description": "(Abstract) Gets the status of a transaction by ID",
-    "lineNumber": 160,
+    "description": "",
+    "lineNumber": 173,
     "params": [
       {
         "nullable": null,
@@ -2782,7 +2802,8 @@
       ],
       "spread": false,
       "description": "an object with status details"
-    }
+    },
+    "abstract": true
   },
   {
     "__docId__": 144,
@@ -2794,8 +2815,8 @@
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#getBalance",
     "access": "public",
-    "description": "(Abstract) Get the balance for the attached Wallet",
-    "lineNumber": 168,
+    "description": "",
+    "lineNumber": 182,
     "return": {
       "nullable": null,
       "types": [
@@ -2804,6 +2825,7 @@
       "spread": false,
       "description": "the balance"
     },
+    "abstract": true,
     "params": []
   },
   {
@@ -2816,8 +2838,8 @@
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#addFunds",
     "access": "public",
-    "description": "(Abstract) Add funds to the attached Wallet.\nPlease check the output of this method. It is of the form\n```\n{\n    txnId: null,\n    faucet_url: null,\n    poa: true\n}\n```\n\nIf successful, txnId will be populated.\nIf the network is PoA, then poa will be true, and txnId will be null\nIf the faucet for the network is external (e.g. Rinkeby, Ropsten, etc), then txnId will be null,\nand faucet_url will be populated with a URL. You should present this URL to your users to direct them\nto request funds there.",
-    "lineNumber": 190,
+    "description": "",
+    "lineNumber": 205,
     "return": {
       "nullable": null,
       "types": [
@@ -2826,6 +2848,7 @@
       "spread": false,
       "description": "details of the txn"
     },
+    "abstract": true,
     "params": []
   },
   {
@@ -2839,7 +2862,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#waitForSuccessOrError",
     "access": "public",
     "description": "Returns an object with 'future' and 'cancel' keys.\nfuture is the promise to listen on for the response or an error.\ncancel is a function - call it to cancel the polling.",
-    "lineNumber": 201,
+    "lineNumber": 216,
     "params": [
       {
         "nullable": null,
@@ -2881,7 +2904,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#setWallet",
     "access": "public",
     "description": "Set the wallet",
-    "lineNumber": 215,
+    "lineNumber": 230,
     "params": [
       {
         "nullable": null,
@@ -2907,7 +2930,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#setApiKey",
     "access": "public",
     "description": "Set the API Key to authenticate calls",
-    "lineNumber": 223,
+    "lineNumber": 238,
     "params": [
       {
         "nullable": null,
@@ -2931,7 +2954,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#apiKey",
     "access": "public",
     "description": null,
-    "lineNumber": 224,
+    "lineNumber": 239,
     "undocument": true,
     "type": {
       "types": [
@@ -2950,7 +2973,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#setManagementKey",
     "access": "public",
     "description": "Set the API Key to authenticate management calls",
-    "lineNumber": 231,
+    "lineNumber": 246,
     "params": [
       {
         "nullable": null,
@@ -2974,7 +2997,7 @@
     "longname": "src/simba/simbabase.js~SimbaBase#managementKey",
     "access": "public",
     "description": null,
-    "lineNumber": 232,
+    "lineNumber": 247,
     "undocument": true,
     "type": {
       "types": [
@@ -2991,9 +3014,9 @@
     "async": false,
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#apiAuthHeaders",
-    "access": "public",
-    "description": "Get API Call auth headers",
-    "lineNumber": 239,
+    "access": "private",
+    "description": "",
+    "lineNumber": 255,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3019,9 +3042,9 @@
     "async": false,
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#managementAuthHeaders",
-    "access": "public",
-    "description": "Get management API Call auth headers",
-    "lineNumber": 249,
+    "access": "private",
+    "description": "",
+    "lineNumber": 266,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3047,9 +3070,9 @@
     "async": false,
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#validateCall",
-    "access": "public",
-    "description": "Validate the method call against the app metadata",
-    "lineNumber": 265,
+    "access": "private",
+    "description": "",
+    "lineNumber": 283,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3126,9 +3149,9 @@
     "async": false,
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#validateGetCall",
-    "access": "public",
-    "description": "Validate the transaction list call against the app metadata",
-    "lineNumber": 319,
+    "access": "private",
+    "description": "",
+    "lineNumber": 338,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3195,9 +3218,9 @@
     "async": false,
     "static": false,
     "longname": "src/simba/simbabase.js~SimbaBase#validateAnyGetCall",
-    "access": "public",
-    "description": "Validate the transaction list call against the app metadata",
-    "lineNumber": 341,
+    "access": "private",
+    "description": "",
+    "lineNumber": 361,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3243,7 +3266,7 @@
     "__docId__": 159,
     "kind": "file",
     "name": "src/wallet/localwallet.js",
-    "content": "import Wallet from './wallet';\nimport { Wallet as EthersWallet } from '@ethersproject/wallet';\nimport { SigningException, UserRejectedSigningException, WalletNotFoundException, WalletLockedException} from \"../exceptions\";\n\n/**\n * libsimba-js Local Wallet implementation\n * Stores the wallet as encrypted json within the browsers localstorage\n * Wraps the [ethersjs]{@link https://docs.ethers.io/ethers.js/html/} library.\n */\nexport default class LocalWallet extends Wallet {\n    /**\n     * Use a wallet stored in the browsers local storage\n     * @param {function} [signingConfirmation] -  - an optional callback for requesting user permission to sign a\n     * transaction. Should resolve a promise with true for accept, and false (or reject) for reject.\n     */\n    constructor(signingConfirmation) {\n        super(signingConfirmation);\n    }\n\n    /**\n     * Unlock the wallet\n     * @param {string} passkey - The pass key to unlock the wallet\n     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress\n     * @returns {Promise} - Returns a promise resolving when the wallet is unlocked\n     */\n    unlockWallet(passkey, progressCB){\n        return EthersWallet.fromEncryptedJson(window.localStorage.getItem('localwallet'), passkey, progressCB)\n            .then(wallet=>this.wallet = wallet);\n    }\n\n    /**\n     * Generate a wallet\n     * @param {string} passkey - The pass key to lock the wallet\n     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress\n     * @returns {Promise} - Returns a promise resolving when the wallet is created\n     */\n    generateWallet(passkey, progressCB){\n        this.wallet = EthersWallet.createRandom();\n        return this.wallet.encrypt(passkey, progressCB).then((json)=>{\n            window.localStorage.setItem('localwallet', json);\n            return true;\n        });\n    }\n\n    /**\n     * Generate a wallet from an existing private key\n     * @param {string} key - The existing private key\n     * @param {string} passkey - The pass key to lock the wallet\n     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress\n     * @returns {Promise} - Returns a promise resolving when the wallet is created\n     */\n    generateWalletFromPrivateKey(key, passkey, progressCB){\n        this.wallet = new EthersWallet(key);\n        return this.wallet.encrypt(passkey, progressCB).then((json)=>{\n            window.localStorage.setItem('localwallet', json);\n            return true;\n        });\n    }\n\n    /**\n     * Generate a wallet from a mnemonic\n     * @param {string} mnemonic - The mnemonic\n     * @param {string} passkey - The pass key to lock the wallet\n     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress\n     * @returns {Promise} - Returns a promise resolving when the wallet is created\n     */\n    generateWalletFromMnemonic(mnemonic, passkey, progressCB){\n        this.wallet = EthersWallet.fromMnemonic(mnemonic);\n        return this.wallet.encrypt(passkey, progressCB).then((json)=>{\n            window.localStorage.setItem('localwallet', json);\n            return true;\n        });\n    }\n\n    /**\n     * Generate a wallet from a encrypted json (see\n     * [ethers docs]{@link https://docs.ethers.io/ethers.js/html/api-wallet.html?highlight=fromencryptedjson})\n     * @param {string} json - The json\n     * @param {string} passkey - The pass key to lock the wallet\n     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress\n     * @returns {Promise} - Returns a promise resolving when the wallet is created\n     */\n    generateWalletFromEncryptedJson(json, passkey, progressCB){\n        this.wallet = EthersWallet.fromEncryptedJson(mnemonic, passkey);\n        return this.wallet.encrypt(passkey, progressCB).then((json)=>{\n            window.localStorage.setItem('localwallet', json);\n            return true;\n        });\n    }\n\n    /**\n     * Delete the wallet\n     */\n    deleteWallet(){\n        window.localStorage.removeItem('localwallet');\n    }\n\n    /**\n     * Check if a wallet exists\n     * @return {boolean} - does the wallet exist\n     */\n    walletExists(){\n        return !!window.localStorage.getItem('localwallet');\n    }\n\n    /**\n     * The mnemonic phrase for this wallet, or null if the mnemonic is unknown.\n     * @return {string} - The mnemonic phrase for this wallet, or null if the mnemonic is unknown.\n     */\n    getMnemonic(){\n        if(!this.walletExists()){\n            throw new WalletNotFoundException(\"No wallet generated!\")\n        }\n        if(!this.wallet) {\n            throw new WalletLockedException(\"Wallet not unlocked!\");\n        }\n\n        return this.wallet.mnemonic;\n    }\n\n    /**\n     *\n     * @param {string} passkey - Passkey to encrypt the wallet\n     * @param {function} [progressCB] - An optional callback to monitor progress of encryption, calls with a value between 0-1\n     * @returns {Promise<string>} A promise that resolves with the JSON wallet\n     */\n    getEncryptedJson(passkey, progressCB){\n        if(!this.walletExists()){\n            throw new WalletNotFoundException(\"No wallet generated!\")\n        }\n        if(!this.wallet) {\n            throw new WalletLockedException(\"Wallet not unlocked!\");\n        }\n\n        return this.wallet.encrypt(passkey, progressCB);\n    }\n\n    /**\n     * Sign a transaction payload\n     * @param {Object} payload - The transaction to sign\n     * @returns {Promise<string>} - Returns a promise resolving to the signed transaction\n     */\n    sign(payload) {\n        if(!this.walletExists()){\n            throw new WalletNotFoundException(\"No wallet generated!\")\n        }\n        if(!this.wallet) {\n            throw new WalletLockedException(\"Wallet not unlocked!\");\n        }\n\n        return this.signingConfirmation().then(allow=>{\n            if(allow){\n                const cleanedPayload = this.cleanPayload(payload);\n                return this.wallet.signTransaction(cleanedPayload)\n                    .catch(error=>{throw new SigningException(\"Failed to sign transaction\", error)});\n            }\n            throw new UserRejectedSigningException(\"User rejected signing\");\n        });\n    }\n\n    /**\n     * Clean the payload before signing\n     * @param {Object} payload - The transaction to clean\n     * @returns {string} - The cleaned transaction\n     */\n    cleanPayload(payload){\n        const allowedKeys = [ 'to','nonce','gasLimit','gasPrice', 'data','value','chainId'];\n\n        let cleanedPayload = {};\n\n        Object.keys(payload).forEach(key=>{\n            if(allowedKeys.indexOf(key) >= 0){\n                cleanedPayload[key] = payload[key];\n                if((typeof payload[key] === 'string' || payload[key] instanceof String) &&\n                    payload[key].startsWith('0x') &&\n                    payload[key].length % 2 !== 0){\n                    cleanedPayload[key] = payload[key].replace('0x', '0x0');\n                    console.log(`Bad Hex - txn.${key} = ${payload[key]}, reformatted to ${cleanedPayload[key]}`);\n                }\n            }\n        });\n\n        return cleanedPayload;\n    }\n\n    /**\n     * Get the wallets address\n     * @returns {Promise<string>} - Returns a promise resolving to the wallets address\n     */\n    getAddress(){\n        return this.wallet.getAddress();\n    }\n}\n",
+    "content": "import Wallet from './wallet';\nimport { Wallet as EthersWallet } from '@ethersproject/wallet';\nimport { SigningException, UserRejectedSigningException, WalletNotFoundException, WalletLockedException} from \"../exceptions\";\n\n/**\n * libsimba-js Local Wallet implementation\n * Stores the wallet as encrypted json within the browsers localstorage\n * Wraps the [ethersjs]{@link https://docs.ethers.io/ethers.js/html/} library.\n */\nexport default class LocalWallet extends Wallet {\n    /**\n     * Use a wallet stored in the browsers local storage\n     * @param {function} [signingConfirmation] -  - an optional callback for requesting user permission to sign a\n     * transaction. Should resolve a promise with true for accept, and false (or reject) for reject.\n     */\n    constructor(signingConfirmation) {\n        super(signingConfirmation);\n    }\n\n    /**\n     * @override\n     * Unlock the wallet\n     * @param {string} passkey - The pass key to unlock the wallet\n     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress\n     * @returns {Promise} - Returns a promise resolving when the wallet is unlocked\n     */\n    unlockWallet(passkey, progressCB){\n        return EthersWallet.fromEncryptedJson(window.localStorage.getItem('localwallet'), passkey, progressCB)\n            .then(wallet=>this.wallet = wallet);\n    }\n\n    /**\n     * @override\n     * Generate a wallet\n     * @param {string} passkey - The pass key to lock the wallet\n     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress\n     * @returns {Promise} - Returns a promise resolving when the wallet is created\n     */\n    generateWallet(passkey, progressCB){\n        this.wallet = EthersWallet.createRandom();\n        return this.wallet.encrypt(passkey, progressCB).then((json)=>{\n            window.localStorage.setItem('localwallet', json);\n            return true;\n        });\n    }\n\n    /**\n     * Generate a wallet from an existing private key\n     * @param {string} key - The existing private key\n     * @param {string} passkey - The pass key to lock the wallet\n     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress\n     * @returns {Promise} - Returns a promise resolving when the wallet is created\n     */\n    generateWalletFromPrivateKey(key, passkey, progressCB){\n        this.wallet = new EthersWallet(key);\n        return this.wallet.encrypt(passkey, progressCB).then((json)=>{\n            window.localStorage.setItem('localwallet', json);\n            return true;\n        });\n    }\n\n    /**\n     * Generate a wallet from a mnemonic\n     * @param {string} mnemonic - The mnemonic\n     * @param {string} passkey - The pass key to lock the wallet\n     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress\n     * @returns {Promise} - Returns a promise resolving when the wallet is created\n     */\n    generateWalletFromMnemonic(mnemonic, passkey, progressCB){\n        this.wallet = EthersWallet.fromMnemonic(mnemonic);\n        return this.wallet.encrypt(passkey, progressCB).then((json)=>{\n            window.localStorage.setItem('localwallet', json);\n            return true;\n        });\n    }\n\n    /**\n     * Generate a wallet from a encrypted json (see\n     * [ethers docs]{@link https://docs.ethers.io/ethers.js/html/api-wallet.html?highlight=fromencryptedjson})\n     * @param {string} json - The json\n     * @param {string} passkey - The pass key to lock the wallet\n     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress\n     * @returns {Promise} - Returns a promise resolving when the wallet is created\n     */\n    generateWalletFromEncryptedJson(json, passkey, progressCB){\n        this.wallet = EthersWallet.fromEncryptedJson(mnemonic, passkey);\n        return this.wallet.encrypt(passkey, progressCB).then((json)=>{\n            window.localStorage.setItem('localwallet', json);\n            return true;\n        });\n    }\n\n    /**\n     * @override\n     * Delete the wallet\n     */\n    deleteWallet(){\n        window.localStorage.removeItem('localwallet');\n    }\n\n    /**\n     * @override\n     * Check if a wallet exists\n     * @return {boolean} - does the wallet exist\n     */\n    walletExists(){\n        return !!window.localStorage.getItem('localwallet');\n    }\n\n    /**\n     * The mnemonic phrase for this wallet, or null if the mnemonic is unknown.\n     * @return {string} - The mnemonic phrase for this wallet, or null if the mnemonic is unknown.\n     */\n    getMnemonic(){\n        if(!this.walletExists()){\n            throw new WalletNotFoundException(\"No wallet generated!\")\n        }\n        if(!this.wallet) {\n            throw new WalletLockedException(\"Wallet not unlocked!\");\n        }\n\n        return this.wallet.mnemonic;\n    }\n\n    /**\n     *\n     * @param {string} passkey - Passkey to encrypt the wallet\n     * @param {function} [progressCB] - An optional callback to monitor progress of encryption, calls with a value between 0-1\n     * @returns {Promise<string>} A promise that resolves with the JSON wallet\n     */\n    getEncryptedJson(passkey, progressCB){\n        if(!this.walletExists()){\n            throw new WalletNotFoundException(\"No wallet generated!\")\n        }\n        if(!this.wallet) {\n            throw new WalletLockedException(\"Wallet not unlocked!\");\n        }\n\n        return this.wallet.encrypt(passkey, progressCB);\n    }\n\n    /**\n     * @protected\n     * @override\n     * Sign a transaction payload\n     * @param {Object} payload - The transaction to sign\n     * @returns {Promise<string>} - Returns a promise resolving to the signed transaction\n     */\n    sign(payload) {\n        if(!this.walletExists()){\n            throw new WalletNotFoundException(\"No wallet generated!\")\n        }\n        if(!this.wallet) {\n            throw new WalletLockedException(\"Wallet not unlocked!\");\n        }\n\n        return this.signingConfirmation().then(allow=>{\n            if(allow){\n                const cleanedPayload = this.cleanPayload(payload);\n                return this.wallet.signTransaction(cleanedPayload)\n                    .catch(error=>{throw new SigningException(\"Failed to sign transaction\", error)});\n            }\n            throw new UserRejectedSigningException(\"User rejected signing\");\n        });\n    }\n\n    /**\n     * @private\n     * Clean the payload before signing\n     * @param {Object} payload - The transaction to clean\n     * @returns {string} - The cleaned transaction\n     */\n    cleanPayload(payload){\n        const allowedKeys = [ 'to','nonce','gasLimit','gasPrice', 'data','value','chainId'];\n\n        let cleanedPayload = {};\n\n        Object.keys(payload).forEach(key=>{\n            if(allowedKeys.indexOf(key) >= 0){\n                cleanedPayload[key] = payload[key];\n                if((typeof payload[key] === 'string' || payload[key] instanceof String) &&\n                    payload[key].startsWith('0x') &&\n                    payload[key].length % 2 !== 0){\n                    cleanedPayload[key] = payload[key].replace('0x', '0x0');\n                    console.log(`Bad Hex - txn.${key} = ${payload[key]}, reformatted to ${cleanedPayload[key]}`);\n                }\n            }\n        });\n\n        return cleanedPayload;\n    }\n\n    /**\n     * @override\n     * Get the wallets address\n     * @returns {Promise<string>} - Returns a promise resolving to the wallets address\n     */\n    getAddress(){\n        return this.wallet.getAddress();\n    }\n}\n",
     "static": true,
     "longname": "C:/Users/Kieran David Evans/Code/libsimba-js/src/wallet/localwallet.js",
     "access": "public",
@@ -3303,8 +3326,8 @@
     "static": false,
     "longname": "src/wallet/localwallet.js~LocalWallet#unlockWallet",
     "access": "public",
-    "description": "Unlock the wallet",
-    "lineNumber": 26,
+    "description": "",
+    "lineNumber": 27,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3340,7 +3363,8 @@
       ],
       "spread": false,
       "description": "Returns a promise resolving when the wallet is unlocked"
-    }
+    },
+    "override": true
   },
   {
     "__docId__": 163,
@@ -3352,8 +3376,8 @@
     "static": false,
     "longname": "src/wallet/localwallet.js~LocalWallet#generateWallet",
     "access": "public",
-    "description": "Generate a wallet",
-    "lineNumber": 37,
+    "description": "",
+    "lineNumber": 39,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3389,7 +3413,8 @@
       ],
       "spread": false,
       "description": "Returns a promise resolving when the wallet is created"
-    }
+    },
+    "override": true
   },
   {
     "__docId__": 164,
@@ -3400,7 +3425,7 @@
     "longname": "src/wallet/localwallet.js~LocalWallet#wallet",
     "access": "public",
     "description": null,
-    "lineNumber": 38,
+    "lineNumber": 40,
     "undocument": true,
     "type": {
       "types": [
@@ -3419,7 +3444,7 @@
     "longname": "src/wallet/localwallet.js~LocalWallet#generateWalletFromPrivateKey",
     "access": "public",
     "description": "Generate a wallet from an existing private key",
-    "lineNumber": 52,
+    "lineNumber": 54,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3478,7 +3503,7 @@
     "longname": "src/wallet/localwallet.js~LocalWallet#generateWalletFromMnemonic",
     "access": "public",
     "description": "Generate a wallet from a mnemonic",
-    "lineNumber": 67,
+    "lineNumber": 69,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3537,7 +3562,7 @@
     "longname": "src/wallet/localwallet.js~LocalWallet#generateWalletFromEncryptedJson",
     "access": "public",
     "description": "Generate a wallet from a encrypted json (see\n[ethers docs]{@link https://docs.ethers.io/ethers.js/html/api-wallet.html?highlight=fromencryptedjson})",
-    "lineNumber": 83,
+    "lineNumber": 85,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3595,8 +3620,9 @@
     "static": false,
     "longname": "src/wallet/localwallet.js~LocalWallet#deleteWallet",
     "access": "public",
-    "description": "Delete the wallet",
-    "lineNumber": 94,
+    "description": "",
+    "lineNumber": 97,
+    "override": true,
     "params": [],
     "return": null
   },
@@ -3610,8 +3636,8 @@
     "static": false,
     "longname": "src/wallet/localwallet.js~LocalWallet#walletExists",
     "access": "public",
-    "description": "Check if a wallet exists",
-    "lineNumber": 102,
+    "description": "",
+    "lineNumber": 106,
     "return": {
       "nullable": null,
       "types": [
@@ -3620,6 +3646,7 @@
       "spread": false,
       "description": "does the wallet exist"
     },
+    "override": true,
     "params": []
   },
   {
@@ -3633,7 +3660,7 @@
     "longname": "src/wallet/localwallet.js~LocalWallet#getMnemonic",
     "access": "public",
     "description": "The mnemonic phrase for this wallet, or null if the mnemonic is unknown.",
-    "lineNumber": 110,
+    "lineNumber": 114,
     "return": {
       "nullable": null,
       "types": [
@@ -3655,7 +3682,7 @@
     "longname": "src/wallet/localwallet.js~LocalWallet#getEncryptedJson",
     "access": "public",
     "description": "",
-    "lineNumber": 127,
+    "lineNumber": 131,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3702,9 +3729,9 @@
     "async": false,
     "static": false,
     "longname": "src/wallet/localwallet.js~LocalWallet#sign",
-    "access": "public",
-    "description": "Sign a transaction payload",
-    "lineNumber": 143,
+    "access": "protected",
+    "description": "",
+    "lineNumber": 149,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3730,7 +3757,8 @@
       ],
       "spread": false,
       "description": "Returns a promise resolving to the signed transaction"
-    }
+    },
+    "override": true
   },
   {
     "__docId__": 176,
@@ -3741,9 +3769,9 @@
     "async": false,
     "static": false,
     "longname": "src/wallet/localwallet.js~LocalWallet#cleanPayload",
-    "access": "public",
-    "description": "Clean the payload before signing",
-    "lineNumber": 166,
+    "access": "private",
+    "description": "",
+    "lineNumber": 173,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3781,8 +3809,8 @@
     "static": false,
     "longname": "src/wallet/localwallet.js~LocalWallet#getAddress",
     "access": "public",
-    "description": "Get the wallets address",
-    "lineNumber": 190,
+    "description": "",
+    "lineNumber": 198,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3797,13 +3825,14 @@
       "spread": false,
       "description": "Returns a promise resolving to the wallets address"
     },
+    "override": true,
     "params": []
   },
   {
     "__docId__": 178,
     "kind": "file",
     "name": "src/wallet/wallet.js",
-    "content": "/**\n * Base class for libsimba Wallet implementations\n */\nexport default class Wallet {\n    /**\n     * Base class for libsimba Wallet implementations\n     * @param signingConfirmation {function} - an optional callback for requesting user permission to sign a\n     * transaction. Should resolve a promise with true for accept, and false (or reject) for reject.\n     */\n    constructor(signingConfirmation) {\n        if(!signingConfirmation){\n            signingConfirmation = ()=>Promise.resolve(true);\n        }\n        this.signingConfirmation = signingConfirmation;\n        if (this.constructor === Wallet) {\n            throw new TypeError('Can not construct abstract class.');\n        }\n\n        if (this.unlockWallet === Wallet.prototype.unlockWallet) {\n            throw new TypeError('Please implement abstract method unlockWallet.');\n        }\n\n        if (this.generateWallet === Wallet.prototype.generateWallet) {\n            throw new TypeError('Please implement abstract method generateWallet.');\n        }\n\n        if (this.deleteWallet === Wallet.prototype.deleteWallet) {\n            throw new TypeError('Please implement abstract method deleteWallet.');\n        }\n\n        if (this.walletExists === Wallet.prototype.walletExists) {\n            throw new TypeError('Please implement abstract method walletExists.');\n        }\n\n        if (this.sign === Wallet.prototype.sign) {\n            throw new TypeError('Please implement abstract method sign.');\n        }\n\n        if (this.getAddress === Wallet.prototype.getAddress) {\n            throw new TypeError('Please implement abstract method getAddress.');\n        }\n    }\n\n    /**\n     * (Abstract) Unlock the wallet\n     * @param {string} passkey - The pass key to unlock the wallet\n     * @returns {Promise} - Returns a promise resolving when the wallet is unlocked\n     */\n    unlockWallet(passkey) {\n        throw new Error('Wallet.unlockWallet Not Implemented');\n    }\n\n    /**\n     * (Abstract) Generate a wallet\n     * @param {string} passkey - The pass key to lock the wallet\n     * @returns {Promise} - Returns a promise resolving when the wallet is created\n     */\n    generateWallet(passkey) {\n        throw new Error('Wallet.unlockWallet Not Implemented');\n    }\n\n    /**\n     * (Abstract) Delete the wallet\n     */\n    deleteWallet() {\n        throw new Error('Wallet.deleteWallet Not Implemented');\n    }\n\n    /**\n     * (Abstract) Check if a wallet exists\n     * @return {boolean} - does the wallet exist\n     */\n    walletExists() {\n        throw new Error('Wallet.deleteWallet Not Implemented');\n    }\n\n    /**\n     * (Abstract) Sign a transaction payload\n     * @param {Object} payload - The transaction to sign\n     * @returns {Promise<string>} - Returns a promise resolving to the signed transaction\n     */\n    sign(payload) {\n        throw new Error('Wallet.sign Not Implemented');\n    }\n\n    /**\n     * (Abstract) Get the wallets address\n     * @returns {Promise<string>} - Returns a promise resolving to the wallets address\n     */\n    getAddress(){\n        throw new Error('Wallet.sign Not Implemented');\n    }\n}\n",
+    "content": "/**\n * @interface\n * Base class for libsimba Wallet implementations\n */\nexport default class Wallet {\n    /**\n     * Base class for libsimba Wallet implementations\n     * @param signingConfirmation {function} - an optional callback for requesting user permission to sign a\n     * transaction. Should resolve a promise with true for accept, and false (or reject) for reject.\n     */\n    constructor(signingConfirmation) {\n        if(!signingConfirmation){\n            signingConfirmation = ()=>Promise.resolve(true);\n        }\n        this.signingConfirmation = signingConfirmation;\n        if (this.constructor === Wallet) {\n            throw new TypeError('Can not construct abstract class.');\n        }\n\n        if (this.unlockWallet === Wallet.prototype.unlockWallet) {\n            throw new TypeError('Please implement abstract method unlockWallet.');\n        }\n\n        if (this.generateWallet === Wallet.prototype.generateWallet) {\n            throw new TypeError('Please implement abstract method generateWallet.');\n        }\n\n        if (this.deleteWallet === Wallet.prototype.deleteWallet) {\n            throw new TypeError('Please implement abstract method deleteWallet.');\n        }\n\n        if (this.walletExists === Wallet.prototype.walletExists) {\n            throw new TypeError('Please implement abstract method walletExists.');\n        }\n\n        if (this.sign === Wallet.prototype.sign) {\n            throw new TypeError('Please implement abstract method sign.');\n        }\n\n        if (this.getAddress === Wallet.prototype.getAddress) {\n            throw new TypeError('Please implement abstract method getAddress.');\n        }\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Unlock the wallet\n     * @param {string} passkey - The pass key to unlock the wallet\n     * @returns {Promise} - Returns a promise resolving when the wallet is unlocked\n     */\n    unlockWallet(passkey) {\n        throw new Error('Wallet.unlockWallet Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Generate a wallet\n     * @param {string} passkey - The pass key to lock the wallet\n     * @returns {Promise} - Returns a promise resolving when the wallet is created\n     */\n    generateWallet(passkey) {\n        throw new Error('Wallet.unlockWallet Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Delete the wallet\n     */\n    deleteWallet() {\n        throw new Error('Wallet.deleteWallet Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Check if a wallet exists\n     * @return {boolean} - does the wallet exist\n     */\n    walletExists() {\n        throw new Error('Wallet.deleteWallet Not Implemented');\n    }\n\n    /**\n     * @protected\n     * @abstract\n     * (Abstract) Sign a transaction payload\n     * @param {Object} payload - The transaction to sign\n     * @returns {Promise<string>} - Returns a promise resolving to the signed transaction\n     */\n    sign(payload) {\n        throw new Error('Wallet.sign Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Get the wallets address\n     * @returns {Promise<string>} - Returns a promise resolving to the wallets address\n     */\n    getAddress(){\n        throw new Error('Wallet.sign Not Implemented');\n    }\n}\n",
     "static": true,
     "longname": "C:/Users/Kieran David Evans/Code/libsimba-js/src/wallet/wallet.js",
     "access": "public",
@@ -3821,8 +3850,8 @@
     "export": true,
     "importPath": "@simbachain/libsimba-js/src/wallet/wallet.js",
     "importStyle": "Wallet",
-    "description": "Base class for libsimba Wallet implementations",
-    "lineNumber": 4,
+    "description": "",
+    "lineNumber": 5,
     "interface": false
   },
   {
@@ -3836,7 +3865,7 @@
     "longname": "src/wallet/wallet.js~Wallet#constructor",
     "access": "public",
     "description": "Base class for libsimba Wallet implementations",
-    "lineNumber": 10,
+    "lineNumber": 11,
     "params": [
       {
         "nullable": null,
@@ -3859,7 +3888,7 @@
     "longname": "src/wallet/wallet.js~Wallet#signingConfirmation",
     "access": "public",
     "description": null,
-    "lineNumber": 14,
+    "lineNumber": 15,
     "undocument": true,
     "type": {
       "types": [
@@ -3877,8 +3906,8 @@
     "static": false,
     "longname": "src/wallet/wallet.js~Wallet#unlockWallet",
     "access": "public",
-    "description": "(Abstract) Unlock the wallet",
-    "lineNumber": 49,
+    "description": "",
+    "lineNumber": 51,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3904,7 +3933,8 @@
       ],
       "spread": false,
       "description": "Returns a promise resolving when the wallet is unlocked"
-    }
+    },
+    "abstract": true
   },
   {
     "__docId__": 183,
@@ -3916,8 +3946,8 @@
     "static": false,
     "longname": "src/wallet/wallet.js~Wallet#generateWallet",
     "access": "public",
-    "description": "(Abstract) Generate a wallet",
-    "lineNumber": 58,
+    "description": "",
+    "lineNumber": 61,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3943,7 +3973,8 @@
       ],
       "spread": false,
       "description": "Returns a promise resolving when the wallet is created"
-    }
+    },
+    "abstract": true
   },
   {
     "__docId__": 184,
@@ -3955,8 +3986,9 @@
     "static": false,
     "longname": "src/wallet/wallet.js~Wallet#deleteWallet",
     "access": "public",
-    "description": "(Abstract) Delete the wallet",
-    "lineNumber": 65,
+    "description": "",
+    "lineNumber": 69,
+    "abstract": true,
     "params": [],
     "return": null
   },
@@ -3970,8 +4002,8 @@
     "static": false,
     "longname": "src/wallet/wallet.js~Wallet#walletExists",
     "access": "public",
-    "description": "(Abstract) Check if a wallet exists",
-    "lineNumber": 73,
+    "description": "",
+    "lineNumber": 78,
     "return": {
       "nullable": null,
       "types": [
@@ -3980,6 +4012,7 @@
       "spread": false,
       "description": "does the wallet exist"
     },
+    "abstract": true,
     "params": []
   },
   {
@@ -3991,9 +4024,9 @@
     "async": false,
     "static": false,
     "longname": "src/wallet/wallet.js~Wallet#sign",
-    "access": "public",
-    "description": "(Abstract) Sign a transaction payload",
-    "lineNumber": 82,
+    "access": "protected",
+    "description": "",
+    "lineNumber": 89,
     "unknown": [
       {
         "tagName": "@returns",
@@ -4019,7 +4052,8 @@
       ],
       "spread": false,
       "description": "Returns a promise resolving to the signed transaction"
-    }
+    },
+    "abstract": true
   },
   {
     "__docId__": 187,
@@ -4031,8 +4065,8 @@
     "static": false,
     "longname": "src/wallet/wallet.js~Wallet#getAddress",
     "access": "public",
-    "description": "(Abstract) Get the wallets address",
-    "lineNumber": 90,
+    "description": "",
+    "lineNumber": 98,
     "unknown": [
       {
         "tagName": "@returns",
@@ -4047,6 +4081,7 @@
       "spread": false,
       "description": "Returns a promise resolving to the wallets address"
     },
+    "abstract": true,
     "params": []
   },
   {
@@ -4059,7 +4094,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n    \"name\": \"@simbachain/libsimba-js\",\n    \"version\": \"0.3.10\",\n    \"description\": \"libsimba-js is a library simplifying the use of SIMBAChain APIs. We aim to abstract away the various blockchain concepts, reducing the necessary time needed to get to working code.\",\n    \"homepage\": \"\",\n    \"main\": \"libsimba.js\",\n    \"module\": \"libsimba.js\",\n    \"scripts\": {\n        \"testonly\": \"npx mocha --reporter mocha-junit-reporter --require @babel/register\",\n        \"start\": \"webpack-dev-server --config webpack.dev.js --mode development\",\n        \"preview\": \"npm run buildonly && http-server dist\",\n        \"commit\": \"git-cz\",\n        \"push\": \"git push --follow-tags origin master\",\n        \"webpack\": \"webpack --config webpack.prod.js --mode production\",\n        \"docs\": \"npx esdoc && npx copy-files-from-to --config .copy-examples.json\",\n        \"build\": \"npx run-s webpack docs\",\n        \"test\": \"npx nyc npx mocha --reporter mocha-junit-reporter --require @babel/register\",\n        \"deploydocs\": \"npx gh-pages -d dist/docs/\",\n        \"validate\": \"node ./.hooks/checkBranch.js && npm i && npm run test\",\n        \"buildonly\": \"webpack --config webpack.prod.js --mode production\",\n        \"prerelease\": \"npm run validate\",\n        \"postrelease\": \"npx run-s push deploydocs\",\n        \"release\": \"npx standard-version -a\",\n        \"publish\": \"npm publish dist --access public\"\n    },\n    \"standard-version\": {\n        \"scripts\": {\n            \"postchangelog\": \"npx run-s build && git add .\"\n        }\n    },\n    \"repository\": {\n        \"type\": \"git\",\n        \"url\": \"git+https://github.com/simbachain/libsimba-js.git\"\n    },\n    \"bugs\": {\n        \"url\": \"https://github.com/simbachain/libsimba-js/issues\"\n    },\n    \"nyc\": {\n        \"reporter\": [\n            \"text\",\n            \"cobertura\",\n            \"html\"\n        ]\n    },\n    \"engines\": {\n        \"npm\": \">=6\",\n        \"node\": \">=10\"\n    },\n    \"keywords\": [\n        \"simba\",\n        \"simbachain\",\n        \"blockchain\",\n        \"ethereum\"\n    ],\n    \"author\": \"Kieran David Evans <kieran.evans@simbachain.com>\",\n    \"license\": \"MIT\",\n    \"dependencies\": {\n        \"@ethersproject/wallet\": \"^5.0.0-beta.131\",\n        \"core-js\": \"3.2.1\",\n        \"poll-js\": \"0.0.3\"\n    },\n    \"devDependencies\": {\n        \"@babel/core\": \"^7.6.0\",\n        \"@babel/plugin-transform-classes\": \"^7.5.5\",\n        \"@babel/plugin-transform-proto-to-assign\": \"^7.5.5\",\n        \"@babel/plugin-transform-runtime\": \"^7.6.0\",\n        \"@babel/polyfill\": \"^7.6.0\",\n        \"@babel/preset-env\": \"^7.6.0\",\n        \"@babel/register\": \"^7.6.0\",\n        \"@babel/runtime\": \"^7.6.0\",\n        \"ajv\": \"6.10.2\",\n        \"babel-loader\": \"8.0.6\",\n        \"chai\": \"^4.2.0\",\n        \"clean-webpack-plugin\": \"3.0.0\",\n        \"commitizen\": \"^4.0.3\",\n        \"copy-files-from-to\": \"^2.1.0\",\n        \"copy-webpack-plugin\": \"^5.0.4\",\n        \"cz-conventional-changelog\": \"^3.0.2\",\n        \"esdoc\": \"^1.1.0\",\n        \"esdoc-ecmascript-proposal-plugin\": \"^1.0.0\",\n        \"esdoc-standard-plugin\": \"^1.0.0\",\n        \"file-loader\": \"4.2.0\",\n        \"gh-pages\": \"^2.1.1\",\n        \"html-webpack-plugin\": \"^4.0.0-beta.8\",\n        \"http-server\": \"0.11.1\",\n        \"mocha\": \"^6.2.0\",\n        \"mocha-junit-reporter\": \"^1.23.1\",\n        \"npm-run-all\": \"^4.1.5\",\n        \"nyc\": \"^14.1.1\",\n        \"sinon\": \"^7.4.2\",\n        \"source-map-loader\": \"0.2.4\",\n        \"standard-version\": \"^7.0.0\",\n        \"typedoc\": \"^0.15.0\",\n        \"url-loader\": \"2.1.0\",\n        \"webpack\": \"4.40.2\",\n        \"webpack-bundle-analyzer\": \"^3.5.0\",\n        \"webpack-cli\": \"3.3.8\",\n        \"webpack-dev-server\": \"3.8.1\"\n    },\n    \"config\": {\n        \"commitizen\": {\n            \"path\": \"./node_modules/cz-conventional-changelog\"\n        }\n    }\n}\n",
+    "content": "{\n    \"name\": \"@simbachain/libsimba-js\",\n    \"version\": \"0.3.11\",\n    \"description\": \"libsimba-js is a library simplifying the use of SIMBAChain APIs. We aim to abstract away the various blockchain concepts, reducing the necessary time needed to get to working code.\",\n    \"homepage\": \"\",\n    \"main\": \"libsimba.js\",\n    \"module\": \"libsimba.js\",\n    \"scripts\": {\n        \"testonly\": \"npx mocha --reporter mocha-junit-reporter --require @babel/register\",\n        \"start\": \"webpack-dev-server --config webpack.dev.js --mode development\",\n        \"preview\": \"npm run buildonly && http-server dist\",\n        \"commit\": \"git-cz\",\n        \"push\": \"git push --follow-tags origin master\",\n        \"webpack\": \"webpack --config webpack.prod.js --mode production\",\n        \"docs\": \"npx esdoc && npx copy-files-from-to --config .copy-examples.json\",\n        \"build\": \"npx run-s webpack docs\",\n        \"test\": \"npx nyc npx mocha --reporter mocha-junit-reporter --require @babel/register\",\n        \"deploydocs\": \"npx gh-pages -d dist/docs/\",\n        \"validate\": \"node ./.hooks/checkBranch.js && npm i && npm run test\",\n        \"buildonly\": \"webpack --config webpack.prod.js --mode production\",\n        \"prerelease\": \"npm run validate\",\n        \"postrelease\": \"npx run-s push deploydocs\",\n        \"release\": \"npx standard-version -a\",\n        \"publish-npmjs\": \"npm publish dist --access public\"\n    },\n    \"standard-version\": {\n        \"scripts\": {\n            \"postchangelog\": \"npx run-s build && git add .\"\n        }\n    },\n    \"repository\": {\n        \"type\": \"git\",\n        \"url\": \"git+https://github.com/simbachain/libsimba-js.git\"\n    },\n    \"bugs\": {\n        \"url\": \"https://github.com/simbachain/libsimba-js/issues\"\n    },\n    \"nyc\": {\n        \"reporter\": [\n            \"text\",\n            \"cobertura\",\n            \"html\"\n        ]\n    },\n    \"engines\": {\n        \"npm\": \">=6\",\n        \"node\": \">=10\"\n    },\n    \"keywords\": [\n        \"simba\",\n        \"simbachain\",\n        \"blockchain\",\n        \"ethereum\"\n    ],\n    \"author\": \"Kieran David Evans <kieran.evans@simbachain.com>\",\n    \"license\": \"MIT\",\n    \"dependencies\": {\n        \"@ethersproject/wallet\": \"^5.0.0-beta.131\",\n        \"core-js\": \"3.2.1\",\n        \"poll-js\": \"0.0.3\"\n    },\n    \"devDependencies\": {\n        \"@babel/core\": \"^7.6.0\",\n        \"@babel/plugin-transform-classes\": \"^7.5.5\",\n        \"@babel/plugin-transform-proto-to-assign\": \"^7.5.5\",\n        \"@babel/plugin-transform-runtime\": \"^7.6.0\",\n        \"@babel/polyfill\": \"^7.6.0\",\n        \"@babel/preset-env\": \"^7.6.0\",\n        \"@babel/register\": \"^7.6.0\",\n        \"@babel/runtime\": \"^7.6.0\",\n        \"ajv\": \"6.10.2\",\n        \"babel-loader\": \"8.0.6\",\n        \"chai\": \"^4.2.0\",\n        \"clean-webpack-plugin\": \"3.0.0\",\n        \"commitizen\": \"^4.0.3\",\n        \"copy-files-from-to\": \"^2.1.0\",\n        \"copy-webpack-plugin\": \"^5.0.4\",\n        \"cz-conventional-changelog\": \"^3.0.2\",\n        \"esdoc\": \"^1.1.0\",\n        \"esdoc-ecmascript-proposal-plugin\": \"^1.0.0\",\n        \"esdoc-standard-plugin\": \"^1.0.0\",\n        \"file-loader\": \"4.2.0\",\n        \"gh-pages\": \"^2.1.1\",\n        \"html-webpack-plugin\": \"^4.0.0-beta.8\",\n        \"http-server\": \"0.11.1\",\n        \"mocha\": \"^6.2.0\",\n        \"mocha-junit-reporter\": \"^1.23.1\",\n        \"npm-run-all\": \"^4.1.5\",\n        \"nyc\": \"^14.1.1\",\n        \"sinon\": \"^7.4.2\",\n        \"source-map-loader\": \"0.2.4\",\n        \"standard-version\": \"^7.0.0\",\n        \"typedoc\": \"^0.15.0\",\n        \"url-loader\": \"2.1.0\",\n        \"webpack\": \"4.40.2\",\n        \"webpack-bundle-analyzer\": \"^3.5.0\",\n        \"webpack-cli\": \"3.3.8\",\n        \"webpack-dev-server\": \"3.8.1\"\n    },\n    \"config\": {\n        \"commitizen\": {\n            \"path\": \"./node_modules/cz-conventional-changelog\"\n        }\n    }\n}\n",
     "longname": "C:\\Users\\Kieran David Evans\\Code\\libsimba-js\\package.json",
     "name": "package.json",
     "static": true,

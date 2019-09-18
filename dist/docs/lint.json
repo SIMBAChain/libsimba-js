@@ -4,35 +4,39 @@
     "filePath": "src/simba/simba.js",
     "lines": [
       {
-        "lineNumber": 237,
+        "lineNumber": 248,
         "line": "    /**"
       },
       {
-        "lineNumber": 238,
+        "lineNumber": 249,
+        "line": "     * @override"
+      },
+      {
+        "lineNumber": 250,
         "line": "     * Call a method on the API with files"
       },
       {
-        "lineNumber": 239,
+        "lineNumber": 251,
         "line": "     * @param {string} method - the method to call"
       },
       {
-        "lineNumber": 240,
+        "lineNumber": 252,
         "line": "     * @param {Object} parameters- the parameters for the method"
       },
       {
-        "lineNumber": 241,
+        "lineNumber": 253,
         "line": "     * @param {Array<Blob|File>} files - the files"
       },
       {
-        "lineNumber": 242,
+        "lineNumber": 254,
         "line": "     * @return {Promise<Object>} - a promise resolving with the transaction details"
       },
       {
-        "lineNumber": 243,
+        "lineNumber": 255,
         "line": "     */"
       },
       {
-        "lineNumber": 244,
+        "lineNumber": 256,
         "line": "    async callMethodWithFile(method, parameters, files) {"
       }
     ],
@@ -52,31 +56,35 @@
     "filePath": "src/simba/simba.js",
     "lines": [
       {
-        "lineNumber": 265,
+        "lineNumber": 277,
         "line": "    /**"
       },
       {
-        "lineNumber": 266,
+        "lineNumber": 278,
+        "line": "     * @private"
+      },
+      {
+        "lineNumber": 279,
         "line": "     * Internal method for sending method calls"
       },
       {
-        "lineNumber": 267,
+        "lineNumber": 280,
         "line": "     * @param {string} url - the url"
       },
       {
-        "lineNumber": 268,
+        "lineNumber": 281,
         "line": "     * @param {FormData} formdata - Formdata for the POST"
       },
       {
-        "lineNumber": 269,
+        "lineNumber": 282,
         "line": "     * @returns {Promise<Response>} - The response with transaction data"
       },
       {
-        "lineNumber": 270,
+        "lineNumber": 283,
         "line": "     */"
       },
       {
-        "lineNumber": 271,
+        "lineNumber": 284,
         "line": "    async sendMethodRequest(method, formdata){"
       }
     ],

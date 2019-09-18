@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.11](https://github.com/simbachain/libsimba-js/compare/v0.3.10...v0.3.11) (2019-09-18)
+
+
+### Bug Fixes
+
+* **documentation:** fix missing defs on documentation strings ([89b796d](https://github.com/simbachain/libsimba-js/commit/89b796d))
+
 ### [0.3.10](https://github.com/simbachain/libsimba-js/compare/v0.3.9...v0.3.10) (2019-09-18)
 
 
