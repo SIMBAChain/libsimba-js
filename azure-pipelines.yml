@@ -41,7 +41,6 @@ steps:
         displayName: 'npm test'
         inputs:
             command: custom
-            workingDir: /
             verbose: false
             customCommand: test
 
