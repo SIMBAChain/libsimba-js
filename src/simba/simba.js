@@ -4,8 +4,11 @@ import {
     MissingMetadataException,
     GenerateTransactionException,
     SubmitTransactionException,
-    TransactionStatusCheckException
+    TransactionStatusCheckException,
+    NotImplementedException,
+    GetTransactionsException
 } from '../exceptions';
+import PagedResponse from "./pagedresponse";
 
 /**
  * libsimba API Interaction for Simbachain.com
@@ -306,5 +309,43 @@ export default class Simbachain extends SimbaBase {
 
                 return txnId;
             })
+    }
+
+    /**
+     * Gets a paged list of transactions for the method
+     * @param {string} method - The method
+     * @param {Object} parameters - The query parameters
+     * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
+     */
+    async getMethodTransactions(method, parameters) {
+        this.validateGetCall(method, parameters);
+
+        let url = new URL(`${this.endpoint}${method}/`);
+
+        for (let [key, value] of Object.entries(parameters)) {
+            url.searchParams.set(key, value);
+        }
+
+        return this.sendTransactionRequest(url);
+    }
+
+    /**
+     * Internal function for sending transaction GET requests
+     * @param {URL} url - The URL
+     * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
+     */
+    async sendTransactionRequest(url){
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: this.apiAuthHeaders()
+        });
+
+        if (response.status >= 400) {
+            throw new GetTransactionsException(JSON.stringify(data));
+        }
+
+        let json = await response.json();
+
+        return new PagedResponse(json, url, this);
     }
 }

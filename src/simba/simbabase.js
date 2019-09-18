@@ -76,6 +76,15 @@ export default class SimbaBase {
     }
 
     /**
+     * Gets a paged list of transactions for the method
+     * @param {string} method - The method
+     * @param {Object} parameters - The query parameters
+     */
+    getMethodTransactions(method, parameters) {
+        throw new NotImplementedException('SimbaBase.callMethod Not Implemented');
+    }
+
+    /**
      * (Abstract) Call a method on the API with files
      * @param {string} method - the method to call
      * @param {Object} parameters - the parameters for the method
@@ -263,6 +272,31 @@ export default class SimbaBase {
 
         if(missing.length){
             throw new MethodCallValidationMetadataException(`Parameters [${missing.join(',')}] not present for method "${methodName}"`);
+        }
+
+        return true;
+    }
+
+    /**
+     * Validate the transaction list call against the app metadata
+     * @param {string} methodName - the methods name
+     * @param {Object} parameters - the parameters for the query
+     * @returns {boolean}
+     * @throws {MissingMetadataException} - App Metadata not yet retrieved
+     * @throws {BadMetadataException} - App Metadata doesn't have methods
+     * @throws {MethodCallValidationMetadataException} - Method call fails validation
+     */
+    validateGetCall(methodName, parameters){
+        if (!this.metadata) {
+            throw new MissingMetadataException("App Metadata not yet retrieved");
+        }
+
+        if (!this.metadata.methods) {
+            throw new BadMetadataException("App Metadata doesn't have methods!");
+        }
+
+        if(!(methodName in this.metadata.methods)){
+            throw new MethodCallValidationMetadataException(`Method "${methodName}" not found`);
         }
 
         return true;
