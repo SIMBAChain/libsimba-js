@@ -23,9 +23,7 @@ export default class PagedResponse {
      */
     async next(){
         if(!this._next_page) return null;
-        let url = new URL(this.url.toString());
-        url.searchParams.set('page', this._next_page);
-        return this.simba.sendTransactionRequest(url);
+        return this.simba.sendTransactionRequest(new URL(this._next_page));
     }
 
     /**
@@ -34,9 +32,7 @@ export default class PagedResponse {
      */
     async previous(){
         if(!this._previous_page) return null;
-        let url = new URL(this.url.toString());
-        url.searchParams.set('page', this._previous_page);
-        return this.simba.sendTransactionRequest(url);
+        return this.simba.sendTransactionRequest(new URL(this._previous_page));
     }
 
     /**

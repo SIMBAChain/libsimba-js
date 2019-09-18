@@ -1365,7 +1365,7 @@
     "__docId__": 93,
     "kind": "file",
     "name": "src/simba/pagedresponse.js",
-    "content": "/**\n * Wrapper for paged responses\n */\nexport default class PagedResponse {\n    /**\n     * Wrapper for paged responses\n     * @param {Object} data - The response\n     * @param {URL} url - The URL that provided the response\n     * @param {SimbaBase} simba - The SimbaBase instance that requested the response\n     */\n    constructor(data, url, simba){\n        this.url = new URL(url);\n        this._count = data.count;\n        this._next_page = data.next;\n        this._previous_page = data.previous;\n        this.results = data.results;\n        this.simba = simba;\n    }\n\n    /**\n     * Grab the next page\n     * @returns {Promise<PagedResponse> | null} - Null if there's no next page\n     */\n    async next(){\n        if(!this._next_page) return null;\n        let url = new URL(this.url.toString());\n        url.searchParams.set('page', this._next_page);\n        return this.simba.sendTransactionRequest(url);\n    }\n\n    /**\n     * Grab the previous page\n     * @returns {Promise<PagedResponse> | null} - Null if there's no next page\n     */\n    async previous(){\n        if(!this._previous_page) return null;\n        let url = new URL(this.url.toString());\n        url.searchParams.set('page', this._previous_page);\n        return this.simba.sendTransactionRequest(url);\n    }\n\n    /**\n     * Returns the actual data\n     * @returns {Object}\n     */\n    data(){\n        return this.results;\n    }\n\n    /**\n     * Returns the result count\n     * @returns {number}\n     */\n    count(){\n        return this._count;\n    }\n\n    /**\n     * Returns the current page number\n     * @returns {number}\n     */\n    current_page(){\n        return this.url.searchParams.get('page');\n    }\n\n    /**\n     * Returns the next page number\n     * @returns {number}\n     */\n    next_page(){\n        return this._next_page;\n    }\n\n    /**\n     * Returns the previous page number\n     * @returns {number}\n     */\n    previous_page(){\n        return this._previous_page;\n    }\n}\n",
+    "content": "/**\n * Wrapper for paged responses\n */\nexport default class PagedResponse {\n    /**\n     * Wrapper for paged responses\n     * @param {Object} data - The response\n     * @param {URL} url - The URL that provided the response\n     * @param {SimbaBase} simba - The SimbaBase instance that requested the response\n     */\n    constructor(data, url, simba){\n        this.url = new URL(url);\n        this._count = data.count;\n        this._next_page = data.next;\n        this._previous_page = data.previous;\n        this.results = data.results;\n        this.simba = simba;\n    }\n\n    /**\n     * Grab the next page\n     * @returns {Promise<PagedResponse> | null} - Null if there's no next page\n     */\n    async next(){\n        if(!this._next_page) return null;\n        return this.simba.sendTransactionRequest(new URL(this._next_page));\n    }\n\n    /**\n     * Grab the previous page\n     * @returns {Promise<PagedResponse> | null} - Null if there's no next page\n     */\n    async previous(){\n        if(!this._previous_page) return null;\n        return this.simba.sendTransactionRequest(new URL(this._previous_page));\n    }\n\n    /**\n     * Returns the actual data\n     * @returns {Object}\n     */\n    data(){\n        return this.results;\n    }\n\n    /**\n     * Returns the result count\n     * @returns {number}\n     */\n    count(){\n        return this._count;\n    }\n\n    /**\n     * Returns the current page number\n     * @returns {number}\n     */\n    current_page(){\n        return this.url.searchParams.get('page');\n    }\n\n    /**\n     * Returns the next page number\n     * @returns {number}\n     */\n    next_page(){\n        return this._next_page;\n    }\n\n    /**\n     * Returns the previous page number\n     * @returns {number}\n     */\n    previous_page(){\n        return this._previous_page;\n    }\n}\n",
     "static": true,
     "longname": "C:/Users/Kieran David Evans/Code/libsimba-js/src/simba/pagedresponse.js",
     "access": "public",
@@ -1574,7 +1574,7 @@
     "longname": "src/simba/pagedresponse.js~PagedResponse#previous",
     "access": "public",
     "description": "Grab the previous page",
-    "lineNumber": 35,
+    "lineNumber": 33,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1603,7 +1603,7 @@
     "longname": "src/simba/pagedresponse.js~PagedResponse#data",
     "access": "public",
     "description": "Returns the actual data",
-    "lineNumber": 46,
+    "lineNumber": 42,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1631,7 +1631,7 @@
     "longname": "src/simba/pagedresponse.js~PagedResponse#count",
     "access": "public",
     "description": "Returns the result count",
-    "lineNumber": 54,
+    "lineNumber": 50,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1659,7 +1659,7 @@
     "longname": "src/simba/pagedresponse.js~PagedResponse#current_page",
     "access": "public",
     "description": "Returns the current page number",
-    "lineNumber": 62,
+    "lineNumber": 58,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1687,7 +1687,7 @@
     "longname": "src/simba/pagedresponse.js~PagedResponse#next_page",
     "access": "public",
     "description": "Returns the next page number",
-    "lineNumber": 70,
+    "lineNumber": 66,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1715,7 +1715,7 @@
     "longname": "src/simba/pagedresponse.js~PagedResponse#previous_page",
     "access": "public",
     "description": "Returns the previous page number",
-    "lineNumber": 78,
+    "lineNumber": 74,
     "unknown": [
       {
         "tagName": "@returns",
