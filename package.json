@@ -18,12 +18,12 @@
         "deploydocs": "npx gh-pages -d dist/docs/",
         "validate": "node ./.hooks/checkBranch.js && npm i && npm run test",
         "buildonly": "webpack --config webpack.prod.js --mode production",
-        "release": "git add . && npx standard-version -a",
-        "prerelease": "npm run validate && npm run build",
+        "release": "npx standard-version -a",
         "publish": "npm publish ./dist --access public"
     },
     "standard-version": {
         "scripts": {
+            "precommit": "npx run-s build && git add .",
             "posttag": "npx run-s push deploydocs"
         }
     },
