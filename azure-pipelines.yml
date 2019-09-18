@@ -61,5 +61,6 @@ steps:
         inputs:
             command: publish
             verbose: false
-            publishRegistry: useFeed
-            customEndpoint: 'NPMJS Simbachain Org'
+            publishRegistry: 'useExternalRegistry'
+            publishPackageMetadata: true
+            publishEndpoint: 'NPMJS Simbachain Org'
