@@ -1,5 +1,5 @@
 import {pollWrapper} from "poll-js";
-import {NotImplementedException} from '../exceptions';
+import {MissingMetadataException, NotImplementedException, BadMetadataException, MethodCallValidationMetadataException} from '../exceptions';
 
 /**
  * Base class for libsimba API Interaction implementations
@@ -213,5 +213,52 @@ export default class SimbaBase {
             'Content-Type': 'application/json',
             APIKEY: this.managementKey,
         }
+    }
+
+    /**
+     * Validate the method call against the app metadata
+     * @param {string} methodName - the methods name
+     * @param {Object} parameters - the parameters for the method call
+     * @param {Array} [files] - Optional array of files
+     * @returns {boolean}
+     * @throws {MissingMetadataException} - App Metadata not yet retrieved
+     * @throws {BadMetadataException} - App Metadata doesn't have methods
+     * @throws {MethodCallValidationMetadataException} - Method call fails validation
+     */
+    validateCall(methodName, parameters, files){
+        if (!this.metadata) {
+            throw new MissingMetadataException("App Metadata not yet retrieved");
+        }
+
+        if (!this.metadata.methods) {
+            throw new BadMetadataException("App Metadata doesn't have methods!");
+        }
+
+        if(!(methodName in this.metadata.methods)){
+            throw new MethodCallValidationMetadataException(`Method "${methodName}" not found`);
+        }
+
+        let methodMeta = this.metadata.methods[methodName];
+
+        if(files && !('_files' in methodMeta.parameters)){
+            throw new MethodCallValidationMetadataException(`Method "${methodName}" does not accept files`);
+        }
+
+        let paramNames = Object.keys(parameters);
+
+        paramNames.forEach((key)=>{
+            if(!(key in methodMeta.parameters)){
+                throw new MethodCallValidationMetadataException(`Parameter "${key}" is not valid for method "${methodName}"`);
+            }
+            //TODO: Type checks
+        });
+
+        let missing = Object.keys(methodMeta.parameters).filter((key)=>key in paramNames);
+
+        if(missing.length){
+            throw new MethodCallValidationMetadataException(`Parameters [${missing.join(',')}] not present for method "${methodName}"`);
+        }
+
+        return true;
     }
 }

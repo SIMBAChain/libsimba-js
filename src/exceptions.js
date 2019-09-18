@@ -42,6 +42,26 @@ export class MissingMetadataException extends BaseException{
 }
 
 /**
+ * Thrown when metadata doesn't have something it should have
+ */
+export class BadMetadataException extends BaseException{
+    constructor(...args){
+        super(...args);
+        this.name = 'BadMetadataException';
+    }
+}
+
+/**
+ * Thrown when a method call isn't valid
+ */
+export class MethodCallValidationMetadataException extends BaseException{
+    constructor(...args){
+        super(...args);
+        this.name = 'MethodCallValidationMetadataException';
+    }
+}
+
+/**
  * Thrown when the server fails to generate the transaction for signing
  */
 export class GenerateTransactionException extends BaseException{

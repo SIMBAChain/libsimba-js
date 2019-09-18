@@ -29,8 +29,10 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~BaseException.html">BaseException</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~BadMetadataException.html">BadMetadataException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~BaseException.html">BaseException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~GenerateTransactionException.html">GenerateTransactionException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MethodCallValidationMetadataException.html">MethodCallValidationMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MissingMetadataException.html">MissingMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~NotImplementedException.html">NotImplementedException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~SigningException.html">SigningException</a></span></span></li>
@@ -50,7 +52,7 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/simba/simbabase.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {pollWrapper} from &quot;poll-js&quot;;
-import {NotImplementedException} from &apos;../exceptions&apos;;
+import {MissingMetadataException, NotImplementedException, BadMetadataException, MethodCallValidationMetadataException} from &apos;../exceptions&apos;;
 
 /**
  * Base class for libsimba API Interaction implementations
@@ -264,6 +266,53 @@ export default class SimbaBase {
             &apos;Content-Type&apos;: &apos;application/json&apos;,
             APIKEY: this.managementKey,
         }
+    }
+
+    /**
+     * Validate the method call against the app metadata
+     * @param {string} methodName - the methods name
+     * @param {Object} parameters - the parameters for the method call
+     * @param {Array} [files] - Optional array of files
+     * @returns {boolean}
+     * @throws {MissingMetadataException} - App Metadata not yet retrieved
+     * @throws {BadMetadataException} - App Metadata doesn&apos;t have methods
+     * @throws {MethodCallValidationMetadataException} - Method call fails validation
+     */
+    validateCall(methodName, parameters, files){
+        if (!this.metadata) {
+            throw new MissingMetadataException(&quot;App Metadata not yet retrieved&quot;);
+        }
+
+        if (!this.metadata.methods) {
+            throw new BadMetadataException(&quot;App Metadata doesn&apos;t have methods!&quot;);
+        }
+
+        if(!(methodName in this.metadata.methods)){
+            throw new MethodCallValidationMetadataException(`Method &quot;${methodName}&quot; not found`);
+        }
+
+        let methodMeta = this.metadata.methods[methodName];
+
+        if(files &amp;&amp; !(&apos;_files&apos; in methodMeta.parameters)){
+            throw new MethodCallValidationMetadataException(`Method &quot;${methodName}&quot; does not accept files`);
+        }
+
+        let paramNames = Object.keys(parameters);
+
+        paramNames.forEach((key)=&gt;{
+            if(!(key in methodMeta.parameters)){
+                throw new MethodCallValidationMetadataException(`Parameter &quot;${key}&quot; is not valid for method &quot;${methodName}&quot;`);
+            }
+            //TODO: Type checks
+        });
+
+        let missing = Object.keys(methodMeta.parameters).filter((key)=&gt;key in paramNames);
+
+        if(missing.length){
+            throw new MethodCallValidationMetadataException(`Parameters [${missing.join(&apos;,&apos;)}] not present for method &quot;${methodName}&quot;`);
+        }
+
+        return true;
     }
 }
 </code></pre>

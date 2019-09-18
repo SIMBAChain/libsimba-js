@@ -1,5 +1,11 @@
 window.esdocSearchIndex = [
   [
+    "@simbachain/libsimba-js/src/exceptions.js~badmetadataexception",
+    "class/src/exceptions.js~BadMetadataException.html",
+    "<span>BadMetadataException</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/exceptions.js</span>",
+    "class"
+  ],
+  [
     "@simbachain/libsimba-js/src/exceptions.js~baseexception",
     "class/src/exceptions.js~BaseException.html",
     "<span>BaseException</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/exceptions.js</span>",
@@ -15,6 +21,12 @@ window.esdocSearchIndex = [
     "@simbachain/libsimba-js/src/wallet/localwallet.js~localwallet",
     "class/src/wallet/localwallet.js~LocalWallet.html",
     "<span>LocalWallet</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/wallet/localwallet.js</span>",
+    "class"
+  ],
+  [
+    "@simbachain/libsimba-js/src/exceptions.js~methodcallvalidationmetadataexception",
+    "class/src/exceptions.js~MethodCallValidationMetadataException.html",
+    "<span>MethodCallValidationMetadataException</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/exceptions.js</span>",
     "class"
   ],
   [
@@ -378,6 +390,18 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/exceptions.js~badmetadataexception#constructor",
+    "class/src/exceptions.js~BadMetadataException.html#instance-constructor-constructor",
+    "src/exceptions.js~BadMetadataException#constructor",
+    "method"
+  ],
+  [
+    "src/exceptions.js~badmetadataexception#name",
+    "class/src/exceptions.js~BadMetadataException.html#instance-member-name",
+    "src/exceptions.js~BadMetadataException#name",
+    "member"
+  ],
+  [
     "src/exceptions.js~baseexception#cause",
     "class/src/exceptions.js~BaseException.html#instance-member-cause",
     "src/exceptions.js~BaseException#cause",
@@ -411,6 +435,18 @@ window.esdocSearchIndex = [
     "src/exceptions.js~generatetransactionexception#name",
     "class/src/exceptions.js~GenerateTransactionException.html#instance-member-name",
     "src/exceptions.js~GenerateTransactionException#name",
+    "member"
+  ],
+  [
+    "src/exceptions.js~methodcallvalidationmetadataexception#constructor",
+    "class/src/exceptions.js~MethodCallValidationMetadataException.html#instance-constructor-constructor",
+    "src/exceptions.js~MethodCallValidationMetadataException#constructor",
+    "method"
+  ],
+  [
+    "src/exceptions.js~methodcallvalidationmetadataexception#name",
+    "class/src/exceptions.js~MethodCallValidationMetadataException.html#instance-member-name",
+    "src/exceptions.js~MethodCallValidationMetadataException#name",
     "member"
   ],
   [
@@ -732,6 +768,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/simba/simbabase.js~simbabase#validatecall",
+    "class/src/simba/simbabase.js~SimbaBase.html#instance-method-validateCall",
+    "src/simba/simbabase.js~SimbaBase#validateCall",
+    "method"
+  ],
+  [
     "src/simba/simbabase.js~simbabase#waitforsuccessorerror",
     "class/src/simba/simbabase.js~SimbaBase.html#instance-method-waitForSuccessOrError",
     "src/simba/simbabase.js~SimbaBase#waitForSuccessOrError",
@@ -750,16 +792,16 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "",
-    "test-file/test/localwallet.spec.js.html#lineNumber3",
-    "src/wallet/localwallet.js",
-    "test"
-  ],
-  [
     "src/wallet/localwallet.js",
     "file/src/wallet/localwallet.js.html",
     "src/wallet/localwallet.js",
     "file"
+  ],
+  [
+    "",
+    "test-file/test/localwallet.spec.js.html#lineNumber3",
+    "src/wallet/localwallet.js",
+    "test"
   ],
   [
     "",

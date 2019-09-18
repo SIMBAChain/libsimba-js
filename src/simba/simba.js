@@ -43,6 +43,8 @@ export default class Simbachain extends SimbaBase {
             throw new WalletNotFoundException("No Wallet found");
         }
 
+        this.validateCall(method, parameters);
+
         const data = Object.assign({from: await this.wallet.getAddress()}, parameters);
         let txnId = null;
 

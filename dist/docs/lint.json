@@ -4,35 +4,35 @@
     "filePath": "src/simba/simba.js",
     "lines": [
       {
-        "lineNumber": 264,
+        "lineNumber": 266,
         "line": "    /**"
       },
       {
-        "lineNumber": 265,
+        "lineNumber": 267,
         "line": "     * Not yet implemented - Call a method on the API with files"
       },
       {
-        "lineNumber": 266,
+        "lineNumber": 268,
         "line": "     * @param {string} method - the method to call"
       },
       {
-        "lineNumber": 267,
+        "lineNumber": 269,
         "line": "     * @param {Object} parameters- the parameters for the method"
       },
       {
-        "lineNumber": 268,
+        "lineNumber": 270,
         "line": "     * @param {Array} files - the files"
       },
       {
-        "lineNumber": 269,
+        "lineNumber": 271,
         "line": "     * @return {Promise<Object>} - a promise resolving with the transaction details"
       },
       {
-        "lineNumber": 270,
+        "lineNumber": 272,
         "line": "     */"
       },
       {
-        "lineNumber": 271,
+        "lineNumber": 273,
         "line": "    async callMethodWithFile(method, parameters, files) {"
       }
     ],
