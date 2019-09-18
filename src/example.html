@@ -116,6 +116,11 @@
                 <div id="snippet5" class="snippet"></div>
                 <button type="button" id="runSnippet5" class="runCallSnippet btn btn-primary" disabled>Run</button>
                 <ul class="snippetList list-group overflow-auto" id="snippet5Console"></ul>
+
+                <h1>Get a Transaction</h1>
+                <div id="snippet6" class="snippet"></div>
+                <button type="button" id="runSnippet6" class="runCallSnippet btn btn-primary" disabled>Run</button>
+                <ul class="snippetList list-group overflow-auto" id="snippet6Console"></ul>
             </div>
             <div class="col" style="flex-shrink: 1">
             </div>
@@ -361,7 +366,7 @@
                     alert("No files were selected, select a file and try again.");
                     return;
                 }
-                //Call the `createRoom` method, with the above params. The txn is signed with the wallet we created/loaded above
+                //Call the `sendMessage` method, with the above params. The txn is signed with the wallet we created/loaded above
                 await simba.callMethodWithFile('sendMessage', methodParams, files)
                     .then(async (ret)=>{
                         console.log(`Successful!  ${JSON.stringify(ret)}`);
@@ -405,11 +410,38 @@
                     createdBy_exact : "Kieran"
                 };
 
-                //Call the `createRoom` method, with the above params. The txn is signed with the wallet we created/loaded above
                 await simba.getMethodTransactions('createRoom', methodParams)
                     .then(async (ret)=>{
                         console.log(`Successful!  ${JSON.stringify(ret.data())}`);
-                        return ret.data()
+                        return ret.data();
+                    })
+                    .catch((error)=>{
+                        console.error(`Failure!  ${JSON.stringify(error)}`);
+                    });
+                //</END>
+
+                unwrap();
+                return {}
+            }
+
+            async function snippet6Code(){
+                let unwrap = wrapConsole('#snippet6Console');
+                let wallet = globals.wallet;
+                let address = globals.address;
+                let simba = globals.simba;
+                let balance = globals.balance;
+                let result = globals.result;
+
+                //<START>
+                //Get Transactions
+                console.log('Get Transaction');
+                //This can be a transaction ID or Hash
+                let transactionId = '1a7ee25670ed4fdd82d66a53725d1ebd';
+
+                await simba.getTransaction(transactionId)
+                    .then(async (ret)=>{
+                        console.log(`Successful!  ${JSON.stringify(ret)}`);
+                        return ret;
                     })
                     .catch((error)=>{
                         console.error(`Failure!  ${JSON.stringify(error)}`);
@@ -472,6 +504,9 @@
 
                 // #### SNIPPET 5 ####
                 initSnippet('#snippet5', '#runSnippet5', null, snippet5Code);
+
+                // #### SNIPPET 6 ####
+                initSnippet('#snippet6', '#runSnippet6', null, snippet6Code);
             });
         </script>
     </body>

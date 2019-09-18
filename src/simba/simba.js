@@ -312,6 +312,45 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
+     * Gets a specific transaction
+     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+     * @returns {Promise<Object>} - The transaction
+     */
+    async getTransaction(transactionIdOrHash) {
+        this.validateAnyGetCall();
+
+        let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/`);
+
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: this.apiAuthHeaders()
+        });
+
+        if (response.status >= 400) {
+            throw new GetTransactionsException(JSON.stringify(data));
+        }
+
+        return await response.json();
+    }
+
+    /**
+     * Gets a paged list of transactions
+     * @param {Object} parameters - The query parameters
+     * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
+     */
+    async getTransactions(parameters) {
+        this.validateAnyGetCall();
+
+        let url = new URL(`${this.endpoint}transaction/`);
+
+        for (let [key, value] of Object.entries(parameters)) {
+            url.searchParams.set(key, value);
+        }
+
+        return this.sendTransactionRequest(url);
+    }
+
+    /**
      * Gets a paged list of transactions for the method
      * @param {string} method - The method
      * @param {Object} parameters - The query parameters

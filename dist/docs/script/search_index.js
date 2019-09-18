@@ -750,9 +750,21 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/simba/simba.js~simbachain#gettransaction",
+    "class/src/simba/simba.js~Simbachain.html#instance-method-getTransaction",
+    "src/simba/simba.js~Simbachain#getTransaction",
+    "method"
+  ],
+  [
     "src/simba/simba.js~simbachain#gettransactionstatus",
     "class/src/simba/simba.js~Simbachain.html#instance-method-getTransactionStatus",
     "src/simba/simba.js~Simbachain#getTransactionStatus",
+    "method"
+  ],
+  [
+    "src/simba/simba.js~simbachain#gettransactions",
+    "class/src/simba/simba.js~Simbachain.html#instance-method-getTransactions",
+    "src/simba/simba.js~Simbachain#getTransactions",
     "method"
   ],
   [
@@ -858,9 +870,21 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/simba/simbabase.js~simbabase#gettransaction",
+    "class/src/simba/simbabase.js~SimbaBase.html#instance-method-getTransaction",
+    "src/simba/simbabase.js~SimbaBase#getTransaction",
+    "method"
+  ],
+  [
     "src/simba/simbabase.js~simbabase#gettransactionstatus",
     "class/src/simba/simbabase.js~SimbaBase.html#instance-method-getTransactionStatus",
     "src/simba/simbabase.js~SimbaBase#getTransactionStatus",
+    "method"
+  ],
+  [
+    "src/simba/simbabase.js~simbabase#gettransactions",
+    "class/src/simba/simbabase.js~SimbaBase.html#instance-method-getTransactions",
+    "src/simba/simbabase.js~SimbaBase#getTransactions",
     "method"
   ],
   [
@@ -903,6 +927,12 @@ window.esdocSearchIndex = [
     "src/simba/simbabase.js~simbabase#setwallet",
     "class/src/simba/simbabase.js~SimbaBase.html#instance-method-setWallet",
     "src/simba/simbabase.js~SimbaBase#setWallet",
+    "method"
+  ],
+  [
+    "src/simba/simbabase.js~simbabase#validateanygetcall",
+    "class/src/simba/simbabase.js~SimbaBase.html#instance-method-validateAnyGetCall",
+    "src/simba/simbabase.js~SimbaBase#validateAnyGetCall",
     "method"
   ],
   [

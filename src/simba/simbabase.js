@@ -56,6 +56,18 @@ export default class SimbaBase {
         if (this.addFunds === SimbaBase.prototype.addFunds) {
             throw new NotImplementedException('Please implement abstract method addFunds.');
         }
+
+        if (this.getMethodTransactions === SimbaBase.prototype.getMethodTransactions) {
+            throw new NotImplementedException('Please implement abstract method getMethodTransactions.');
+        }
+
+        if (this.getTransaction === SimbaBase.prototype.getTransaction) {
+            throw new NotImplementedException('Please implement abstract method getTransaction.');
+        }
+
+        if (this.getTransactions === SimbaBase.prototype.getTransactions) {
+            throw new NotImplementedException('Please implement abstract method getTransactions.');
+        }
     }
 
     /**
@@ -76,11 +88,29 @@ export default class SimbaBase {
     }
 
     /**
-     * Gets a paged list of transactions for the method
+     * (Abstract) Gets a paged list of transactions for the method
      * @param {string} method - The method
      * @param {Object} parameters - The query parameters
      */
     getMethodTransactions(method, parameters) {
+        throw new NotImplementedException('SimbaBase.callMethod Not Implemented');
+    }
+
+    /**
+     * (Abstract) Gets a specific transaction
+     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+     * @returns {Promise<Object>} - The transaction
+     */
+    getTransaction(transactionIdOrHash) {
+        throw new NotImplementedException('SimbaBase.getTransaction Not Implemented');
+    }
+
+    /**
+     * (Abstract) Gets a paged list of transactions
+     * @param {Object} parameters - The query parameters
+     * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
+     */
+    getTransactions(parameters) {
         throw new NotImplementedException('SimbaBase.callMethod Not Implemented');
     }
 
@@ -297,6 +327,24 @@ export default class SimbaBase {
 
         if(!(methodName in this.metadata.methods)){
             throw new MethodCallValidationMetadataException(`Method "${methodName}" not found`);
+        }
+
+        return true;
+    }
+
+    /**
+     * Validate the transaction list call against the app metadata
+     * @returns {boolean}
+     * @throws {MissingMetadataException} - App Metadata not yet retrieved
+     * @throws {BadMetadataException} - App Metadata doesn't have methods
+     */
+    validateAnyGetCall(){
+        if (!this.metadata) {
+            throw new MissingMetadataException("App Metadata not yet retrieved");
+        }
+
+        if (!this.metadata.methods) {
+            throw new BadMetadataException("App Metadata doesn't have methods!");
         }
 
         return true;
