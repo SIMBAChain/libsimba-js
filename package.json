@@ -9,8 +9,8 @@
         "testonly": "npx mocha --reporter mocha-junit-reporter --require @babel/register",
         "start": "webpack-dev-server --config webpack.dev.js --mode development",
         "preview": "npm run buildonly && http-server dist",
-        "git-commit": "git-cz",
-        "git-push": "git push --follow-tags origin master",
+        "commit": "git-cz",
+        "push": "git push --follow-tags origin master",
         "webpack": "webpack --config webpack.prod.js --mode production",
         "docs": "npx esdoc && npx copy-files-from-to --config .copy-examples.json",
         "build": "npx run-s webpack docs",
@@ -18,11 +18,15 @@
         "deploydocs": "npx gh-pages -d dist/docs/",
         "validate": "node ./.hooks/checkBranch.js && npm run test",
         "buildonly": "webpack --config webpack.prod.js --mode production",
-        "release": "npx standard-version -a",
+        "release": "git add . && npx standard-version -a",
         "prerelease": "git checkout master && git pull origin master && npm i && npm run validate",
-        "precommit": "npm run build",
-        "posttag": "npm run-s git-push deploydocs",
         "publish": "npm publish ./dist --access public"
+    },
+    "standard-version": {
+        "scripts": {
+            "precommit": "npm run build",
+            "posttag": "npm run-s push deploydocs"
+        }
     },
     "repository": {
         "type": "git",
