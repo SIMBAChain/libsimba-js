@@ -10,6 +10,7 @@
     ],
     "plugins": [
         "@babel/plugin-transform-runtime",
+        "@babel/plugin-transform-async-to-generator",
         "@babel/plugin-transform-proto-to-assign",
         ["@babel/plugin-transform-classes", {
             "loose": true
