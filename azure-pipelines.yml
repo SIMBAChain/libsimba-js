@@ -5,71 +5,69 @@
 
 # specific branch build
 trigger:
-  branches:
-    include:
-    - master
-  tags:
-    include:
-    - v*
-
+    batch: true
+    branches:
+        include:
+            - master
+            - refs/tags/v*
 pool:
-  vmImage: 'ubuntu-latest'
+    vmImage: 'ubuntu-latest'
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
-- task: Npm@1
-  displayName: npm
-  inputs:
-    command: custom
-    verbose: false
-    customCommand: 'install -g npm@latest'
-    customRegistry: useFeed
-    customFeed: 'c60dc610-2e41-469a-8965-6fcc99cace8c'
+    -   task: NodeTool@0
+        inputs:
+            versionSpec: '10.x'
+        displayName: 'Install Node.js'
+    -   task: Npm@1
+        displayName: npm
+        inputs:
+            command: custom
+            verbose: false
+            customCommand: 'install -g npm@latest'
+            customRegistry: useFeed
+            customFeed: 'c60dc610-2e41-469a-8965-6fcc99cace8c'
 
-- task: Npm@1
-  displayName: 'npm install'
-  inputs:
-    verbose: false
-    customRegistry: useFeed
-    customFeed: 'c60dc610-2e41-469a-8965-6fcc99cace8c'
+    -   task: Npm@1
+        displayName: 'npm install'
+        inputs:
+            verbose: false
+            customRegistry: useFeed
+            customFeed: 'c60dc610-2e41-469a-8965-6fcc99cace8c'
 
-- task: Npm@1
-  displayName: 'npm install dev'
-  inputs:
-    command: custom
-    verbose: false
-    customCommand: 'install --only=dev'
-    customRegistry: useFeed
-    customFeed: 'c60dc610-2e41-469a-8965-6fcc99cace8c'
+    -   task: Npm@1
+        displayName: 'npm install dev'
+        inputs:
+            command: custom
+            verbose: false
+            customCommand: 'install --only=dev'
+            customRegistry: useFeed
+            customFeed: 'c60dc610-2e41-469a-8965-6fcc99cace8c'
 
-- task: Npm@1
-  displayName: 'npm test'
-  inputs:
-    command: custom
-    workingDir: /
-    verbose: false
-    customCommand: test
+    -   task: Npm@1
+        displayName: 'npm test'
+        inputs:
+            command: custom
+            workingDir: /
+            verbose: false
+            customCommand: test
 
-- task: PublishTestResults@2
-  displayName: 'Publish Test Results $(System.DefaultWorkingDirectory)/**/test-results.xml'
-  inputs:
-    testResultsFiles: '$(System.DefaultWorkingDirectory)/**/test-results.xml'
-  condition: succeededOrFailed()
+    -   task: PublishTestResults@2
+        displayName: 'Publish Test Results $(System.DefaultWorkingDirectory)/**/test-results.xml'
+        inputs:
+            testResultsFiles: '$(System.DefaultWorkingDirectory)/**/test-results.xml'
+        condition: succeededOrFailed()
 
-- task: PublishCodeCoverageResults@1
-  displayName: 'Publish code coverage from $(System.DefaultWorkingDirectory)/**/*coverage.xml'
-  inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
-    reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
+    -   task: PublishCodeCoverageResults@1
+        displayName: 'Publish code coverage from $(System.DefaultWorkingDirectory)/**/*coverage.xml'
+        inputs:
+            codeCoverageTool: Cobertura
+            summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
+            reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
 
-- task: Npm@1
-  displayName: 'npm publish'
-  inputs:
-    command: publish
-    verbose: false
-    publishRegistry: useFeed
-    publishFeed: 'c60dc610-2e41-469a-8965-6fcc99cace8c'
+    -   task: Npm@1
+        displayName: 'npm publish'
+        inputs:
+            command: publish
+            verbose: false
+            publishRegistry: useFeed
+            publishFeed: 'c60dc610-2e41-469a-8965-6fcc99cace8c'
