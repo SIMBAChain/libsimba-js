@@ -32,6 +32,7 @@
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~BadMetadataException.html">BadMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~BaseException.html">BaseException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~GenerateTransactionException.html">GenerateTransactionException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~GetTransactionsException.html">GetTransactionsException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MethodCallValidationMetadataException.html">MethodCallValidationMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MissingMetadataException.html">MissingMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~NotImplementedException.html">NotImplementedException</a></span></span></li>
@@ -42,7 +43,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~WalletLockedException.html">WalletLockedException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~WalletNotFoundException.html">WalletNotFoundException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getSimbaInstance">getSimbaInstance</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#simba">simba</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/simba/simba.js~Simbachain.html">Simbachain</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#simba">simba</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/simba/pagedresponse.js~PagedResponse.html">PagedResponse</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/simba/simba.js~Simbachain.html">Simbachain</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/simba/simbabase.js~SimbaBase.html">SimbaBase</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#wallet">wallet</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/wallet/localwallet.js~LocalWallet.html">LocalWallet</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/wallet/wallet.js~Wallet.html">Wallet</a></span></span></li>
@@ -57,8 +59,11 @@ import {
     MissingMetadataException,
     GenerateTransactionException,
     SubmitTransactionException,
-    TransactionStatusCheckException
+    TransactionStatusCheckException,
+    NotImplementedException,
+    GetTransactionsException
 } from &apos;../exceptions&apos;;
+import PagedResponse from &quot;./pagedresponse&quot;;
 
 /**
  * libsimba API Interaction for Simbachain.com
@@ -359,6 +364,44 @@ export default class Simbachain extends SimbaBase {
 
                 return txnId;
             })
+    }
+
+    /**
+     * Gets a paged list of transactions for the method
+     * @param {string} method - The method
+     * @param {Object} parameters - The query parameters
+     * @returns {Promise&lt;PagedResponse&gt;} - A response wrapped in a {@link PagedResponse} helper
+     */
+    async getMethodTransactions(method, parameters) {
+        this.validateGetCall(method, parameters);
+
+        let url = new URL(`${this.endpoint}${method}/`);
+
+        for (let [key, value] of Object.entries(parameters)) {
+            url.searchParams.set(key, value);
+        }
+
+        return this.sendTransactionRequest(url);
+    }
+
+    /**
+     * Internal function for sending transaction GET requests
+     * @param {URL} url - The URL
+     * @returns {Promise&lt;PagedResponse&gt;} - A response wrapped in a {@link PagedResponse} helper
+     */
+    async sendTransactionRequest(url){
+        let response = await fetch(url, {
+            method: &apos;GET&apos;,
+            headers: this.apiAuthHeaders()
+        });
+
+        if (response.status &gt;= 400) {
+            throw new GetTransactionsException(JSON.stringify(data));
+        }
+
+        let json = await response.json();
+
+        return new PagedResponse(json, url, this);
     }
 }
 </code></pre>

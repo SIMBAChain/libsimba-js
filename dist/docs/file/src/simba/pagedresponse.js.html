@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">src/index.js | libsimba-js</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/simba/pagedresponse.js | libsimba-js</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -52,48 +52,87 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/index.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {SimbaBase, Simbachain} from &apos;./simba&apos;;
-import {Wallet, LocalWallet} from &apos;./wallet&apos;;
-import {NotImplementedException} from &apos;./exceptions&apos;;
-
-/**
- * Create an instance of a Simbachain API interaction class
- * Automatically takes care of choosing the correct implementation and running asynchronous initialisation.
- * @param {string} url - The API URL
- * @param {Wallet} wallet - The Wallet to use
- * @param {string} [apiKey] - (Optional) The API key
- * @param {string} [managementKey] - (Optional) The Management API key
- * @returns {Promise&lt;Simbachain&gt;} - An initialised instance of the API interaction class
+<div class="content" data-ice="content"><h1 data-ice="title">src/simba/pagedresponse.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+ * Wrapper for paged responses
  */
-const getSimbaInstance = async (url, wallet, apiKey, managementKey) =&gt; {
-        if(url.startsWith(&apos;https://api.simbachain.com&apos;)){
-            //.com
-            let simba = new Simbachain(url, wallet);
+export default class PagedResponse {
+    /**
+     * Wrapper for paged responses
+     * @param {Object} data - The response
+     * @param {URL} url - The URL that provided the response
+     * @param {SimbaBase} simba - The SimbaBase instance that requested the response
+     */
+    constructor(data, url, simba){
+        this.url = new URL(url);
+        this._count = data.count;
+        this._next_page = data.next;
+        this._previous_page = data.previous;
+        this.results = data.results;
+        this.simba = simba;
+    }
 
-            if(apiKey){
-                simba.setApiKey(apiKey)
-            }
+    /**
+     * Grab the next page
+     * @returns {Promise&lt;PagedResponse&gt; | null} - Null if there&apos;s no next page
+     */
+    async next(){
+        if(!this._next_page) return null;
+        let url = new URL(this.url.toString());
+        url.searchParams.set(&apos;page&apos;, this._next_page);
+        return this.simba.sendTransactionRequest(url);
+    }
 
-            if(managementKey){
-                simba.setManagementKey(managementKey)
-            }
+    /**
+     * Grab the previous page
+     * @returns {Promise&lt;PagedResponse&gt; | null} - Null if there&apos;s no next page
+     */
+    async previous(){
+        if(!this._previous_page) return null;
+        let url = new URL(this.url.toString());
+        url.searchParams.set(&apos;page&apos;, this._previous_page);
+        return this.simba.sendTransactionRequest(url);
+    }
 
-            await simba.initialize();
+    /**
+     * Returns the actual data
+     * @returns {Object}
+     */
+    data(){
+        return this.results;
+    }
 
-            return simba;
-        }else{
-            //scaas
-            throw new NotImplementedException(&quot;SCaaS Support not yet implemented, sorry.&quot;)
-        }
-};
+    /**
+     * Returns the result count
+     * @returns {number}
+     */
+    count(){
+        return this._count;
+    }
 
-export {
-    SimbaBase,
-    Simbachain,
-    Wallet,
-    LocalWallet,
-    getSimbaInstance
+    /**
+     * Returns the current page number
+     * @returns {number}
+     */
+    current_page(){
+        return this.url.searchParams.get(&apos;page&apos;);
+    }
+
+    /**
+     * Returns the next page number
+     * @returns {number}
+     */
+    next_page(){
+        return this._next_page;
+    }
+
+    /**
+     * Returns the previous page number
+     * @returns {number}
+     */
+    previous_page(){
+        return this._previous_page;
+    }
 }
 </code></pre>
 

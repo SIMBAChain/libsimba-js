@@ -96,7 +96,7 @@
 
                 <h1>Call Simba Method</h1>
                 <div id="snippet3" class="snippet"></div>
-                <button type="button" id="runSnippet3" class="btn btn-primary" disabled>Run</button>
+                <button type="button" id="runSnippet3" class="runCallSnippet btn btn-primary" disabled>Run</button>
                 <ul class="snippetList list-group overflow-auto" id="snippet3Console"></ul>
 
                 <h1>Call Simba Method With File</h1>
@@ -110,8 +110,12 @@
                         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                     </div>
                 </div>
-
                 <ul class="snippetList list-group overflow-auto" id="snippet4Console"></ul>
+
+                <h1>Get Transactions</h1>
+                <div id="snippet5" class="snippet"></div>
+                <button type="button" id="runSnippet5" class="runCallSnippet btn btn-primary" disabled>Run</button>
+                <ul class="snippetList list-group overflow-auto" id="snippet5Console"></ul>
             </div>
             <div class="col" style="flex-shrink: 1">
             </div>
@@ -385,6 +389,37 @@
                 return {}
             }
 
+            async function snippet5Code(){
+                let unwrap = wrapConsole('#snippet5Console');
+                let wallet = globals.wallet;
+                let address = globals.address;
+                let simba = globals.simba;
+                let balance = globals.balance;
+                let result = globals.result;
+
+                //<START>
+                //Get Transactions
+                console.log('Get Transactions');
+                //These are the parameters to pass to the method call
+                let methodParams = {
+                    createdBy_exact : "Kieran"
+                };
+
+                //Call the `createRoom` method, with the above params. The txn is signed with the wallet we created/loaded above
+                await simba.getMethodTransactions('createRoom', methodParams)
+                    .then(async (ret)=>{
+                        console.log(`Successful!  ${JSON.stringify(ret.data())}`);
+                        return ret.data()
+                    })
+                    .catch((error)=>{
+                        console.error(`Failure!  ${JSON.stringify(error)}`);
+                    });
+                //</END>
+
+                unwrap();
+                return {}
+            }
+
             function stripSource(src){
                 let newSrc = src.toString().split('//<START>')[1].split('//</END>')[0].trimStart().trimEnd();
                 return js_beautify(newSrc, {
@@ -434,6 +469,9 @@
 
                 // #### SNIPPET 4 ####
                 initSnippet('#snippet4', '#runSnippet4', null, snippet4Code);
+
+                // #### SNIPPET 5 ####
+                initSnippet('#snippet5', '#runSnippet5', null, snippet5Code);
             });
         </script>
     </body>

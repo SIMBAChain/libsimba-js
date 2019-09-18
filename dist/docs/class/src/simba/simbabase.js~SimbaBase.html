@@ -32,6 +32,7 @@
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~BadMetadataException.html">BadMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~BaseException.html">BaseException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~GenerateTransactionException.html">GenerateTransactionException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~GetTransactionsException.html">GetTransactionsException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MethodCallValidationMetadataException.html">MethodCallValidationMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MissingMetadataException.html">MissingMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~NotImplementedException.html">NotImplementedException</a></span></span></li>
@@ -42,7 +43,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~WalletLockedException.html">WalletLockedException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~WalletNotFoundException.html">WalletNotFoundException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getSimbaInstance">getSimbaInstance</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#simba">simba</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/simba/simba.js~Simbachain.html">Simbachain</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#simba">simba</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/simba/pagedresponse.js~PagedResponse.html">PagedResponse</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/simba/simba.js~Simbachain.html">Simbachain</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/simba/simbabase.js~SimbaBase.html">SimbaBase</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#wallet">wallet</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/wallet/localwallet.js~LocalWallet.html">LocalWallet</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/wallet/wallet.js~Wallet.html">Wallet</a></span></span></li>
@@ -525,6 +527,35 @@
           
           
           
+          <span class="code" data-ice="name"><span><a href="class/src/simba/simbabase.js~SimbaBase.html#instance-method-getMethodTransactions">getMethodTransactions</a></span></span><span class="code" data-ice="signature">(method: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, parameters: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Gets a paged list of transactions for the method</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
           <span class="code" data-ice="name"><span><a href="class/src/simba/simbabase.js~SimbaBase.html#instance-method-getTransactionStatus">getTransactionStatus</a></span></span><span class="code" data-ice="signature">(txnId: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>&gt;</span>
         </p>
       </div>
@@ -728,6 +759,35 @@
           
           
           
+          <span class="code" data-ice="name"><span><a href="class/src/simba/simbabase.js~SimbaBase.html#instance-method-validateGetCall">validateGetCall</a></span></span><span class="code" data-ice="signature">(methodName: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, parameters: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Validate the transaction list call against the app metadata</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
           <span class="code" data-ice="name"><span><a href="class/src/simba/simbabase.js~SimbaBase.html#instance-method-waitForSuccessOrError">waitForSuccessOrError</a></span></span><span class="code" data-ice="signature">(txnId: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, pollInterval: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span>): <span>*</span></span>
         </p>
       </div>
@@ -836,7 +896,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber185">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber194">source</a></span></span>
     </span>
   </h3>
 
@@ -922,7 +982,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber193">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber202">source</a></span></span>
     </span>
   </h3>
 
@@ -1054,7 +1114,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber151">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber160">source</a></span></span>
     </span>
   </h3>
 
@@ -1122,7 +1182,7 @@ to request funds there.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber200">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber209">source</a></span></span>
     </span>
   </h3>
 
@@ -1259,7 +1319,7 @@ to request funds there.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber85">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber94">source</a></span></span>
     </span>
   </h3>
 
@@ -1347,7 +1407,7 @@ to request funds there.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber112">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber121">source</a></span></span>
     </span>
   </h3>
 
@@ -1421,7 +1481,7 @@ to request funds there.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber121">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber130">source</a></span></span>
     </span>
   </h3>
 
@@ -1495,7 +1555,7 @@ to request funds there.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber103">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber112">source</a></span></span>
     </span>
   </h3>
 
@@ -1569,7 +1629,7 @@ to request funds there.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber129">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber138">source</a></span></span>
     </span>
   </h3>
 
@@ -1615,6 +1675,74 @@ to request funds there.</p>
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-getMethodTransactions">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">getMethodTransactions</span><span class="code" data-ice="signature">(method: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, parameters: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber83">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Gets a paged list of transactions for the method</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">method</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The method</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">parameters</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The query parameters</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-getTransactionStatus">
     <span class="access" data-ice="access">public</span>
     
@@ -1626,7 +1754,7 @@ to request funds there.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber94">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber103">source</a></span></span>
     </span>
   </h3>
 
@@ -1744,7 +1872,7 @@ to request funds there.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber210">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber219">source</a></span></span>
     </span>
   </h3>
 
@@ -1800,7 +1928,7 @@ to request funds there.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber184">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber193">source</a></span></span>
     </span>
   </h3>
 
@@ -1861,7 +1989,7 @@ to request funds there.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber192">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber201">source</a></span></span>
     </span>
   </h3>
 
@@ -1922,7 +2050,7 @@ to request funds there.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber176">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber185">source</a></span></span>
     </span>
   </h3>
 
@@ -1983,7 +2111,7 @@ to request funds there.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber226">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber235">source</a></span></span>
     </span>
   </h3>
 
@@ -2081,6 +2209,108 @@ to request funds there.</p>
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-validateGetCall">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">validateGetCall</span><span class="code" data-ice="signature">(methodName: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, parameters: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber289">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Validate the transaction list call against the app metadata</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">methodName</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>the methods name</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">parameters</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>the parameters for the query</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  <div data-ice="throwWrap">
+    <h4>Throw:</h4>
+    <table>
+      <tbody>
+      
+      <tr class="throw" data-ice="throw">
+        <td><p data-ice="throwName"><span><a href="class/src/exceptions.js~MissingMetadataException.html">MissingMetadataException</a></span></p></td>
+        <td data-ice="throwDesc"><p>App Metadata not yet retrieved</p>
+</td>
+      </tr>
+<tr class="throw" data-ice="throw">
+        <td><p data-ice="throwName"><span><a href="class/src/exceptions.js~BadMetadataException.html">BadMetadataException</a></span></p></td>
+        <td data-ice="throwDesc"><p>App Metadata doesn&apos;t have methods</p>
+</td>
+      </tr>
+<tr class="throw" data-ice="throw">
+        <td><p data-ice="throwName"><span><a href="class/src/exceptions.js~MethodCallValidationMetadataException.html">MethodCallValidationMetadataException</a></span></p></td>
+        <td data-ice="throwDesc"><p>Method call fails validation</p>
+</td>
+      </tr>
+</tbody>
+    </table>
+  </div>
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-waitForSuccessOrError">
     <span class="access" data-ice="access">public</span>
     
@@ -2092,7 +2322,7 @@ to request funds there.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber162">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber171">source</a></span></span>
     </span>
   </h3>
 
