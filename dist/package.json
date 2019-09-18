@@ -1,6 +1,6 @@
 {
     "name": "@simbachain/libsimba-js",
-    "version": "0.3.6",
+    "version": "0.3.8",
     "description": "libsimba-js is a library simplifying the use of SIMBAChain APIs. We aim to abstract away the various blockchain concepts, reducing the necessary time needed to get to working code.",
     "homepage": "",
     "main": "libsimba.js",
@@ -18,13 +18,12 @@
         "deploydocs": "npx gh-pages -d dist/docs/",
         "validate": "node ./.hooks/checkBranch.js && npm i && npm run test",
         "buildonly": "webpack --config webpack.prod.js --mode production",
-        "release": "git add . && npx standard-version -a",
-        "prerelease": "npm run validate && npm run build",
+        "release": "npx standard-version -a",
         "publish": "npm publish ./dist --access public"
     },
     "standard-version": {
         "scripts": {
-            "posttag": "npm run-s push deploydocs"
+            "precommit": "npx run-s build && git add . && echo ''"
         }
     },
     "repository": {
