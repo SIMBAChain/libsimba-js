@@ -56,10 +56,6 @@ steps:
             summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
             reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
 
-    -   task: npmAuthenticate@0
-        inputs:
-            customEndpoint: 'NPMJS Simbachain Org'
-
     -   task: Npm@1
         displayName: 'npm publish'
         inputs:
