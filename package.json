@@ -19,13 +19,13 @@
         "validate": "node ./.hooks/checkBranch.js && npm i && npm run test",
         "buildonly": "webpack --config webpack.prod.js --mode production",
         "prerelease": "npm run validate",
+        "postrelease": "npx run-s push deploydocs",
         "release": "npx standard-version -a",
         "publish": "npm publish ./dist --access public"
     },
     "standard-version": {
         "scripts": {
-            "postchangelog": "npx run-s build && git add .",
-            "posttag": "npx run-s push deploydocs"
+            "postchangelog": "npx run-s build && git add ."
         }
     },
     "repository": {
