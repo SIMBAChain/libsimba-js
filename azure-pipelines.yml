@@ -7,8 +7,8 @@
 trigger:
     branches:
         include:
-            - master
             - refs/tags/v*
+
 pool:
     vmImage: 'ubuntu-latest'
 
@@ -63,4 +63,3 @@ steps:
             verbose: false
             publishRegistry: useFeed
             publishFeed: 'c60dc610-2e41-469a-8965-6fcc99cace8c'
-            condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
