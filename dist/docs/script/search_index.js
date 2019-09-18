@@ -18,6 +18,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "@simbachain/libsimba-js/src/exceptions.js~gettransactionsexception",
+    "class/src/exceptions.js~GetTransactionsException.html",
+    "<span>GetTransactionsException</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/exceptions.js</span>",
+    "class"
+  ],
+  [
     "@simbachain/libsimba-js/src/wallet/localwallet.js~localwallet",
     "class/src/wallet/localwallet.js~LocalWallet.html",
     "<span>LocalWallet</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/wallet/localwallet.js</span>",
@@ -39,6 +45,12 @@ window.esdocSearchIndex = [
     "@simbachain/libsimba-js/src/exceptions.js~notimplementedexception",
     "class/src/exceptions.js~NotImplementedException.html",
     "<span>NotImplementedException</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/exceptions.js</span>",
+    "class"
+  ],
+  [
+    "@simbachain/libsimba-js/src/simba/pagedresponse.js~pagedresponse",
+    "class/src/simba/pagedresponse.js~PagedResponse.html",
+    "<span>PagedResponse</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/simba/pagedresponse.js</span>",
     "class"
   ],
   [
@@ -438,6 +450,18 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/exceptions.js~gettransactionsexception#constructor",
+    "class/src/exceptions.js~GetTransactionsException.html#instance-constructor-constructor",
+    "src/exceptions.js~GetTransactionsException#constructor",
+    "method"
+  ],
+  [
+    "src/exceptions.js~gettransactionsexception#name",
+    "class/src/exceptions.js~GetTransactionsException.html#instance-member-name",
+    "src/exceptions.js~GetTransactionsException#name",
+    "member"
+  ],
+  [
     "src/exceptions.js~methodcallvalidationmetadataexception#constructor",
     "class/src/exceptions.js~MethodCallValidationMetadataException.html#instance-constructor-constructor",
     "src/exceptions.js~MethodCallValidationMetadataException#constructor",
@@ -576,6 +600,96 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/simba/pagedresponse.js",
+    "file/src/simba/pagedresponse.js.html",
+    "src/simba/pagedresponse.js",
+    "file"
+  ],
+  [
+    "src/simba/pagedresponse.js~pagedresponse#_count",
+    "class/src/simba/pagedresponse.js~PagedResponse.html#instance-member-_count",
+    "src/simba/pagedresponse.js~PagedResponse#_count",
+    "member"
+  ],
+  [
+    "src/simba/pagedresponse.js~pagedresponse#_next_page",
+    "class/src/simba/pagedresponse.js~PagedResponse.html#instance-member-_next_page",
+    "src/simba/pagedresponse.js~PagedResponse#_next_page",
+    "member"
+  ],
+  [
+    "src/simba/pagedresponse.js~pagedresponse#_previous_page",
+    "class/src/simba/pagedresponse.js~PagedResponse.html#instance-member-_previous_page",
+    "src/simba/pagedresponse.js~PagedResponse#_previous_page",
+    "member"
+  ],
+  [
+    "src/simba/pagedresponse.js~pagedresponse#constructor",
+    "class/src/simba/pagedresponse.js~PagedResponse.html#instance-constructor-constructor",
+    "src/simba/pagedresponse.js~PagedResponse#constructor",
+    "method"
+  ],
+  [
+    "src/simba/pagedresponse.js~pagedresponse#count",
+    "class/src/simba/pagedresponse.js~PagedResponse.html#instance-method-count",
+    "src/simba/pagedresponse.js~PagedResponse#count",
+    "method"
+  ],
+  [
+    "src/simba/pagedresponse.js~pagedresponse#current_page",
+    "class/src/simba/pagedresponse.js~PagedResponse.html#instance-method-current_page",
+    "src/simba/pagedresponse.js~PagedResponse#current_page",
+    "method"
+  ],
+  [
+    "src/simba/pagedresponse.js~pagedresponse#data",
+    "class/src/simba/pagedresponse.js~PagedResponse.html#instance-method-data",
+    "src/simba/pagedresponse.js~PagedResponse#data",
+    "method"
+  ],
+  [
+    "src/simba/pagedresponse.js~pagedresponse#next",
+    "class/src/simba/pagedresponse.js~PagedResponse.html#instance-method-next",
+    "src/simba/pagedresponse.js~PagedResponse#next",
+    "method"
+  ],
+  [
+    "src/simba/pagedresponse.js~pagedresponse#next_page",
+    "class/src/simba/pagedresponse.js~PagedResponse.html#instance-method-next_page",
+    "src/simba/pagedresponse.js~PagedResponse#next_page",
+    "method"
+  ],
+  [
+    "src/simba/pagedresponse.js~pagedresponse#previous",
+    "class/src/simba/pagedresponse.js~PagedResponse.html#instance-method-previous",
+    "src/simba/pagedresponse.js~PagedResponse#previous",
+    "method"
+  ],
+  [
+    "src/simba/pagedresponse.js~pagedresponse#previous_page",
+    "class/src/simba/pagedresponse.js~PagedResponse.html#instance-method-previous_page",
+    "src/simba/pagedresponse.js~PagedResponse#previous_page",
+    "method"
+  ],
+  [
+    "src/simba/pagedresponse.js~pagedresponse#results",
+    "class/src/simba/pagedresponse.js~PagedResponse.html#instance-member-results",
+    "src/simba/pagedresponse.js~PagedResponse#results",
+    "member"
+  ],
+  [
+    "src/simba/pagedresponse.js~pagedresponse#simba",
+    "class/src/simba/pagedresponse.js~PagedResponse.html#instance-member-simba",
+    "src/simba/pagedresponse.js~PagedResponse#simba",
+    "member"
+  ],
+  [
+    "src/simba/pagedresponse.js~pagedresponse#url",
+    "class/src/simba/pagedresponse.js~PagedResponse.html#instance-member-url",
+    "src/simba/pagedresponse.js~PagedResponse#url",
+    "member"
+  ],
+  [
     "src/simba/simba.js",
     "file/src/simba/simba.js.html",
     "src/simba/simba.js",
@@ -630,6 +744,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/simba/simba.js~simbachain#getmethodtransactions",
+    "class/src/simba/simba.js~Simbachain.html#instance-method-getMethodTransactions",
+    "src/simba/simba.js~Simbachain#getMethodTransactions",
+    "method"
+  ],
+  [
     "src/simba/simba.js~simbachain#gettransactionstatus",
     "class/src/simba/simba.js~Simbachain.html#instance-method-getTransactionStatus",
     "src/simba/simba.js~Simbachain#getTransactionStatus",
@@ -651,6 +771,12 @@ window.esdocSearchIndex = [
     "src/simba/simba.js~simbachain#sendmethodrequest",
     "class/src/simba/simba.js~Simbachain.html#instance-method-sendMethodRequest",
     "src/simba/simba.js~Simbachain#sendMethodRequest",
+    "method"
+  ],
+  [
+    "src/simba/simba.js~simbachain#sendtransactionrequest",
+    "class/src/simba/simba.js~Simbachain.html#instance-method-sendTransactionRequest",
+    "src/simba/simba.js~Simbachain#sendTransactionRequest",
     "method"
   ],
   [
@@ -726,6 +852,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/simba/simbabase.js~simbabase#getmethodtransactions",
+    "class/src/simba/simbabase.js~SimbaBase.html#instance-method-getMethodTransactions",
+    "src/simba/simbabase.js~SimbaBase#getMethodTransactions",
+    "method"
+  ],
+  [
     "src/simba/simbabase.js~simbabase#gettransactionstatus",
     "class/src/simba/simbabase.js~SimbaBase.html#instance-method-getTransactionStatus",
     "src/simba/simbabase.js~SimbaBase#getTransactionStatus",
@@ -777,6 +909,12 @@ window.esdocSearchIndex = [
     "src/simba/simbabase.js~simbabase#validatecall",
     "class/src/simba/simbabase.js~SimbaBase.html#instance-method-validateCall",
     "src/simba/simbabase.js~SimbaBase#validateCall",
+    "method"
+  ],
+  [
+    "src/simba/simbabase.js~simbabase#validategetcall",
+    "class/src/simba/simbabase.js~SimbaBase.html#instance-method-validateGetCall",
+    "src/simba/simbabase.js~SimbaBase#validateGetCall",
     "method"
   ],
   [

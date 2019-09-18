@@ -82,6 +82,16 @@ export class SubmitTransactionException extends BaseException{
 }
 
 /**
+ * Thrown when the server returns an error when querying transactions
+ */
+export class GetTransactionsException extends BaseException{
+    constructor(...args){
+        super(...args);
+        this.name = 'GetTransactionsException';
+    }
+}
+
+/**
  * Thrown when an error occurs checking a transactions status
  */
 export class TransactionStatusCheckException extends BaseException{
