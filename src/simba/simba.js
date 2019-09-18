@@ -236,7 +236,7 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
-     * Not yet implemented - Call a method on the API with files
+     * Call a method on the API with files
      * @param {string} method - the method to call
      * @param {Object} parameters- the parameters for the method
      * @param {Array<Blob|File>} files - the files
