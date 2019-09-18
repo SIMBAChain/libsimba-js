@@ -16,15 +16,14 @@
         "build": "npx run-s webpack docs",
         "test": "npx nyc npx mocha --reporter mocha-junit-reporter --require @babel/register",
         "deploydocs": "npx gh-pages -d dist/docs/",
-        "validate": "node ./.hooks/checkBranch.js && npm run test",
+        "validate": "node ./.hooks/checkBranch.js && npm i && npm run test",
         "buildonly": "webpack --config webpack.prod.js --mode production",
         "release": "git add . && npx standard-version -a",
-        "prerelease": "git checkout master && git pull origin master && npm i && npm run validate",
+        "prerelease": "npm run validate && npm run build",
         "publish": "npm publish ./dist --access public"
     },
     "standard-version": {
         "scripts": {
-            "precommit": "npm run build",
             "posttag": "npm run-s push deploydocs"
         }
     },
