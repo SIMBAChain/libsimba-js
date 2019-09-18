@@ -63,11 +63,3 @@ steps:
             codeCoverageTool: Cobertura
             summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
             reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
-
-    -   task: Npm@1
-        displayName: 'npm publish'
-        inputs:
-            command: publish
-            verbose: false
-            publishRegistry: useFeed
-            publishFeed: 'c60dc610-2e41-469a-8965-6fcc99cace8c'
