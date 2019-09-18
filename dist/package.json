@@ -20,7 +20,7 @@
         "release-patch": "npm version --release-as patch",
         "release-minor": "npm version --release-as minor",
         "release-major": "npm version --release-as major",
-        "preversion": "node ./.hooks/checkBranch.js && npm test",
+        "preversion": "node ./.hooks/checkBranch.js && npm test && npm run build && git add .",
         "postversion": "git push && git push --tags",
         "release": "npm run build && npm publish dist --access public && npm run docs && npm run deploydocs",
         "docs": "npx esdoc && npx copy-files-from-to --config .copy-examples.json",
