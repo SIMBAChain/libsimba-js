@@ -648,6 +648,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/simba/simba.js~simbachain#sendmethodrequest",
+    "class/src/simba/simba.js~Simbachain.html#instance-method-sendMethodRequest",
+    "src/simba/simba.js~Simbachain#sendMethodRequest",
+    "method"
+  ],
+  [
     "src/simba/simbabase.js",
     "file/src/simba/simbabase.js.html",
     "src/simba/simbabase.js",
@@ -792,16 +798,16 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/wallet/localwallet.js",
-    "file/src/wallet/localwallet.js.html",
-    "src/wallet/localwallet.js",
-    "file"
-  ],
-  [
     "",
     "test-file/test/localwallet.spec.js.html#lineNumber3",
     "src/wallet/localwallet.js",
     "test"
+  ],
+  [
+    "src/wallet/localwallet.js",
+    "file/src/wallet/localwallet.js.html",
+    "src/wallet/localwallet.js",
+    "file"
   ],
   [
     "",
