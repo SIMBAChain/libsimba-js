@@ -4,35 +4,35 @@
     "filePath": "src/simba/simba.js",
     "lines": [
       {
-        "lineNumber": 266,
+        "lineNumber": 234,
         "line": "    /**"
       },
       {
-        "lineNumber": 267,
+        "lineNumber": 235,
         "line": "     * Not yet implemented - Call a method on the API with files"
       },
       {
-        "lineNumber": 268,
+        "lineNumber": 236,
         "line": "     * @param {string} method - the method to call"
       },
       {
-        "lineNumber": 269,
+        "lineNumber": 237,
         "line": "     * @param {Object} parameters- the parameters for the method"
       },
       {
-        "lineNumber": 270,
-        "line": "     * @param {Array} files - the files"
+        "lineNumber": 238,
+        "line": "     * @param {Array<Blob|File>} files - the files"
       },
       {
-        "lineNumber": 271,
+        "lineNumber": 239,
         "line": "     * @return {Promise<Object>} - a promise resolving with the transaction details"
       },
       {
-        "lineNumber": 272,
+        "lineNumber": 240,
         "line": "     */"
       },
       {
-        "lineNumber": 273,
+        "lineNumber": 241,
         "line": "    async callMethodWithFile(method, parameters, files) {"
       }
     ],
@@ -45,6 +45,48 @@
       "method",
       "parameters-",
       "files"
+    ]
+  },
+  {
+    "name": "Simbachain#sendMethodRequest",
+    "filePath": "src/simba/simba.js",
+    "lines": [
+      {
+        "lineNumber": 262,
+        "line": "    /**"
+      },
+      {
+        "lineNumber": 263,
+        "line": "     * Internal method for sending method calls"
+      },
+      {
+        "lineNumber": 264,
+        "line": "     * @param {string} url - the url"
+      },
+      {
+        "lineNumber": 265,
+        "line": "     * @param {FormData} formdata - Formdata for the POST"
+      },
+      {
+        "lineNumber": 266,
+        "line": "     * @returns {Promise<Response>} - The response with transaction data"
+      },
+      {
+        "lineNumber": 267,
+        "line": "     */"
+      },
+      {
+        "lineNumber": 268,
+        "line": "    async sendMethodRequest(method, formdata){"
+      }
+    ],
+    "codeParams": [
+      "method",
+      "formdata"
+    ],
+    "docParams": [
+      "url",
+      "formdata"
     ]
   }
 ]

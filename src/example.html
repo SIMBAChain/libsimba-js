@@ -98,6 +98,20 @@
                 <div id="snippet3" class="snippet"></div>
                 <button type="button" id="runSnippet3" class="btn btn-primary" disabled>Run</button>
                 <ul class="snippetList list-group overflow-auto" id="snippet3Console"></ul>
+
+                <h1>Call Simba Method With File</h1>
+                <div id="snippet4" class="snippet"></div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button type="button" id="runSnippet4" class="runCallSnippet btn btn-primary" disabled>Run</button>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" id="aFileInput" class="custom-file-input" id="inputGroupFile01">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+                </div>
+
+                <ul class="snippetList list-group overflow-auto" id="snippet4Console"></ul>
             </div>
             <div class="col" style="flex-shrink: 1">
             </div>
@@ -313,6 +327,64 @@
                 return {}
             }
 
+            async function snippet4Code(){
+                let unwrap = wrapConsole('#snippet4Console');
+                let wallet = globals.wallet;
+                let address = globals.address;
+                let simba = globals.simba;
+                let balance = globals.balance;
+                let result = globals.result;
+
+                //<START>
+                //Call Simba Method
+                console.log('Call Simba Method with file');
+                //These are the parameters to pass to the method call
+                let methodParams = {
+                    assetId: "A Test Room",
+                    chatRoom : "A Test Room",
+                    message  : "Hello World",
+                    sentBy : "Kieran"
+                };
+
+                //Grab the file input element
+                let fileInput = document.getElementById('aFileInput');
+                //Grab the file array.
+                //This can be an array of any Blob or File objects that FormData can deal with
+                let files = fileInput.files;
+
+                if(!files.length){
+                    console.log("No files selected!");
+                    alert("No files were selected, select a file and try again.");
+                    return;
+                }
+                //Call the `createRoom` method, with the above params. The txn is signed with the wallet we created/loaded above
+                await simba.callMethodWithFile('sendMessage', methodParams, files)
+                    .then(async (ret)=>{
+                        console.log(`Successful!  ${JSON.stringify(ret)}`);
+                        //The request and signing were successful, now we wait for the API to
+                        // tell us if the txn was successful or not.
+                        const { future, cancel } = simba.waitForSuccessOrError(ret);
+                        //`future` is a JS Promise that will resolve when we know the status
+                        //`cancel` is a function, you can call it to cancel the above request if needed
+                        return await future
+                            .then(txn=>{
+                                //txn will hold the txn details
+                                //txn.status will hold the status
+                                console.log(txn.status,txn);
+                            })
+                            .catch((error)=>{
+                                console.error(`Failure!  ${JSON.stringify(error)}`);
+                            })
+                    })
+                    .catch((error)=>{
+                        console.error(`Failure!  ${JSON.stringify(error)}`);
+                    });
+                //</END>
+
+                unwrap();
+                return {}
+            }
+
             function stripSource(src){
                 let newSrc = src.toString().split('//<START>')[1].split('//</END>')[0].trimStart().trimEnd();
                 return js_beautify(newSrc, {
@@ -355,10 +427,13 @@
                 initSnippet('#snippet1', '#runSnippet1', '#runSnippet2', snippet1Code);
 
                 // #### SNIPPET 2 ####
-                initSnippet('#snippet2', '#runSnippet2', '#runSnippet3', snippet2Code);
+                initSnippet('#snippet2', '#runSnippet2', '.runCallSnippet', snippet2Code);
 
                 // #### SNIPPET 3 ####
                 initSnippet('#snippet3', '#runSnippet3', null, snippet3Code);
+
+                // #### SNIPPET 4 ####
+                initSnippet('#snippet4', '#runSnippet4', null, snippet4Code);
             });
         </script>
     </body>

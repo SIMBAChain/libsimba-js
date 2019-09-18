@@ -45,46 +45,14 @@ export default class Simbachain extends SimbaBase {
 
         this.validateCall(method, parameters);
 
-        const data = Object.assign({from: await this.wallet.getAddress()}, parameters);
-        let txnId = null;
+        let formData = new FormData();
+        let address = await this.wallet.getAddress();
+        formData.append('from', address);
+        for (let [key, value] of Object.entries(parameters)) {
+            formData.append(key, value);
+        }
 
-        return fetch(`${this.endpoint}${method}/`, {
-            method: 'POST',
-            cache: 'no-cache',
-            headers: this.apiAuthHeaders(),
-            body: JSON.stringify(data),
-        })
-            .then(async (response) => {
-                let data = await response.json();
-
-                if (response.status >= 400) {
-                    throw new GenerateTransactionException(JSON.stringify(data));
-                }
-                // tslint:disable-next-line: no-unsafe-any
-                txnId = data.id;
-                // tslint:disable-next-line: no-unsafe-any
-                const payload = data.payload.raw;
-                // tslint:disable-next-line: no-unsafe-any
-                const signed = await this.wallet.sign(payload);
-
-                return fetch(`${this.endpoint}transaction/${txnId}/`, {
-                    method: 'POST',
-                    cache: 'no-cache',
-                    headers: this.apiAuthHeaders(),
-                    body: JSON.stringify({payload: signed}),
-                })
-            })
-            .then(async (response) => {
-                let data = await response.json();
-
-                if (response.status >= 400) {
-                    throw new SubmitTransactionException(JSON.stringify(data));
-                }
-                // tslint:disable-next-line: no-console
-                console.log('Success!', data);
-
-                return txnId;
-            })
+        return this.sendMethodRequest(method, formData);
     }
 
     /**
@@ -268,10 +236,75 @@ export default class Simbachain extends SimbaBase {
      * Not yet implemented - Call a method on the API with files
      * @param {string} method - the method to call
      * @param {Object} parameters- the parameters for the method
-     * @param {Array} files - the files
+     * @param {Array<Blob|File>} files - the files
      * @return {Promise<Object>} - a promise resolving with the transaction details
      */
     async callMethodWithFile(method, parameters, files) {
-        throw new Error('Not yet implemented')
+        if (!this.wallet) {
+            throw new WalletNotFoundException("No Wallet found");
+        }
+
+        this.validateCall(method, parameters, files);
+
+        let formData = new FormData();
+        let address = await this.wallet.getAddress();
+        formData.append('from', address);
+        for (let [key, value] of Object.entries(parameters)) {
+            formData.append(key, value);
+        }
+
+        for(let i = 0; i < files.length; i++){
+            formData.append(`file[${i}]`, files[i]);
+        }
+
+        return this.sendMethodRequest(method, formData);
+    }
+
+    /**
+     * Internal method for sending method calls
+     * @param {string} url - the url
+     * @param {FormData} formdata - Formdata for the POST
+     * @returns {Promise<Response>} - The response with transaction data
+     */
+    async sendMethodRequest(method, formdata){
+        let txnId = null;
+
+        return fetch(`${this.endpoint}${method}/`, {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: this.apiAuthHeaders(),
+            body: formdata,
+        })
+            .then(async (response) => {
+                let data = await response.json();
+
+                if (response.status >= 400) {
+                    throw new GenerateTransactionException(JSON.stringify(data));
+                }
+                // tslint:disable-next-line: no-unsafe-any
+                txnId = data.id;
+                // tslint:disable-next-line: no-unsafe-any
+                const payload = data.payload.raw;
+                // tslint:disable-next-line: no-unsafe-any
+                const signed = await this.wallet.sign(payload);
+
+                return fetch(`${this.endpoint}transaction/${txnId}/`, {
+                    method: 'POST',
+                    cache: 'no-cache',
+                    headers: Object.assign({'Content-Type':'application/json'},this.apiAuthHeaders()),
+                    body: JSON.stringify({payload: signed}),
+                })
+            })
+            .then(async (response) => {
+                let data = await response.json();
+
+                if (response.status >= 400) {
+                    throw new SubmitTransactionException(JSON.stringify(data));
+                }
+                // tslint:disable-next-line: no-console
+                console.log('Success!', data);
+
+                return txnId;
+            })
     }
 }

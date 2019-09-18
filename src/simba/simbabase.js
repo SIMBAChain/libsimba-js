@@ -79,7 +79,7 @@ export default class SimbaBase {
      * (Abstract) Call a method on the API with files
      * @param {string} method - the method to call
      * @param {Object} parameters - the parameters for the method
-     * @param {Array} files - the files
+     * @param {Array<Blob|File>} files - the files
      * @return {Promise<Object>} - a promise resolving with the transaction details
      */
     callMethodWithFile(method, parameters, files) {
@@ -199,7 +199,6 @@ export default class SimbaBase {
      */
     apiAuthHeaders() {
         return {
-            'Content-Type': 'application/json',
             APIKEY: this.apiKey,
         }
     }
@@ -210,7 +209,6 @@ export default class SimbaBase {
      */
     managementAuthHeaders() {
         return {
-            'Content-Type': 'application/json',
             APIKEY: this.managementKey,
         }
     }
@@ -242,6 +240,14 @@ export default class SimbaBase {
 
         if(files && !('_files' in methodMeta.parameters)){
             throw new MethodCallValidationMetadataException(`Method "${methodName}" does not accept files`);
+        }
+
+        if(files){
+            for(let i = 0; i < files.length; i++){
+                if(!(files[i] instanceof Blob) || !(files[i] instanceof File)){
+                    throw new MethodCallValidationMetadataException(`Item at position ${i} of "files" is not a Blob or a File`);
+                }
+            }
         }
 
         let paramNames = Object.keys(parameters);
