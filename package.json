@@ -1,6 +1,6 @@
 {
     "name": "@simbachain/libsimba-js",
-    "version": "0.3.6",
+    "version": "0.3.7",
     "description": "libsimba-js is a library simplifying the use of SIMBAChain APIs. We aim to abstract away the various blockchain concepts, reducing the necessary time needed to get to working code.",
     "homepage": "",
     "main": "libsimba.js",
@@ -24,7 +24,7 @@
     },
     "standard-version": {
         "scripts": {
-            "posttag": "npm run-s push deploydocs"
+            "posttag": "npx run-s push deploydocs"
         }
     },
     "repository": {

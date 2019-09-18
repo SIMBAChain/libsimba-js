@@ -1,6 +1,6 @@
 {
     "name": "@simbachain/libsimba-js",
-    "version": "0.3.5",
+    "version": "0.3.6",
     "description": "libsimba-js is a library simplifying the use of SIMBAChain APIs. We aim to abstract away the various blockchain concepts, reducing the necessary time needed to get to working code.",
     "homepage": "",
     "main": "libsimba.js",
@@ -10,18 +10,22 @@
         "start": "webpack-dev-server --config webpack.dev.js --mode development",
         "preview": "npm run buildonly && http-server dist",
         "commit": "git-cz",
+        "push": "git push --follow-tags origin master",
         "webpack": "webpack --config webpack.prod.js --mode production",
         "docs": "npx esdoc && npx copy-files-from-to --config .copy-examples.json",
         "build": "npx run-s webpack docs",
         "test": "npx nyc npx mocha --reporter mocha-junit-reporter --require @babel/register",
         "deploydocs": "npx gh-pages -d dist/docs/",
-        "validate": "node ./.hooks/checkBranch.js && npm run test",
+        "validate": "node ./.hooks/checkBranch.js && npm i && npm run test",
         "buildonly": "webpack --config webpack.prod.js --mode production",
-        "release": "npx standard-version -a",
-        "prerelease": "git checkout master && git pull origin master && npm i && npm run validate && git add .",
-        "postrelease": "run-s build release:* deploydocs",
-        "release:tags": "git commit --amend --no-edit && git push --follow-tags origin master",
+        "release": "git add . && npx standard-version -a",
+        "prerelease": "npm run validate && npm run build",
         "publish": "npm publish ./dist --access public"
+    },
+    "standard-version": {
+        "scripts": {
+            "posttag": "npm run-s push deploydocs"
+        }
     },
     "repository": {
         "type": "git",
