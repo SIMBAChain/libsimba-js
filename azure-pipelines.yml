@@ -24,15 +24,11 @@ steps:
             command: custom
             verbose: false
             customCommand: 'install -g npm@latest'
-            customRegistry: useFeed
-            customFeed: 'c60dc610-2e41-469a-8965-6fcc99cace8c'
 
     -   task: Npm@1
         displayName: 'npm install'
         inputs:
             verbose: false
-            customRegistry: useFeed
-            customFeed: 'c60dc610-2e41-469a-8965-6fcc99cace8c'
 
     -   task: Npm@1
         displayName: 'npm install dev'
@@ -40,8 +36,6 @@ steps:
             command: custom
             verbose: false
             customCommand: 'install --only=dev'
-            customRegistry: useFeed
-            customFeed: 'c60dc610-2e41-469a-8965-6fcc99cace8c'
 
     -   task: Npm@1
         displayName: 'npm test'
