@@ -22,7 +22,7 @@ npm install libsimba-js
 
 ## Examples
 
-See [here](https://github.com/SIMBAChain/libsimba-js/blob/master/index.html)
+See [here](https://simbachain.github.io/libsimba-js/examples.html)
 
 ## Contributing
 

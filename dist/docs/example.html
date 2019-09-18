@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>libsimba-js</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <style>
+            html, body, .maincontainer, .mainrow {
+                width: 100%;
+                min-width: 768px;
+                /*height: 100%;*/
+                margin: 0 !important;
+                padding: 0 !important;
+                max-width: unset !important;
+                background: #f2f2f2;
+                border-top: 1px solid #111;
+                border-bottom: 1px solid #111;
+                color: #373737;
+            }
+
+            .col-central {
+                min-width: 720px;
+                padding-bottom: 200px;
+            }
+
+            .col-title {
+                min-width: 720px;
+                position: relative;
+            }
+
+            .titletext {
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                -ms-transform: translateY(-50%);
+                transform: translateY(-50%);
+            }
+
+            .titlerow {
+                height: 200px;
+                color: #fff;
+                background: #212121;
+                background: -moz-linear-gradient(top, #373737, #212121);
+                background: -webkit-linear-gradient(top, #373737, #212121);
+                background: -ms-linear-gradient(top, #373737, #212121);
+                background: -o-linear-gradient(top, #373737, #212121);
+                background: linear-gradient(to top, #373737, #212121);
+            }
+
+            .snippet {
+                width: 100%;
+            }
+
+            .snippetList {
+                max-height: 200px;
+            }
+
+            .ace_editor {
+                border: 1px solid lightgray;
+                margin: auto;
+                height: 200px;
+            }
+        </style>
+    </head>
+    <body>
+    <div class="maincontainer container">
+        <div class="row titlerow">
+            <div class="col">
+            </div>
+            <div class="col-md col-title">
+                <h1 class="titletext">libSimba-js Example</h1>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+        <div class="mainrow row justify-content-center">
+            <div class="col" style="flex-shrink: 1">
+            </div>
+            <div class="col-md col-central">
+<!--                <h1>How to add</h1>-->
+<!--                Include libsimba ....-->
+
+<!--                <br />-->
+                <h1>Initialise wallet</h1>
+                <div id="snippet1" class="snippet"></div>
+                <button type="button" id="runSnippet1" class="btn btn-primary">Run</button>
+                <ul class="snippetList list-group overflow-auto" id="snippet1Console"></ul>
+
+                <h1>Initialise Simba</h1>
+                <div id="snippet2" class="snippet"></div>
+                <button type="button" id="runSnippet2" class="btn btn-primary" disabled>Run</button>
+                <ul class="snippetList list-group overflow-auto" id="snippet2Console"></ul>
+
+                <h1>Call Simba Method</h1>
+                <div id="snippet3" class="snippet"></div>
+                <button type="button" id="runSnippet3" class="btn btn-primary" disabled>Run</button>
+                <ul class="snippetList list-group overflow-auto" id="snippet3Console"></ul>
+            </div>
+            <div class="col" style="flex-shrink: 1">
+            </div>
+        </div>
+    </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.6/ace.js" integrity="sha256-CVkji/u32aj2TeC+D13f7scFSIfphw2pmu4LaKWMSY8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.6/mode-javascript.js" integrity="sha256-9nVHCZW1SuyhaVgqmPk1XutGn+g/ASVBiVAheioldo4=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.6/mode-json.js" integrity="sha256-WH3EjHkUnhbOt45gfu5MvEYSqvYUXE25FwAtxukgi9U=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.6/theme-monokai.js" integrity="sha256-Fc4eJOe8KtF8kDLqSR94vUiJ1ohvKDxznSMxI3RavOw=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.10.2/beautify.min.js"></script>
+
+        <script type="text/javascript">
+            function wrapConsole(snippet) {
+                let list = $(snippet);
+
+                var _log = console.log;
+                var _error = console.error;
+                var _warning = console.warning;
+
+                function doScroll(){
+                    var height = list[0].scrollHeight;
+                    list.scrollTop(height);
+                }
+
+                console.error = function(errMessage){
+                    let li = document.createElement('li');
+                    li.innerText = errMessage;
+                    li.className += ' list-group-item';
+                    li.className += ' list-group-item-danger';
+
+                    list.get(0).appendChild(li);
+
+                    doScroll();
+
+                    _error.apply(console,arguments);
+                };
+
+                console.log = function(logMessage){
+                    let li = document.createElement('li');
+                    li.innerText = logMessage;
+                    li.className += ' list-group-item';
+
+                    list.get(0).appendChild(li);
+
+                    doScroll();
+
+                    _log.apply(console,arguments);
+                };
+
+                console.warning = function(warnMessage){
+                    let li = document.createElement('li');
+                    li.innerText = logMessage;
+                    li.className += ' list-group-item';
+                    li.className += ' list-group-item-warning';
+
+                    list.get(0).appendChild(li);
+
+                    doScroll();
+
+                    _warning.apply(console,arguments);
+                };
+
+                return function () {
+                    //unwrap
+                    console.error = _error;
+                    console.log = _log;
+                    console.warning = _warning;
+                }
+            }
+
+            let globals = {};
+
+            async function snippet1Code(){
+                let unwrap = wrapConsole('#snippet1Console');
+                //<START>
+                //Initialise Wallet
+                console.log('Initialising Wallet');
+                let wallet = new libsimba.LocalWallet(
+                    ()=>{
+                        //Ask the user for permission before signing
+                        console.log('Ask the user for permission before signing');
+                        return Promise.resolve(window.confirm("Do you want to sign this transaction?"))
+                    }
+                );
+                //Check if there's an existing local wallet
+                if(wallet.walletExists()){
+                    //There is a local wallet, unlock it
+                    console.log("Unlocking Wallet");
+
+                    //Use this to prevent progress output spam
+                    let lastProgress = 0;
+
+                    await wallet.unlockWallet(
+                        'test1234',
+                        (progress)=>{
+                            if(Math.floor(progress*10) > lastProgress){
+                                lastProgress = progress*10;
+                                console.log(`Decrypting Wallet ${Math.floor(progress*100)}`);
+                            }
+                        }
+                    );
+                }else{
+                    //There is no local wallet, let
+                    console.log("Creating Wallet");
+
+                    //Use this to prevent progress output spam
+                    let lastProgress = 0;
+
+                    await wallet.generateWallet(
+                        'test1234',
+                        (progress)=>{
+                            if(Math.floor(progress*10) > lastProgress){
+                                lastProgress = progress*10;
+                                console.log(`Encrypting Wallet ${Math.floor(progress*100)}`);
+                            }
+                        });
+                    // We can also generate a wallet from a private key, or from a mnemonic
+                    // await wallet.generateWalletFromPrivateKey(
+                    //     'cf0811297a0e539128025b8558df2b434e9425bd93886e5d43dfd14f9da44c14',
+                    //     'test1234',
+                    //     (progress)=>{
+                    //         console.log(`Encrypting Wallet ${progress*100}`);
+                    //     });
+                }
+                //Print out the wallet address, you don't need to do this, but useful to see
+                let address = await wallet.getAddress();
+                console.log(`Eth Address: ${address}`);
+                //</END>
+                unwrap();
+                return {wallet, address}
+            }
+
+            async function snippet2Code(){
+                let unwrap = wrapConsole('#snippet2Console');
+                let wallet = globals.wallet;
+                let address = globals.address;
+                //<START>
+                //Initialise Simba
+                console.log('Initialising Simba');
+                let simba = await libsimba.getSimbaInstance(
+                    'https://api.simbachain.com/v1/libSimba-SimbaChat/',
+                    wallet,
+                    '43283073fd5bebff453fa0e56284612d176d2f942961dab66b3205907f09bc35',
+                    '2e2ae3014030bae2668439c9d5bf03456b6748e7ee42ed228fbb08214587e5db');
+                let balance = await simba.getBalance();
+                console.log('Balance: ', balance);
+                let result = await simba.addFunds();
+                if(result.poa){
+                    console.log(`Didn't add funds: PoA network. ${JSON.stringify(result)}`);
+                }else if(result.faucet_url){
+                    console.log(`Didn't add funds: External faucet: ${result.faucet_url} - ${JSON.stringify(result)}`);
+                    console.log("To top up, you need to ask the user to visit the url in `faucet_url`");
+                }else{
+                    console.log(`Funded - May take up to a minute for the transaction to process: ${JSON.stringify(result)}`);
+                }
+                //</END>
+
+                unwrap();
+                return {simba, balance, result}
+            }
+
+            async function snippet3Code(){
+                let unwrap = wrapConsole('#snippet3Console');
+                let wallet = globals.wallet;
+                let address = globals.address;
+                let simba = globals.simba;
+                let balance = globals.balance;
+                let result = globals.result;
+
+                //<START>
+                //Call Simba Method
+                console.log('Call Simba Method');
+                //These are the parameters to pass to the method call
+                let methodParams = {
+                    assetId: "0xbad65ff688a28efdd17d979c12f0ab2e2de305dbc8a2aa6be45ed644da822cfb",
+                    name: "A Test Room",
+                    createdBy: "Kieran"
+                };
+                //Call the `createRoom` method, with the above params. The txn is signed with the wallet we created/loaded above
+                await simba.callMethod('createRoom', methodParams)
+                    .then((ret)=>{
+                        console.log(`Successful!  ${JSON.stringify(ret)}`);
+                        //The request and signing were successful, now we wait for the API to
+                        // tell us if the txn was successful or not.
+                        const { future, cancel } = simba.waitForSuccessOrError(ret);
+                        //`future` is a JS Promise that will resolve when we know the status
+                        //`cancel` is a function, you can call it to cancel the above request if needed
+                        future
+                            .then(txn=>{
+                                //txn will hold the txn details
+                                //txn.status will hold the status
+                                console.log(txn.status,txn);
+                            })
+                            .catch((error)=>{
+                                console.error(`Failure!  ${JSON.stringify(error)}`);
+                            })
+                    })
+                    .catch((error)=>{
+                        console.error(`Failure!  ${JSON.stringify(error)}`);
+                    });
+                //</END>
+
+                unwrap();
+                return {}
+            }
+
+            function stripSource(src){
+                let newSrc = src.toString().split('//<START>')[1].split('//</END>')[0].trimStart().trimEnd();
+                return js_beautify(newSrc, {
+                    indent_size: 4,
+                    space_in_empty_paren: true,
+                    end_with_newline: false
+                });
+            }
+
+            let AceOpts = {
+                readOnly: true,
+                useWorker: false,
+                theme: "ace/theme/monokai",
+                mode: "ace/mode/javascript",
+                autoScrollEditorIntoView: true,
+                maxLines: 50,
+                minLines: 2
+            };
+
+            function initSnippet(element, btnElement, btnNextElement, func){
+                $(element).text(stripSource(func));
+
+                var editor = ace.edit($(element).get( 0 ));
+                editor.setOptions(AceOpts);
+
+                editor.renderer.setScrollMargin(10, 10, 10, 10);
+
+                $(btnElement).on('click', async function () {
+                    $(btnElement).attr('disabled', true);
+                    let globalsOut = await func(globals);
+                    Object.assign(globals, globalsOut);
+                    $(btnElement).removeAttr('disabled');
+                    if(btnNextElement) $(btnNextElement).removeAttr('disabled');
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", async () => {
+
+                // #### SNIPPET 1 ####
+                initSnippet('#snippet1', '#runSnippet1', '#runSnippet2', snippet1Code);
+
+                // #### SNIPPET 2 ####
+                initSnippet('#snippet2', '#runSnippet2', '#runSnippet3', snippet2Code);
+
+                // #### SNIPPET 3 ####
+                initSnippet('#snippet3', '#runSnippet3', null, snippet3Code);
+            });
+        </script>
+    <script src="libsimba.js"></script></body>
+</html>

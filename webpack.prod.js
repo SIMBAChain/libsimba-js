@@ -47,7 +47,8 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html',
+            template: './src/example.html',
+            filename: 'example.html',
             // Inject the js bundle at the end of the body of the given template
             inject: 'body',
             minify: false
@@ -61,12 +62,7 @@ module.exports = {
             'README.md',
             'CHANGELOG.md',
             'LICENSE',
-            '.gitignore',
-            {
-                from: 'index.html',
-                to: 'docs/_example.html',
-                toType: 'file'
-            }
+            '.gitignore'
         ])
     ]
 };
