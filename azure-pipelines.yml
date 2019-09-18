@@ -56,10 +56,14 @@ steps:
             summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
             reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
 
+    -   task: npmAuthenticate@0
+        inputs:
+            customEndpoint: 'NPMJS Simbachain Org'
+
     -   task: Npm@1
         displayName: 'npm publish'
         inputs:
             command: publish
             verbose: false
             publishRegistry: useFeed
-            publishFeed: 'c60dc610-2e41-469a-8965-6fcc99cace8c'
+            customEndpoint: 'NPMJS Simbachain Org'
