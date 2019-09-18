@@ -22,7 +22,7 @@
         "postrelease": "run-s release:* deploydocs",
         "release:tags": "git push --follow-tags origin master",
         "publish": "npm publish dist --access public && npm run deploydocs",
-        "prepublishOnly": "npm run ci:validate && npm run build"
+        "prepublishOnly": "npm run build"
     },
     "repository": {
         "type": "git",
