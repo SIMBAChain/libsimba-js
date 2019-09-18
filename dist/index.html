@@ -80,10 +80,10 @@
             <div class="col" style="flex-shrink: 1">
             </div>
             <div class="col-md col-central">
-                <h1>How to add</h1>
-                Include libsimba ....
+<!--                <h1>How to add</h1>-->
+<!--                Include libsimba ....-->
 
-                <br />
+<!--                <br />-->
                 <h1>Initialise wallet</h1>
                 <div id="snippet1" class="snippet"></div>
                 <button type="button" id="runSnippet1" class="btn btn-primary">Run</button>
@@ -188,6 +188,7 @@
                 let wallet = new libsimba.LocalWallet(
                     ()=>{
                         //Ask the user for permission before signing
+                        console.log('Ask the user for permission before signing');
                         return Promise.resolve(window.confirm("Do you want to sign this transaction?"))
                     }
                 );
