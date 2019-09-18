@@ -62,6 +62,7 @@ module.exports = {
             'README.md',
             'CHANGELOG.md',
             'LICENSE',
+            '.npmrc',
             '.gitignore'
         ])
     ]

@@ -21,7 +21,7 @@
         "prerelease": "npm run validate",
         "postrelease": "npx run-s push deploydocs",
         "release": "npx standard-version -a",
-        "publish:npmjs": "npm publish dist --access public"
+        "publish": "npm publish dist --access public"
     },
     "standard-version": {
         "scripts": {

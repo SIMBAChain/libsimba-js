@@ -56,12 +56,10 @@ steps:
             summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
             reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
 
-    -   task: Npm@1
-        displayName: 'npm publish'
-        inputs:
-            command: custom
-            verbose: false
-            customCommand: run publish:npmjs
-            publishRegistry: 'useExternalRegistry'
-            publishPackageMetadata: true
-            publishEndpoint: 'NPMJS Simbachain Org'
+    - task: Npm@1
+      inputs:
+          command: 'custom' # Options: install, publish, custom
+          verbose: true
+          customCommand: publish
+          customRegistry: 'useNpmrc'
+          customEndpoint: 'NPMJS Simbachain Org'
