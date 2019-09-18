@@ -2,6 +2,7 @@ import {pollWrapper} from "poll-js";
 import {MissingMetadataException, NotImplementedException, BadMetadataException, MethodCallValidationMetadataException} from '../exceptions';
 
 /**
+ * @interface
  * Base class for libsimba API Interaction implementations
  */
 export default class SimbaBase {
@@ -71,6 +72,7 @@ export default class SimbaBase {
     }
 
     /**
+     * @abstract
      * (Abstract) Perform any asynchronous actions needed to initialise this class
      */
     initialize() {
@@ -78,6 +80,7 @@ export default class SimbaBase {
     }
 
     /**
+     * @abstract
      * (Abstract) Call a method on the API
      * @param {string} method - the method to call
      * @param {Object} parameters - the parameters for the method
@@ -88,6 +91,7 @@ export default class SimbaBase {
     }
 
     /**
+     * @abstract
      * (Abstract) Gets a paged list of transactions for the method
      * @param {string} method - The method
      * @param {Object} parameters - The query parameters
@@ -97,6 +101,7 @@ export default class SimbaBase {
     }
 
     /**
+     * @abstract
      * (Abstract) Gets a specific transaction
      * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
      * @returns {Promise<Object>} - The transaction
@@ -106,6 +111,7 @@ export default class SimbaBase {
     }
 
     /**
+     * @abstract
      * (Abstract) Gets a paged list of transactions
      * @param {Object} parameters - The query parameters
      * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
@@ -115,6 +121,7 @@ export default class SimbaBase {
     }
 
     /**
+     * @abstract
      * (Abstract) Call a method on the API with files
      * @param {string} method - the method to call
      * @param {Object} parameters - the parameters for the method
@@ -126,6 +133,7 @@ export default class SimbaBase {
     }
 
     /**
+     * @abstract
      * (Abstract) Get the status of a transaction by ID
      * @param {string} txnId - the transaction ID
      * @return {Promise<Object>} - a promise resolving with the transaction details
@@ -135,6 +143,8 @@ export default class SimbaBase {
     }
 
     /**
+     * @abstract
+     * @private
      * (Abstract) Gets the status of a transaction
      * @param {Object} txn - a transaction object
      * @return {Object} - an object with status details
@@ -144,6 +154,8 @@ export default class SimbaBase {
     }
 
     /**
+     * @abstract
+     * @private
      * (Abstract) Check if the transaction is complete
      * @param {Object} txn - the transaction object
      * @return {boolean} - is the transaction complete
@@ -153,6 +165,7 @@ export default class SimbaBase {
     }
 
     /**
+     * @abstract
      * (Abstract) Gets the status of a transaction by ID
      * @param {string} txnId - a transaction ID
      * @return {Object} - an object with status details
@@ -162,6 +175,7 @@ export default class SimbaBase {
     }
 
     /**
+     * @abstract
      * (Abstract) Get the balance for the attached Wallet
      * @return {Promise<Object>} - the balance
      */
@@ -170,6 +184,7 @@ export default class SimbaBase {
     }
 
     /**
+     * @abstract
      * (Abstract) Add funds to the attached Wallet.
      * Please check the output of this method. It is of the form
      * ```
@@ -233,6 +248,7 @@ export default class SimbaBase {
     }
 
     /**
+     * @private
      * Get API Call auth headers
      * @returns {{APIKEY: *, "Content-Type": string}}
      */
@@ -243,6 +259,7 @@ export default class SimbaBase {
     }
 
     /**
+     * @private
      * Get management API Call auth headers
      * @returns {{APIKEY: *, "Content-Type": string}}
      */
@@ -253,6 +270,7 @@ export default class SimbaBase {
     }
 
     /**
+     * @private
      * Validate the method call against the app metadata
      * @param {string} methodName - the methods name
      * @param {Object} parameters - the parameters for the method call
@@ -308,6 +326,7 @@ export default class SimbaBase {
     }
 
     /**
+     * @private
      * Validate the transaction list call against the app metadata
      * @param {string} methodName - the methods name
      * @param {Object} parameters - the parameters for the query
@@ -333,6 +352,7 @@ export default class SimbaBase {
     }
 
     /**
+     * @private
      * Validate the transaction list call against the app metadata
      * @returns {boolean}
      * @throws {MissingMetadataException} - App Metadata not yet retrieved

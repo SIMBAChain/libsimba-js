@@ -18,6 +18,7 @@ export default class LocalWallet extends Wallet {
     }
 
     /**
+     * @override
      * Unlock the wallet
      * @param {string} passkey - The pass key to unlock the wallet
      * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress
@@ -29,6 +30,7 @@ export default class LocalWallet extends Wallet {
     }
 
     /**
+     * @override
      * Generate a wallet
      * @param {string} passkey - The pass key to lock the wallet
      * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress
@@ -89,6 +91,7 @@ export default class LocalWallet extends Wallet {
     }
 
     /**
+     * @override
      * Delete the wallet
      */
     deleteWallet(){
@@ -96,6 +99,7 @@ export default class LocalWallet extends Wallet {
     }
 
     /**
+     * @override
      * Check if a wallet exists
      * @return {boolean} - does the wallet exist
      */
@@ -136,6 +140,8 @@ export default class LocalWallet extends Wallet {
     }
 
     /**
+     * @protected
+     * @override
      * Sign a transaction payload
      * @param {Object} payload - The transaction to sign
      * @returns {Promise<string>} - Returns a promise resolving to the signed transaction
@@ -159,6 +165,7 @@ export default class LocalWallet extends Wallet {
     }
 
     /**
+     * @private
      * Clean the payload before signing
      * @param {Object} payload - The transaction to clean
      * @returns {string} - The cleaned transaction
@@ -184,6 +191,7 @@ export default class LocalWallet extends Wallet {
     }
 
     /**
+     * @override
      * Get the wallets address
      * @returns {Promise<string>} - Returns a promise resolving to the wallets address
      */

@@ -1,4 +1,5 @@
 /**
+ * @interface
  * Base class for libsimba Wallet implementations
  */
 export default class Wallet {
@@ -42,6 +43,7 @@ export default class Wallet {
     }
 
     /**
+     * @abstract
      * (Abstract) Unlock the wallet
      * @param {string} passkey - The pass key to unlock the wallet
      * @returns {Promise} - Returns a promise resolving when the wallet is unlocked
@@ -51,6 +53,7 @@ export default class Wallet {
     }
 
     /**
+     * @abstract
      * (Abstract) Generate a wallet
      * @param {string} passkey - The pass key to lock the wallet
      * @returns {Promise} - Returns a promise resolving when the wallet is created
@@ -60,6 +63,7 @@ export default class Wallet {
     }
 
     /**
+     * @abstract
      * (Abstract) Delete the wallet
      */
     deleteWallet() {
@@ -67,6 +71,7 @@ export default class Wallet {
     }
 
     /**
+     * @abstract
      * (Abstract) Check if a wallet exists
      * @return {boolean} - does the wallet exist
      */
@@ -75,6 +80,8 @@ export default class Wallet {
     }
 
     /**
+     * @protected
+     * @abstract
      * (Abstract) Sign a transaction payload
      * @param {Object} payload - The transaction to sign
      * @returns {Promise<string>} - Returns a promise resolving to the signed transaction
@@ -84,6 +91,7 @@ export default class Wallet {
     }
 
     /**
+     * @abstract
      * (Abstract) Get the wallets address
      * @returns {Promise<string>} - Returns a promise resolving to the wallets address
      */

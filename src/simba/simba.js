@@ -24,6 +24,7 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
+     * @private
      * Perform asynchronous actions needed to initialise this class
      */
     async initialize() {
@@ -36,6 +37,7 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
+     * @override
      * Call a method on the API
      * @param {string} method - the method to call
      * @param {Object} parameters - the parameters for the method
@@ -59,6 +61,7 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
+     * @override
      * Get the status of a transaction by ID
      * @param {string} txnId - the transaction ID
      * @return {Promise<Object>} - a promise resolving with the transaction details
@@ -81,7 +84,9 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
-     * (Abstract) Gets the status of a transaction
+     * @override
+     * @private
+     * Gets the status of a transaction
      * @param {Object} txn - a transaction object
      * @return {Object} - an object with status details
      */
@@ -109,6 +114,8 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
+     * @override
+     * @private
      * Check if the transaction is complete
      * @param {Object} txn - the transaction object
      * @return {boolean} - is the transaction complete
@@ -118,6 +125,8 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
+     * @override
+     * @private
      * Gets the status of a transaction by ID
      * @param {string} txnId - a transaction ID
      * @return {Object} - an object with status details
@@ -128,6 +137,7 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
+     * @override
      * Get the balance for the attached Wallet
      * @return {Promise<Object>} - the balance
      */
@@ -166,6 +176,7 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
+     * @override
      * Add funds to the attached Wallet.
      * Please check the output of this method. It is of the form
      * ```
@@ -236,6 +247,7 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
+     * @override
      * Call a method on the API with files
      * @param {string} method - the method to call
      * @param {Object} parameters- the parameters for the method
@@ -264,6 +276,7 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
+     * @private
      * Internal method for sending method calls
      * @param {string} url - the url
      * @param {FormData} formdata - Formdata for the POST
@@ -312,6 +325,7 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
+     * @override
      * Gets a specific transaction
      * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
      * @returns {Promise<Object>} - The transaction
@@ -334,6 +348,7 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
+     * @override
      * Gets a paged list of transactions
      * @param {Object} parameters - The query parameters
      * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
@@ -351,6 +366,7 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
+     * @override
      * Gets a paged list of transactions for the method
      * @param {string} method - The method
      * @param {Object} parameters - The query parameters
@@ -369,6 +385,7 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
+     * @private
      * Internal function for sending transaction GET requests
      * @param {URL} url - The URL
      * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
