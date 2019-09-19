@@ -1,6 +1,8 @@
 <h1 align="center">Welcome to libsimba-js</h1>
 <p>
-  <img alt="npm" src="https://img.shields.io/npm/dw/@simbachain/libsimba-js?style=flat">  
+    <a href="https://www.npmjs.com/package/@simbachain/libsimba-js">
+      <img alt="npm" src="https://img.shields.io/npm/dw/@simbachain/libsimba-js?style=flat">  
+    </a> 
   <a href="https://simbachain.github.io/libsimba-js">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg?style=flat" target="_blank" />
   </a>
