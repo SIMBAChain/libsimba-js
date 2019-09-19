@@ -32,6 +32,7 @@
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~BadMetadataException.html">BadMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~BaseException.html">BaseException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~GenerateTransactionException.html">GenerateTransactionException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~GetRequestException.html">GetRequestException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~GetTransactionsException.html">GetTransactionsException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MethodCallValidationMetadataException.html">MethodCallValidationMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MissingMetadataException.html">MissingMetadataException</a></span></span></li>
@@ -407,6 +408,90 @@
           
           
           <span class="code" data-ice="name"><span><a href="class/src/simba/simbabase.js~SimbaBase.html#instance-method-getBalance">getBalance</a></span></span><span class="code" data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>&gt;</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      <span class="abstract" data-ice="abstract">abstract</span>
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/simba/simbabase.js~SimbaBase.html#instance-method-getBundleForTransaction">getBundleForTransaction</a></span></span><span class="code" data-ice="signature">(transactionIdOrHash: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, stream: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span>ReadableStream</span>|<span>Blob</span>&gt;</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      <span class="abstract" data-ice="abstract">abstract</span>
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/simba/simbabase.js~SimbaBase.html#instance-method-getBundleMetadataForTransaction">getBundleMetadataForTransaction</a></span></span><span class="code" data-ice="signature">(transactionIdOrHash: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>&gt;</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      <span class="abstract" data-ice="abstract">abstract</span>
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/simba/simbabase.js~SimbaBase.html#instance-method-getFileFromBundleForTransaction">getFileFromBundleForTransaction</a></span></span><span class="code" data-ice="signature">(transactionIdOrHash: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, fileIdx: <span>integer</span>, stream: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span>ReadableStream</span>|<span>Blob</span>&gt;</span>
         </p>
       </div>
       <div>
@@ -971,7 +1056,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber239">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber284">source</a></span></span>
     </span>
   </h3>
 
@@ -1057,7 +1142,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber247">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber292">source</a></span></span>
     </span>
   </h3>
 
@@ -1189,7 +1274,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber205">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber250">source</a></span></span>
     </span>
   </h3>
 
@@ -1245,7 +1330,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber89">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber101">source</a></span></span>
     </span>
   </h3>
 
@@ -1325,7 +1410,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber131">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber176">source</a></span></span>
     </span>
   </h3>
 
@@ -1412,7 +1497,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber173">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber218">source</a></span></span>
     </span>
   </h3>
 
@@ -1485,7 +1570,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber182">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber227">source</a></span></span>
     </span>
   </h3>
 
@@ -1530,6 +1615,246 @@
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-getBundleForTransaction">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    <span class="abstract" data-ice="abstract">abstract</span>
+    
+    
+    <span class="code" data-ice="name">getBundleForTransaction</span><span class="code" data-ice="signature">(transactionIdOrHash: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, stream: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span>ReadableStream</span>|<span>Blob</span>&gt;</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber142">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">transactionIdOrHash</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Either a transaction ID or a transaction hash</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">stream</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>If true, returns a <span>ReadableStream</span>, otherwise returns a <span>Blob</span></p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span>ReadableStream</span>|<span>Blob</span>&gt;</td>
+          <td class="return-desc" data-ice="returnDescription"><p>The bundle</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-getBundleMetadataForTransaction">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    <span class="abstract" data-ice="abstract">abstract</span>
+    
+    
+    <span class="code" data-ice="name">getBundleMetadataForTransaction</span><span class="code" data-ice="signature">(transactionIdOrHash: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>&gt;</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber131">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">transactionIdOrHash</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Either a transaction ID or a transaction hash</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>&gt;</td>
+          <td class="return-desc" data-ice="returnDescription"><p>The bundle metadata</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-getFileFromBundleForTransaction">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    <span class="abstract" data-ice="abstract">abstract</span>
+    
+    
+    <span class="code" data-ice="name">getFileFromBundleForTransaction</span><span class="code" data-ice="signature">(transactionIdOrHash: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, fileIdx: <span>integer</span>, stream: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span>ReadableStream</span>|<span>Blob</span>&gt;</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber154">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">transactionIdOrHash</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Either a transaction ID or a transaction hash</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">fileIdx</td>
+      <td data-ice="type" class="code"><span>integer</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The index of the file in the bundle metadata</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">stream</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>If true, returns a <span>ReadableStream</span>, otherwise returns a <span>Blob</span></p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span>ReadableStream</span>|<span>Blob</span>&gt;</td>
+          <td class="return-desc" data-ice="returnDescription"><p>The file</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-getMethodTransactions">
     <span class="access" data-ice="access">public</span>
     
@@ -1541,7 +1866,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber99">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber111">source</a></span></span>
     </span>
   </h3>
 
@@ -1608,7 +1933,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber109">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber121">source</a></span></span>
     </span>
   </h3>
 
@@ -1681,7 +2006,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber141">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber186">source</a></span></span>
     </span>
   </h3>
 
@@ -1754,7 +2079,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber119">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber164">source</a></span></span>
     </span>
   </h3>
 
@@ -1827,7 +2152,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber78">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber90">source</a></span></span>
     </span>
   </h3>
 
@@ -1870,7 +2195,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber238">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber283">source</a></span></span>
     </span>
   </h3>
 
@@ -1931,7 +2256,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber246">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber291">source</a></span></span>
     </span>
   </h3>
 
@@ -1992,7 +2317,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber230">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber275">source</a></span></span>
     </span>
   </h3>
 
@@ -2053,7 +2378,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber216">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber261">source</a></span></span>
     </span>
   </h3>
 
@@ -2138,7 +2463,7 @@ cancel is a function - call it to cancel the polling.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber255">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber300">source</a></span></span>
     </span>
   </h3>
 
@@ -2193,7 +2518,7 @@ cancel is a function - call it to cancel the polling.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber163">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber208">source</a></span></span>
     </span>
   </h3>
 
@@ -2266,7 +2591,7 @@ cancel is a function - call it to cancel the polling.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber152">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber197">source</a></span></span>
     </span>
   </h3>
 
@@ -2339,7 +2664,7 @@ cancel is a function - call it to cancel the polling.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber266">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber311">source</a></span></span>
     </span>
   </h3>
 
@@ -2394,7 +2719,7 @@ cancel is a function - call it to cancel the polling.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber361">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber406">source</a></span></span>
     </span>
   </h3>
 
@@ -2466,7 +2791,7 @@ cancel is a function - call it to cancel the polling.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber283">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber328">source</a></span></span>
     </span>
   </h3>
 
@@ -2574,7 +2899,7 @@ cancel is a function - call it to cancel the polling.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber338">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simbabase.js.html#lineNumber383">source</a></span></span>
     </span>
   </h3>
 

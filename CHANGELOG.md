@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.12](https://github.com/simbachain/libsimba-js/compare/v0.3.11...v0.3.12) (2019-09-19)
+
+
+### Features
+
+* **simba:** add bundle operations ([dbe0911](https://github.com/simbachain/libsimba-js/commit/dbe0911))
+
 ### [0.3.11](https://github.com/simbachain/libsimba-js/compare/v0.3.10...v0.3.11) (2019-09-18)
 
 

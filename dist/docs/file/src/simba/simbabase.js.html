@@ -32,6 +32,7 @@
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~BadMetadataException.html">BadMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~BaseException.html">BaseException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~GenerateTransactionException.html">GenerateTransactionException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~GetRequestException.html">GetRequestException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~GetTransactionsException.html">GetTransactionsException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MethodCallValidationMetadataException.html">MethodCallValidationMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MissingMetadataException.html">MissingMetadataException</a></span></span></li>
@@ -124,6 +125,18 @@ export default class SimbaBase {
         if (this.getTransactions === SimbaBase.prototype.getTransactions) {
             throw new NotImplementedException(&apos;Please implement abstract method getTransactions.&apos;);
         }
+
+        if (this.getBundleMetadataForTransaction === SimbaBase.prototype.getTransactions) {
+            throw new NotImplementedException(&apos;Please implement abstract method getTransactions.&apos;);
+        }
+
+        if (this.getBundleForTransaction === SimbaBase.prototype.getTransactions) {
+            throw new NotImplementedException(&apos;Please implement abstract method getTransactions.&apos;);
+        }
+
+        if (this.getFileFromBundleForTransaction === SimbaBase.prototype.getTransactions) {
+            throw new NotImplementedException(&apos;Please implement abstract method getTransactions.&apos;);
+        }
     }
 
     /**
@@ -162,6 +175,39 @@ export default class SimbaBase {
      * @returns {Promise&lt;Object&gt;} - The transaction
      */
     getTransaction(transactionIdOrHash) {
+        throw new NotImplementedException(&apos;SimbaBase.getTransaction Not Implemented&apos;);
+    }
+
+    /**
+     * @abstract
+     * (Abstract) Gets a the bundle metadata for a transaction
+     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+     * @returns {Promise&lt;Object&gt;} - The bundle metadata
+     */
+    getBundleMetadataForTransaction(transactionIdOrHash) {
+        throw new NotImplementedException(&apos;SimbaBase.getTransaction Not Implemented&apos;);
+    }
+
+    /**
+     * @abstract
+     * (Abstract) Gets the bundle for a transaction
+     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+     * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
+     * @returns {Promise&lt;ReadableStream|Blob&gt;} - The bundle
+     */
+    getBundleForTransaction(transactionIdOrHash, stream) {
+        throw new NotImplementedException(&apos;SimbaBase.getTransaction Not Implemented&apos;);
+    }
+
+    /**
+     * @abstract
+     * (Abstract) Gets a file from the bundle for a transaction
+     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+     * @param {integer} fileIdx - The index of the file in the bundle metadata
+     * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
+     * @returns {Promise&lt;ReadableStream|Blob&gt;} - The file
+     */
+    getFileFromBundleForTransaction(transactionIdOrHash, fileIdx, stream) {
         throw new NotImplementedException(&apos;SimbaBase.getTransaction Not Implemented&apos;);
     }
 

@@ -1,11 +1,11 @@
 {
-  "coverage": "67.46%",
-  "expectCount": 126,
-  "actualCount": 85,
+  "coverage": "68.14%",
+  "expectCount": 135,
+  "actualCount": 92,
   "files": {
     "src/exceptions.js": {
-      "expectCount": 41,
-      "actualCount": 14,
+      "expectCount": 44,
+      "actualCount": 15,
       "undocumentLines": [
         12,
         13,
@@ -30,10 +30,12 @@
         110,
         118,
         120,
-        129,
-        131,
-        140,
-        142
+        128,
+        130,
+        139,
+        141,
+        150,
+        152
       ]
     },
     "src/index.js": {
@@ -54,21 +56,21 @@
       ]
     },
     "src/simba/simba.js": {
-      "expectCount": 17,
-      "actualCount": 16,
+      "expectCount": 20,
+      "actualCount": 19,
       "undocumentLines": [
-        35
+        36
       ]
     },
     "src/simba/simbabase.js": {
-      "expectCount": 28,
-      "actualCount": 23,
+      "expectCount": 31,
+      "actualCount": 26,
       "undocumentLines": [
         16,
         20,
         22,
-        239,
-        247
+        284,
+        292
       ]
     },
     "src/wallet/localwallet.js": {
