@@ -6,7 +6,8 @@ import {
     SubmitTransactionException,
     TransactionStatusCheckException,
     NotImplementedException,
-    GetTransactionsException
+    GetTransactionsException,
+    GetRequestException
 } from '../exceptions';
 import PagedResponse from "./pagedresponse";
 
@@ -75,7 +76,7 @@ export default class Simbachain extends SimbaBase {
             .then(async (response) => {
                 let data = await response.json();
 
-                if (response.status >= 400) {
+                if (!response.ok) {
                     throw new TransactionStatusCheckException(JSON.stringify(data));
                 }
 
@@ -164,7 +165,7 @@ export default class Simbachain extends SimbaBase {
             {
                 method: 'GET',
                 cache: 'no-cache',
-                headers: this.apiAuthHeaders()
+                headers: Object.assign({'Content-Type':'application/json'},this.apiAuthHeaders())
             }
         );
         let data = await response.json();
@@ -232,7 +233,7 @@ export default class Simbachain extends SimbaBase {
             {
                 method: 'POST',
                 cache: 'no-cache',
-                headers: this.apiAuthHeaders(),
+                headers: Object.assign({'Content-Type':'application/json'}, this.apiAuthHeaders()),
                 body: JSON.stringify(requestData)
             }
         );
@@ -294,7 +295,7 @@ export default class Simbachain extends SimbaBase {
             .then(async (response) => {
                 let data = await response.json();
 
-                if (response.status >= 400) {
+                if (!response.ok) {
                     throw new GenerateTransactionException(JSON.stringify(data));
                 }
                 // tslint:disable-next-line: no-unsafe-any
@@ -314,7 +315,7 @@ export default class Simbachain extends SimbaBase {
             .then(async (response) => {
                 let data = await response.json();
 
-                if (response.status >= 400) {
+                if (!response.ok) {
                     throw new SubmitTransactionException(JSON.stringify(data));
                 }
                 // tslint:disable-next-line: no-console
@@ -340,8 +341,8 @@ export default class Simbachain extends SimbaBase {
             headers: this.apiAuthHeaders()
         });
 
-        if (response.status >= 400) {
-            throw new GetTransactionsException(JSON.stringify(data));
+        if (!response.ok) {
+            throw new GetTransactionsException(await response.text());
         }
 
         return await response.json();
@@ -396,12 +397,89 @@ export default class Simbachain extends SimbaBase {
             headers: this.apiAuthHeaders()
         });
 
-        if (response.status >= 400) {
-            throw new GetTransactionsException(JSON.stringify(data));
+        if (!response.ok) {
+            throw new GetTransactionsException(await response.text());
         }
 
         let json = await response.json();
 
         return new PagedResponse(json, url, this);
+    }
+
+
+    /**
+     * @override
+     * Gets a the bundle metadata for a transaction
+     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+     * @returns {Promise<Object>} - The bundle metadata
+     */
+    async getBundleMetadataForTransaction(transactionIdOrHash) {
+        let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/bundle/`);
+
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: this.apiAuthHeaders()
+        });
+
+        if (!response.ok) {
+            throw new GetRequestException(await response.text());
+        }
+
+        return response.json();
+    }
+
+    /**
+     * @override
+     * Gets the bundle for a transaction
+     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+     * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
+     * @returns {Promise<ReadableStream|Blob>} - The bundle
+     */
+    async getBundleForTransaction(transactionIdOrHash, stream) {
+        let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/bundle_raw/`);
+
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: this.apiAuthHeaders()
+        });
+
+        if (!response.ok) {
+            throw new GetRequestException(await response.text());
+        }
+
+
+        if(!stream){
+            return response.blob();
+        }
+
+        return response.body;
+    }
+
+    /**
+     * @override
+     * Gets a file from the bundle for a transaction
+     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+     * @param {integer} fileIdx - The index of the file in the bundle metadata
+     * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
+     * @returns {Promise<ReadableStream|Blob>} - The file
+     */
+    async getFileFromBundleForTransaction(transactionIdOrHash, fileIdx, stream) {
+        let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/file/${fileIdx}/`);
+
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: this.apiAuthHeaders()
+        });
+
+        if (!response.ok) {
+            throw new GetRequestException(await response.text());
+        }
+
+
+        if (!stream) {
+            return response.blob();
+        }
+
+        return response.body;
     }
 }

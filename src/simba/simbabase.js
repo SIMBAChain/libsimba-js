@@ -69,6 +69,18 @@ export default class SimbaBase {
         if (this.getTransactions === SimbaBase.prototype.getTransactions) {
             throw new NotImplementedException('Please implement abstract method getTransactions.');
         }
+
+        if (this.getBundleMetadataForTransaction === SimbaBase.prototype.getTransactions) {
+            throw new NotImplementedException('Please implement abstract method getTransactions.');
+        }
+
+        if (this.getBundleForTransaction === SimbaBase.prototype.getTransactions) {
+            throw new NotImplementedException('Please implement abstract method getTransactions.');
+        }
+
+        if (this.getFileFromBundleForTransaction === SimbaBase.prototype.getTransactions) {
+            throw new NotImplementedException('Please implement abstract method getTransactions.');
+        }
     }
 
     /**
@@ -107,6 +119,39 @@ export default class SimbaBase {
      * @returns {Promise<Object>} - The transaction
      */
     getTransaction(transactionIdOrHash) {
+        throw new NotImplementedException('SimbaBase.getTransaction Not Implemented');
+    }
+
+    /**
+     * @abstract
+     * (Abstract) Gets a the bundle metadata for a transaction
+     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+     * @returns {Promise<Object>} - The bundle metadata
+     */
+    getBundleMetadataForTransaction(transactionIdOrHash) {
+        throw new NotImplementedException('SimbaBase.getTransaction Not Implemented');
+    }
+
+    /**
+     * @abstract
+     * (Abstract) Gets the bundle for a transaction
+     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+     * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
+     * @returns {Promise<ReadableStream|Blob>} - The bundle
+     */
+    getBundleForTransaction(transactionIdOrHash, stream) {
+        throw new NotImplementedException('SimbaBase.getTransaction Not Implemented');
+    }
+
+    /**
+     * @abstract
+     * (Abstract) Gets a file from the bundle for a transaction
+     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+     * @param {integer} fileIdx - The index of the file in the bundle metadata
+     * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
+     * @returns {Promise<ReadableStream|Blob>} - The file
+     */
+    getFileFromBundleForTransaction(transactionIdOrHash, fileIdx, stream) {
         throw new NotImplementedException('SimbaBase.getTransaction Not Implemented');
     }
 
