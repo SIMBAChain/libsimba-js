@@ -9,7 +9,7 @@
   <a href="https://github.com/SIMBAChain/libsimba-js/blob/master/LICENSE">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat" target="_blank" />
   </a>
-  <img alt="azure" src="https://dev.azure.com/SimbaChain/libSimba/_apis/build/status/SIMBAChain.libsimba-js?branchName=develop">
+  <img alt="azure" src="https://dev.azure.com/SimbaChain/libSimba/_apis/build/status/SIMBAChain.libsimba-js-develop?branchName=develop">
 </p>
 
 > libsimba-js is a library simplifying the use of SIMBAChain APIs. We aim to abstract away the various blockchain concepts, reducing the necessary time needed to get to working code.
