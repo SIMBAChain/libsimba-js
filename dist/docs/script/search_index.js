@@ -774,6 +774,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/simba/simba.js~simbachain#getfilefrombundlebynamefortransaction",
+    "class/src/simba/simba.js~Simbachain.html#instance-method-getFileFromBundleByNameForTransaction",
+    "src/simba/simba.js~Simbachain#getFileFromBundleByNameForTransaction",
+    "method"
+  ],
+  [
     "src/simba/simba.js~simbachain#getfilefrombundlefortransaction",
     "class/src/simba/simba.js~Simbachain.html#instance-method-getFileFromBundleForTransaction",
     "src/simba/simba.js~Simbachain#getFileFromBundleForTransaction",
@@ -909,6 +915,12 @@ window.esdocSearchIndex = [
     "src/simba/simbabase.js~simbabase#getbundlemetadatafortransaction",
     "class/src/simba/simbabase.js~SimbaBase.html#instance-method-getBundleMetadataForTransaction",
     "src/simba/simbabase.js~SimbaBase#getBundleMetadataForTransaction",
+    "method"
+  ],
+  [
+    "src/simba/simbabase.js~simbabase#getfilefrombundlebynamefortransaction",
+    "class/src/simba/simbabase.js~SimbaBase.html#instance-method-getFileFromBundleByNameForTransaction",
+    "src/simba/simbabase.js~SimbaBase#getFileFromBundleByNameForTransaction",
     "method"
   ],
   [

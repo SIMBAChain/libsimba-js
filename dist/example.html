@@ -166,7 +166,7 @@
                         <button type="button" id="runSnippet4" class="runCallSnippet btn btn-outline-secondary" disabled>Run the code</button>
                     </div>
                     <div class="custom-file">
-                        <input type="file" id="aFileInput" class="custom-file-input" id="inputGroupFile01">
+                        <input multiple type="file" id="aFileInput" class="custom-file-input" id="inputGroupFile01">
                         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                     </div>
                 </div>
@@ -251,6 +251,21 @@
                 <button type="button" id="runSnippet9" class="runCallSnippet btn btn-outline-secondary btn-bottom-margin" disabled>Run the code</button>
                 <div id="snippet9" class="snippet"></div>
                 <ul class="snippetList list-group overflow-auto" id="snippet9Console"></ul>
+
+                <br />
+                <h3>
+                    Get a file from a bundle
+                    <small class="text-muted"> by name using the transactions hash</small>
+                </h3>
+                <p class="lead">
+                    Using <code>simba.getFileFromBundleByNameForTransaction</code> we'll retrieve a file from a bundle.
+                </p>
+                <p>
+                    This method is returns the transaction.
+                </p>
+                <button type="button" id="runSnippet10" class="runCallSnippet btn btn-outline-secondary btn-bottom-margin" disabled>Run the code</button>
+                <div id="snippet10" class="snippet"></div>
+                <ul class="snippetList list-group overflow-auto" id="snippet10Console"></ul>
             </div>
             <div class="col" style="flex-shrink: 1">
             </div>
@@ -451,7 +466,10 @@
                             .then(txn=>{
                                 //txn will hold the txn details
                                 //txn.status will hold the status
-                                console.log(txn.status,txn);
+                                console.log(`Status: ${txn.status}`);
+                                if(txn.status === 'DEPLOYED'){
+                                    console.log(`Hash: ${txn.transaction_hash}`);
+                                }
                             })
                             .catch((error)=>{
                                 console.error(`Failure!  ${JSON.stringify(error)}`);
@@ -509,7 +527,10 @@
                             .then(txn=>{
                                 //txn will hold the txn details
                                 //txn.status will hold the status
-                                console.log(txn.status,txn);
+                                console.log(`Status: ${txn.status}`);
+                                if(txn.status === 'DEPLOYED'){
+                                    console.log(`Hash: ${txn.transaction_hash}`);
+                                }
                             })
                             .catch((error)=>{
                                 console.error(`Failure!  ${JSON.stringify(error)}`);
@@ -566,7 +587,7 @@
                 //Get Transactions
                 console.log('Get Transaction');
                 //This can be a transaction ID or Hash
-                let transactionId = '1a7ee25670ed4fdd82d66a53725d1ebd';
+                let transactionId = "c44ad48c1dbc45a4af77b262f3f9f8b1";
 
                 await simba.getTransaction(transactionId)
                     .then(async (ret)=>{
@@ -594,7 +615,7 @@
                 //Get Transactions
                 console.log('Get Bundle Metadata');
                 //This can be a transaction ID or Hash
-                let transactionId = '0xd00b0c627ca87009ab7a55ca79e40e5aaafc17e66263a5623b256cf2ca377452';
+                let transactionId = "0x7565461be84259d5e365c2c3225696a6d74245f1eca1ecc050b1fedd5a4a1f4d";
 
                 await simba.getBundleMetadataForTransaction(transactionId)
                     .then(async (ret)=>{
@@ -622,7 +643,7 @@
                 //Get Transactions
                 console.log('Get Bundle');
                 //This can be a transaction ID or Hash
-                let transactionId = '0xd00b0c627ca87009ab7a55ca79e40e5aaafc17e66263a5623b256cf2ca377452';
+                let transactionId = "0x7565461be84259d5e365c2c3225696a6d74245f1eca1ecc050b1fedd5a4a1f4d";
 
                 //The second parameter to getBundleForTransaction indicates if it should return a stream or not.
                 //In NodeJS, this can be dealt with using the usual streaming tools.
@@ -665,7 +686,7 @@
                 //Get Transactions
                 console.log('Get Bundle');
                 //This can be a transaction ID or Hash
-                let transactionId = '0xd00b0c627ca87009ab7a55ca79e40e5aaafc17e66263a5623b256cf2ca377452';
+                let transactionId = "0x7565461be84259d5e365c2c3225696a6d74245f1eca1ecc050b1fedd5a4a1f4d";
 
                 //The second parameter to getBundleForTransaction indicates if it should return a stream or not.
                 //In NodeJS, this can be dealt with using the usual streaming tools.
@@ -683,7 +704,50 @@
 
                         let url = window.URL.createObjectURL(blob);
                         a.href = url;
-                        a.download = 'file.dat';
+                        a.download = 'File1.txt';
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                    })
+                    .catch((error)=>{
+                        console.error(`Failure!  ${JSON.stringify(error)}`);
+                    });
+                //</END>
+
+                unwrap();
+                return {}
+            }
+
+            async function snippet10Code(){
+                let unwrap = wrapConsole('#snippet10Console');
+                let wallet = globals.wallet;
+                let address = globals.address;
+                let simba = globals.simba;
+                let balance = globals.balance;
+                let result = globals.result;
+
+                //<START>
+                //Get Transactions
+                console.log('Get Bundle');
+                //This can be a transaction ID or Hash
+                let transactionId = "0x7565461be84259d5e365c2c3225696a6d74245f1eca1ecc050b1fedd5a4a1f4d";
+
+                //The second parameter to getBundleForTransaction indicates if it should return a stream or not.
+                //In NodeJS, this can be dealt with using the usual streaming tools.
+                //In browser however, this requires more complex solutions.
+                //It is fairly simple to download a Blob in browser (see FileSaver.js), however this only works for
+                //  smaller files as they're held in memory. For larger files, you need to stream, but this gets
+                //  complex. StreamSaver.js helps here, unfortunately it doesn't work in e.g. IE11 or older.
+                await simba.getFileFromBundleByNameForTransaction(transactionId, "File1.txt", false)
+                    .then(async (blob)=>{
+                        //This returns a Blob object. In Node
+                        console.log(`Successful!`);
+                        let a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.style = "display: none";
+
+                        let url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = 'File1.txt';
                         a.click();
                         window.URL.revokeObjectURL(url);
                     })
@@ -752,14 +816,17 @@
                 // #### SNIPPET 6 ####
                 initSnippet('#snippet6', '#runSnippet6', null, snippet6Code);
 
-                // #### SNIPPET 6 ####
+                // #### SNIPPET 7 ####
                 initSnippet('#snippet7', '#runSnippet7', null, snippet7Code);
 
-                // #### SNIPPET 6 ####
+                // #### SNIPPET 8 ####
                 initSnippet('#snippet8', '#runSnippet8', null, snippet8Code);
 
-                // #### SNIPPET 6 ####
+                // #### SNIPPET 9 ####
                 initSnippet('#snippet9', '#runSnippet9', null, snippet9Code);
+
+                // #### SNIPPET 10 ####
+                initSnippet('#snippet10', '#runSnippet10', null, snippet10Code);
             });
         </script>
     <script src="libsimba.js"></script></body>

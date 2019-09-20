@@ -517,12 +517,40 @@ export default class Simbachain extends SimbaBase {
      * @override
      * Gets a file from the bundle for a transaction
      * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
-     * @param {integer} fileIdx - The index of the file in the bundle metadata
+     * @param {number} fileIdx - The index of the file in the bundle metadata
      * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
      * @returns {Promise&lt;ReadableStream|Blob&gt;} - The file
      */
     async getFileFromBundleForTransaction(transactionIdOrHash, fileIdx, stream) {
         let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/file/${fileIdx}/`);
+
+        let response = await fetch(url, {
+            method: &apos;GET&apos;,
+            headers: this.apiAuthHeaders()
+        });
+
+        if (!response.ok) {
+            throw new GetRequestException(await response.text());
+        }
+
+
+        if (!stream) {
+            return response.blob();
+        }
+
+        return response.body;
+    }
+
+    /**
+     * @override
+     * Gets a file from the bundle for a transaction
+     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+     * @param {string} fileName - The name of the file in the bundle metadata
+     * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
+     * @returns {Promise&lt;ReadableStream|Blob&gt;} - The file
+     */
+    async getFileFromBundleByNameForTransaction(transactionIdOrHash, fileName, stream) {
+        let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/fileByName/${fileName}/`);
 
         let response = await fetch(url, {
             method: &apos;GET&apos;,
