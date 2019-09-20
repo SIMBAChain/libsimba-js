@@ -416,6 +416,8 @@ export default class Simbachain extends SimbaBase {
     async getBundleMetadataForTransaction(transactionIdOrHash) {
         let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/bundle/`);
 
+        url.searchParams.append('no_files', true);
+
         let response = await fetch(url, {
             method: 'GET',
             headers: this.apiAuthHeaders()
