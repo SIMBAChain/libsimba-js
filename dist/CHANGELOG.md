@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.13](https://github.com/simbachain/libsimba-js/compare/v0.3.12...v0.3.13) (2019-09-20)
+
+
+### Bug Fixes
+
+* **bundles:** fix bundle manifest call returning b64 encoded files ([644895d](https://github.com/simbachain/libsimba-js/commit/644895d))
+
 ### [0.3.12](https://github.com/simbachain/libsimba-js/compare/v0.3.11...v0.3.12) (2019-09-19)
 
 
