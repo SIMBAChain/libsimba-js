@@ -70,16 +70,20 @@ export default class SimbaBase {
             throw new NotImplementedException('Please implement abstract method getTransactions.');
         }
 
-        if (this.getBundleMetadataForTransaction === SimbaBase.prototype.getTransactions) {
-            throw new NotImplementedException('Please implement abstract method getTransactions.');
+        if (this.getBundleMetadataForTransaction === SimbaBase.prototype.getBundleMetadataForTransaction) {
+            throw new NotImplementedException('Please implement abstract method getBundleMetadataForTransaction.');
         }
 
-        if (this.getBundleForTransaction === SimbaBase.prototype.getTransactions) {
-            throw new NotImplementedException('Please implement abstract method getTransactions.');
+        if (this.getBundleForTransaction === SimbaBase.prototype.getBundleForTransaction) {
+            throw new NotImplementedException('Please implement abstract method getBundleForTransaction.');
         }
 
-        if (this.getFileFromBundleForTransaction === SimbaBase.prototype.getTransactions) {
-            throw new NotImplementedException('Please implement abstract method getTransactions.');
+        if (this.getFileFromBundleForTransaction === SimbaBase.prototype.getFileFromBundleForTransaction) {
+            throw new NotImplementedException('Please implement abstract method getFileFromBundleForTransaction.');
+        }
+
+        if (this.getFileFromBundleByNameForTransaction === SimbaBase.prototype.getFileFromBundleByNameForTransaction) {
+            throw new NotImplementedException('Please implement abstract method getFileFromBundleByNameForTransaction.');
         }
     }
 
@@ -147,11 +151,23 @@ export default class SimbaBase {
      * @abstract
      * (Abstract) Gets a file from the bundle for a transaction
      * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
-     * @param {integer} fileIdx - The index of the file in the bundle metadata
+     * @param {number} fileIdx - The index of the file in the bundle metadata
      * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
      * @returns {Promise<ReadableStream|Blob>} - The file
      */
     getFileFromBundleForTransaction(transactionIdOrHash, fileIdx, stream) {
+        throw new NotImplementedException('SimbaBase.getTransaction Not Implemented');
+    }
+
+    /**
+     * @abstract
+     * (Abstract) Gets a file from the bundle for a transaction
+     * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+     * @param {string} fileName - The name of the file in the bundle metadata
+     * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
+     * @returns {Promise<ReadableStream|Blob>} - The file
+     */
+    getFileFromBundleByNameForTransaction(transactionIdOrHash, fileName, stream) {
         throw new NotImplementedException('SimbaBase.getTransaction Not Implemented');
     }
 
