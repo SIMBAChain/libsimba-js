@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>libsimba-js</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <style>
+            html, body, .maincontainer, .mainrow {
+                width: 100%;
+                min-width: 768px;
+                /*height: 100%;*/
+                margin: 0 !important;
+                padding: 0 !important;
+                max-width: unset !important;
+                background: #f2f2f2;
+                border-top: 1px solid #111;
+                border-bottom: 1px solid #111;
+                color: #373737;
+            }
+
+            .col-central {
+                min-width: 720px;
+                padding-bottom: 200px;
+            }
+
+            .col-title {
+                min-width: 720px;
+                position: relative;
+            }
+
+            .titletext {
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                -ms-transform: translateY(-50%);
+                transform: translateY(-50%);
+            }
+
+            .titlerow {
+                height: 200px;
+                color: #fff;
+                background: #212121;
+                background: -moz-linear-gradient(top, #373737, #212121);
+                background: -webkit-linear-gradient(top, #373737, #212121);
+                background: -ms-linear-gradient(top, #373737, #212121);
+                background: -o-linear-gradient(top, #373737, #212121);
+                background: linear-gradient(to top, #373737, #212121);
+            }
+
+            .snippet {
+                width: 100%;
+            }
+
+            .snippetList {
+                max-height: 200px;
+            }
+
+            .ace_editor {
+                border: 1px solid lightgray;
+                margin: auto;
+                height: 200px;
+            }
+
+            button[disabled]{
+                text-decoration: line-through;
+            }
+
+            .btn-bottom-margin {
+                margin-bottom: 16px;
+            }
+        </style>
+    </head>
+    <body>
+    <div class="maincontainer container">
+        <div class="row titlerow">
+            <div class="col">
+            </div>
+            <div class="col-md col-title">
+                <h1 class="titletext">libSimba-js Example</h1>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+        <div class="mainrow row justify-content-center">
+            <div class="col" style="flex-shrink: 1">
+            </div>
+            <div class="col-md col-central">
+<!--                <h1>How to add</h1>-->
+<!--                Include libsimba ....-->
+
+<!--                <br />-->
+
+                <h3>
+                    Initialise wallet
+                    <small class="text-muted">from local storage</small>
+                </h3>
+                <p class="lead">
+                    Using <code>libsimba.LocalWallet</code> we'll set up a wallet stored in the browsers local storage.
+                </p>
+                <p>
+                    First we check if there's already a wallet in local storage with <code>.walletExists()</code>.
+                    If there is, we unlock that wallet. If not, we generate a new wallet.
+                    The callback passed to <code>.unlockWallet()</code> and <code>.generateWallet()</code> shows progres
+                    of the encryption/decryption of the wallet. You don't need to implement it, but it can be useful to
+                    provide feedback.
+                </p>
+                <button type="button" id="runSnippet1" class="btn btn-outline-secondary btn-bottom-margin">Run the code</button>
+                <div id="snippet1" class="snippet"></div>
+                <ul class="snippetList list-group overflow-auto" id="snippet1Console"></ul>
+
+                <br />
+                <h3>
+                    Initialise Simba
+                    <small class="text-muted">and connect to an app</small>
+                </h3>
+                <p class="lead">
+                    Using <code>libsimba.getSimbaInstance</code> we'll set up a Simba instance connected to an app.
+                </p>
+                <p>
+                    We pass in the Apps URL, the wallet we created previously, and our API Key.
+                    Once this is done, we have access to calls such as <code>simba.getBalance()</code> and
+                    <code>simba.addFunds()</code>.
+                    In this case, this App is running on Quorum, so our balance will be <samp>-1</samp>, and the add
+                    funds call will indicate <samp>"poa":true</samp>.
+                </p>
+                <button type="button" id="runSnippet2" class="btn btn-outline-secondary btn-bottom-margin" disabled>Run the code</button>
+                <div id="snippet2" class="snippet"></div>
+                <ul class="snippetList list-group overflow-auto" id="snippet2Console"></ul>
+
+                <br />
+                <h3>
+                    Call Simba Method
+                    <small class="text-muted">createRoom</small>
+                </h3>
+                <p class="lead">
+                    Using <code>simba.callMethod</code> we'll call the "createRoom" method.
+                </p>
+                <p>
+                    We pass in the method name, and it's params as an object. On success, this will return an object
+                    representing the transaction that's been sent to the blockchain. You can use
+                    <code>simba.waitForSuccessOrError()</code> on that object then to wait until the transaction has
+                    been successfully deployed and verified on the blockchain.
+                </p>
+                <button type="button" id="runSnippet3" class="runCallSnippet btn btn-outline-secondary btn-bottom-margin" disabled>Run the code</button>
+                <div id="snippet3" class="snippet"></div>
+                <ul class="snippetList list-group overflow-auto" id="snippet3Console"></ul>
+
+                <br />
+                <h3>
+                    Call Simba Method
+                    <small class="text-muted"> With File</small>
+                </h3>
+                <p class="lead">
+                    Using <code>simba.callMethodWithFile</code> we'll call the "sendMessage" method.
+                </p>
+                <p>
+                    This method is similar to <code>.callMethod()</code>, but also takes an array parameter. This
+                    array is a list of <code>Blob</code> or <code>File</code> objects. You can also use the file array
+                    obtained from a HTML Input elements <code>.files</code>.
+                </p>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button type="button" id="runSnippet4" class="runCallSnippet btn btn-outline-secondary" disabled>Run the code</button>
+                    </div>
+                    <div class="custom-file">
+                        <input multiple type="file" id="aFileInput" class="custom-file-input" id="inputGroupFile01">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+                </div>
+                <div id="snippet4" class="snippet"></div>
+                <ul class="snippetList list-group overflow-auto" id="snippet4Console"></ul>
+
+                <br />
+                <h3>
+                    Get Transactions
+                    <small class="text-muted"> for the createRoom method</small>
+                </h3>
+                <p class="lead">
+                    Using <code>simba.getMethodTransactions</code> we'll retrieve a list of transactions on the
+                    "createRoom" method.
+                </p>
+                <p>
+                    This method is returns the array of transactions wrapped in a <code>PagedResponse</code> object.
+                    Calling <code>.data()</code> on this will return the array of transactions. Also available are
+                    <code>.next()</code> and <code>.previous()</code> which both return their own PagedResponse, with
+                    transactions representing the next and previous pages respectively.
+                </p>
+                <button type="button" id="runSnippet5" class="runCallSnippet btn btn-outline-secondary btn-bottom-margin" disabled>Run the code</button>
+                <div id="snippet5" class="snippet"></div>
+                <ul class="snippetList list-group overflow-auto" id="snippet5Console"></ul>
+
+                <br />
+                <h3>
+                    Get a Transaction
+                    <small class="text-muted"> using it's ID</small>
+                </h3>
+                <p class="lead">
+                    Using <code>simba.getTransaction</code> we'll retrieve a transaction.
+                </p>
+                <p>
+                    This method is returns the transaction.
+                </p>
+                <button type="button" id="runSnippet6" class="runCallSnippet btn btn-outline-secondary btn-bottom-margin" disabled>Run the code</button>
+                <div id="snippet6" class="snippet"></div>
+                <ul class="snippetList list-group overflow-auto" id="snippet6Console"></ul>
+
+                <br />
+                <h3>
+                    Get bundle metadata
+                    <small class="text-muted"> using the transactions hash</small>
+                </h3>
+                <p class="lead">
+                    Using <code>simba.getBundleMetadataForTransaction</code> we'll retrieve a the bundles metadata.
+                </p>
+                <p>
+                    This method is returns the transaction.
+                </p>
+                <button type="button" id="runSnippet7" class="runCallSnippet btn btn-outline-secondary btn-bottom-margin" disabled>Run the code</button>
+                <div id="snippet7" class="snippet"></div>
+                <ul class="snippetList list-group overflow-auto" id="snippet7Console"></ul>
+
+                <br />
+                <h3>
+                    Get a bundle
+                    <small class="text-muted"> using the transactions hash</small>
+                </h3>
+                <p class="lead">
+                    Using <code>simba.getBundleForTransaction</code> we'll retrieve a bundle.
+                </p>
+                <p>
+                    This method is returns the transaction.
+                </p>
+                <button type="button" id="runSnippet8" class="runCallSnippet btn btn-outline-secondary btn-bottom-margin" disabled>Run the code</button>
+                <div id="snippet8" class="snippet"></div>
+                <ul class="snippetList list-group overflow-auto" id="snippet8Console"></ul>
+
+                <br />
+                <h3>
+                    Get a file from a bundle
+                    <small class="text-muted"> using the transactions hash</small>
+                </h3>
+                <p class="lead">
+                    Using <code>simba.getFileFromBundleForTransaction</code> we'll retrieve a file from a bundle.
+                </p>
+                <p>
+                    This method is returns the transaction.
+                </p>
+                <button type="button" id="runSnippet9" class="runCallSnippet btn btn-outline-secondary btn-bottom-margin" disabled>Run the code</button>
+                <div id="snippet9" class="snippet"></div>
+                <ul class="snippetList list-group overflow-auto" id="snippet9Console"></ul>
+
+                <br />
+                <h3>
+                    Get a file from a bundle
+                    <small class="text-muted"> by name using the transactions hash</small>
+                </h3>
+                <p class="lead">
+                    Using <code>simba.getFileFromBundleByNameForTransaction</code> we'll retrieve a file from a bundle.
+                </p>
+                <p>
+                    This method is returns the transaction.
+                </p>
+                <button type="button" id="runSnippet10" class="runCallSnippet btn btn-outline-secondary btn-bottom-margin" disabled>Run the code</button>
+                <div id="snippet10" class="snippet"></div>
+                <ul class="snippetList list-group overflow-auto" id="snippet10Console"></ul>
+            </div>
+            <div class="col" style="flex-shrink: 1">
+            </div>
+        </div>
+    </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.6/ace.js" integrity="sha256-CVkji/u32aj2TeC+D13f7scFSIfphw2pmu4LaKWMSY8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.6/mode-javascript.js" integrity="sha256-9nVHCZW1SuyhaVgqmPk1XutGn+g/ASVBiVAheioldo4=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.6/mode-json.js" integrity="sha256-WH3EjHkUnhbOt45gfu5MvEYSqvYUXE25FwAtxukgi9U=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.6/theme-monokai.js" integrity="sha256-Fc4eJOe8KtF8kDLqSR94vUiJ1ohvKDxznSMxI3RavOw=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.10.2/beautify.min.js"></script>
+
+        <script type="text/javascript">
+            function wrapConsole(snippet) {
+                let list = $(snippet);
+
+                var _log = console.log;
+                var _error = console.error;
+                var _warning = console.warning;
+
+                function doScroll(){
+                    var height = list[0].scrollHeight;
+                    list.scrollTop(height);
+                }
+
+                console.error = function(errMessage){
+                    let li = document.createElement('li');
+                    li.innerText = errMessage;
+                    li.className += ' list-group-item';
+                    li.className += ' list-group-item-danger';
+
+                    list.get(0).appendChild(li);
+
+                    doScroll();
+
+                    _error.apply(console,arguments);
+                };
+
+                console.log = function(logMessage){
+                    let li = document.createElement('li');
+                    li.innerText = logMessage;
+                    li.className += ' list-group-item';
+
+                    list.get(0).appendChild(li);
+
+                    doScroll();
+
+                    _log.apply(console,arguments);
+                };
+
+                console.warning = function(warnMessage){
+                    let li = document.createElement('li');
+                    li.innerText = logMessage;
+                    li.className += ' list-group-item';
+                    li.className += ' list-group-item-warning';
+
+                    list.get(0).appendChild(li);
+
+                    doScroll();
+
+                    _warning.apply(console,arguments);
+                };
+
+                return function () {
+                    //unwrap
+                    console.error = _error;
+                    console.log = _log;
+                    console.warning = _warning;
+                }
+            }
+
+            let globals = {};
+
+            function snippet1Code(){
+                let unwrap = wrapConsole('#snippet1Console');
+                //<START>
+                //Initialise Wallet
+                console.log('Initialising Wallet');
+                let wallet = new libsimba.LocalWallet(
+                    function(){
+                        //Ask the user for permission before signing
+                        console.log('Ask the user for permission before signing');
+                        return Promise.resolve(window.confirm("Do you want to sign this transaction?"))
+                    }
+                );
+
+                function walletInitialised(){
+                    //Print out the wallet address, you don't need to do this, but useful to see
+                    wallet.getAddress().then(function(address){
+                        console.log("Eth Address: " + address);
+                        /*<hide>*/unwrap();/*</hide>*/
+                    });
+                }
+                //Check if there's an existing local wallet
+                if(wallet.walletExists()){
+                    //There is a local wallet, unlock it
+                    console.log("Unlocking Wallet");
+
+                    //Use this to prevent progress output spam
+                    let lastProgress = 0;
+
+                    wallet.unlockWallet(
+                        'test1234',
+                        function(progress){
+                            if(Math.floor(progress*10) > lastProgress){
+                                lastProgress = progress*10;
+                                console.log("Decrypting Wallet " +Math.floor(progress*100));
+                            }
+                        }
+                    ).then(walletInitialised)
+                    /*<hide>*/.catch(function(e){console.error(e);unwrap();})/*</hide>*/;
+                }else{
+                    //There is no local wallet, let
+                    console.log("Creating Wallet");
+
+                    //Use this to prevent progress output spam
+                    let lastProgress = 0;
+
+                    wallet.generateWallet(
+                        'test1234',
+                        function(progress){
+                            if(Math.floor(progress*10) > lastProgress){
+                                lastProgress = progress*10;
+                                console.log("Encrypting Wallet " + Math.floor(progress*100));
+                            }
+                        }).then(walletInitialised)
+                        /*<hide>*/.catch(function(e){console.error(e);unwrap();})/*</hide>*/;
+                    // We can also generate a wallet from a private key, or from a mnemonic
+                    // await wallet.generateWalletFromPrivateKey(
+                    //     'cf0811297a0e539128025b8558df2b434e9425bd93886e5d43dfd14f9da44c14',
+                    //     'test1234',
+                    //     function(progress){
+                    //         console.log("Encrypting Wallet "+ progress*100);
+                    //     });
+                }
+
+                //</END>
+
+                return {
+                    wallet:wallet,
+                    address:address
+                }
+            }
+
+            function snippet2Code(){
+                let unwrap = wrapConsole('#snippet2Console');
+                let wallet = globals.wallet;
+                let address = globals.address;
+                //<START>
+                //Initialise Simba
+                let simba;
+                console.log('Initialising Simba');
+                libsimba.getSimbaInstance(
+                    'https://api.simbachain.com/v1/libSimba-SimbaChat-Quorum/',
+                    wallet,
+                    '04d1729f7144873851a745d2ae85639f55c8e3de5aea626a2bcd0055c01ba6fc')
+                    .then(function(_simba){
+                        simba = _simba;
+                        let balance = simba.getBalance().then(function (balance) {
+                            console.log("Balance: "+JSON.stringify(balance));
+
+                            simba.addFunds().then(function (result) {
+                                if(result.poa){
+                                    console.log("Didn't add funds: PoA network. "+JSON.stringify(result));
+                                }else if(result.faucet_url){
+                                    console.log("Didn't add funds: External faucet: " + result.faucet_url + " - " + JSON.stringify(result));
+                                    console.log("To top up, you need to ask the user to visit the url in 'faucet_url'");
+                                }else{
+                                    console.log("Funded - May take up to a minute for the transaction to process: " + JSON.stringify(result));
+                                }
+                                /*<hide>*/unwrap();/*</hide>*/
+                            })
+                            /*<hide>*/.catch(function(e){console.error(e);unwrap();})/*</hide>*/;
+                        });
+                    })
+                    /*<hide>*/.catch(function(e){console.error(e);unwrap();})/*</hide>*/;
+
+                //</END>
+
+                return {
+                    simba:simba
+                }
+            }
+
+            function snippet3Code(){
+                let unwrap = wrapConsole('#snippet3Console');
+                let wallet = globals.wallet;
+                let address = globals.address;
+                let simba = globals.simba;
+                let balance = globals.balance;
+                let result = globals.result;
+
+                //<START>
+                //Call Simba Method
+                console.log('Call Simba Method');
+                //These are the parameters to pass to the method call
+                let methodParams = {
+                    assetId: "0xbad65ff688a28efdd17d979c12f0ab2e2de305dbc8a2aa6be45ed644da822cfb",
+                    name: "A Test Room",
+                    createdBy: "Kieran"
+                };
+                //Call the 'createRoom' method, with the above params. The txn is signed with the wallet we created/loaded above
+                simba.callMethod('createRoom', methodParams)
+                    .then(function(ret){
+                        console.log("Successful! " + JSON.stringify(ret));
+                        //The request and signing were successful, now we wait for the API to
+                        // tell us if the txn was successful or not.
+                        res = simba.waitForSuccessOrError(ret);
+                        //'res.future' is a JS Promise that will resolve when we know the status
+                        //'res.cancel' is a function, you can call it to cancel the above request if needed
+                        return res.future
+                            .then(function(txn){
+                                //txn will hold the txn details
+                                //txn.status will hold the status
+                                console.log("Status: "+ txn.status);
+                                if(txn.status === 'DEPLOYED'){
+                                    console.log("Hash: " + txn.transaction_hash);
+                                }
+                                /*<hide>*/unwrap();/*</hide>*/
+                            })
+                            .catch(function(error){
+                                console.error("Failure! " + JSON.stringify(error));
+                                /*<hide>*/unwrap();/*</hide>*/
+                            })
+                    })
+                    .catch(function(error){
+                        console.error("Failure! " + JSON.stringify(error));
+                        /*<hide>*/unwrap();/*</hide>*/
+                    });
+                //</END>
+
+                return {}
+            }
+
+            function snippet4Code(){
+                let unwrap = wrapConsole('#snippet4Console');
+                let wallet = globals.wallet;
+                let address = globals.address;
+                let simba = globals.simba;
+                let balance = globals.balance;
+                let result = globals.result;
+
+                //<START>
+                //Call Simba Method
+                console.log('Call Simba Method with file');
+                //These are the parameters to pass to the method call
+                let methodParams = {
+                    assetId: "A Test Room",
+                    chatRoom : "A Test Room",
+                    message  : "Hello World",
+                    sentBy : "Kieran"
+                };
+
+                //Grab the file input element
+                let fileInput = document.getElementById('aFileInput');
+                //Grab the file array.
+                //This can be an array of any Blob or File objects that FormData can deal with
+                let files = fileInput.files;
+
+                if(!files.length){
+                    console.log("No files selected!");
+                    alert("No files were selected, select a file and try again.");
+                    return;
+                }
+                //Call the 'sendMessage' method, with the above params. The txn is signed with the wallet we created/loaded above
+                simba.callMethodWithFile('sendMessage', methodParams, files)
+                    .then(function(ret){
+                        console.log("Successful! " + JSON.stringify(ret));
+                        //The request and signing were successful, now we wait for the API to
+                        // tell us if the txn was successful or not.
+                        res = simba.waitForSuccessOrError(ret);
+                        //'res.future' is a JS Promise that will resolve when we know the status
+                        //'res.cancel' is a function, you can call it to cancel the above request if needed
+                        return res.future
+                            .then(function(txn){
+                                //txn will hold the txn details
+                                //txn.status will hold the status
+                                console.log("Status: " + txn.status);
+                                if(txn.status === 'DEPLOYED'){
+                                    console.log("Hash: " + txn.transaction_hash);
+                                }
+                                /*<hide>*/unwrap();/*</hide>*/
+                            })
+                            .catch(function(error){
+                                console.error("Failure! " + JSON.stringify(error));
+                                /*<hide>*/unwrap();/*</hide>*/
+                            })
+                    })
+                    .catch(function(error){
+                        console.error("Failure! " + JSON.stringify(error));
+                        /*<hide>*/unwrap();/*</hide>*/
+                    });
+                //</END>
+
+                return {}
+            }
+
+            function snippet5Code(){
+                let unwrap = wrapConsole('#snippet5Console');
+                let wallet = globals.wallet;
+                let address = globals.address;
+                let simba = globals.simba;
+                let balance = globals.balance;
+                let result = globals.result;
+
+                //<START>
+                //Get Transactions
+                console.log('Get Transactions');
+                //These are the parameters to pass to the method call
+                let methodParams = {
+                    createdBy_exact : "Kieran"
+                };
+
+                simba.getMethodTransactions('createRoom', methodParams)
+                    .then(function(ret){
+                        console.log("Successful! " + JSON.stringify(ret.data()));
+                        /*<hide>*/unwrap();/*</hide>*/
+                    })
+                    .catch(function(error){
+                        console.error("Failure! " + JSON.stringify(error));
+                        /*<hide>*/unwrap();/*</hide>*/
+                    });
+                //</END>
+
+                return {}
+            }
+
+            function snippet6Code(){
+                let unwrap = wrapConsole('#snippet6Console');
+                let wallet = globals.wallet;
+                let address = globals.address;
+                let simba = globals.simba;
+                let balance = globals.balance;
+                let result = globals.result;
+
+                //<START>
+                //Get Transactions
+                console.log('Get Transaction');
+                //This can be a transaction ID or Hash
+                let transactionId = "c44ad48c1dbc45a4af77b262f3f9f8b1";
+
+                simba.getTransaction(transactionId)
+                    .then(function(ret){
+                        console.log("Successful! " + JSON.stringify(ret));
+                        /*<hide>*/unwrap();/*</hide>*/
+                    })
+                    .catch(function(error){
+                        console.error("Failure! " + JSON.stringify(error));
+                        /*<hide>*/unwrap();/*</hide>*/
+                    });
+                //</END>
+
+                return {}
+            }
+
+            function snippet7Code(){
+                let unwrap = wrapConsole('#snippet7Console');
+                let wallet = globals.wallet;
+                let address = globals.address;
+                let simba = globals.simba;
+                let balance = globals.balance;
+                let result = globals.result;
+
+                //<START>
+                //Get Transactions
+                console.log('Get Bundle Metadata');
+                //This can be a transaction ID or Hash
+                let transactionId = "0x7565461be84259d5e365c2c3225696a6d74245f1eca1ecc050b1fedd5a4a1f4d";
+
+                simba.getBundleMetadataForTransaction(transactionId)
+                    .then(function(ret){
+                        console.log("Successful! " + JSON.stringify(ret));
+                        /*<hide>*/unwrap();/*</hide>*/
+                    })
+                    .catch(function(error){
+                        console.error("Failure! " + JSON.stringify(error));
+                        /*<hide>*/unwrap();/*</hide>*/
+                    });
+                //</END>
+
+                return {}
+            }
+
+            function snippet8Code(){
+                let unwrap = wrapConsole('#snippet8Console');
+                let wallet = globals.wallet;
+                let address = globals.address;
+                let simba = globals.simba;
+                let balance = globals.balance;
+                let result = globals.result;
+
+                //<START>
+                //Get Transactions
+                console.log('Get Bundle');
+                //This can be a transaction ID or Hash
+                let transactionId = "0x7565461be84259d5e365c2c3225696a6d74245f1eca1ecc050b1fedd5a4a1f4d";
+
+                //The second parameter to getBundleForTransaction indicates if it should return a stream or not.
+                //In NodeJS, this can be dealt with using the usual streaming tools.
+                //In browser however, this requires more complex solutions.
+                //It is fairly simple to download a Blob in browser (see FileSaver.js), however this only works for
+                //  smaller files as they're held in memory. For larger files, you need to stream, but this gets
+                //  complex. StreamSaver.js helps here, unfortunately it doesn't work in e.g. IE11 or older.
+                simba.getBundleForTransaction(transactionId, false)
+                    .then(function(blob){
+                        //This returns a Blob object. In Node
+                        console.log("Successful!");
+                        let a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.style = "display: none";
+
+                        let url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = 'bundle.zip';
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        /*<hide>*/unwrap();/*</hide>*/
+                    })
+                    .catch(function(error){
+                        console.error("Failure! " + JSON.stringify(error));
+                        /*<hide>*/unwrap();/*</hide>*/
+                    });
+                //</END>
+
+                return {}
+            }
+
+            function snippet9Code(){
+                let unwrap = wrapConsole('#snippet9Console');
+                let wallet = globals.wallet;
+                let address = globals.address;
+                let simba = globals.simba;
+                let balance = globals.balance;
+                let result = globals.result;
+
+                //<START>
+                //Get Transactions
+                console.log('Get Bundle');
+                //This can be a transaction ID or Hash
+                let transactionId = "0x7565461be84259d5e365c2c3225696a6d74245f1eca1ecc050b1fedd5a4a1f4d";
+
+                //The second parameter to getBundleForTransaction indicates if it should return a stream or not.
+                //In NodeJS, this can be dealt with using the usual streaming tools.
+                //In browser however, this requires more complex solutions.
+                //It is fairly simple to download a Blob in browser (see FileSaver.js), however this only works for
+                //  smaller files as they're held in memory. For larger files, you need to stream, but this gets
+                //  complex. StreamSaver.js helps here, unfortunately it doesn't work in e.g. IE11 or older.
+                simba.getFileFromBundleForTransaction(transactionId, 0, false)
+                    .then(function(blob){
+                        //This returns a Blob object. In Node
+                        console.log("Successful!");
+                        let a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.style = "display: none";
+
+                        let url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = 'File1.txt';
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        /*<hide>*/unwrap();/*</hide>*/
+                    })
+                    .catch(function(error){
+                        console.error("Failure! " +  JSON.stringify(error));
+                        /*<hide>*/unwrap();/*</hide>*/
+                    });
+                //</END>
+
+                return {}
+            }
+
+            function snippet10Code(){
+                let unwrap = wrapConsole('#snippet10Console');
+                let wallet = globals.wallet;
+                let address = globals.address;
+                let simba = globals.simba;
+                let balance = globals.balance;
+                let result = globals.result;
+
+                //<START>
+                //Get Transactions
+                console.log('Get Bundle');
+                //This can be a transaction ID or Hash
+                let transactionId = "0x7565461be84259d5e365c2c3225696a6d74245f1eca1ecc050b1fedd5a4a1f4d";
+
+                //The second parameter to getBundleForTransaction indicates if it should return a stream or not.
+                //In NodeJS, this can be dealt with using the usual streaming tools.
+                //In browser however, this requires more complex solutions.
+                //It is fairly simple to download a Blob in browser (see FileSaver.js), however this only works for
+                //  smaller files as they're held in memory. For larger files, you need to stream, but this gets
+                //  complex. StreamSaver.js helps here, unfortunately it doesn't work in e.g. IE11 or older.
+                simba.getFileFromBundleByNameForTransaction(transactionId, "File1.txt", false)
+                    .then(function(blob){
+                        //This returns a Blob object. In Node
+                        console.log("Successful!");
+                        let a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.style = "display: none";
+
+                        let url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = 'File1.txt';
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        /*<hide>*/unwrap();/*</hide>*/
+                    })
+                    .catch(function(error){
+                        console.error("Failure! " + JSON.stringify(error));
+                        /*<hide>*/unwrap();/*</hide>*/
+                    });
+                //</END>
+
+                return {}
+            }
+
+            function stripSource(src){
+                let newSrc = src.toString().split('//<START>')[1].split('//</END>')[0].trim();
+                newSrc = newSrc.replace(/\/\*\<hide\>\*\/.*\/\*\<\/hide\>\*\/\r?\n/gm,'');
+                return js_beautify(newSrc, {
+                    indent_size: 4,
+                    space_in_empty_paren: true,
+                    end_with_newline: false
+                });
+            }
+
+            let AceOpts = {
+                readOnly: true,
+                useWorker: false,
+                theme: "ace/theme/monokai",
+                mode: "ace/mode/javascript",
+                autoScrollEditorIntoView: true,
+                maxLines: 50,
+                minLines: 2
+            };
+
+            function initSnippet(element, btnElement, btnNextElement, func){
+                $(element).text(stripSource(func));
+
+                var editor = ace.edit($(element).get( 0 ));
+                editor.setOptions(AceOpts);
+
+                editor.renderer.setScrollMargin(10, 10, 10, 10);
+
+                $(btnElement).on('click', function () {
+                    $(btnElement).attr('disabled', true);
+                    func(globals).then(function(globalsOut){
+                        Object.assign(globals, globalsOut);
+                        $(btnElement).removeAttr('disabled');
+                        if(btnNextElement) $(btnNextElement).removeAttr('disabled');
+                    });
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", function() {
+
+                // #### SNIPPET 1 ####
+                initSnippet('#snippet1', '#runSnippet1', '#runSnippet2', snippet1Code);
+
+                // #### SNIPPET 2 ####
+                initSnippet('#snippet2', '#runSnippet2', '.runCallSnippet', snippet2Code);
+
+                // #### SNIPPET 3 ####
+                initSnippet('#snippet3', '#runSnippet3', null, snippet3Code);
+
+                // #### SNIPPET 4 ####
+                initSnippet('#snippet4', '#runSnippet4', null, snippet4Code);
+
+                // #### SNIPPET 5 ####
+                initSnippet('#snippet5', '#runSnippet5', null, snippet5Code);
+
+                // #### SNIPPET 6 ####
+                initSnippet('#snippet6', '#runSnippet6', null, snippet6Code);
+
+                // #### SNIPPET 7 ####
+                initSnippet('#snippet7', '#runSnippet7', null, snippet7Code);
+
+                // #### SNIPPET 8 ####
+                initSnippet('#snippet8', '#runSnippet8', null, snippet8Code);
+
+                // #### SNIPPET 9 ####
+                initSnippet('#snippet9', '#runSnippet9', null, snippet9Code);
+
+                // #### SNIPPET 10 ####
+                initSnippet('#snippet10', '#runSnippet10', null, snippet10Code);
+            });
+        </script>
+    </body>
+</html>

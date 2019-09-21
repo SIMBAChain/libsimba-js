@@ -72,6 +72,36 @@
 </blockquote>
 <h3 id="-a-href--https---github-com-simbachain-libsimba-js-readme--&#x1F3E0;-homepage--a-"><a href="https://github.com/simbachain/libsimba-js#readme">&#x1F3E0; Homepage</a></h3><h3 id="-a-href--https---simbachain-github-io-libsimba-js--&#x1F4DD;-documentation--a-"><a href="https://simbachain.github.io/libsimba-js">&#x1F4DD; Documentation</a></h3><h2 id="install">Install</h2><pre><code class="lang-sh"><code class="source-code prettyprint">npm install @simbachain/libsimba-js</code>
 </code></pre>
+<h2 id="usage">Usage</h2><ul>
+<li>ES2105 module import<pre><code class="lang-javascript"><code class="source-code prettyprint">import * as libsimba from &apos;@simbachain/libsimba-js&apos;;
+libsimba.getSimbaInstance(...);</code>
+</code></pre>
+</li>
+<li>CommonJS module require<pre><code class="lang-javascript"><code class="source-code prettyprint">const libsimba  = require(&apos;@simbachain/libsimba-js&apos;);
+libsimba.getSimbaInstance(...);</code>
+</code></pre>
+</li>
+<li>AMD module require<pre><code class="lang-javascript"><code class="source-code prettyprint">require([&apos;@simbachain/libsimba-js&apos;], function (libsimba) {
+  libsimba.getSimbaInstance(...);
+});</code>
+</code></pre>
+</li>
+<li><code>&lt;script&gt;</code> tag import<pre><code class="lang-html"><code class="source-code prettyprint">&lt;!doctype html&gt;
+&lt;html&gt;
+...
+&lt;script src=&quot;./dist/libsimba.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  // ...
+  // Global variable
+  libsimba.getSimbaInstance(...);
+  // Property in the window object
+  window.libsimba.getSimbaInstance(...);
+  // ...
+&lt;/script&gt;
+&lt;/html&gt;</code>
+</code></pre>
+</li>
+</ul>
 <h2 id="examples">Examples</h2><p>See <a href="https://simbachain.github.io/libsimba-js/example.html">here</a></p>
 <h2 id="contributing">Contributing</h2><p>Contributions, issues and feature requests are welcome!<br>Feel free to check <a href="https://github.com/simbachain/libsimba-js/issues">issues page</a>.</p>
 <h2 id="license">License</h2><p>Copyright &#xA9; 2019 <a href="https://simbachain.com/">SIMBAChain Inc</a>.<br>

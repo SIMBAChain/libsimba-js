@@ -23,6 +23,41 @@
 npm install @simbachain/libsimba-js
 ```
 
+## Usage
+
+- ES2105 module import
+```javascript
+import * as libsimba from '@simbachain/libsimba-js';
+libsimba.getSimbaInstance(...);
+```
+- CommonJS module require
+```javascript
+const libsimba  = require('@simbachain/libsimba-js');
+libsimba.getSimbaInstance(...);
+```
+- AMD module require
+```javascript
+require(['@simbachain/libsimba-js'], function (libsimba) {
+    libsimba.getSimbaInstance(...);
+});
+```
+- `<script>` tag import
+```html
+<!doctype html>
+<html>
+  ...
+  <script src="./dist/libsimba.js"></script>
+  <script>
+    // ...
+    // Global variable
+    libsimba.getSimbaInstance(...);
+    // Property in the window object
+    window.libsimba.getSimbaInstance(...);
+    // ...
+  </script>
+</html>
+```
+
 ## Examples
 
 See [here](https://simbachain.github.io/libsimba-js/example.html)
