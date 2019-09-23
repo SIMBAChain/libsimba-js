@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.15](https://github.com/simbachain/libsimba-js/compare/v0.3.14...v0.3.15) (2019-09-23)
+
+
+### Bug Fixes
+
+* **simbabase:** fix file validation code ([b2621a3](https://github.com/simbachain/libsimba-js/commit/b2621a3))
+
 ### [0.3.14](https://github.com/simbachain/libsimba-js/compare/v0.3.13...v0.3.14) (2019-09-20)
 
 
