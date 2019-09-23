@@ -386,7 +386,8 @@ export default class Simbachain extends SimbaBase {
     }
 
     /**
-     * @private
+     * @protected
+     * @override
      * Internal function for sending transaction GET requests
      * @param {URL} url - The URL
      * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper

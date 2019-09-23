@@ -26,24 +26,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader',
-                options: {
-                    "presets": [
-                        [
-                            "@babel/preset-env",
-                            {
-                                "useBuiltIns": "usage",
-                                "corejs": "3.0.0"
-                            }
-                        ]
-                    ],
-                    "plugins": [
-                        "@babel/plugin-transform-proto-to-assign",
-                        ["@babel/plugin-transform-classes", {
-                            "loose": true
-                        }]
-                    ]
-                }
+                loader: 'babel-loader'
             }
         ],
     },
@@ -51,6 +34,12 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/example.html',
             inject: 'body',
+            minify: false
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/example.ie11.html',
+            filename: 'example.ie11.html',
+            inject: 'head',
             minify: false
         })
     ]

@@ -1,5 +1,12 @@
 import {pollWrapper} from "poll-js";
-import {MissingMetadataException, NotImplementedException, BadMetadataException, MethodCallValidationMetadataException} from '../exceptions';
+import {
+    MissingMetadataException,
+    NotImplementedException,
+    BadMetadataException,
+    MethodCallValidationMetadataException,
+    GetTransactionsException
+} from '../exceptions';
+import PagedResponse from "./pagedresponse";
 
 /**
  * @interface
@@ -84,6 +91,10 @@ export default class SimbaBase {
 
         if (this.getFileFromBundleByNameForTransaction === SimbaBase.prototype.getFileFromBundleByNameForTransaction) {
             throw new NotImplementedException('Please implement abstract method getFileFromBundleByNameForTransaction.');
+        }
+
+        if (this.sendTransactionRequest === SimbaBase.prototype.sendTransactionRequest) {
+            throw new NotImplementedException('Please implement abstract method sendTransactionRequest.');
         }
     }
 
@@ -179,6 +190,16 @@ export default class SimbaBase {
      */
     getTransactions(parameters) {
         throw new NotImplementedException('SimbaBase.callMethod Not Implemented');
+    }
+
+    /**
+     * @abstract
+     * Internal function for sending transaction GET requests
+     * @param {URL} url - The URL
+     * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
+     */
+    async sendTransactionRequest(url){
+        throw new NotImplementedException('SimbaBase.sendTransactionRequest Not Implemented');
     }
 
     /**
@@ -360,6 +381,10 @@ export default class SimbaBase {
             throw new MethodCallValidationMetadataException(`Method "${methodName}" does not accept files`);
         }
 
+        if(parameters['_files']){
+            throw new MethodCallValidationMetadataException(`Files must not be passed in through the parameters argument`);
+        }
+
         if(files){
             for(let i = 0; i < files.length; i++){
                 if(!(files[i] instanceof Blob) || !(files[i] instanceof File)){
@@ -377,7 +402,8 @@ export default class SimbaBase {
             //TODO: Type checks
         });
 
-        let missing = Object.keys(methodMeta.parameters).filter((key)=>key in paramNames);
+        //We expect _files to be missing, as it's passed separately
+        let missing = Object.keys(methodMeta.parameters).filter((key)=>paramNames.indexOf(key) < 0 && key !== '_files');
 
         if(missing.length){
             throw new MethodCallValidationMetadataException(`Parameters [${missing.join(',')}] not present for method "${methodName}"`);
