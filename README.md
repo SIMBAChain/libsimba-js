@@ -3,7 +3,7 @@
   <a href="https://www.npmjs.com/package/@simbachain/libsimba-js">
     <img alt="npm" src="https://img.shields.io/npm/dw/@simbachain/libsimba-js?style=flat">  
   </a>
-  <a href="https://libsimbajs.simbachain.com/">
+  <a href="https://simbachain.github.io/libsimba-js/">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg?style=flat" target="_blank" />
   </a>
   <a href="https://github.com/SIMBAChain/libsimba-js/blob/master/LICENSE">
@@ -15,7 +15,7 @@
 > libsimba-js is a library simplifying the use of SIMBAChain APIs. We aim to abstract away the various blockchain concepts, reducing the necessary time needed to get to working code.
 
 ### [🏠 Homepage](https://github.com/simbachain/libsimba-js#readme)
-### [📝 Documentation](https://libsimbajs.simbachain.com/)
+### [📝 Documentation](https://simbachain.github.io/libsimba-js/)
 
 ## Install
 
@@ -60,7 +60,7 @@ require(['@simbachain/libsimba-js'], function (libsimba) {
 
 ## Examples
 
-See [here](https://libsimbajs.simbachain.com/example.html)
+See [here](https://simbachain.github.io/libsimba-js/example.html)
 
 ## Contributing
 
