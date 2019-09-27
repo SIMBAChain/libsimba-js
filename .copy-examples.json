@@ -2,15 +2,15 @@
     "copyFiles": [
         {
             "from": "dist/example.html",
-            "to": "dist/docs/example.html"
+            "to": "docs/example.html"
         },
         {
             "from": "dist/libsimba.js",
-            "to": "dist/docs/libsimba.js"
+            "to": "docs/libsimba.js"
         },
         {
             "from": "dist/libsimba.js.map",
-            "to": "dist/docs/libsimba.js.map"
+            "to": "docs/libsimba.js.map"
         }
     ]
 }
