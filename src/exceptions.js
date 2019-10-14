@@ -153,3 +153,13 @@ export class WalletLockedException extends SigningException{
     }
 }
 
+/**
+ * Thrown when a method call exceeds the max retries
+ */
+export class RetriesExceededException extends SigningException{
+    constructor(...args){
+        super(...args);
+        this.name = 'RetriesExceededException';
+    }
+}
+

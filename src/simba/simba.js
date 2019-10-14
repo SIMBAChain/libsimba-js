@@ -7,7 +7,8 @@ import {
     TransactionStatusCheckException,
     NotImplementedException,
     GetTransactionsException,
-    GetRequestException
+    GetRequestException,
+    RetriesExceededException
 } from '../exceptions';
 import PagedResponse from "./pagedresponse";
 
@@ -278,6 +279,52 @@ export default class Simbachain extends SimbaBase {
 
     /**
      * @private
+     * Internal method for submitting method calls and retrying on nonce errors
+     * @param {string} txnId - the txnId
+     * @param {string} signed - The signed txn
+     * @returns {Promise<Response>} - The response with transaction data
+     */
+    async submitTxn(txnId, payload, maxTries, currentTry){
+        if(!maxTries) maxTries = 5;
+        if(!currentTry) currentTry = 0;
+        if(currentTry > maxTries){
+            throw new RetriesExceededException();
+        }
+        // tslint:disable-next-line: no-unsafe-any
+        const signed = await this.wallet.sign(payload);
+
+        return fetch(`${this.endpoint}transaction/${txnId}/`, {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: Object.assign({'Content-Type':'application/json'},this.apiAuthHeaders()),
+            body: JSON.stringify({payload: signed}),
+        }).then(async (response) => {
+            let data = await response.json();
+
+            if (!response.ok) {
+                if(data.errors && data.errors.length){
+                    let error = data.errors[0];
+                    if(error.detail && error.detail.code){
+                        let code = error.detail.code;
+                        //Nonce Error
+                        if(code === 15001 && error.detail.meta && error.detail.meta.suggested_nonce){
+                            console.log("Nonce Too Low, trying again with suggested nonce " + error.detail.meta.suggested_nonce);
+                            payload.nonce = error.detail.meta.suggested_nonce;
+                            return this.submitTxn(txnId, payload, maxTries, currentTry++);
+                        }
+                    }
+                }
+                throw new SubmitTransactionException(JSON.stringify(data));
+            }
+            // tslint:disable-next-line: no-console
+            console.log('Success!', data);
+
+            return txnId;
+        })
+    }
+
+    /**
+     * @private
      * Internal method for sending method calls
      * @param {string} url - the url
      * @param {FormData} formdata - Formdata for the POST
@@ -285,6 +332,7 @@ export default class Simbachain extends SimbaBase {
      */
     async sendMethodRequest(method, formdata){
         let txnId = null;
+        let payload;
 
         return fetch(`${this.endpoint}${method}/`, {
             method: 'POST',
@@ -301,28 +349,11 @@ export default class Simbachain extends SimbaBase {
                 // tslint:disable-next-line: no-unsafe-any
                 txnId = data.id;
                 // tslint:disable-next-line: no-unsafe-any
-                const payload = data.payload.raw;
-                // tslint:disable-next-line: no-unsafe-any
-                const signed = await this.wallet.sign(payload);
 
-                return fetch(`${this.endpoint}transaction/${txnId}/`, {
-                    method: 'POST',
-                    cache: 'no-cache',
-                    headers: Object.assign({'Content-Type':'application/json'},this.apiAuthHeaders()),
-                    body: JSON.stringify({payload: signed}),
-                })
-            })
-            .then(async (response) => {
-                let data = await response.json();
+                payload = data.payload.raw;
 
-                if (!response.ok) {
-                    throw new SubmitTransactionException(JSON.stringify(data));
-                }
-                // tslint:disable-next-line: no-console
-                console.log('Success!', data);
-
-                return txnId;
-            })
+                return this.submitTxn(txnId, payload);
+            });
     }
 
     /**
