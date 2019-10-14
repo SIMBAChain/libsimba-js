@@ -37,6 +37,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MethodCallValidationMetadataException.html">MethodCallValidationMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MissingMetadataException.html">MissingMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~NotImplementedException.html">NotImplementedException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~RetriesExceededException.html">RetriesExceededException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~SigningException.html">SigningException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~SubmitTransactionException.html">SubmitTransactionException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~TransactionStatusCheckException.html">TransactionStatusCheckException</a></span></span></li>
@@ -54,13 +55,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Simbachain from &apos;<span><a href="file/src/simba/simba.js.html#lineNumber17">@simbachain/libsimba-js/src/simba/simba.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Simbachain from &apos;<span><a href="file/src/simba/simba.js.html#lineNumber18">@simbachain/libsimba-js/src/simba/simba.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/simba/simba.js.html#lineNumber17">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/simba/simba.js.html#lineNumber18">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -673,6 +674,34 @@
           <span data-ice="async">async</span>
           
           <span class="code" data-ice="name"><span><a href="class/src/simba/simba.js~Simbachain.html#instance-method-sendMethodRequest">sendMethodRequest</a></span></span><span class="code" data-ice="signature">(url: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, formdata: <span>FormData</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span>Response</span>&gt;</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          <span data-ice="async">async</span>
+          
+          <span class="code" data-ice="name"><span><a href="class/src/simba/simba.js~Simbachain.html#instance-method-submitTxn">submitTxn</a></span></span><span class="code" data-ice="signature">(txnId: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, signed: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span>Response</span>&gt;</span>
         </p>
       </div>
       <div>
@@ -1586,7 +1615,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber23">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber24">source</a></span></span>
     </span>
   </h3>
 
@@ -1657,7 +1686,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber36">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber37">source</a></span></span>
     </span>
   </h3>
 
@@ -1703,7 +1732,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber198">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber199">source</a></span></span>
     </span>
   </h3>
 
@@ -1759,7 +1788,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber47">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber48">source</a></span></span>
     </span>
   </h3>
 
@@ -1839,7 +1868,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber258">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber259">source</a></span></span>
     </span>
   </h3>
 
@@ -1926,7 +1955,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber145">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber146">source</a></span></span>
     </span>
   </h3>
 
@@ -1982,7 +2011,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber441">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber472">source</a></span></span>
     </span>
   </h3>
 
@@ -2062,7 +2091,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber417">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber448">source</a></span></span>
     </span>
   </h3>
 
@@ -2135,7 +2164,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber497">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber528">source</a></span></span>
     </span>
   </h3>
 
@@ -2222,7 +2251,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber469">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber500">source</a></span></span>
     </span>
   </h3>
 
@@ -2309,7 +2338,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber376">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber407">source</a></span></span>
     </span>
   </h3>
 
@@ -2389,7 +2418,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber334">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber365">source</a></span></span>
     </span>
   </h3>
 
@@ -2462,7 +2491,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber70">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber71">source</a></span></span>
     </span>
   </h3>
 
@@ -2535,7 +2564,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber357">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber388">source</a></span></span>
     </span>
   </h3>
 
@@ -2610,7 +2639,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber395">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber426">source</a></span></span>
     </span>
   </h3>
 
@@ -2685,7 +2714,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber124">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber125">source</a></span></span>
     </span>
   </h3>
 
@@ -2758,7 +2787,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber135">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber136">source</a></span></span>
     </span>
   </h3>
 
@@ -2831,7 +2860,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber94">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber95">source</a></span></span>
     </span>
   </h3>
 
@@ -2904,7 +2933,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber31">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber32">source</a></span></span>
     </span>
   </h3>
 
@@ -2947,7 +2976,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber286">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber333">source</a></span></span>
     </span>
   </h3>
 
@@ -2978,6 +3007,86 @@
       <td data-ice="type" class="code"><span>FormData</span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>Formdata for the POST</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span>Response</span>&gt;</td>
+          <td class="return-desc" data-ice="returnDescription"><p>The response with transaction data</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-submitTxn">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    <span data-ice="async">async</span>
+    
+    <span class="code" data-ice="name">submitTxn</span><span class="code" data-ice="signature">(txnId: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, signed: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span>Response</span>&gt;</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/simba/simba.js.html#lineNumber287">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">txnId</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>the txnId</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">signed</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The signed txn</p>
 </td>
     </tr>
 </tbody>

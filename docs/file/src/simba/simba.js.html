@@ -37,6 +37,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MethodCallValidationMetadataException.html">MethodCallValidationMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MissingMetadataException.html">MissingMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~NotImplementedException.html">NotImplementedException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~RetriesExceededException.html">RetriesExceededException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~SigningException.html">SigningException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~SubmitTransactionException.html">SubmitTransactionException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~TransactionStatusCheckException.html">TransactionStatusCheckException</a></span></span></li>
@@ -63,7 +64,8 @@ import {
     TransactionStatusCheckException,
     NotImplementedException,
     GetTransactionsException,
-    GetRequestException
+    GetRequestException,
+    RetriesExceededException
 } from &apos;../exceptions&apos;;
 import PagedResponse from &quot;./pagedresponse&quot;;
 
@@ -334,6 +336,52 @@ export default class Simbachain extends SimbaBase {
 
     /**
      * @private
+     * Internal method for submitting method calls and retrying on nonce errors
+     * @param {string} txnId - the txnId
+     * @param {string} signed - The signed txn
+     * @returns {Promise&lt;Response&gt;} - The response with transaction data
+     */
+    async submitTxn(txnId, payload, maxTries, currentTry){
+        if(!maxTries) maxTries = 5;
+        if(!currentTry) currentTry = 0;
+        if(currentTry &gt; maxTries){
+            throw new RetriesExceededException();
+        }
+        // tslint:disable-next-line: no-unsafe-any
+        const signed = await this.wallet.sign(payload);
+
+        return fetch(`${this.endpoint}transaction/${txnId}/`, {
+            method: &apos;POST&apos;,
+            cache: &apos;no-cache&apos;,
+            headers: Object.assign({&apos;Content-Type&apos;:&apos;application/json&apos;},this.apiAuthHeaders()),
+            body: JSON.stringify({payload: signed}),
+        }).then(async (response) =&gt; {
+            let data = await response.json();
+
+            if (!response.ok) {
+                if(data.errors &amp;&amp; data.errors.length){
+                    let error = data.errors[0];
+                    if(error.detail &amp;&amp; error.detail.code){
+                        let code = error.detail.code;
+                        //Nonce Error
+                        if(code === 15001 &amp;&amp; error.detail.meta &amp;&amp; error.detail.meta.suggested_nonce){
+                            console.log(&quot;Nonce Too Low, trying again with suggested nonce &quot; + error.detail.meta.suggested_nonce);
+                            payload.nonce = error.detail.meta.suggested_nonce;
+                            return this.submitTxn(txnId, payload, maxTries, currentTry++);
+                        }
+                    }
+                }
+                throw new SubmitTransactionException(JSON.stringify(data));
+            }
+            // tslint:disable-next-line: no-console
+            console.log(&apos;Success!&apos;, data);
+
+            return txnId;
+        })
+    }
+
+    /**
+     * @private
      * Internal method for sending method calls
      * @param {string} url - the url
      * @param {FormData} formdata - Formdata for the POST
@@ -341,6 +389,7 @@ export default class Simbachain extends SimbaBase {
      */
     async sendMethodRequest(method, formdata){
         let txnId = null;
+        let payload;
 
         return fetch(`${this.endpoint}${method}/`, {
             method: &apos;POST&apos;,
@@ -357,28 +406,11 @@ export default class Simbachain extends SimbaBase {
                 // tslint:disable-next-line: no-unsafe-any
                 txnId = data.id;
                 // tslint:disable-next-line: no-unsafe-any
-                const payload = data.payload.raw;
-                // tslint:disable-next-line: no-unsafe-any
-                const signed = await this.wallet.sign(payload);
 
-                return fetch(`${this.endpoint}transaction/${txnId}/`, {
-                    method: &apos;POST&apos;,
-                    cache: &apos;no-cache&apos;,
-                    headers: Object.assign({&apos;Content-Type&apos;:&apos;application/json&apos;},this.apiAuthHeaders()),
-                    body: JSON.stringify({payload: signed}),
-                })
-            })
-            .then(async (response) =&gt; {
-                let data = await response.json();
+                payload = data.payload.raw;
 
-                if (!response.ok) {
-                    throw new SubmitTransactionException(JSON.stringify(data));
-                }
-                // tslint:disable-next-line: no-console
-                console.log(&apos;Success!&apos;, data);
-
-                return txnId;
-            })
+                return this.submitTxn(txnId, payload);
+            });
     }
 
     /**

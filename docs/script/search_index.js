@@ -60,6 +60,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "@simbachain/libsimba-js/src/exceptions.js~retriesexceededexception",
+    "class/src/exceptions.js~RetriesExceededException.html",
+    "<span>RetriesExceededException</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/exceptions.js</span>",
+    "class"
+  ],
+  [
     "@simbachain/libsimba-js/src/exceptions.js~signingexception",
     "class/src/exceptions.js~SigningException.html",
     "<span>SigningException</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/exceptions.js</span>",
@@ -516,6 +522,18 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/exceptions.js~retriesexceededexception#constructor",
+    "class/src/exceptions.js~RetriesExceededException.html#instance-constructor-constructor",
+    "src/exceptions.js~RetriesExceededException#constructor",
+    "method"
+  ],
+  [
+    "src/exceptions.js~retriesexceededexception#name",
+    "class/src/exceptions.js~RetriesExceededException.html#instance-member-name",
+    "src/exceptions.js~RetriesExceededException#name",
+    "member"
+  ],
+  [
     "src/exceptions.js~signingexception#constructor",
     "class/src/exceptions.js~SigningException.html#instance-constructor-constructor",
     "src/exceptions.js~SigningException#constructor",
@@ -834,6 +852,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/simba/simba.js~simbachain#submittxn",
+    "class/src/simba/simba.js~Simbachain.html#instance-method-submitTxn",
+    "src/simba/simba.js~Simbachain#submitTxn",
+    "method"
+  ],
+  [
     "src/simba/simbabase.js",
     "file/src/simba/simbabase.js.html",
     "src/simba/simbabase.js",
@@ -1038,16 +1062,16 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "",
-    "test-file/test/localwallet.spec.js.html#lineNumber3",
-    "src/wallet/localwallet.js",
-    "test"
-  ],
-  [
     "src/wallet/localwallet.js",
     "file/src/wallet/localwallet.js.html",
     "src/wallet/localwallet.js",
     "file"
+  ],
+  [
+    "",
+    "test-file/test/localwallet.spec.js.html#lineNumber3",
+    "src/wallet/localwallet.js",
+    "test"
   ],
   [
     "",
