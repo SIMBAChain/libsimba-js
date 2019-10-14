@@ -1,11 +1,11 @@
 {
-  "coverage": "68.84%",
-  "expectCount": 138,
-  "actualCount": 95,
+  "coverage": "68.3%",
+  "expectCount": 142,
+  "actualCount": 97,
   "files": {
     "src/exceptions.js": {
-      "expectCount": 44,
-      "actualCount": 15,
+      "expectCount": 47,
+      "actualCount": 16,
       "undocumentLines": [
         12,
         13,
@@ -35,7 +35,9 @@
         139,
         141,
         150,
-        152
+        152,
+        160,
+        162
       ]
     },
     "src/index.js": {
@@ -56,10 +58,10 @@
       ]
     },
     "src/simba/simba.js": {
-      "expectCount": 21,
-      "actualCount": 20,
+      "expectCount": 22,
+      "actualCount": 21,
       "undocumentLines": [
-        36
+        37
       ]
     },
     "src/simba/simbabase.js": {
