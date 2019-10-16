@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.18](https://github.com/simbachain/libsimba-js/compare/v0.3.17...v0.3.18) (2019-10-16)
+
+
+### Bug Fixes
+
+* **simba:** Fix nonce error catching ([dda6d89](https://github.com/simbachain/libsimba-js/commit/dda6d89))
+
 ### [0.3.17](https://github.com/simbachain/libsimba-js/compare/v0.3.15...v0.3.17) (2019-10-14)
 
 ### [0.3.16](https://github.com/simbachain/libsimba-js/compare/v0.3.15...v0.3.16) (2019-10-14)
