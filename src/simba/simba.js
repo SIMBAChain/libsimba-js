@@ -307,7 +307,7 @@ export default class Simbachain extends SimbaBase {
                     if(error.detail && error.detail.code){
                         let code = error.detail.code;
                         //Nonce Error
-                        if(code === 15001 && error.detail.meta && error.detail.meta.suggested_nonce){
+                        if(code === "15001" && error.detail.meta && error.detail.meta.suggested_nonce){
                             console.log("Nonce Too Low, trying again with suggested nonce " + error.detail.meta.suggested_nonce);
                             payload.nonce = error.detail.meta.suggested_nonce;
                             return this.submitTxn(txnId, payload, maxTries, currentTry++);
