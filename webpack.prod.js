@@ -14,7 +14,8 @@ module.exports = {
         library: 'libsimba',
         filename: 'libsimba.js',
         libraryTarget: 'umd',
-        path: buildPath
+        path: buildPath,
+        globalObject: 'this'
     },
     node: {
         fs: 'empty'

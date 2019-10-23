@@ -15,6 +15,7 @@ module.exports = {
     output: {
         library: 'libsimba',
         libraryTarget: 'umd',
+        globalObject: 'this'
     },
     module: {
         rules: [
