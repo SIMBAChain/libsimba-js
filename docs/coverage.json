@@ -1,11 +1,11 @@
 {
-  "coverage": "69.67%",
-  "expectCount": 155,
-  "actualCount": 108,
+  "coverage": "68.55%",
+  "expectCount": 159,
+  "actualCount": 109,
   "files": {
     "src/exceptions.js": {
-      "expectCount": 47,
-      "actualCount": 16,
+      "expectCount": 50,
+      "actualCount": 17,
       "undocumentLines": [
         12,
         13,
@@ -32,12 +32,14 @@
         120,
         128,
         130,
-        139,
-        141,
-        150,
-        152,
+        138,
+        140,
+        149,
+        151,
         160,
-        162
+        162,
+        170,
+        172
       ]
     },
     "src/index.js": {
@@ -76,10 +78,11 @@
       ]
     },
     "src/wallet/localwallet.js": {
-      "expectCount": 15,
+      "expectCount": 16,
       "actualCount": 14,
       "undocumentLines": [
-        40
+        22,
+        45
       ]
     },
     "src/wallet/pkwallet.js": {

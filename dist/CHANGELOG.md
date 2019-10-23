@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.21](https://github.com/simbachain/libsimba-js/compare/v0.3.20...v0.3.21) (2019-10-23)
+
+
+### Bug Fixes
+
+* **wallet:** localwallet detect if running in browser or not ([0354c90](https://github.com/simbachain/libsimba-js/commit/0354c90))
+
+
+### Features
+
+* **pkwallet:** properly export pkwallet ([1abab24](https://github.com/simbachain/libsimba-js/commit/1abab24))
+
 ### [0.3.20](https://github.com/simbachain/libsimba-js/compare/v0.3.19...v0.3.20) (2019-10-23)
 
 

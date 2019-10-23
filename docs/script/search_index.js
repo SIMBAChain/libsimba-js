@@ -54,6 +54,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "@simbachain/libsimba-js/src/exceptions.js~notinbrowserexception",
+    "class/src/exceptions.js~NotInBrowserException.html",
+    "<span>NotInBrowserException</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/exceptions.js</span>",
+    "class"
+  ],
+  [
     "@simbachain/libsimba-js/src/wallet/pkwallet.js~pkwallet",
     "class/src/wallet/pkwallet.js~PKWallet.html",
     "<span>PKWallet</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/wallet/pkwallet.js</span>",
@@ -525,6 +531,18 @@ window.esdocSearchIndex = [
     "src/exceptions.js~notimplementedexception#name",
     "class/src/exceptions.js~NotImplementedException.html#instance-member-name",
     "src/exceptions.js~NotImplementedException#name",
+    "member"
+  ],
+  [
+    "src/exceptions.js~notinbrowserexception#constructor",
+    "class/src/exceptions.js~NotInBrowserException.html#instance-constructor-constructor",
+    "src/exceptions.js~NotInBrowserException#constructor",
+    "method"
+  ],
+  [
+    "src/exceptions.js~notinbrowserexception#name",
+    "class/src/exceptions.js~NotInBrowserException.html#instance-member-name",
+    "src/exceptions.js~NotInBrowserException#name",
     "member"
   ],
   [
@@ -1174,6 +1192,12 @@ window.esdocSearchIndex = [
     "class/src/wallet/localwallet.js~LocalWallet.html#instance-method-walletExists",
     "src/wallet/localwallet.js~LocalWallet#walletExists",
     "method"
+  ],
+  [
+    "src/wallet/localwallet.js~localwallet#window",
+    "class/src/wallet/localwallet.js~LocalWallet.html#instance-member-window",
+    "src/wallet/localwallet.js~LocalWallet#window",
+    "member"
   ],
   [
     "src/wallet/pkwallet.js",
