@@ -1,5 +1,5 @@
 import {SimbaBase, Simbachain} from './simba';
-import {Wallet, LocalWallet} from './wallet';
+import {Wallet, LocalWallet, PKWallet} from './wallet';
 import {NotImplementedException} from './exceptions';
 
 /**
@@ -38,5 +38,6 @@ export {
     Simbachain,
     Wallet,
     LocalWallet,
+    PKWallet,
     getSimbaInstance
 }
