@@ -54,6 +54,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "@simbachain/libsimba-js/src/wallet/pkwallet.js~pkwallet",
+    "class/src/wallet/pkwallet.js~PKWallet.html",
+    "<span>PKWallet</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/wallet/pkwallet.js</span>",
+    "class"
+  ],
+  [
     "@simbachain/libsimba-js/src/simba/pagedresponse.js~pagedresponse",
     "class/src/simba/pagedresponse.js~PagedResponse.html",
     "<span>PagedResponse</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/simba/pagedresponse.js</span>",
@@ -1167,6 +1173,84 @@ window.esdocSearchIndex = [
     "src/wallet/localwallet.js~localwallet#walletexists",
     "class/src/wallet/localwallet.js~LocalWallet.html#instance-method-walletExists",
     "src/wallet/localwallet.js~LocalWallet#walletExists",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js",
+    "file/src/wallet/pkwallet.js.html",
+    "src/wallet/pkwallet.js",
+    "file"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#cleanpayload",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-cleanPayload",
+    "src/wallet/pkwallet.js~PKWallet#cleanPayload",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#constructor",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-constructor-constructor",
+    "src/wallet/pkwallet.js~PKWallet#constructor",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#deletewallet",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-deleteWallet",
+    "src/wallet/pkwallet.js~PKWallet#deleteWallet",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#generatewallet",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-generateWallet",
+    "src/wallet/pkwallet.js~PKWallet#generateWallet",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#getaddress",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-getAddress",
+    "src/wallet/pkwallet.js~PKWallet#getAddress",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#getencryptedjson",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-getEncryptedJson",
+    "src/wallet/pkwallet.js~PKWallet#getEncryptedJson",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#getmnemonic",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-getMnemonic",
+    "src/wallet/pkwallet.js~PKWallet#getMnemonic",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#pk",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-member-pk",
+    "src/wallet/pkwallet.js~PKWallet#pk",
+    "member"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#sign",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-sign",
+    "src/wallet/pkwallet.js~PKWallet#sign",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#unlockwallet",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-unlockWallet",
+    "src/wallet/pkwallet.js~PKWallet#unlockWallet",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#wallet",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-member-wallet",
+    "src/wallet/pkwallet.js~PKWallet#wallet",
+    "member"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#walletexists",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-walletExists",
+    "src/wallet/pkwallet.js~PKWallet#walletExists",
     "method"
   ],
   [

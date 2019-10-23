@@ -144,5 +144,50 @@
       "url",
       "formdata"
     ]
+  },
+  {
+    "name": "PKWallet#generateWallet",
+    "filePath": "src/wallet/pkwallet.js",
+    "lines": [
+      {
+        "lineNumber": 33,
+        "line": "    /**"
+      },
+      {
+        "lineNumber": 34,
+        "line": "     * @override"
+      },
+      {
+        "lineNumber": 35,
+        "line": "     * Generate a wallet"
+      },
+      {
+        "lineNumber": 36,
+        "line": "     * @param {string} passkey - The pass key to lock the wallet"
+      },
+      {
+        "lineNumber": 37,
+        "line": "     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress"
+      },
+      {
+        "lineNumber": 38,
+        "line": "     * @returns {Promise} - Returns a promise resolving with the private key when the wallet is created"
+      },
+      {
+        "lineNumber": 39,
+        "line": "     */"
+      },
+      {
+        "lineNumber": 40,
+        "line": "    generateWallet(progressCB){"
+      }
+    ],
+    "codeParams": [
+      "progressCB"
+    ],
+    "docParams": [
+      "passkey",
+      "progressCB"
+    ]
   }
 ]

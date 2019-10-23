@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.20](https://github.com/simbachain/libsimba-js/compare/v0.3.19...v0.3.20) (2019-10-23)
+
+
+### Features
+
+* **wallet:** add new PK Wallet ([bc7cb9b](https://github.com/simbachain/libsimba-js/commit/bc7cb9b))
+
 ### [0.3.19](https://github.com/simbachain/libsimba-js/compare/v0.3.18...v0.3.19) (2019-10-18)
 
 ### [0.3.18](https://github.com/simbachain/libsimba-js/compare/v0.3.17...v0.3.18) (2019-10-16)

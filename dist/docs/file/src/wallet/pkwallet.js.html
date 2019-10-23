@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../">
-  <title data-ice="title">Function | libsimba-js</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/wallet/pkwallet.js | libsimba-js</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -55,143 +55,162 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">Function</h1>
-<div data-ice="summaries"><table class="summary" data-ice="summary">
-  <thead><tr><td data-ice="title" colspan="3">Static Public Summary</td></tr></thead>
-  <tbody>
-  
-  <tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          <span data-ice="async">async</span>
-          
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-getSimbaInstance">getSimbaInstance</a></span></span><span class="code" data-ice="signature">(url: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, wallet: <span><a href="class/src/wallet/wallet.js~Wallet.html">Wallet</a></span>, apiKey: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, managementKey: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span><a href="class/src/simba/simba.js~Simbachain.html">Simbachain</a></span>&gt;</span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Create an instance of a Simbachain API interaction class
-Automatically takes care of choosing the correct implementation and running asynchronous initialisation.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-</tbody>
-</table>
-</div>
-<div data-ice="details"><h2 data-ice="title">Static Public </h2>
+<div class="content" data-ice="content"><h1 data-ice="title">src/wallet/pkwallet.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Wallet from &apos;./wallet&apos;;
+import { Wallet as EthersWallet } from &apos;@ethersproject/wallet&apos;;
+import { SigningException, UserRejectedSigningException, WalletNotFoundException, WalletLockedException} from &quot;../exceptions&quot;;
 
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="static-function-getSimbaInstance">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    <span data-ice="async">async</span>
-    
-    <span class="code" data-ice="name">getSimbaInstance</span><span class="code" data-ice="signature">(url: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, wallet: <span><a href="class/src/wallet/wallet.js~Wallet.html">Wallet</a></span>, apiKey: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, managementKey: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span><a href="class/src/simba/simba.js~Simbachain.html">Simbachain</a></span>&gt;</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber14">source</a></span></span>
-    </span>
-  </h3>
+/**
+ * libsimba-js Private Key Wallet implementation
+ * Use when you already have access to the decrypted private key
+ * Wraps the [ethersjs]{@link https://docs.ethers.io/ethers.js/html/} library.
+ */
+export default class PKWallet extends Wallet {
+    /**
+     * Use when you already have access to the decrypted private key
+     * @param {string} [private_key] - The private key in hexidecimal format
+     * @param {function} [signingConfirmation] -  - an optional callback for requesting user permission to sign a
+     * transaction. Should resolve a promise with true for accept, and false (or reject) for reject.
+     */
+    constructor(private_key, signingConfirmation) {
+        super(signingConfirmation);
+        this.pk = private_key;
+        this.wallet = EthersWallet(this.pk);
+    }
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getSimbaInstance} from &apos;<span><a href="file/src/index.js.html#lineNumber14">@simbachain/libsimba-js/src/index.js</a></span>&apos;</code></pre></div>
-  
-  
-  <div data-ice="description"><p>Create an instance of a Simbachain API interaction class
-Automatically takes care of choosing the correct implementation and running asynchronous initialisation.</p>
-</div>
+    /**
+     * @override
+     * Unlock the wallet - noop for this wallet
+     * @param {string} passkey - The pass key to unlock the wallet
+     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress
+     * @returns {Promise} - Returns a promise resolving when the wallet is unlocked
+     */
+    unlockWallet(passkey, progressCB){
+        return Promise.resolve();
+    }
 
-  
+    /**
+     * @override
+     * Generate a wallet
+     * @param {string} passkey - The pass key to lock the wallet
+     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress
+     * @returns {Promise} - Returns a promise resolving with the private key when the wallet is created
+     */
+    generateWallet(progressCB){
+        this.wallet = EthersWallet.createRandom();
+        this.pk = this.wallet.privateKey;
+        return Promise.resolve(this.pk);
+    }
 
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">url</td>
-      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The API URL</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">wallet</td>
-      <td data-ice="type" class="code"><span><a href="class/src/wallet/wallet.js~Wallet.html">Wallet</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The Wallet to use</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">apiKey</td>
-      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-      <td data-ice="appendix"><ul><li>optional</li></ul></td>
-      <td data-ice="description"><p>(Optional) The API key</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">managementKey</td>
-      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-      <td data-ice="appendix"><ul><li>optional</li></ul></td>
-      <td data-ice="description"><p>(Optional) The Management API key</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
+    /**
+     * @override
+     * Delete the wallet
+     */
+    deleteWallet(){}
 
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>&lt;<span><a href="class/src/simba/simba.js~Simbachain.html">Simbachain</a></span>&gt;</td>
-          <td class="return-desc" data-ice="returnDescription"><p>An initialised instance of the API interaction class</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
+    /**
+     * @override
+     * Check if a wallet exists
+     * @return {boolean} - does the wallet exist
+     */
+    walletExists(){
+        return !!this.pk &amp;&amp; !!this.wallet;
+    }
 
-  
+    /**
+     * The mnemonic phrase for this wallet, or null if the mnemonic is unknown.
+     * @return {string} - The mnemonic phrase for this wallet, or null if the mnemonic is unknown.
+     */
+    getMnemonic(){
+        if(!this.walletExists()){
+            throw new WalletNotFoundException(&quot;No wallet generated!&quot;)
+        }
+        if(!this.wallet) {
+            throw new WalletLockedException(&quot;Wallet not unlocked!&quot;);
+        }
 
-  
+        return this.wallet.mnemonic;
+    }
 
-  
+    /**
+     *
+     * @param {string} passkey - Passkey to encrypt the wallet
+     * @param {function} [progressCB] - An optional callback to monitor progress of encryption, calls with a value between 0-1
+     * @returns {Promise&lt;string&gt;} A promise that resolves with the JSON wallet
+     */
+    getEncryptedJson(passkey, progressCB){
+        if(!this.walletExists()){
+            throw new WalletNotFoundException(&quot;No wallet generated!&quot;)
+        }
+        if(!this.wallet) {
+            throw new WalletLockedException(&quot;Wallet not unlocked!&quot;);
+        }
 
-  
+        return this.wallet.encrypt(passkey, progressCB);
+    }
 
-  
+    /**
+     * @protected
+     * @override
+     * Sign a transaction payload
+     * @param {Object} payload - The transaction to sign
+     * @returns {Promise&lt;string&gt;} - Returns a promise resolving to the signed transaction
+     */
+    sign(payload) {
+        if(!this.walletExists()){
+            throw new WalletNotFoundException(&quot;No wallet generated!&quot;)
+        }
+        if(!this.wallet) {
+            throw new WalletLockedException(&quot;Wallet not unlocked!&quot;);
+        }
 
-  
+        return this.signingConfirmation().then(allow=&gt;{
+            if(allow){
+                const cleanedPayload = this.cleanPayload(payload);
+                return this.wallet.signTransaction(cleanedPayload)
+                    .catch(error=&gt;{throw new SigningException(&quot;Failed to sign transaction&quot;, error)});
+            }
+            throw new UserRejectedSigningException(&quot;User rejected signing&quot;);
+        });
+    }
 
-  
-  
-</div>
-</div>
+    /**
+     * @private
+     * Clean the payload before signing
+     * @param {Object} payload - The transaction to clean
+     * @returns {string} - The cleaned transaction
+     */
+    cleanPayload(payload){
+        const allowedKeys = [ &apos;to&apos;,&apos;nonce&apos;,&apos;gasLimit&apos;,&apos;gasPrice&apos;, &apos;data&apos;,&apos;value&apos;,&apos;chainId&apos;];
+
+        let cleanedPayload = {};
+
+        Object.keys(payload).forEach(key=&gt;{
+            if(allowedKeys.indexOf(key) &gt;= 0){
+                cleanedPayload[key] = payload[key];
+                if((typeof payload[key] === &apos;string&apos; || payload[key] instanceof String) &amp;&amp;
+                    payload[key].startsWith(&apos;0x&apos;) &amp;&amp;
+                    payload[key].length % 2 !== 0){
+                    cleanedPayload[key] = payload[key].replace(&apos;0x&apos;, &apos;0x0&apos;);
+                    console.log(`Bad Hex - txn.${key} = ${payload[key]}, reformatted to ${cleanedPayload[key]}`);
+                }
+            }
+        });
+
+        return cleanedPayload;
+    }
+
+    /**
+     * @override
+     * Get the wallets address
+     * @returns {Promise&lt;string&gt;} - Returns a promise resolving to the wallets address
+     */
+    getAddress(){
+        return this.wallet.getAddress();
+    }
+}
+</code></pre>
+
 </div>
 
 <footer class="footer">

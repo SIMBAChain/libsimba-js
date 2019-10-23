@@ -3863,7 +3863,7 @@
     "__docId__": 174,
     "kind": "file",
     "name": "src/wallet/index.js",
-    "content": "import Wallet from './wallet';\r\nimport LocalWallet from './localwallet';\r\n\r\nexport {\r\n    Wallet,\r\n    LocalWallet\r\n}\r\n",
+    "content": "import Wallet from './wallet';\r\nimport LocalWallet from './localwallet';\r\nimport PKWallet from './pkwallet';\r\n\r\nexport {\r\n    Wallet,\r\n    LocalWallet,\r\n    PKWallet\r\n}\r\n",
     "static": true,
     "longname": "C:/Users/Kieran David Evans/Code/libsimba-js/src/wallet/index.js",
     "access": "public",
@@ -4439,6 +4439,422 @@
   {
     "__docId__": 194,
     "kind": "file",
+    "name": "src/wallet/pkwallet.js",
+    "content": "import Wallet from './wallet';\nimport { Wallet as EthersWallet } from '@ethersproject/wallet';\nimport { SigningException, UserRejectedSigningException, WalletNotFoundException, WalletLockedException} from \"../exceptions\";\n\n/**\n * libsimba-js Private Key Wallet implementation\n * Use when you already have access to the decrypted private key\n * Wraps the [ethersjs]{@link https://docs.ethers.io/ethers.js/html/} library.\n */\nexport default class PKWallet extends Wallet {\n    /**\n     * Use when you already have access to the decrypted private key\n     * @param {string} [private_key] - The private key in hexidecimal format\n     * @param {function} [signingConfirmation] -  - an optional callback for requesting user permission to sign a\n     * transaction. Should resolve a promise with true for accept, and false (or reject) for reject.\n     */\n    constructor(private_key, signingConfirmation) {\n        super(signingConfirmation);\n        this.pk = private_key;\n        this.wallet = EthersWallet(this.pk);\n    }\n\n    /**\n     * @override\n     * Unlock the wallet - noop for this wallet\n     * @param {string} passkey - The pass key to unlock the wallet\n     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress\n     * @returns {Promise} - Returns a promise resolving when the wallet is unlocked\n     */\n    unlockWallet(passkey, progressCB){\n        return Promise.resolve();\n    }\n\n    /**\n     * @override\n     * Generate a wallet\n     * @param {string} passkey - The pass key to lock the wallet\n     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress\n     * @returns {Promise} - Returns a promise resolving with the private key when the wallet is created\n     */\n    generateWallet(progressCB){\n        this.wallet = EthersWallet.createRandom();\n        this.pk = this.wallet.privateKey;\n        return Promise.resolve(this.pk);\n    }\n\n    /**\n     * @override\n     * Delete the wallet\n     */\n    deleteWallet(){}\n\n    /**\n     * @override\n     * Check if a wallet exists\n     * @return {boolean} - does the wallet exist\n     */\n    walletExists(){\n        return !!this.pk && !!this.wallet;\n    }\n\n    /**\n     * The mnemonic phrase for this wallet, or null if the mnemonic is unknown.\n     * @return {string} - The mnemonic phrase for this wallet, or null if the mnemonic is unknown.\n     */\n    getMnemonic(){\n        if(!this.walletExists()){\n            throw new WalletNotFoundException(\"No wallet generated!\")\n        }\n        if(!this.wallet) {\n            throw new WalletLockedException(\"Wallet not unlocked!\");\n        }\n\n        return this.wallet.mnemonic;\n    }\n\n    /**\n     *\n     * @param {string} passkey - Passkey to encrypt the wallet\n     * @param {function} [progressCB] - An optional callback to monitor progress of encryption, calls with a value between 0-1\n     * @returns {Promise<string>} A promise that resolves with the JSON wallet\n     */\n    getEncryptedJson(passkey, progressCB){\n        if(!this.walletExists()){\n            throw new WalletNotFoundException(\"No wallet generated!\")\n        }\n        if(!this.wallet) {\n            throw new WalletLockedException(\"Wallet not unlocked!\");\n        }\n\n        return this.wallet.encrypt(passkey, progressCB);\n    }\n\n    /**\n     * @protected\n     * @override\n     * Sign a transaction payload\n     * @param {Object} payload - The transaction to sign\n     * @returns {Promise<string>} - Returns a promise resolving to the signed transaction\n     */\n    sign(payload) {\n        if(!this.walletExists()){\n            throw new WalletNotFoundException(\"No wallet generated!\")\n        }\n        if(!this.wallet) {\n            throw new WalletLockedException(\"Wallet not unlocked!\");\n        }\n\n        return this.signingConfirmation().then(allow=>{\n            if(allow){\n                const cleanedPayload = this.cleanPayload(payload);\n                return this.wallet.signTransaction(cleanedPayload)\n                    .catch(error=>{throw new SigningException(\"Failed to sign transaction\", error)});\n            }\n            throw new UserRejectedSigningException(\"User rejected signing\");\n        });\n    }\n\n    /**\n     * @private\n     * Clean the payload before signing\n     * @param {Object} payload - The transaction to clean\n     * @returns {string} - The cleaned transaction\n     */\n    cleanPayload(payload){\n        const allowedKeys = [ 'to','nonce','gasLimit','gasPrice', 'data','value','chainId'];\n\n        let cleanedPayload = {};\n\n        Object.keys(payload).forEach(key=>{\n            if(allowedKeys.indexOf(key) >= 0){\n                cleanedPayload[key] = payload[key];\n                if((typeof payload[key] === 'string' || payload[key] instanceof String) &&\n                    payload[key].startsWith('0x') &&\n                    payload[key].length % 2 !== 0){\n                    cleanedPayload[key] = payload[key].replace('0x', '0x0');\n                    console.log(`Bad Hex - txn.${key} = ${payload[key]}, reformatted to ${cleanedPayload[key]}`);\n                }\n            }\n        });\n\n        return cleanedPayload;\n    }\n\n    /**\n     * @override\n     * Get the wallets address\n     * @returns {Promise<string>} - Returns a promise resolving to the wallets address\n     */\n    getAddress(){\n        return this.wallet.getAddress();\n    }\n}\n",
+    "static": true,
+    "longname": "C:/Users/Kieran David Evans/Code/libsimba-js/src/wallet/pkwallet.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 195,
+    "kind": "class",
+    "name": "PKWallet",
+    "memberof": "src/wallet/pkwallet.js",
+    "static": true,
+    "longname": "src/wallet/pkwallet.js~PKWallet",
+    "access": "public",
+    "export": true,
+    "importPath": "@simbachain/libsimba-js/src/wallet/pkwallet.js",
+    "importStyle": "PKWallet",
+    "description": "libsimba-js Private Key Wallet implementation\nUse when you already have access to the decrypted private key\nWraps the [ethersjs]{@link https://docs.ethers.io/ethers.js/html/} library.",
+    "lineNumber": 10,
+    "interface": false,
+    "extends": [
+      "src/wallet/wallet.js~Wallet"
+    ]
+  },
+  {
+    "__docId__": 196,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/wallet/pkwallet.js~PKWallet",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/wallet/pkwallet.js~PKWallet#constructor",
+    "access": "public",
+    "description": "Use when you already have access to the decrypted private key",
+    "lineNumber": 17,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "private_key",
+        "description": "The private key in hexidecimal format"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "function"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "signingConfirmation",
+        "description": "- an optional callback for requesting user permission to sign a\ntransaction. Should resolve a promise with true for accept, and false (or reject) for reject."
+      }
+    ]
+  },
+  {
+    "__docId__": 197,
+    "kind": "member",
+    "name": "pk",
+    "memberof": "src/wallet/pkwallet.js~PKWallet",
+    "static": false,
+    "longname": "src/wallet/pkwallet.js~PKWallet#pk",
+    "access": "public",
+    "description": null,
+    "lineNumber": 19,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 198,
+    "kind": "member",
+    "name": "wallet",
+    "memberof": "src/wallet/pkwallet.js~PKWallet",
+    "static": false,
+    "longname": "src/wallet/pkwallet.js~PKWallet#wallet",
+    "access": "public",
+    "description": null,
+    "lineNumber": 20,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 199,
+    "kind": "method",
+    "name": "unlockWallet",
+    "memberof": "src/wallet/pkwallet.js~PKWallet",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/wallet/pkwallet.js~PKWallet#unlockWallet",
+    "access": "public",
+    "description": "",
+    "lineNumber": 30,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Promise} - Returns a promise resolving when the wallet is unlocked"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "passkey",
+        "description": "The pass key to unlock the wallet"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "function"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "progressCB",
+        "description": "A callback, accepting a number between 0-1, indicating decryption progress"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Promise"
+      ],
+      "spread": false,
+      "description": "Returns a promise resolving when the wallet is unlocked"
+    },
+    "override": true
+  },
+  {
+    "__docId__": 200,
+    "kind": "method",
+    "name": "generateWallet",
+    "memberof": "src/wallet/pkwallet.js~PKWallet",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/wallet/pkwallet.js~PKWallet#generateWallet",
+    "access": "public",
+    "description": "",
+    "lineNumber": 41,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Promise} - Returns a promise resolving with the private key when the wallet is created"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "passkey",
+        "description": "The pass key to lock the wallet"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "function"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "progressCB",
+        "description": "A callback, accepting a number between 0-1, indicating decryption progress"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Promise"
+      ],
+      "spread": false,
+      "description": "Returns a promise resolving with the private key when the wallet is created"
+    },
+    "override": true
+  },
+  {
+    "__docId__": 203,
+    "kind": "method",
+    "name": "deleteWallet",
+    "memberof": "src/wallet/pkwallet.js~PKWallet",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/wallet/pkwallet.js~PKWallet#deleteWallet",
+    "access": "public",
+    "description": "",
+    "lineNumber": 51,
+    "override": true,
+    "params": [],
+    "return": null
+  },
+  {
+    "__docId__": 204,
+    "kind": "method",
+    "name": "walletExists",
+    "memberof": "src/wallet/pkwallet.js~PKWallet",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/wallet/pkwallet.js~PKWallet#walletExists",
+    "access": "public",
+    "description": "",
+    "lineNumber": 58,
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": "does the wallet exist"
+    },
+    "override": true,
+    "params": []
+  },
+  {
+    "__docId__": 205,
+    "kind": "method",
+    "name": "getMnemonic",
+    "memberof": "src/wallet/pkwallet.js~PKWallet",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/wallet/pkwallet.js~PKWallet#getMnemonic",
+    "access": "public",
+    "description": "The mnemonic phrase for this wallet, or null if the mnemonic is unknown.",
+    "lineNumber": 66,
+    "return": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": "The mnemonic phrase for this wallet, or null if the mnemonic is unknown."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 206,
+    "kind": "method",
+    "name": "getEncryptedJson",
+    "memberof": "src/wallet/pkwallet.js~PKWallet",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/wallet/pkwallet.js~PKWallet#getEncryptedJson",
+    "access": "public",
+    "description": "",
+    "lineNumber": 83,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Promise<string>} A promise that resolves with the JSON wallet"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "passkey",
+        "description": "Passkey to encrypt the wallet"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "function"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "progressCB",
+        "description": "An optional callback to monitor progress of encryption, calls with a value between 0-1"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Promise<string>"
+      ],
+      "spread": false,
+      "description": "A promise that resolves with the JSON wallet"
+    }
+  },
+  {
+    "__docId__": 207,
+    "kind": "method",
+    "name": "sign",
+    "memberof": "src/wallet/pkwallet.js~PKWallet",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/wallet/pkwallet.js~PKWallet#sign",
+    "access": "protected",
+    "description": "",
+    "lineNumber": 101,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Promise<string>} - Returns a promise resolving to the signed transaction"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "payload",
+        "description": "The transaction to sign"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Promise<string>"
+      ],
+      "spread": false,
+      "description": "Returns a promise resolving to the signed transaction"
+    },
+    "override": true
+  },
+  {
+    "__docId__": 208,
+    "kind": "method",
+    "name": "cleanPayload",
+    "memberof": "src/wallet/pkwallet.js~PKWallet",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/wallet/pkwallet.js~PKWallet#cleanPayload",
+    "access": "private",
+    "description": "",
+    "lineNumber": 125,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{string} - The cleaned transaction"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "payload",
+        "description": "The transaction to clean"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": "The cleaned transaction"
+    }
+  },
+  {
+    "__docId__": 209,
+    "kind": "method",
+    "name": "getAddress",
+    "memberof": "src/wallet/pkwallet.js~PKWallet",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/wallet/pkwallet.js~PKWallet#getAddress",
+    "access": "public",
+    "description": "",
+    "lineNumber": 150,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Promise<string>} - Returns a promise resolving to the wallets address"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Promise<string>"
+      ],
+      "spread": false,
+      "description": "Returns a promise resolving to the wallets address"
+    },
+    "override": true,
+    "params": []
+  },
+  {
+    "__docId__": 210,
+    "kind": "file",
     "name": "src/wallet/wallet.js",
     "content": "/**\n * @interface\n * Base class for libsimba Wallet implementations\n */\nexport default class Wallet {\n    /**\n     * Base class for libsimba Wallet implementations\n     * @param signingConfirmation {function} - an optional callback for requesting user permission to sign a\n     * transaction. Should resolve a promise with true for accept, and false (or reject) for reject.\n     */\n    constructor(signingConfirmation) {\n        if(!signingConfirmation){\n            signingConfirmation = ()=>Promise.resolve(true);\n        }\n        this.signingConfirmation = signingConfirmation;\n        if (this.constructor === Wallet) {\n            throw new TypeError('Can not construct abstract class.');\n        }\n\n        if (this.unlockWallet === Wallet.prototype.unlockWallet) {\n            throw new TypeError('Please implement abstract method unlockWallet.');\n        }\n\n        if (this.generateWallet === Wallet.prototype.generateWallet) {\n            throw new TypeError('Please implement abstract method generateWallet.');\n        }\n\n        if (this.deleteWallet === Wallet.prototype.deleteWallet) {\n            throw new TypeError('Please implement abstract method deleteWallet.');\n        }\n\n        if (this.walletExists === Wallet.prototype.walletExists) {\n            throw new TypeError('Please implement abstract method walletExists.');\n        }\n\n        if (this.sign === Wallet.prototype.sign) {\n            throw new TypeError('Please implement abstract method sign.');\n        }\n\n        if (this.getAddress === Wallet.prototype.getAddress) {\n            throw new TypeError('Please implement abstract method getAddress.');\n        }\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Unlock the wallet\n     * @param {string} passkey - The pass key to unlock the wallet\n     * @returns {Promise} - Returns a promise resolving when the wallet is unlocked\n     */\n    unlockWallet(passkey) {\n        throw new Error('Wallet.unlockWallet Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Generate a wallet\n     * @param {string} passkey - The pass key to lock the wallet\n     * @returns {Promise} - Returns a promise resolving when the wallet is created\n     */\n    generateWallet(passkey) {\n        throw new Error('Wallet.unlockWallet Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Delete the wallet\n     */\n    deleteWallet() {\n        throw new Error('Wallet.deleteWallet Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Check if a wallet exists\n     * @return {boolean} - does the wallet exist\n     */\n    walletExists() {\n        throw new Error('Wallet.deleteWallet Not Implemented');\n    }\n\n    /**\n     * @protected\n     * @abstract\n     * (Abstract) Sign a transaction payload\n     * @param {Object} payload - The transaction to sign\n     * @returns {Promise<string>} - Returns a promise resolving to the signed transaction\n     */\n    sign(payload) {\n        throw new Error('Wallet.sign Not Implemented');\n    }\n\n    /**\n     * @abstract\n     * (Abstract) Get the wallets address\n     * @returns {Promise<string>} - Returns a promise resolving to the wallets address\n     */\n    getAddress(){\n        throw new Error('Wallet.sign Not Implemented');\n    }\n}\n",
     "static": true,
@@ -4448,7 +4864,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 195,
+    "__docId__": 211,
     "kind": "class",
     "name": "Wallet",
     "memberof": "src/wallet/wallet.js",
@@ -4463,7 +4879,7 @@
     "interface": false
   },
   {
-    "__docId__": 196,
+    "__docId__": 212,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/wallet/wallet.js~Wallet",
@@ -4488,7 +4904,7 @@
     ]
   },
   {
-    "__docId__": 197,
+    "__docId__": 213,
     "kind": "member",
     "name": "signingConfirmation",
     "memberof": "src/wallet/wallet.js~Wallet",
@@ -4505,7 +4921,7 @@
     }
   },
   {
-    "__docId__": 198,
+    "__docId__": 214,
     "kind": "method",
     "name": "unlockWallet",
     "memberof": "src/wallet/wallet.js~Wallet",
@@ -4545,7 +4961,7 @@
     "abstract": true
   },
   {
-    "__docId__": 199,
+    "__docId__": 215,
     "kind": "method",
     "name": "generateWallet",
     "memberof": "src/wallet/wallet.js~Wallet",
@@ -4585,7 +5001,7 @@
     "abstract": true
   },
   {
-    "__docId__": 200,
+    "__docId__": 216,
     "kind": "method",
     "name": "deleteWallet",
     "memberof": "src/wallet/wallet.js~Wallet",
@@ -4601,7 +5017,7 @@
     "return": null
   },
   {
-    "__docId__": 201,
+    "__docId__": 217,
     "kind": "method",
     "name": "walletExists",
     "memberof": "src/wallet/wallet.js~Wallet",
@@ -4624,7 +5040,7 @@
     "params": []
   },
   {
-    "__docId__": 202,
+    "__docId__": 218,
     "kind": "method",
     "name": "sign",
     "memberof": "src/wallet/wallet.js~Wallet",
@@ -4664,7 +5080,7 @@
     "abstract": true
   },
   {
-    "__docId__": 203,
+    "__docId__": 219,
     "kind": "method",
     "name": "getAddress",
     "memberof": "src/wallet/wallet.js~Wallet",
@@ -4702,14 +5118,14 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n    \"name\": \"@simbachain/libsimba-js\",\n    \"version\": \"0.3.19\",\n    \"description\": \"libsimba-js is a library simplifying the use of SIMBAChain APIs. We aim to abstract away the various blockchain concepts, reducing the necessary time needed to get to working code.\",\n    \"homepage\": \"\",\n    \"main\": \"libsimba.js\",\n    \"module\": \"libsimba.js\",\n    \"scripts\": {\n        \"testonly\": \"npx mocha --reporter mocha-junit-reporter --require @babel/register\",\n        \"start\": \"webpack-dev-server --config webpack.dev.js --mode development\",\n        \"preview\": \"npm run buildonly && http-server dist\",\n        \"commit\": \"git-cz\",\n        \"push\": \"git push --follow-tags origin master\",\n        \"webpack\": \"webpack --config webpack.prod.js --mode production\",\n        \"docs\": \"npx esdoc && npx copy-files-from-to --config .copy-examples.json\",\n        \"build\": \"npx run-s webpack docs\",\n        \"test\": \"npx nyc npx mocha --reporter mocha-junit-reporter --require @babel/register\",\n        \"validate\": \"node ./.hooks/checkBranch.js && npm i && npm run test\",\n        \"buildonly\": \"webpack --config webpack.prod.js --mode production\",\n        \"prerelease\": \"npm run validate\",\n        \"postrelease\": \"npx run-s push\",\n        \"release\": \"npx standard-version -a\",\n        \"publish-npmjs\": \"npm publish dist --access public\"\n    },\n    \"standard-version\": {\n        \"scripts\": {\n            \"postchangelog\": \"npx run-s build && git add .\"\n        }\n    },\n    \"repository\": {\n        \"type\": \"git\",\n        \"url\": \"git+https://github.com/simbachain/libsimba-js.git\"\n    },\n    \"bugs\": {\n        \"url\": \"https://github.com/simbachain/libsimba-js/issues\"\n    },\n    \"nyc\": {\n        \"reporter\": [\n            \"text\",\n            \"cobertura\",\n            \"html\"\n        ]\n    },\n    \"engines\": {\n        \"npm\": \">=6\",\n        \"node\": \">=10\"\n    },\n    \"keywords\": [\n        \"simba\",\n        \"simbachain\",\n        \"blockchain\",\n        \"ethereum\"\n    ],\n    \"author\": \"Kieran David Evans <kieran.evans@simbachain.com>\",\n    \"license\": \"MIT\",\n    \"dependencies\": {\n        \"@ethersproject/wallet\": \"^5.0.0-beta.131\",\n        \"core-js\": \"3.2.1\",\n        \"poll-js\": \"0.0.3\"\n    },\n    \"devDependencies\": {\n        \"@babel/core\": \"^7.6.0\",\n        \"@babel/plugin-transform-classes\": \"^7.5.5\",\n        \"@babel/plugin-transform-proto-to-assign\": \"^7.5.5\",\n        \"@babel/plugin-transform-runtime\": \"^7.6.0\",\n        \"@babel/preset-env\": \"^7.6.0\",\n        \"@babel/register\": \"^7.6.0\",\n        \"@babel/runtime\": \"^7.6.0\",\n        \"ajv\": \"6.10.2\",\n        \"babel-loader\": \"8.0.6\",\n        \"chai\": \"^4.2.0\",\n        \"clean-webpack-plugin\": \"3.0.0\",\n        \"commitizen\": \"^4.0.3\",\n        \"copy-files-from-to\": \"^2.1.0\",\n        \"copy-webpack-plugin\": \"^5.0.4\",\n        \"cz-conventional-changelog\": \"^3.0.2\",\n        \"esdoc\": \"^1.1.0\",\n        \"esdoc-ecmascript-proposal-plugin\": \"^1.0.0\",\n        \"esdoc-standard-plugin\": \"^1.0.0\",\n        \"file-loader\": \"4.2.0\",\n        \"html-webpack-plugin\": \"^4.0.0-beta.8\",\n        \"http-server\": \"0.11.1\",\n        \"mocha\": \"^6.2.0\",\n        \"mocha-junit-reporter\": \"^1.23.1\",\n        \"npm-run-all\": \"^4.1.5\",\n        \"nyc\": \"^14.1.1\",\n        \"sinon\": \"^7.4.2\",\n        \"source-map-loader\": \"0.2.4\",\n        \"standard-version\": \"^7.0.0\",\n        \"typedoc\": \"^0.15.0\",\n        \"url-loader\": \"2.2.0\",\n        \"webpack\": \"4.41.1\",\n        \"webpack-bundle-analyzer\": \"^3.5.0\",\n        \"webpack-cli\": \"3.3.9\",\n        \"webpack-dev-server\": \"3.8.2\"\n    },\n    \"config\": {\n        \"commitizen\": {\n            \"path\": \"./node_modules/cz-conventional-changelog\"\n        }\n    }\n}\n",
+    "content": "{\n    \"name\": \"@simbachain/libsimba-js\",\n    \"version\": \"0.3.20\",\n    \"description\": \"libsimba-js is a library simplifying the use of SIMBAChain APIs. We aim to abstract away the various blockchain concepts, reducing the necessary time needed to get to working code.\",\n    \"homepage\": \"\",\n    \"main\": \"libsimba.js\",\n    \"module\": \"libsimba.js\",\n    \"scripts\": {\n        \"testonly\": \"npx mocha --reporter mocha-junit-reporter --require @babel/register\",\n        \"start\": \"webpack-dev-server --config webpack.dev.js --mode development\",\n        \"preview\": \"npm run buildonly && http-server dist\",\n        \"commit\": \"git-cz\",\n        \"push\": \"git push --follow-tags origin master\",\n        \"webpack\": \"webpack --config webpack.prod.js --mode production\",\n        \"docs\": \"npx esdoc && npx copy-files-from-to --config .copy-examples.json\",\n        \"build\": \"npx run-s webpack docs\",\n        \"test\": \"npx nyc npx mocha --reporter mocha-junit-reporter --require @babel/register\",\n        \"validate\": \"node ./.hooks/checkBranch.js && npm i && npm run test\",\n        \"buildonly\": \"webpack --config webpack.prod.js --mode production\",\n        \"prerelease\": \"npm run validate\",\n        \"postrelease\": \"npx run-s push\",\n        \"release\": \"npx standard-version -a\",\n        \"publish-npmjs\": \"npm publish dist --access public\"\n    },\n    \"standard-version\": {\n        \"scripts\": {\n            \"postchangelog\": \"npx run-s build && git add .\"\n        }\n    },\n    \"repository\": {\n        \"type\": \"git\",\n        \"url\": \"git+https://github.com/simbachain/libsimba-js.git\"\n    },\n    \"bugs\": {\n        \"url\": \"https://github.com/simbachain/libsimba-js/issues\"\n    },\n    \"nyc\": {\n        \"reporter\": [\n            \"text\",\n            \"cobertura\",\n            \"html\"\n        ]\n    },\n    \"engines\": {\n        \"npm\": \">=6\",\n        \"node\": \">=10\"\n    },\n    \"keywords\": [\n        \"simba\",\n        \"simbachain\",\n        \"blockchain\",\n        \"ethereum\"\n    ],\n    \"author\": \"Kieran David Evans <kieran.evans@simbachain.com>\",\n    \"license\": \"MIT\",\n    \"dependencies\": {\n        \"@ethersproject/wallet\": \"^5.0.0-beta.131\",\n        \"core-js\": \"3.2.1\",\n        \"poll-js\": \"0.0.3\"\n    },\n    \"devDependencies\": {\n        \"@babel/core\": \"^7.6.0\",\n        \"@babel/plugin-transform-classes\": \"^7.5.5\",\n        \"@babel/plugin-transform-proto-to-assign\": \"^7.5.5\",\n        \"@babel/plugin-transform-runtime\": \"^7.6.0\",\n        \"@babel/preset-env\": \"^7.6.0\",\n        \"@babel/register\": \"^7.6.0\",\n        \"@babel/runtime\": \"^7.6.0\",\n        \"ajv\": \"6.10.2\",\n        \"babel-loader\": \"8.0.6\",\n        \"chai\": \"^4.2.0\",\n        \"clean-webpack-plugin\": \"3.0.0\",\n        \"commitizen\": \"^4.0.3\",\n        \"copy-files-from-to\": \"^2.1.0\",\n        \"copy-webpack-plugin\": \"^5.0.4\",\n        \"cz-conventional-changelog\": \"^3.0.2\",\n        \"esdoc\": \"^1.1.0\",\n        \"esdoc-ecmascript-proposal-plugin\": \"^1.0.0\",\n        \"esdoc-standard-plugin\": \"^1.0.0\",\n        \"file-loader\": \"4.2.0\",\n        \"html-webpack-plugin\": \"^4.0.0-beta.8\",\n        \"http-server\": \"0.11.1\",\n        \"mocha\": \"^6.2.0\",\n        \"mocha-junit-reporter\": \"^1.23.1\",\n        \"npm-run-all\": \"^4.1.5\",\n        \"nyc\": \"^14.1.1\",\n        \"sinon\": \"^7.4.2\",\n        \"source-map-loader\": \"0.2.4\",\n        \"standard-version\": \"^7.0.0\",\n        \"typedoc\": \"^0.15.0\",\n        \"url-loader\": \"2.2.0\",\n        \"webpack\": \"4.41.1\",\n        \"webpack-bundle-analyzer\": \"^3.5.0\",\n        \"webpack-cli\": \"3.3.9\",\n        \"webpack-dev-server\": \"3.8.2\"\n    },\n    \"config\": {\n        \"commitizen\": {\n            \"path\": \"./node_modules/cz-conventional-changelog\"\n        }\n    }\n}\n",
     "longname": "C:\\Users\\Kieran David Evans\\Code\\libsimba-js\\package.json",
     "name": "package.json",
     "static": true,
     "access": "public"
   },
   {
-    "__docId__": 204,
+    "__docId__": 220,
     "kind": "testFile",
     "name": "test/localwallet.spec.js",
     "content": "import { expect } from \"chai\";\r\n\r\ndescribe(\"src/wallet/localwallet.js\", () => {\r\n    // let wallet = new LocalWallet(SigningConfirmationTrue);\r\n    describe(\"unlockWallet\", () => {\r\n        it(\"should call wallet.fromEncryptedJson!\", () => {\r\n            expect(true).to.equal(true);\r\n        });\r\n    });\r\n});\r\n",
@@ -4720,7 +5136,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 205,
+    "__docId__": 221,
     "kind": "test",
     "name": "describe0",
     "testId": 0,
@@ -4733,7 +5149,7 @@
     "lineNumber": 3
   },
   {
-    "__docId__": 206,
+    "__docId__": 222,
     "kind": "test",
     "name": "describe1",
     "testId": 1,
@@ -4746,7 +5162,7 @@
     "lineNumber": 5
   },
   {
-    "__docId__": 207,
+    "__docId__": 223,
     "kind": "test",
     "name": "it2",
     "testId": 2,
@@ -4759,7 +5175,7 @@
     "lineNumber": 6
   },
   {
-    "__docId__": 208,
+    "__docId__": 224,
     "kind": "testFile",
     "name": "test/simba.spec.js",
     "content": "import {expect} from 'chai';\nimport sinon from 'sinon';\n\nimport { Simba } from '../src/simba/simba';\nimport { Wallet } from '../src/wallet';\n\nconst TestData = {\n    address: '',\n    payload: '',\n    signed: ''\n};\n\nclass DummyWallet extends Wallet {\n    constructor() {\n        super();\n\n        this.getAddress = sinon.fake.resolves(TestData.address);\n        this.sign = sinon.fake.resolves(TestData.signed);\n    }\n}\n\ndescribe(\"src/simba.js\", () => {\n    describe(\"sayHello function\", () => {\n        it(\"should say Hello guys!\", () => {\n            expect(\"Hello guys!\").to.equal(\"Hello guys!\")\n        });\n    });\n});\n",
@@ -4770,7 +5186,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 209,
+    "__docId__": 225,
     "kind": "test",
     "name": "describe3",
     "testId": 3,
@@ -4783,7 +5199,7 @@
     "lineNumber": 22
   },
   {
-    "__docId__": 210,
+    "__docId__": 226,
     "kind": "test",
     "name": "describe4",
     "testId": 4,
@@ -4796,7 +5212,7 @@
     "lineNumber": 23
   },
   {
-    "__docId__": 211,
+    "__docId__": 227,
     "kind": "test",
     "name": "it5",
     "testId": 5,

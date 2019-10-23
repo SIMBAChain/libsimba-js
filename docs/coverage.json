@@ -1,7 +1,7 @@
 {
-  "coverage": "68.3%",
-  "expectCount": 142,
-  "actualCount": 97,
+  "coverage": "69.67%",
+  "expectCount": 155,
+  "actualCount": 108,
   "files": {
     "src/exceptions.js": {
       "expectCount": 47,
@@ -80,6 +80,14 @@
       "actualCount": 14,
       "undocumentLines": [
         40
+      ]
+    },
+    "src/wallet/pkwallet.js": {
+      "expectCount": 13,
+      "actualCount": 11,
+      "undocumentLines": [
+        19,
+        20
       ]
     },
     "src/wallet/wallet.js": {
