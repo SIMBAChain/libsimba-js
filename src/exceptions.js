@@ -122,6 +122,16 @@ export class SigningException extends BaseException{
 }
 
 /**
+ * Thrown when a LocalWallet is created in a non browser environment
+ */
+export class NotInBrowserException extends BaseException{
+    constructor(...args){
+        super(...args);
+        this.name = 'NotInBrowserException';
+    }
+}
+
+/**
  * Thrown when the user rejects the request to sign
  */
 export class UserRejectedSigningException extends SigningException{

@@ -1,6 +1,6 @@
 import Wallet from './wallet';
 import { Wallet as EthersWallet } from '@ethersproject/wallet';
-import { SigningException, UserRejectedSigningException, WalletNotFoundException, WalletLockedException} from "../exceptions";
+import { SigningException, UserRejectedSigningException, WalletNotFoundException, WalletLockedException, NotInBrowserException} from "../exceptions";
 
 /**
  * libsimba-js Local Wallet implementation
@@ -15,6 +15,11 @@ export default class LocalWallet extends Wallet {
      */
     constructor(signingConfirmation) {
         super(signingConfirmation);
+        if(typeof window === 'undefined') {
+            throw new NotInBrowserException("LocalWallet can only be used in a browser!");
+        }
+
+        this.window = window;
     }
 
     /**
@@ -25,7 +30,7 @@ export default class LocalWallet extends Wallet {
      * @returns {Promise} - Returns a promise resolving when the wallet is unlocked
      */
     unlockWallet(passkey, progressCB){
-        return EthersWallet.fromEncryptedJson(window.localStorage.getItem('localwallet'), passkey, progressCB)
+        return EthersWallet.fromEncryptedJson(this.window.localStorage.getItem('localwallet'), passkey, progressCB)
             .then(wallet=>this.wallet = wallet);
     }
 
@@ -39,7 +44,7 @@ export default class LocalWallet extends Wallet {
     generateWallet(passkey, progressCB){
         this.wallet = EthersWallet.createRandom();
         return this.wallet.encrypt(passkey, progressCB).then((json)=>{
-            window.localStorage.setItem('localwallet', json);
+            this.window.localStorage.setItem('localwallet', json);
             return true;
         });
     }
@@ -54,7 +59,7 @@ export default class LocalWallet extends Wallet {
     generateWalletFromPrivateKey(key, passkey, progressCB){
         this.wallet = new EthersWallet(key);
         return this.wallet.encrypt(passkey, progressCB).then((json)=>{
-            window.localStorage.setItem('localwallet', json);
+            this.window.localStorage.setItem('localwallet', json);
             return true;
         });
     }
@@ -69,7 +74,7 @@ export default class LocalWallet extends Wallet {
     generateWalletFromMnemonic(mnemonic, passkey, progressCB){
         this.wallet = EthersWallet.fromMnemonic(mnemonic);
         return this.wallet.encrypt(passkey, progressCB).then((json)=>{
-            window.localStorage.setItem('localwallet', json);
+            this.window.localStorage.setItem('localwallet', json);
             return true;
         });
     }
@@ -85,7 +90,7 @@ export default class LocalWallet extends Wallet {
     generateWalletFromEncryptedJson(json, passkey, progressCB){
         this.wallet = EthersWallet.fromEncryptedJson(mnemonic, passkey);
         return this.wallet.encrypt(passkey, progressCB).then((json)=>{
-            window.localStorage.setItem('localwallet', json);
+            this.window.localStorage.setItem('localwallet', json);
             return true;
         });
     }
@@ -95,7 +100,7 @@ export default class LocalWallet extends Wallet {
      * Delete the wallet
      */
     deleteWallet(){
-        window.localStorage.removeItem('localwallet');
+        this.window.localStorage.removeItem('localwallet');
     }
 
     /**
@@ -104,7 +109,7 @@ export default class LocalWallet extends Wallet {
      * @return {boolean} - does the wallet exist
      */
     walletExists(){
-        return !!window.localStorage.getItem('localwallet');
+        return !!this.window.localStorage.getItem('localwallet');
     }
 
     /**
