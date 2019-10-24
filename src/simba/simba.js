@@ -8,9 +8,12 @@ import {
     NotImplementedException,
     GetTransactionsException,
     GetRequestException,
+    PostRequestException,
     RetriesExceededException
 } from '../exceptions';
 import PagedResponse from "./pagedresponse";
+import axios from 'axios';
+const request = axios.request;
 
 /**
  * libsimba API Interaction for Simbachain.com
@@ -30,8 +33,11 @@ export default class Simbachain extends SimbaBase {
      * Perform asynchronous actions needed to initialise this class
      */
     async initialize() {
-        let result = await fetch(`${this.endpoint}?format=openapi`);
-        let swagger = await result.json();
+        let response = await request({
+            url: `${this.endpoint}?format=openapi`,
+            responseType: 'json'
+        });
+        let swagger = response.data;
 
         if ('info' in swagger && 'x-simba-attrs' in swagger.info) {
             this.metadata = swagger.info['x-simba-attrs'];
@@ -69,19 +75,17 @@ export default class Simbachain extends SimbaBase {
      * @return {Promise<Object>} - a promise resolving with the transaction details
      */
     getTransactionStatus(txnId) {
-        return fetch(`${this.endpoint}transaction/${txnId}/`, {
+        return request({
+            url: `${this.endpoint}transaction/${txnId}/`,
             method: 'GET',
-            cache: 'no-cache',
             headers: this.apiAuthHeaders(),
+            responseType: 'json'
         })
             .then(async (response) => {
-                let data = await response.json();
-
-                if (!response.ok) {
-                    throw new TransactionStatusCheckException(JSON.stringify(data));
-                }
-
-                return data;
+                return response.data;
+            })
+            .catch(error=>{
+                throw new TransactionStatusCheckException(JSON.stringify(error.response.data));
             });
     }
 
@@ -161,18 +165,19 @@ export default class Simbachain extends SimbaBase {
         }
 
         let address = await this.wallet.getAddress();
-        let response = await fetch(
-            `${this.endpoint}balance/${address}/`,
+        let response = await request(
             {
+                url: `${this.endpoint}balance/${address}/`,
                 method: 'GET',
-                cache: 'no-cache',
-                headers: Object.assign({'Content-Type':'application/json'},this.apiAuthHeaders())
+                headers: Object.assign({'Content-Type':'application/json'},this.apiAuthHeaders()),
+                responseType: 'json'
             }
-        );
-        let data = await response.json();
+        ).catch(error=>{
+                throw new GetRequestException(JSON.stringify(error.response.data));
+            });
 
         return Promise.resolve({
-            ...data,
+            ...response.data,
             poa: false
         });
     }
@@ -229,20 +234,21 @@ export default class Simbachain extends SimbaBase {
             currency: "ether"
         };
 
-        let response = await fetch(
-            `${this.endpoint}balance/${address}/`,
+        let response = await request(
             {
+                url: `${this.endpoint}balance/${address}/`,
                 method: 'POST',
-                cache: 'no-cache',
                 headers: Object.assign({'Content-Type':'application/json'}, this.apiAuthHeaders()),
-                body: JSON.stringify(requestData)
+                data: requestData,
+                responseType: 'json'
             }
-        );
+        ).catch(error=>{
+            throw new PostRequestException(JSON.stringify(error.response.data));
+        });
 
-        let data = await response.json();
 
         return Promise.resolve({
-            ...data,
+            ...response.data,
             poa: false,
             faucet_url: null
         });
@@ -293,34 +299,32 @@ export default class Simbachain extends SimbaBase {
         // tslint:disable-next-line: no-unsafe-any
         const signed = await this.wallet.sign(payload);
 
-        return fetch(`${this.endpoint}transaction/${txnId}/`, {
+        return request({
+            url: `${this.endpoint}transaction/${txnId}/`,
             method: 'POST',
-            cache: 'no-cache',
             headers: Object.assign({'Content-Type':'application/json'},this.apiAuthHeaders()),
-            body: JSON.stringify({payload: signed}),
-        }).then(async (response) => {
-            let data = await response.json();
-
-            if (!response.ok) {
-                if(data.errors && data.errors.length){
-                    let error = data.errors[0];
-                    if(error.detail && error.detail.code){
-                        let code = error.detail.code;
-                        //Nonce Error
-                        if(code === "15001" && error.detail.meta && error.detail.meta.suggested_nonce){
-                            console.log("Nonce Too Low, trying again with suggested nonce " + error.detail.meta.suggested_nonce);
-                            payload.nonce = error.detail.meta.suggested_nonce;
-                            return this.submitTxn(txnId, payload, maxTries, currentTry++);
-                        }
+            data: {payload: signed},
+            responseType: 'json'
+        }).then(response => {
+            // tslint:disable-next-line: no-console
+            console.log('Success!', response.data);
+            return txnId;
+        }).catch(ex=>{
+            let body = ex.response.data;
+            if(body.errors && body.errors.length){
+                let error = body.errors[0];
+                if(error.detail && error.detail.code){
+                    let code = error.detail.code;
+                    //Nonce Error
+                    if(code === "15001" && error.detail.meta && error.detail.meta.suggested_nonce){
+                        console.log("Nonce Too Low, trying again with suggested nonce " + error.detail.meta.suggested_nonce);
+                        payload.nonce = error.detail.meta.suggested_nonce;
+                        return this.submitTxn(txnId, payload, maxTries, currentTry++);
                     }
                 }
-                throw new SubmitTransactionException(JSON.stringify(data));
             }
-            // tslint:disable-next-line: no-console
-            console.log('Success!', data);
-
-            return txnId;
-        })
+            throw new SubmitTransactionException(JSON.stringify(body));
+        });
     }
 
     /**
@@ -334,25 +338,24 @@ export default class Simbachain extends SimbaBase {
         let txnId = null;
         let payload;
 
-        return fetch(`${this.endpoint}${method}/`, {
+        return request({
+            url: `${this.endpoint}${method}/`,
             method: 'POST',
-            cache: 'no-cache',
             headers: this.apiAuthHeaders(),
-            body: formdata,
+            data: formdata,
+            responseType: 'json'
         })
-            .then(async (response) => {
-                let data = await response.json();
-
-                if (!response.ok) {
-                    throw new GenerateTransactionException(JSON.stringify(data));
-                }
+            .then((response) => {
                 // tslint:disable-next-line: no-unsafe-any
-                txnId = data.id;
+                txnId = response.data.id;
                 // tslint:disable-next-line: no-unsafe-any
 
-                payload = data.payload.raw;
+                payload = response.data.payload.raw;
 
                 return this.submitTxn(txnId, payload);
+            })
+            .catch(ex=>{
+                throw new GenerateTransactionException(JSON.stringify(ex.response.data));
             });
     }
 
@@ -367,16 +370,17 @@ export default class Simbachain extends SimbaBase {
 
         let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/`);
 
-        let response = await fetch(url, {
+        let response = await request({
+            url: url,
             method: 'GET',
-            headers: this.apiAuthHeaders()
-        });
+            headers: this.apiAuthHeaders(),
+            responseType: 'json'
+        })
+            .catch(ex=>{
+                throw new GetTransactionsException(ex.response.data);
+            });
 
-        if (!response.ok) {
-            throw new GetTransactionsException(await response.text());
-        }
-
-        return await response.json();
+        return response.data;
     }
 
     /**
@@ -394,7 +398,7 @@ export default class Simbachain extends SimbaBase {
             url.searchParams.set(key, value);
         }
 
-        return this.sendTransactionRequest(url);
+        return this.sendTransactionRequest(url.toString());
     }
 
     /**
@@ -413,7 +417,7 @@ export default class Simbachain extends SimbaBase {
             url.searchParams.set(key, value);
         }
 
-        return this.sendTransactionRequest(url);
+        return this.sendTransactionRequest(url.toString());
     }
 
     /**
@@ -424,18 +428,17 @@ export default class Simbachain extends SimbaBase {
      * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
      */
     async sendTransactionRequest(url){
-        let response = await fetch(url, {
+        let response = await request({
+            url: url,
             method: 'GET',
-            headers: this.apiAuthHeaders()
-        });
+            headers: this.apiAuthHeaders(),
+            responseType: 'json'
+        })
+            .catch(ex=>{
+                throw new GetTransactionsException(ex.response.data);
+            });
 
-        if (!response.ok) {
-            throw new GetTransactionsException(await response.text());
-        }
-
-        let json = await response.json();
-
-        return new PagedResponse(json, url, this);
+        return new PagedResponse(response.data, url, this);
     }
 
 
@@ -450,43 +453,45 @@ export default class Simbachain extends SimbaBase {
 
         url.searchParams.append('no_files', true);
 
-        let response = await fetch(url, {
+        let response = await request({
+            url: url,
             method: 'GET',
-            headers: this.apiAuthHeaders()
-        });
+            headers: this.apiAuthHeaders(),
+            json: true
+        })
+            .catch(ex=>{
+                throw new GetRequestException(ex.response.data);
+            });
 
-        if (!response.ok) {
-            throw new GetRequestException(await response.text());
-        }
-
-        return response.json();
+        return response.data;
     }
 
     /**
      * @override
      * Gets the bundle for a transaction
      * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
-     * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
      * @returns {Promise<ReadableStream|Blob>} - The bundle
      */
-    async getBundleForTransaction(transactionIdOrHash, stream) {
+    async getBundleForTransaction(transactionIdOrHash) {
         let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/bundle_raw/`);
 
-        let response = await fetch(url, {
+        let responseType = 'arraybuffer';
+        if (typeof window !== 'undefined'){
+            //in a browser
+            responseType = 'blob';
+        }
+
+        let response = await request({
+            url: url,
             method: 'GET',
-            headers: this.apiAuthHeaders()
-        });
+            headers: this.apiAuthHeaders(),
+            responseType: responseType
+        })
+            .catch(ex=>{
+                throw new GetRequestException(ex.response.data);
+            });
 
-        if (!response.ok) {
-            throw new GetRequestException(await response.text());
-        }
-
-
-        if(!stream){
-            return response.blob();
-        }
-
-        return response.body;
+        return response.data;
     }
 
     /**
@@ -500,21 +505,27 @@ export default class Simbachain extends SimbaBase {
     async getFileFromBundleForTransaction(transactionIdOrHash, fileIdx, stream) {
         let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/file/${fileIdx}/`);
 
-        let response = await fetch(url, {
+        let responseType = 'arraybuffer';
+        if (typeof window !== 'undefined'){
+            //in a browser
+            responseType = 'blob';
+        }
+        if(stream){
+            responseType = 'stream';
+        }
+
+        let response = await request({
+            url: url,
             method: 'GET',
-            headers: this.apiAuthHeaders()
-        });
+            headers: this.apiAuthHeaders(),
+            responseType: responseType
+        })
+            .catch(ex=>{
+                throw new GetRequestException(ex.response.data);
+            });
 
-        if (!response.ok) {
-            throw new GetRequestException(await response.text());
-        }
-
-
-        if (!stream) {
-            return response.blob();
-        }
-
-        return response.body;
+        console.log(response);
+        return response.data;
     }
 
     /**
@@ -528,20 +539,26 @@ export default class Simbachain extends SimbaBase {
     async getFileFromBundleByNameForTransaction(transactionIdOrHash, fileName, stream) {
         let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/fileByName/${fileName}/`);
 
-        let response = await fetch(url, {
+        let responseType = 'arraybuffer';
+        if (typeof window !== 'undefined'){
+            //in a browser
+            responseType = 'blob';
+        }
+        if(stream){
+            responseType = 'stream';
+        }
+
+        let response = await request({
+            url: url,
             method: 'GET',
-            headers: this.apiAuthHeaders()
-        });
+            headers: this.apiAuthHeaders(),
+            responseType: responseType
+        })
+            .catch(ex=>{
+                throw new GetRequestException(ex.response.data);
+            });
 
-        if (!response.ok) {
-            throw new GetRequestException(await response.text());
-        }
-
-
-        if (!stream) {
-            return response.blob();
-        }
-
-        return response.body;
+        console.log(response);
+        return response.data;
     }
 }

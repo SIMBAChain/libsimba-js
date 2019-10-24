@@ -94,6 +94,16 @@ export class GetRequestException extends BaseException{
 /**
  * Thrown when the server returns an error when querying transactions
  */
+export class PostRequestException extends BaseException{
+    constructor(...args){
+        super(...args);
+        this.name = 'PostRequestException';
+    }
+}
+
+/**
+ * Thrown when the server returns an error when querying transactions
+ */
 export class GetTransactionsException extends GetRequestException{
     constructor(...args){
         super(...args);

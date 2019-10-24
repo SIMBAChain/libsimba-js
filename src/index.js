@@ -1,7 +1,6 @@
 import {SimbaBase, Simbachain} from './simba';
 import {Wallet, LocalWallet, PKWallet} from './wallet';
 import {NotImplementedException} from './exceptions';
-import 'cross-fetch/polyfill';
 
 /**
  * Create an instance of a Simbachain API interaction class
