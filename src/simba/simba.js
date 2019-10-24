@@ -14,16 +14,6 @@ import {
 import PagedResponse from "./pagedresponse";
 import axios from 'axios';
 
-if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    axios.defaults.adapter = require('axios/lib/adapters/xhr');
-} else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    axios.defaults.adapter = require('axios/lib/adapters/http');
-}
-
-const request = axios.request;
-
 /**
  * libsimba API Interaction for Simbachain.com
  */
@@ -42,7 +32,7 @@ export default class Simbachain extends SimbaBase {
      * Perform asynchronous actions needed to initialise this class
      */
     async initialize() {
-        let response = await request({
+        let response = await axios.request({
             url: `${this.endpoint}?format=openapi`,
             responseType: 'json'
         });
@@ -67,11 +57,11 @@ export default class Simbachain extends SimbaBase {
 
         this.validateCall(method, parameters);
 
-        let formData = new FormData();
+        let formData = {};
         let address = await this.wallet.getAddress();
-        formData.append('from', address);
+        formData.from = address;
         for (let [key, value] of Object.entries(parameters)) {
-            formData.append(key, value);
+            formData[key] = value;
         }
 
         return this.sendMethodRequest(method, formData);
@@ -84,7 +74,7 @@ export default class Simbachain extends SimbaBase {
      * @return {Promise<Object>} - a promise resolving with the transaction details
      */
     getTransactionStatus(txnId) {
-        return request({
+        return axios.request({
             url: `${this.endpoint}transaction/${txnId}/`,
             method: 'GET',
             headers: this.apiAuthHeaders(),
@@ -174,7 +164,7 @@ export default class Simbachain extends SimbaBase {
         }
 
         let address = await this.wallet.getAddress();
-        let response = await request(
+        let response = await axios.request(
             {
                 url: `${this.endpoint}balance/${address}/`,
                 method: 'GET',
@@ -243,7 +233,7 @@ export default class Simbachain extends SimbaBase {
             currency: "ether"
         };
 
-        let response = await request(
+        let response = await axios.request(
             {
                 url: `${this.endpoint}balance/${address}/`,
                 method: 'POST',
@@ -278,15 +268,15 @@ export default class Simbachain extends SimbaBase {
 
         this.validateCall(method, parameters, files);
 
-        let formData = new FormData();
+        let formData = {};
         let address = await this.wallet.getAddress();
-        formData.append('from', address);
+        formData.from = address;
         for (let [key, value] of Object.entries(parameters)) {
-            formData.append(key, value);
+            formData[key] = value;
         }
 
         for(let i = 0; i < files.length; i++){
-            formData.append(`file[${i}]`, files[i]);
+            formData[`file[${i}]`] = files[i];
         }
 
         return this.sendMethodRequest(method, formData);
@@ -308,7 +298,7 @@ export default class Simbachain extends SimbaBase {
         // tslint:disable-next-line: no-unsafe-any
         const signed = await this.wallet.sign(payload);
 
-        return request({
+        return axios.request({
             url: `${this.endpoint}transaction/${txnId}/`,
             method: 'POST',
             headers: Object.assign({'Content-Type':'application/json'},this.apiAuthHeaders()),
@@ -340,14 +330,14 @@ export default class Simbachain extends SimbaBase {
      * @private
      * Internal method for sending method calls
      * @param {string} url - the url
-     * @param {FormData} formdata - Formdata for the POST
+     * @param {object} formdata - Formdata for the POST
      * @returns {Promise<Response>} - The response with transaction data
      */
     async sendMethodRequest(method, formdata){
         let txnId = null;
         let payload;
 
-        return request({
+        return axios.request({
             url: `${this.endpoint}${method}/`,
             method: 'POST',
             headers: this.apiAuthHeaders(),
@@ -379,7 +369,7 @@ export default class Simbachain extends SimbaBase {
 
         let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/`);
 
-        let response = await request({
+        let response = await axios.request({
             url: url,
             method: 'GET',
             headers: this.apiAuthHeaders(),
@@ -437,7 +427,7 @@ export default class Simbachain extends SimbaBase {
      * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
      */
     async sendTransactionRequest(url){
-        let response = await request({
+        let response = await axios.request({
             url: url,
             method: 'GET',
             headers: this.apiAuthHeaders(),
@@ -462,7 +452,7 @@ export default class Simbachain extends SimbaBase {
 
         url.searchParams.append('no_files', true);
 
-        let response = await request({
+        let response = await axios.request({
             url: url,
             method: 'GET',
             headers: this.apiAuthHeaders(),
@@ -490,7 +480,7 @@ export default class Simbachain extends SimbaBase {
             responseType = 'blob';
         }
 
-        let response = await request({
+        let response = await axios.request({
             url: url,
             method: 'GET',
             headers: this.apiAuthHeaders(),
@@ -523,7 +513,7 @@ export default class Simbachain extends SimbaBase {
             responseType = 'stream';
         }
 
-        let response = await request({
+        let response = await axios.request({
             url: url,
             method: 'GET',
             headers: this.apiAuthHeaders(),
@@ -557,7 +547,7 @@ export default class Simbachain extends SimbaBase {
             responseType = 'stream';
         }
 
-        let response = await request({
+        let response = await axios.request({
             url: url,
             method: 'GET',
             headers: this.apiAuthHeaders(),

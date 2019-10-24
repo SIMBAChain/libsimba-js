@@ -83,6 +83,7 @@ const umdMinified = {
 };
 
 const commonjs = {
+    target: 'node',
     devtool: 'source-map',
     entry: './src/index.js',
     output: {
@@ -110,7 +111,10 @@ const commonjs = {
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new webpack.BannerPlugin(banner)
+        new webpack.BannerPlugin(banner),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+        })
     ]
 };
 
