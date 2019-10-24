@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.2](https://github.com/simbachain/libsimba-js/compare/v0.4.1...v0.4.2) (2019-10-24)
+
+
+### Bug Fixes
+
+* **library:** add fetch polyfill for nodejs ([9fd246c](https://github.com/simbachain/libsimba-js/commit/9fd246c))
+
 ### [0.4.1](https://github.com/simbachain/libsimba-js/compare/v0.4.0...v0.4.1) (2019-10-24)
 
 ## [0.4.0](https://github.com/simbachain/libsimba-js/compare/v0.3.21...v0.4.0) (2019-10-23)
