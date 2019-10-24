@@ -59,6 +59,7 @@
     "dependencies": {
         "@ethersproject/wallet": "^5.0.0-beta.131",
         "core-js": "3.2.1",
+        "cross-fetch": "^3.0.4",
         "poll-js": "0.0.3"
     },
     "devDependencies": {
