@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.2](https://github.com/simbachain/libsimba-js/compare/v0.5.1...v0.5.2) (2019-10-24)
+
+
+### Bug Fixes
+
+* **nodejs:** fix for deployment on nodejs environments where axios was defaulting to xhr ([a82ff27](https://github.com/simbachain/libsimba-js/commit/a82ff273ab1d53ee21cbb32d25f8f292434af546))
+
 ### [0.5.1](https://github.com/simbachain/libsimba-js/compare/v0.5.0...v0.5.1) (2019-10-24)
 
 

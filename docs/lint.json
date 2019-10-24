@@ -4,39 +4,39 @@
     "filePath": "src/simba/simba.js",
     "lines": [
       {
-        "lineNumber": 265,
+        "lineNumber": 255,
         "line": "    /**"
       },
       {
-        "lineNumber": 266,
+        "lineNumber": 256,
         "line": "     * @override"
       },
       {
-        "lineNumber": 267,
+        "lineNumber": 257,
         "line": "     * Call a method on the API with files"
       },
       {
-        "lineNumber": 268,
+        "lineNumber": 258,
         "line": "     * @param {string} method - the method to call"
       },
       {
-        "lineNumber": 269,
+        "lineNumber": 259,
         "line": "     * @param {Object} parameters- the parameters for the method"
       },
       {
-        "lineNumber": 270,
+        "lineNumber": 260,
         "line": "     * @param {Array<Blob|File>} files - the files"
       },
       {
-        "lineNumber": 271,
+        "lineNumber": 261,
         "line": "     * @return {Promise<Object>} - a promise resolving with the transaction details"
       },
       {
-        "lineNumber": 272,
+        "lineNumber": 262,
         "line": "     */"
       },
       {
-        "lineNumber": 273,
+        "lineNumber": 263,
         "line": "    async callMethodWithFile(method, parameters, files) {"
       }
     ],
@@ -56,35 +56,35 @@
     "filePath": "src/simba/simba.js",
     "lines": [
       {
-        "lineNumber": 294,
+        "lineNumber": 284,
         "line": "    /**"
       },
       {
-        "lineNumber": 295,
+        "lineNumber": 285,
         "line": "     * @private"
       },
       {
-        "lineNumber": 296,
+        "lineNumber": 286,
         "line": "     * Internal method for submitting method calls and retrying on nonce errors"
       },
       {
-        "lineNumber": 297,
+        "lineNumber": 287,
         "line": "     * @param {string} txnId - the txnId"
       },
       {
-        "lineNumber": 298,
+        "lineNumber": 288,
         "line": "     * @param {string} signed - The signed txn"
       },
       {
-        "lineNumber": 299,
+        "lineNumber": 289,
         "line": "     * @returns {Promise<Response>} - The response with transaction data"
       },
       {
-        "lineNumber": 300,
+        "lineNumber": 290,
         "line": "     */"
       },
       {
-        "lineNumber": 301,
+        "lineNumber": 291,
         "line": "    async submitTxn(txnId, payload, maxTries, currentTry){"
       }
     ],
@@ -104,35 +104,35 @@
     "filePath": "src/simba/simba.js",
     "lines": [
       {
-        "lineNumber": 338,
+        "lineNumber": 328,
         "line": "    /**"
       },
       {
-        "lineNumber": 339,
+        "lineNumber": 329,
         "line": "     * @private"
       },
       {
-        "lineNumber": 340,
+        "lineNumber": 330,
         "line": "     * Internal method for sending method calls"
       },
       {
-        "lineNumber": 341,
+        "lineNumber": 331,
         "line": "     * @param {string} url - the url"
       },
       {
-        "lineNumber": 342,
-        "line": "     * @param {FormData} formdata - Formdata for the POST"
+        "lineNumber": 332,
+        "line": "     * @param {object} formdata - Formdata for the POST"
       },
       {
-        "lineNumber": 343,
+        "lineNumber": 333,
         "line": "     * @returns {Promise<Response>} - The response with transaction data"
       },
       {
-        "lineNumber": 344,
+        "lineNumber": 334,
         "line": "     */"
       },
       {
-        "lineNumber": 345,
+        "lineNumber": 335,
         "line": "    async sendMethodRequest(method, formdata){"
       }
     ],

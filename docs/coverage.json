@@ -1,6 +1,6 @@
 {
-  "coverage": "67.48%",
-  "expectCount": 163,
+  "coverage": "67.9%",
+  "expectCount": 162,
   "actualCount": 110,
   "files": {
     "src/exceptions.js": {
@@ -62,11 +62,10 @@
       ]
     },
     "src/simba/simba.js": {
-      "expectCount": 23,
+      "expectCount": 22,
       "actualCount": 21,
       "undocumentLines": [
-        25,
-        52
+        42
       ]
     },
     "src/simba/simbabase.js": {
