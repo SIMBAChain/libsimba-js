@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.1](https://github.com/simbachain/libsimba-js/compare/v0.5.0...v0.5.1) (2019-10-24)
+
+
+### Bug Fixes
+
+* **simba:** set axios adapter for nodejs ([a5a76ea](https://github.com/simbachain/libsimba-js/commit/a5a76eae86369872220a85c3b87a5380a07b5e81))
+
 ## [0.5.0](https://github.com/simbachain/libsimba-js/compare/v0.4.2...v0.5.0) (2019-10-24)
 
 

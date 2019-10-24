@@ -2,7 +2,7 @@
  * @simbachain/libsimba-js
  * libsimba-js is a library simplifying the use of SIMBAChain APIs. We aim to abstract away the various blockchain concepts, reducing the necessary time needed to get to working code.
  * 
- * @version v0.5.0
+ * @version v0.5.1
  * @author Kieran David Evans <kieran.evans@simbachain.com>
  * @homepage 
  * @repository git+https://github.com/simbachain/libsimba-js.git
@@ -100,7 +100,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 252);
+/******/ 	return __webpack_require__(__webpack_require__.s = 256);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -111,7 +111,7 @@ return /******/ (function(modules) { // webpackBootstrap
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/logger/lib.esm/index.js + 1 modules
-var lib_esm = __webpack_require__(3);
+var lib_esm = __webpack_require__(4);
 
 // CONCATENATED MODULE: ./node_modules/@ethersproject/bytes/lib.esm/_version.js
 const version = "bytes/5.0.0-beta.132";
@@ -519,10 +519,450 @@ function joinSignature(signature) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export BaseException */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return NotImplementedException; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return MissingMetadataException; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BadMetadataException; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return MethodCallValidationMetadataException; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return GenerateTransactionException; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return SubmitTransactionException; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return GetRequestException; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return PostRequestException; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return GetTransactionsException; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return TransactionStatusCheckException; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return SigningException; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return NotInBrowserException; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return UserRejectedSigningException; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return WalletNotFoundException; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return WalletLockedException; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return RetriesExceededException; });
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(44);
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(164);
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(152);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(153);
+/* harmony import */ var _babel_runtime_helpers_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+
+/**
+ * Base exception that all libsimba Exceptions extend
+ */
+var BaseException =
+/*#__PURE__*/
+function (_Error) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(BaseException, _Error);
+
+  /**
+   * Base exception that all libsimba Exceptions extend
+   * @param {string} message - the error message
+   * @param {Error|string} [cause] - (Optional) wrap an existing error
+   */
+  function BaseException(message, cause) {
+    var _this;
+
+    _this = _Error.call(this) || this;
+    _this.name = 'BaseException';
+    _this.message = message;
+    _this.cause = cause; // Maintains proper stack trace for where our error was thrown (only available on V8)
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), _this.constructor);
+    }
+
+    return _this;
+  }
+
+  return BaseException;
+}(_babel_runtime_helpers_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_4___default()(Error));
+/**
+ * Thrown when a method that should be implemented is not
+ */
+
+var NotImplementedException =
+/*#__PURE__*/
+function (_BaseException) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(NotImplementedException, _BaseException);
+
+  function NotImplementedException() {
+    var _this2;
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this2 = _BaseException.call.apply(_BaseException, [this].concat(args)) || this;
+    _this2.name = 'NotImplementedException';
+    return _this2;
+  }
+
+  return NotImplementedException;
+}(BaseException);
+/**
+ * Thrown when a method on a class inheriting [SimbaBase]{@link SimbaBase} is called before
+ * metadata is retrieved.
+ */
+
+var MissingMetadataException =
+/*#__PURE__*/
+function (_BaseException2) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(MissingMetadataException, _BaseException2);
+
+  function MissingMetadataException() {
+    var _this3;
+
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    _this3 = _BaseException2.call.apply(_BaseException2, [this].concat(args)) || this;
+    _this3.name = 'MissingMetadataException';
+    return _this3;
+  }
+
+  return MissingMetadataException;
+}(BaseException);
+/**
+ * Thrown when metadata doesn't have something it should have
+ */
+
+var BadMetadataException =
+/*#__PURE__*/
+function (_BaseException3) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(BadMetadataException, _BaseException3);
+
+  function BadMetadataException() {
+    var _this4;
+
+    for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+      args[_key3] = arguments[_key3];
+    }
+
+    _this4 = _BaseException3.call.apply(_BaseException3, [this].concat(args)) || this;
+    _this4.name = 'BadMetadataException';
+    return _this4;
+  }
+
+  return BadMetadataException;
+}(BaseException);
+/**
+ * Thrown when a method call isn't valid
+ */
+
+var MethodCallValidationMetadataException =
+/*#__PURE__*/
+function (_BaseException4) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(MethodCallValidationMetadataException, _BaseException4);
+
+  function MethodCallValidationMetadataException() {
+    var _this5;
+
+    for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+      args[_key4] = arguments[_key4];
+    }
+
+    _this5 = _BaseException4.call.apply(_BaseException4, [this].concat(args)) || this;
+    _this5.name = 'MethodCallValidationMetadataException';
+    return _this5;
+  }
+
+  return MethodCallValidationMetadataException;
+}(BaseException);
+/**
+ * Thrown when the server fails to generate the transaction for signing
+ */
+
+var GenerateTransactionException =
+/*#__PURE__*/
+function (_BaseException5) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(GenerateTransactionException, _BaseException5);
+
+  function GenerateTransactionException() {
+    var _this6;
+
+    for (var _len5 = arguments.length, args = new Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+      args[_key5] = arguments[_key5];
+    }
+
+    _this6 = _BaseException5.call.apply(_BaseException5, [this].concat(args)) || this;
+    _this6.name = 'GenerateTransactionException';
+    return _this6;
+  }
+
+  return GenerateTransactionException;
+}(BaseException);
+/**
+ * Thrown when the server returns an error after submitting a signed transaction
+ */
+
+var SubmitTransactionException =
+/*#__PURE__*/
+function (_BaseException6) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(SubmitTransactionException, _BaseException6);
+
+  function SubmitTransactionException() {
+    var _this7;
+
+    for (var _len6 = arguments.length, args = new Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
+      args[_key6] = arguments[_key6];
+    }
+
+    _this7 = _BaseException6.call.apply(_BaseException6, [this].concat(args)) || this;
+    _this7.name = 'SubmitTransactionException';
+    return _this7;
+  }
+
+  return SubmitTransactionException;
+}(BaseException);
+/**
+ * Thrown when the server returns an error when querying transactions
+ */
+
+var GetRequestException =
+/*#__PURE__*/
+function (_BaseException7) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(GetRequestException, _BaseException7);
+
+  function GetRequestException() {
+    var _this8;
+
+    for (var _len7 = arguments.length, args = new Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
+      args[_key7] = arguments[_key7];
+    }
+
+    _this8 = _BaseException7.call.apply(_BaseException7, [this].concat(args)) || this;
+    _this8.name = 'GetRequestException';
+    return _this8;
+  }
+
+  return GetRequestException;
+}(BaseException);
+/**
+ * Thrown when the server returns an error when querying transactions
+ */
+
+var PostRequestException =
+/*#__PURE__*/
+function (_BaseException8) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(PostRequestException, _BaseException8);
+
+  function PostRequestException() {
+    var _this9;
+
+    for (var _len8 = arguments.length, args = new Array(_len8), _key8 = 0; _key8 < _len8; _key8++) {
+      args[_key8] = arguments[_key8];
+    }
+
+    _this9 = _BaseException8.call.apply(_BaseException8, [this].concat(args)) || this;
+    _this9.name = 'PostRequestException';
+    return _this9;
+  }
+
+  return PostRequestException;
+}(BaseException);
+/**
+ * Thrown when the server returns an error when querying transactions
+ */
+
+var GetTransactionsException =
+/*#__PURE__*/
+function (_GetRequestException) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(GetTransactionsException, _GetRequestException);
+
+  function GetTransactionsException() {
+    var _this10;
+
+    for (var _len9 = arguments.length, args = new Array(_len9), _key9 = 0; _key9 < _len9; _key9++) {
+      args[_key9] = arguments[_key9];
+    }
+
+    _this10 = _GetRequestException.call.apply(_GetRequestException, [this].concat(args)) || this;
+    _this10.name = 'GetTransactionsException';
+    return _this10;
+  }
+
+  return GetTransactionsException;
+}(GetRequestException);
+/**
+ * Thrown when an error occurs checking a transactions status
+ */
+
+var TransactionStatusCheckException =
+/*#__PURE__*/
+function (_BaseException9) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(TransactionStatusCheckException, _BaseException9);
+
+  function TransactionStatusCheckException() {
+    var _this11;
+
+    for (var _len10 = arguments.length, args = new Array(_len10), _key10 = 0; _key10 < _len10; _key10++) {
+      args[_key10] = arguments[_key10];
+    }
+
+    _this11 = _BaseException9.call.apply(_BaseException9, [this].concat(args)) || this;
+    _this11.name = 'TransactionStatusCheckException';
+    return _this11;
+  }
+
+  return TransactionStatusCheckException;
+}(BaseException);
+/**
+ * Thrown when there's an error signing a transaction
+ */
+
+var SigningException =
+/*#__PURE__*/
+function (_BaseException10) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(SigningException, _BaseException10);
+
+  function SigningException() {
+    var _this12;
+
+    for (var _len11 = arguments.length, args = new Array(_len11), _key11 = 0; _key11 < _len11; _key11++) {
+      args[_key11] = arguments[_key11];
+    }
+
+    _this12 = _BaseException10.call.apply(_BaseException10, [this].concat(args)) || this;
+    _this12.name = 'SigningException';
+    return _this12;
+  }
+
+  return SigningException;
+}(BaseException);
+/**
+ * Thrown when a LocalWallet is created in a non browser environment
+ */
+
+var NotInBrowserException =
+/*#__PURE__*/
+function (_BaseException11) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(NotInBrowserException, _BaseException11);
+
+  function NotInBrowserException() {
+    var _this13;
+
+    for (var _len12 = arguments.length, args = new Array(_len12), _key12 = 0; _key12 < _len12; _key12++) {
+      args[_key12] = arguments[_key12];
+    }
+
+    _this13 = _BaseException11.call.apply(_BaseException11, [this].concat(args)) || this;
+    _this13.name = 'NotInBrowserException';
+    return _this13;
+  }
+
+  return NotInBrowserException;
+}(BaseException);
+/**
+ * Thrown when the user rejects the request to sign
+ */
+
+var UserRejectedSigningException =
+/*#__PURE__*/
+function (_SigningException) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(UserRejectedSigningException, _SigningException);
+
+  function UserRejectedSigningException() {
+    var _this14;
+
+    for (var _len13 = arguments.length, args = new Array(_len13), _key13 = 0; _key13 < _len13; _key13++) {
+      args[_key13] = arguments[_key13];
+    }
+
+    _this14 = _SigningException.call.apply(_SigningException, [this].concat(args)) || this;
+    _this14.name = 'UserRejectedSigningException';
+    return _this14;
+  }
+
+  return UserRejectedSigningException;
+}(SigningException);
+/**
+ * Thrown when a method on a class inheriting [SimbaBase]{@link SimbaBase} is called that requires
+ * a [Wallet]{@link Wallet} to be set, and it isn't.
+ */
+
+var WalletNotFoundException =
+/*#__PURE__*/
+function (_SigningException2) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(WalletNotFoundException, _SigningException2);
+
+  function WalletNotFoundException() {
+    var _this15;
+
+    for (var _len14 = arguments.length, args = new Array(_len14), _key14 = 0; _key14 < _len14; _key14++) {
+      args[_key14] = arguments[_key14];
+    }
+
+    _this15 = _SigningException2.call.apply(_SigningException2, [this].concat(args)) || this;
+    _this15.name = 'WalletNotFoundException';
+    return _this15;
+  }
+
+  return WalletNotFoundException;
+}(SigningException);
+/**
+ * Thrown when a method on a class inheriting [SimbaBase]{@link SimbaBase} is called that requires
+ * a [Wallet]{@link Wallet} to be unlocked, and it isn't.
+ */
+
+var WalletLockedException =
+/*#__PURE__*/
+function (_SigningException3) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(WalletLockedException, _SigningException3);
+
+  function WalletLockedException() {
+    var _this16;
+
+    for (var _len15 = arguments.length, args = new Array(_len15), _key15 = 0; _key15 < _len15; _key15++) {
+      args[_key15] = arguments[_key15];
+    }
+
+    _this16 = _SigningException3.call.apply(_SigningException3, [this].concat(args)) || this;
+    _this16.name = 'WalletLockedException';
+    return _this16;
+  }
+
+  return WalletLockedException;
+}(SigningException);
+/**
+ * Thrown when a method call exceeds the max retries
+ */
+
+var RetriesExceededException =
+/*#__PURE__*/
+function (_SigningException4) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(RetriesExceededException, _SigningException4);
+
+  function RetriesExceededException() {
+    var _this17;
+
+    for (var _len16 = arguments.length, args = new Array(_len16), _key16 = 0; _key16 < _len16; _key16++) {
+      args[_key16] = arguments[_key16];
+    }
+
+    _this17 = _SigningException4.call.apply(_SigningException4, [this].concat(args)) || this;
+    _this17.name = 'RetriesExceededException';
+    return _this17;
+  }
+
+  return RetriesExceededException;
+}(SigningException);
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/logger/lib.esm/index.js + 1 modules
-var lib_esm = __webpack_require__(3);
+var lib_esm = __webpack_require__(4);
 
 // CONCATENATED MODULE: ./node_modules/@ethersproject/properties/lib.esm/_version.js
 const version = "properties/5.0.0-beta.133";
@@ -638,14 +1078,14 @@ class Description {
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(42);
+module.exports = __webpack_require__(43);
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -923,7 +1363,7 @@ lib_esm_Logger.levels = {
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
@@ -965,7 +1405,7 @@ function _asyncToGenerator(fn) {
 module.exports = _asyncToGenerator;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports) {
 
 function _inheritsLoose(subClass, superClass) {
@@ -977,13 +1417,13 @@ function _inheritsLoose(subClass, superClass) {
 module.exports = _inheritsLoose;
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(9);
-var shared = __webpack_require__(41);
-var uid = __webpack_require__(71);
-var NATIVE_SYMBOL = __webpack_require__(100);
+var global = __webpack_require__(10);
+var shared = __webpack_require__(42);
+var uid = __webpack_require__(76);
+var NATIVE_SYMBOL = __webpack_require__(105);
 
 var Symbol = global.Symbol;
 var store = shared('wks');
@@ -995,16 +1435,16 @@ module.exports = function (name) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(9);
-var getOwnPropertyDescriptor = __webpack_require__(35).f;
-var hide = __webpack_require__(23);
-var redefine = __webpack_require__(24);
-var setGlobal = __webpack_require__(70);
-var copyConstructorProperties = __webpack_require__(155);
-var isForced = __webpack_require__(98);
+var global = __webpack_require__(10);
+var getOwnPropertyDescriptor = __webpack_require__(36).f;
+var hide = __webpack_require__(24);
+var redefine = __webpack_require__(25);
+var setGlobal = __webpack_require__(75);
+var copyConstructorProperties = __webpack_require__(159);
+var isForced = __webpack_require__(103);
 
 /*
   options.target      - name of the target object
@@ -1055,12 +1495,12 @@ module.exports = function (options, source) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return keccak256; });
-/* harmony import */ var js_sha3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(151);
+/* harmony import */ var js_sha3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(155);
 /* harmony import */ var js_sha3__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(js_sha3__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ethersproject_bytes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
 
@@ -1072,7 +1512,7 @@ function keccak256(data) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var O = 'object';
@@ -1090,22 +1530,22 @@ module.exports =
   // eslint-disable-next-line no-new-func
   Function('return this')();
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(32)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(33)))
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/constants/lib.esm/index.js
-var lib_esm = __webpack_require__(66);
+var lib_esm = __webpack_require__(70);
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/bytes/lib.esm/index.js + 1 modules
 var bytes_lib_esm = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/logger/lib.esm/index.js + 1 modules
-var logger_lib_esm = __webpack_require__(3);
+var logger_lib_esm = __webpack_require__(4);
 
 // CONCATENATED MODULE: ./node_modules/@ethersproject/strings/lib.esm/_version.js
 const version = "strings/5.0.0-beta.133";
@@ -1542,7 +1982,7 @@ function nameprep(value) {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports) {
 
 module.exports = function (exec) {
@@ -1555,19 +1995,19 @@ module.exports = function (exec) {
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 
 // EXTERNAL MODULE: ./node_modules/bn.js/lib/bn.js
-var bn = __webpack_require__(13);
+var bn = __webpack_require__(14);
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/bytes/lib.esm/index.js + 1 modules
 var lib_esm = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/logger/lib.esm/index.js + 1 modules
-var logger_lib_esm = __webpack_require__(3);
+var logger_lib_esm = __webpack_require__(4);
 
 // CONCATENATED MODULE: ./node_modules/@ethersproject/bignumber/lib.esm/_version.js
 const version = "bignumber/5.0.0-beta.133";
@@ -2102,7 +2542,7 @@ class fixednumber_FixedNumber {
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {(function (module, exports) {
@@ -2157,7 +2597,7 @@ class fixednumber_FixedNumber {
 
   var Buffer;
   try {
-    Buffer = __webpack_require__(217).Buffer;
+    Buffer = __webpack_require__(221).Buffer;
   } catch (e) {
   }
 
@@ -5533,13 +5973,13 @@ class fixednumber_FixedNumber {
   };
 })( false || module, this);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(216)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(220)(module)))
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var fails = __webpack_require__(11);
+var fails = __webpack_require__(12);
 
 // Thank's IE8 for his funny defineProperty
 module.exports = !fails(function () {
@@ -5548,10 +5988,10 @@ module.exports = !fails(function () {
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(17);
+var isObject = __webpack_require__(18);
 
 module.exports = function (it) {
   if (!isObject(it)) {
@@ -5561,14 +6001,14 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var bind = __webpack_require__(126);
-var isBuffer = __webpack_require__(198);
+var bind = __webpack_require__(132);
+var isBuffer = __webpack_require__(202);
 
 /*global toString:true*/
 
@@ -5902,7 +6342,7 @@ module.exports = {
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -5911,7 +6351,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports) {
 
 var hasOwnProperty = {}.hasOwnProperty;
@@ -5922,7 +6362,7 @@ module.exports = function (it, key) {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = assert;
@@ -5939,16 +6379,16 @@ assert.equal = function assertEqual(l, r, msg) {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = exports;
-var BN = __webpack_require__(13);
-var minAssert = __webpack_require__(19);
-var minUtils = __webpack_require__(139);
+var BN = __webpack_require__(14);
+var minAssert = __webpack_require__(20);
+var minUtils = __webpack_require__(144);
 
 utils.assert = minAssert;
 utils.toArray = minUtils.toArray;
@@ -6066,7 +6506,7 @@ utils.intFromLE = intFromLE;
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6079,10 +6519,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var hash = __importStar(__webpack_require__(218));
+var hash = __importStar(__webpack_require__(222));
 var bytes_1 = __webpack_require__(0);
-var logger_1 = __webpack_require__(3);
-var _version_1 = __webpack_require__(225);
+var logger_1 = __webpack_require__(4);
+var _version_1 = __webpack_require__(229);
 var logger = new logger_1.Logger(_version_1.version);
 var SupportedAlgorithms;
 (function (SupportedAlgorithms) {
@@ -6115,7 +6555,7 @@ exports.computeHmac = computeHmac;
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6908,12 +7348,12 @@ exports.computeHmac = computeHmac;
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var DESCRIPTORS = __webpack_require__(14);
-var definePropertyModule = __webpack_require__(26);
-var createPropertyDescriptor = __webpack_require__(40);
+var DESCRIPTORS = __webpack_require__(15);
+var definePropertyModule = __webpack_require__(27);
+var createPropertyDescriptor = __webpack_require__(41);
 
 module.exports = DESCRIPTORS ? function (object, key, value) {
   return definePropertyModule.f(object, key, createPropertyDescriptor(1, value));
@@ -6924,16 +7364,16 @@ module.exports = DESCRIPTORS ? function (object, key, value) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(9);
-var shared = __webpack_require__(41);
-var hide = __webpack_require__(23);
-var has = __webpack_require__(18);
-var setGlobal = __webpack_require__(70);
-var nativeFunctionToString = __webpack_require__(94);
-var InternalStateModule = __webpack_require__(33);
+var global = __webpack_require__(10);
+var shared = __webpack_require__(42);
+var hide = __webpack_require__(24);
+var has = __webpack_require__(19);
+var setGlobal = __webpack_require__(75);
+var nativeFunctionToString = __webpack_require__(99);
+var InternalStateModule = __webpack_require__(34);
 
 var getInternalState = InternalStateModule.get;
 var enforceInternalState = InternalStateModule.enforce;
@@ -6969,12 +7409,12 @@ shared('inspectSource', function (it) {
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // toObject with fallback for non-array-like ES3 strings
-var IndexedObject = __webpack_require__(52);
-var requireObjectCoercible = __webpack_require__(36);
+var IndexedObject = __webpack_require__(53);
+var requireObjectCoercible = __webpack_require__(37);
 
 module.exports = function (it) {
   return IndexedObject(requireObjectCoercible(it));
@@ -6982,13 +7422,13 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var DESCRIPTORS = __webpack_require__(14);
-var IE8_DOM_DEFINE = __webpack_require__(93);
-var anObject = __webpack_require__(15);
-var toPrimitive = __webpack_require__(53);
+var DESCRIPTORS = __webpack_require__(15);
+var IE8_DOM_DEFINE = __webpack_require__(98);
+var anObject = __webpack_require__(16);
+var toPrimitive = __webpack_require__(54);
 
 var nativeDefineProperty = Object.defineProperty;
 
@@ -7008,14 +7448,14 @@ exports.f = DESCRIPTORS ? nativeDefineProperty : function defineProperty(O, P, A
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var assert = __webpack_require__(19);
-var inherits = __webpack_require__(47);
+var assert = __webpack_require__(20);
+var inherits = __webpack_require__(48);
 
 exports.inherits = inherits;
 
@@ -7268,14 +7708,14 @@ exports.shr64_lo = shr64_lo;
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var assert = __webpack_require__(19);
-var inherits = __webpack_require__(47);
+var assert = __webpack_require__(20);
+var inherits = __webpack_require__(48);
 
 exports.inherits = inherits;
 
@@ -7553,7 +7993,7 @@ exports.shr64_lo = shr64_lo;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -7564,10 +8004,10 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(57);
+var toInteger = __webpack_require__(58);
 
 var min = Math.min;
 
@@ -7579,10 +8019,10 @@ module.exports = function (argument) {
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var requireObjectCoercible = __webpack_require__(36);
+var requireObjectCoercible = __webpack_require__(37);
 
 // `ToObject` abstract operation
 // https://tc39.github.io/ecma262/#sec-toobject
@@ -7592,7 +8032,7 @@ module.exports = function (argument) {
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports) {
 
 var g;
@@ -7618,16 +8058,16 @@ module.exports = g;
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var NATIVE_WEAK_MAP = __webpack_require__(154);
-var global = __webpack_require__(9);
-var isObject = __webpack_require__(17);
-var hide = __webpack_require__(23);
-var objectHas = __webpack_require__(18);
-var sharedKey = __webpack_require__(54);
-var hiddenKeys = __webpack_require__(55);
+var NATIVE_WEAK_MAP = __webpack_require__(158);
+var global = __webpack_require__(10);
+var isObject = __webpack_require__(18);
+var hide = __webpack_require__(24);
+var objectHas = __webpack_require__(19);
+var sharedKey = __webpack_require__(55);
+var hiddenKeys = __webpack_require__(56);
 
 var WeakMap = global.WeakMap;
 var set, get, has;
@@ -7685,17 +8125,17 @@ module.exports = {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var bytes_1 = __webpack_require__(0);
-var logger_1 = __webpack_require__(3);
-var _version_1 = __webpack_require__(247);
+var logger_1 = __webpack_require__(4);
+var _version_1 = __webpack_require__(251);
 var logger = new logger_1.Logger(_version_1.version);
-var shuffle_1 = __webpack_require__(248);
+var shuffle_1 = __webpack_require__(252);
 exports.shuffled = shuffle_1.shuffled;
 var crypto = global.crypto || global.msCrypto;
 if (!crypto || !crypto.getRandomValues) {
@@ -7719,19 +8159,19 @@ function randomBytes(length) {
 exports.randomBytes = randomBytes;
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(32)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(33)))
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var DESCRIPTORS = __webpack_require__(14);
-var propertyIsEnumerableModule = __webpack_require__(51);
-var createPropertyDescriptor = __webpack_require__(40);
-var toIndexedObject = __webpack_require__(25);
-var toPrimitive = __webpack_require__(53);
-var has = __webpack_require__(18);
-var IE8_DOM_DEFINE = __webpack_require__(93);
+var DESCRIPTORS = __webpack_require__(15);
+var propertyIsEnumerableModule = __webpack_require__(52);
+var createPropertyDescriptor = __webpack_require__(41);
+var toIndexedObject = __webpack_require__(26);
+var toPrimitive = __webpack_require__(54);
+var has = __webpack_require__(19);
+var IE8_DOM_DEFINE = __webpack_require__(98);
 
 var nativeGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
 
@@ -7748,7 +8188,7 @@ exports.f = DESCRIPTORS ? nativeGetOwnPropertyDescriptor : function getOwnProper
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports) {
 
 // `RequireObjectCoercible` abstract operation
@@ -7760,19 +8200,19 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports) {
 
 module.exports = false;
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var defineProperty = __webpack_require__(26).f;
-var has = __webpack_require__(18);
-var wellKnownSymbol = __webpack_require__(6);
+var defineProperty = __webpack_require__(27).f;
+var has = __webpack_require__(19);
+var wellKnownSymbol = __webpack_require__(7);
 
 var TO_STRING_TAG = wellKnownSymbol('toStringTag');
 
@@ -7784,14 +8224,14 @@ module.exports = function (it, TAG, STATIC) {
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var bytes_1 = __webpack_require__(0);
-var sha2_1 = __webpack_require__(21);
+var sha2_1 = __webpack_require__(22);
 function pbkdf2(password, salt, iterations, keylen, hashAlgorithm) {
     password = bytes_1.arrayify(password);
     salt = bytes_1.arrayify(salt);
@@ -7836,7 +8276,7 @@ exports.pbkdf2 = pbkdf2;
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports) {
 
 module.exports = function (bitmap, value) {
@@ -7850,12 +8290,12 @@ module.exports = function (bitmap, value) {
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(9);
-var setGlobal = __webpack_require__(70);
-var IS_PURE = __webpack_require__(37);
+var global = __webpack_require__(10);
+var setGlobal = __webpack_require__(75);
+var IS_PURE = __webpack_require__(38);
 
 var SHARED = '__core-js_shared__';
 var store = global[SHARED] || setGlobal(SHARED, {});
@@ -7870,7 +8310,7 @@ var store = global[SHARED] || setGlobal(SHARED, {});
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -8602,21 +9042,21 @@ try {
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $ = __webpack_require__(7);
-var fails = __webpack_require__(11);
-var isArray = __webpack_require__(76);
-var isObject = __webpack_require__(17);
-var toObject = __webpack_require__(31);
-var toLength = __webpack_require__(30);
-var createProperty = __webpack_require__(77);
-var arraySpeciesCreate = __webpack_require__(102);
-var arrayMethodHasSpeciesSupport = __webpack_require__(103);
-var wellKnownSymbol = __webpack_require__(6);
+var $ = __webpack_require__(8);
+var fails = __webpack_require__(12);
+var isArray = __webpack_require__(81);
+var isObject = __webpack_require__(18);
+var toObject = __webpack_require__(32);
+var toLength = __webpack_require__(31);
+var createProperty = __webpack_require__(82);
+var arraySpeciesCreate = __webpack_require__(107);
+var arrayMethodHasSpeciesSupport = __webpack_require__(108);
+var wellKnownSymbol = __webpack_require__(7);
 
 var IS_CONCAT_SPREADABLE = wellKnownSymbol('isConcatSpreadable');
 var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
@@ -8665,10 +9105,10 @@ $({ target: 'Array', proto: true, forced: FORCED }, {
 
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var aFunction = __webpack_require__(58);
+var aFunction = __webpack_require__(59);
 
 // optional / simple context binding
 module.exports = function (fn, that, length) {
@@ -8695,11 +9135,11 @@ module.exports = function (fn, that, length) {
 
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var internalObjectKeys = __webpack_require__(96);
-var enumBugKeys = __webpack_require__(74);
+var internalObjectKeys = __webpack_require__(101);
+var enumBugKeys = __webpack_require__(79);
 
 // `Object.keys` method
 // https://tc39.github.io/ecma262/#sec-object.keys
@@ -8709,14 +9149,14 @@ module.exports = Object.keys || function keys(O) {
 
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports) {
 
 module.exports = {};
 
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -8749,105 +9189,6 @@ if (typeof Object.create === 'function') {
 
 
 /***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(27);
-var assert = __webpack_require__(19);
-
-function BlockHash() {
-  this.pending = null;
-  this.pendingTotal = 0;
-  this.blockSize = this.constructor.blockSize;
-  this.outSize = this.constructor.outSize;
-  this.hmacStrength = this.constructor.hmacStrength;
-  this.padLength = this.constructor.padLength / 8;
-  this.endian = 'big';
-
-  this._delta8 = this.blockSize / 8;
-  this._delta32 = this.blockSize / 32;
-}
-exports.BlockHash = BlockHash;
-
-BlockHash.prototype.update = function update(msg, enc) {
-  // Convert message to array, pad it, and join into 32bit blocks
-  msg = utils.toArray(msg, enc);
-  if (!this.pending)
-    this.pending = msg;
-  else
-    this.pending = this.pending.concat(msg);
-  this.pendingTotal += msg.length;
-
-  // Enough data, try updating
-  if (this.pending.length >= this._delta8) {
-    msg = this.pending;
-
-    // Process pending data in blocks
-    var r = msg.length % this._delta8;
-    this.pending = msg.slice(msg.length - r, msg.length);
-    if (this.pending.length === 0)
-      this.pending = null;
-
-    msg = utils.join32(msg, 0, msg.length - r, this.endian);
-    for (var i = 0; i < msg.length; i += this._delta32)
-      this._update(msg, i, i + this._delta32);
-  }
-
-  return this;
-};
-
-BlockHash.prototype.digest = function digest(enc) {
-  this.update(this._pad());
-  assert(this.pending === null);
-
-  return this._digest(enc);
-};
-
-BlockHash.prototype._pad = function pad() {
-  var len = this.pendingTotal;
-  var bytes = this._delta8;
-  var k = bytes - ((len + this.padLength) % bytes);
-  var res = new Array(k + this.padLength);
-  res[0] = 0x80;
-  for (var i = 1; i < k; i++)
-    res[i] = 0;
-
-  // Append length
-  len <<= 3;
-  if (this.endian === 'big') {
-    for (var t = 8; t < this.padLength; t++)
-      res[i++] = 0;
-
-    res[i++] = 0;
-    res[i++] = 0;
-    res[i++] = 0;
-    res[i++] = 0;
-    res[i++] = (len >>> 24) & 0xff;
-    res[i++] = (len >>> 16) & 0xff;
-    res[i++] = (len >>> 8) & 0xff;
-    res[i++] = len & 0xff;
-  } else {
-    res[i++] = len & 0xff;
-    res[i++] = (len >>> 8) & 0xff;
-    res[i++] = (len >>> 16) & 0xff;
-    res[i++] = (len >>> 24) & 0xff;
-    res[i++] = 0;
-    res[i++] = 0;
-    res[i++] = 0;
-    res[i++] = 0;
-
-    for (t = 8; t < this.padLength; t++)
-      res[i++] = 0;
-  }
-
-  return res;
-};
-
-
-/***/ }),
 /* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8855,7 +9196,7 @@ BlockHash.prototype._pad = function pad() {
 
 
 var utils = __webpack_require__(28);
-var assert = __webpack_require__(19);
+var assert = __webpack_require__(20);
 
 function BlockHash() {
   this.pending = null;
@@ -8950,11 +9291,110 @@ BlockHash.prototype._pad = function pad() {
 /* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayWithHoles = __webpack_require__(194);
+"use strict";
 
-var iterableToArrayLimit = __webpack_require__(195);
 
-var nonIterableRest = __webpack_require__(196);
+var utils = __webpack_require__(29);
+var assert = __webpack_require__(20);
+
+function BlockHash() {
+  this.pending = null;
+  this.pendingTotal = 0;
+  this.blockSize = this.constructor.blockSize;
+  this.outSize = this.constructor.outSize;
+  this.hmacStrength = this.constructor.hmacStrength;
+  this.padLength = this.constructor.padLength / 8;
+  this.endian = 'big';
+
+  this._delta8 = this.blockSize / 8;
+  this._delta32 = this.blockSize / 32;
+}
+exports.BlockHash = BlockHash;
+
+BlockHash.prototype.update = function update(msg, enc) {
+  // Convert message to array, pad it, and join into 32bit blocks
+  msg = utils.toArray(msg, enc);
+  if (!this.pending)
+    this.pending = msg;
+  else
+    this.pending = this.pending.concat(msg);
+  this.pendingTotal += msg.length;
+
+  // Enough data, try updating
+  if (this.pending.length >= this._delta8) {
+    msg = this.pending;
+
+    // Process pending data in blocks
+    var r = msg.length % this._delta8;
+    this.pending = msg.slice(msg.length - r, msg.length);
+    if (this.pending.length === 0)
+      this.pending = null;
+
+    msg = utils.join32(msg, 0, msg.length - r, this.endian);
+    for (var i = 0; i < msg.length; i += this._delta32)
+      this._update(msg, i, i + this._delta32);
+  }
+
+  return this;
+};
+
+BlockHash.prototype.digest = function digest(enc) {
+  this.update(this._pad());
+  assert(this.pending === null);
+
+  return this._digest(enc);
+};
+
+BlockHash.prototype._pad = function pad() {
+  var len = this.pendingTotal;
+  var bytes = this._delta8;
+  var k = bytes - ((len + this.padLength) % bytes);
+  var res = new Array(k + this.padLength);
+  res[0] = 0x80;
+  for (var i = 1; i < k; i++)
+    res[i] = 0;
+
+  // Append length
+  len <<= 3;
+  if (this.endian === 'big') {
+    for (var t = 8; t < this.padLength; t++)
+      res[i++] = 0;
+
+    res[i++] = 0;
+    res[i++] = 0;
+    res[i++] = 0;
+    res[i++] = 0;
+    res[i++] = (len >>> 24) & 0xff;
+    res[i++] = (len >>> 16) & 0xff;
+    res[i++] = (len >>> 8) & 0xff;
+    res[i++] = len & 0xff;
+  } else {
+    res[i++] = len & 0xff;
+    res[i++] = (len >>> 8) & 0xff;
+    res[i++] = (len >>> 16) & 0xff;
+    res[i++] = (len >>> 24) & 0xff;
+    res[i++] = 0;
+    res[i++] = 0;
+    res[i++] = 0;
+    res[i++] = 0;
+
+    for (t = 8; t < this.padLength; t++)
+      res[i++] = 0;
+  }
+
+  return res;
+};
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayWithHoles = __webpack_require__(198);
+
+var iterableToArrayLimit = __webpack_require__(199);
+
+var nonIterableRest = __webpack_require__(200);
 
 function _slicedToArray(arr, i) {
   return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || nonIterableRest();
@@ -8963,7 +9403,7 @@ function _slicedToArray(arr, i) {
 module.exports = _slicedToArray;
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8983,11 +9423,11 @@ exports.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
 
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var fails = __webpack_require__(11);
-var classof = __webpack_require__(29);
+var fails = __webpack_require__(12);
+var classof = __webpack_require__(30);
 
 var split = ''.split;
 
@@ -9002,10 +9442,10 @@ module.exports = fails(function () {
 
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(17);
+var isObject = __webpack_require__(18);
 
 // `ToPrimitive` abstract operation
 // https://tc39.github.io/ecma262/#sec-toprimitive
@@ -9022,11 +9462,11 @@ module.exports = function (input, PREFERRED_STRING) {
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var shared = __webpack_require__(41);
-var uid = __webpack_require__(71);
+var shared = __webpack_require__(42);
+var uid = __webpack_require__(76);
 
 var keys = shared('keys');
 
@@ -9036,18 +9476,18 @@ module.exports = function (key) {
 
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports) {
 
 module.exports = {};
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var path = __webpack_require__(72);
-var global = __webpack_require__(9);
+var path = __webpack_require__(77);
+var global = __webpack_require__(10);
 
 var aFunction = function (variable) {
   return typeof variable == 'function' ? variable : undefined;
@@ -9060,7 +9500,7 @@ module.exports = function (namespace, method) {
 
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports) {
 
 var ceil = Math.ceil;
@@ -9074,7 +9514,7 @@ module.exports = function (argument) {
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -9085,13 +9525,13 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $ = __webpack_require__(7);
-var forEach = __webpack_require__(105);
+var $ = __webpack_require__(8);
+var forEach = __webpack_require__(110);
 
 // `Array.prototype.forEach` method
 // https://tc39.github.io/ecma262/#sec-array.prototype.foreach
@@ -9101,13 +9541,13 @@ $({ target: 'Array', proto: true, forced: [].forEach != forEach }, {
 
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $ = __webpack_require__(7);
-var toObject = __webpack_require__(31);
-var nativeKeys = __webpack_require__(45);
-var fails = __webpack_require__(11);
+var $ = __webpack_require__(8);
+var toObject = __webpack_require__(32);
+var nativeKeys = __webpack_require__(46);
+var fails = __webpack_require__(12);
 
 var FAILS_ON_PRIMITIVES = fails(function () { nativeKeys(1); });
 
@@ -9121,13 +9561,13 @@ $({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {
 
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(9);
-var DOMIterables = __webpack_require__(106);
-var forEach = __webpack_require__(105);
-var hide = __webpack_require__(23);
+var global = __webpack_require__(10);
+var DOMIterables = __webpack_require__(111);
+var forEach = __webpack_require__(110);
+var hide = __webpack_require__(24);
 
 for (var COLLECTION_NAME in DOMIterables) {
   var Collection = global[COLLECTION_NAME];
@@ -9142,16 +9582,16 @@ for (var COLLECTION_NAME in DOMIterables) {
 
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var toIndexedObject = __webpack_require__(25);
-var addToUnscopables = __webpack_require__(164);
-var Iterators = __webpack_require__(46);
-var InternalStateModule = __webpack_require__(33);
-var defineIterator = __webpack_require__(109);
+var toIndexedObject = __webpack_require__(26);
+var addToUnscopables = __webpack_require__(168);
+var Iterators = __webpack_require__(47);
+var InternalStateModule = __webpack_require__(34);
+var defineIterator = __webpack_require__(114);
 
 var ARRAY_ITERATOR = 'Array Iterator';
 var setInternalState = InternalStateModule.set;
@@ -9202,11 +9642,11 @@ addToUnscopables('entries');
 
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var redefine = __webpack_require__(24);
-var toString = __webpack_require__(168);
+var redefine = __webpack_require__(25);
+var toString = __webpack_require__(172);
 
 var ObjectPrototype = Object.prototype;
 
@@ -9218,12 +9658,12 @@ if (toString !== ObjectPrototype.toString) {
 
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var classof = __webpack_require__(113);
-var Iterators = __webpack_require__(46);
-var wellKnownSymbol = __webpack_require__(6);
+var classof = __webpack_require__(118);
+var Iterators = __webpack_require__(47);
+var wellKnownSymbol = __webpack_require__(7);
 
 var ITERATOR = wellKnownSymbol('iterator');
 
@@ -9235,14 +9675,385 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 65 */
+/* 66 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var BN = __webpack_require__(13);
-var utils = __webpack_require__(20);
+var utils = __webpack_require__(17);
+var settle = __webpack_require__(208);
+var buildURL = __webpack_require__(133);
+var parseHeaders = __webpack_require__(210);
+var isURLSameOrigin = __webpack_require__(211);
+var createError = __webpack_require__(136);
+
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
+
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
+    var request = new XMLHttpRequest();
+
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+    }
+
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
+
+    // Listen for ready state
+    request.onreadystatechange = function handleLoad() {
+      if (!request || request.readyState !== 4) {
+        return;
+      }
+
+      // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      }
+
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        status: request.status,
+        statusText: request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle browser request cancellation (as opposed to a manual cancellation)
+    request.onabort = function handleAbort() {
+      if (!request) {
+        return;
+      }
+
+      reject(createError('Request aborted', config, 'ECONNABORTED', request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config, null, request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
+        request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = __webpack_require__(212);
+
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+        cookies.read(config.xsrfCookieName) :
+        undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+      }
+    }
+
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
+    }
+
+    // Add withCredentials to request if needed
+    if (config.withCredentials) {
+      request.withCredentials = true;
+    }
+
+    // Add responseType to request if needed
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
+        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
+        if (config.responseType !== 'json') {
+          throw e;
+        }
+      }
+    }
+
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
+
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel);
+        // Clean up request
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
+  });
+};
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var BN = __webpack_require__(14);
+var utils = __webpack_require__(21);
 var getNAF = utils.getNAF;
 var getJSF = utils.getJSF;
 var assert = utils.assert;
@@ -9616,7 +10427,567 @@ BasePoint.prototype.dblp = function dblp(k) {
 
 
 /***/ }),
-/* 66 */
+/* 69 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SimbaBase; });
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(44);
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(109);
+/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(60);
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(85);
+/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(162);
+/* harmony import */ var core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(61);
+/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var core_js_modules_es_string_ends_with__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(163);
+/* harmony import */ var core_js_modules_es_string_ends_with__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_ends_with__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(62);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(3);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(43);
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(5);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var poll_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(151);
+/* harmony import */ var poll_js__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(poll_js__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _exceptions__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(1);
+/* harmony import */ var _pagedresponse__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(95);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * @interface
+ * Base class for libsimba API Interaction implementations
+ */
+
+var SimbaBase =
+/*#__PURE__*/
+function () {
+  /**
+   * Base class for libsimba API Interaction implementations
+   * @param {string} endpoint - The endpoint of the API
+   * @param {Wallet} [wallet] - an optional {@link Wallet} instance
+   */
+  function SimbaBase(endpoint, wallet) {
+    if (!endpoint.endsWith('/')) {
+      this.endpoint = "".concat(endpoint, "/");
+    } else {
+      this.endpoint = endpoint;
+    }
+
+    this.wallet = wallet;
+    this.metadata = {};
+
+    if (this.constructor === SimbaBase) {
+      // Error Type 1. Abstract class can not be constructed.
+      throw new TypeError('Can not construct abstract class.');
+    }
+
+    if (this.initialize === SimbaBase.prototype.initialize) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('Please implement abstract method callMethod.');
+    }
+
+    if (this.callMethod === SimbaBase.prototype.callMethod) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('Please implement abstract method callMethod.');
+    }
+
+    if (this.getTransactionStatus === SimbaBase.prototype.getTransactionStatus) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('Please implement abstract method getTransactionStatus.');
+    }
+
+    if (this.checkTransactionStatusFromObject === SimbaBase.prototype.checkTransactionStatusFromObject) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('Please implement abstract method checkTransactionStatusFromObject.');
+    }
+
+    if (this.checkTransactionDone === SimbaBase.prototype.checkTransactionDone) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('Please implement abstract method checkTransactionDone.');
+    }
+
+    if (this.checkTransactionStatus === SimbaBase.prototype.checkTransactionStatus) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('Please implement abstract method checkTransactionStatus.');
+    }
+
+    if (this.getBalance === SimbaBase.prototype.getBalance) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('Please implement abstract method getBalance.');
+    }
+
+    if (this.addFunds === SimbaBase.prototype.addFunds) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('Please implement abstract method addFunds.');
+    }
+
+    if (this.getMethodTransactions === SimbaBase.prototype.getMethodTransactions) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('Please implement abstract method getMethodTransactions.');
+    }
+
+    if (this.getTransaction === SimbaBase.prototype.getTransaction) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('Please implement abstract method getTransaction.');
+    }
+
+    if (this.getTransactions === SimbaBase.prototype.getTransactions) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('Please implement abstract method getTransactions.');
+    }
+
+    if (this.getBundleMetadataForTransaction === SimbaBase.prototype.getBundleMetadataForTransaction) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('Please implement abstract method getBundleMetadataForTransaction.');
+    }
+
+    if (this.getBundleForTransaction === SimbaBase.prototype.getBundleForTransaction) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('Please implement abstract method getBundleForTransaction.');
+    }
+
+    if (this.getFileFromBundleForTransaction === SimbaBase.prototype.getFileFromBundleForTransaction) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('Please implement abstract method getFileFromBundleForTransaction.');
+    }
+
+    if (this.getFileFromBundleByNameForTransaction === SimbaBase.prototype.getFileFromBundleByNameForTransaction) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('Please implement abstract method getFileFromBundleByNameForTransaction.');
+    }
+
+    if (this.sendTransactionRequest === SimbaBase.prototype.sendTransactionRequest) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('Please implement abstract method sendTransactionRequest.');
+    }
+  }
+  /**
+   * @abstract
+   * (Abstract) Perform any asynchronous actions needed to initialise this class
+   */
+
+
+  var _proto = SimbaBase.prototype;
+
+  _proto.initialize = function initialize() {
+    throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.initialize Not Implemented');
+  }
+  /**
+   * @abstract
+   * (Abstract) Call a method on the API
+   * @param {string} method - the method to call
+   * @param {Object} parameters - the parameters for the method
+   * @return {Promise} - a promise resolving with the transaction details
+   */
+  ;
+
+  _proto.callMethod = function callMethod(method, parameters) {
+    throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.callMethod Not Implemented');
+  }
+  /**
+   * @abstract
+   * (Abstract) Gets a paged list of transactions for the method
+   * @param {string} method - The method
+   * @param {Object} parameters - The query parameters
+   */
+  ;
+
+  _proto.getMethodTransactions = function getMethodTransactions(method, parameters) {
+    throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.callMethod Not Implemented');
+  }
+  /**
+   * @abstract
+   * (Abstract) Gets a specific transaction
+   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+   * @returns {Promise<Object>} - The transaction
+   */
+  ;
+
+  _proto.getTransaction = function getTransaction(transactionIdOrHash) {
+    throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.getTransaction Not Implemented');
+  }
+  /**
+   * @abstract
+   * (Abstract) Gets a the bundle metadata for a transaction
+   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+   * @returns {Promise<Object>} - The bundle metadata
+   */
+  ;
+
+  _proto.getBundleMetadataForTransaction = function getBundleMetadataForTransaction(transactionIdOrHash) {
+    throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.getTransaction Not Implemented');
+  }
+  /**
+   * @abstract
+   * (Abstract) Gets the bundle for a transaction
+   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+   * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
+   * @returns {Promise<ReadableStream|Blob>} - The bundle
+   */
+  ;
+
+  _proto.getBundleForTransaction = function getBundleForTransaction(transactionIdOrHash, stream) {
+    throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.getTransaction Not Implemented');
+  }
+  /**
+   * @abstract
+   * (Abstract) Gets a file from the bundle for a transaction
+   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+   * @param {number} fileIdx - The index of the file in the bundle metadata
+   * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
+   * @returns {Promise<ReadableStream|Blob>} - The file
+   */
+  ;
+
+  _proto.getFileFromBundleForTransaction = function getFileFromBundleForTransaction(transactionIdOrHash, fileIdx, stream) {
+    throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.getTransaction Not Implemented');
+  }
+  /**
+   * @abstract
+   * (Abstract) Gets a file from the bundle for a transaction
+   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+   * @param {string} fileName - The name of the file in the bundle metadata
+   * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
+   * @returns {Promise<ReadableStream|Blob>} - The file
+   */
+  ;
+
+  _proto.getFileFromBundleByNameForTransaction = function getFileFromBundleByNameForTransaction(transactionIdOrHash, fileName, stream) {
+    throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.getTransaction Not Implemented');
+  }
+  /**
+   * @abstract
+   * (Abstract) Gets a paged list of transactions
+   * @param {Object} parameters - The query parameters
+   * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
+   */
+  ;
+
+  _proto.getTransactions = function getTransactions(parameters) {
+    throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.callMethod Not Implemented');
+  }
+  /**
+   * @abstract
+   * Internal function for sending transaction GET requests
+   * @param {URL} url - The URL
+   * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
+   */
+  ;
+
+  _proto.sendTransactionRequest =
+  /*#__PURE__*/
+  function () {
+    var _sendTransactionRequest = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_10___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.mark(function _callee(url) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.sendTransactionRequest Not Implemented');
+
+            case 1:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+
+    function sendTransactionRequest(_x) {
+      return _sendTransactionRequest.apply(this, arguments);
+    }
+
+    return sendTransactionRequest;
+  }()
+  /**
+   * @abstract
+   * (Abstract) Call a method on the API with files
+   * @param {string} method - the method to call
+   * @param {Object} parameters - the parameters for the method
+   * @param {Array<Blob|File>} files - the files
+   * @return {Promise<Object>} - a promise resolving with the transaction details
+   */
+  ;
+
+  _proto.callMethodWithFile = function callMethodWithFile(method, parameters, files) {
+    throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.callMethod Not Implemented');
+  }
+  /**
+   * @abstract
+   * (Abstract) Get the status of a transaction by ID
+   * @param {string} txnId - the transaction ID
+   * @return {Promise<Object>} - a promise resolving with the transaction details
+   */
+  ;
+
+  _proto.getTransactionStatus = function getTransactionStatus(txnId) {
+    throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.getTransactionStatus Not Implemented');
+  }
+  /**
+   * @abstract
+   * @private
+   * (Abstract) Gets the status of a transaction
+   * @param {Object} txn - a transaction object
+   * @return {Object} - an object with status details
+   */
+  ;
+
+  _proto.checkTransactionStatusFromObject = function checkTransactionStatusFromObject(txn) {
+    throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.checkTransactionStatusFromObject Not Implemented');
+  }
+  /**
+   * @abstract
+   * @private
+   * (Abstract) Check if the transaction is complete
+   * @param {Object} txn - the transaction object
+   * @return {boolean} - is the transaction complete
+   */
+  ;
+
+  _proto.checkTransactionDone = function checkTransactionDone(txn) {
+    throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.checkTransactionDone Not Implemented');
+  }
+  /**
+   * @abstract
+   * (Abstract) Gets the status of a transaction by ID
+   * @param {string} txnId - a transaction ID
+   * @return {Object} - an object with status details
+   */
+  ;
+
+  _proto.checkTransactionStatus = function checkTransactionStatus(txnId) {
+    throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.checkTransactionStatus Not Implemented');
+  }
+  /**
+   * @abstract
+   * (Abstract) Get the balance for the attached Wallet
+   * @return {Promise<Object>} - the balance
+   */
+  ;
+
+  _proto.getBalance = function getBalance() {
+    throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.getBalance Not Implemented');
+  }
+  /**
+   * @abstract
+   * (Abstract) Add funds to the attached Wallet.
+   * Please check the output of this method. It is of the form
+   * ```
+   * {
+   *     txnId: null,
+   *     faucet_url: null,
+   *     poa: true
+   * }
+   * ```
+   *
+   * If successful, txnId will be populated.
+   * If the network is PoA, then poa will be true, and txnId will be null
+   * If the faucet for the network is external (e.g. Rinkeby, Ropsten, etc), then txnId will be null,
+   * and faucet_url will be populated with a URL. You should present this URL to your users to direct them
+   * to request funds there.
+   * @return {Promise<Object>} - details of the txn
+   */
+  ;
+
+  _proto.addFunds = function addFunds() {
+    throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* NotImplementedException */ "g"]('SimbaBase.addFunds Not Implemented');
+  }
+  /**
+   * Returns an object with 'future' and 'cancel' keys.
+   * future is the promise to listen on for the response or an error.
+   * cancel is a function - call it to cancel the polling.
+   * @param {string} txnId - the transaction ID
+   * @param {number} [pollInterval=5000] - the interval in ms for polling
+   */
+  ;
+
+  _proto.waitForSuccessOrError = function waitForSuccessOrError(txnId, pollInterval) {
+    var _this = this;
+
+    if (!pollInterval) pollInterval = 5000;
+    return Object(poll_js__WEBPACK_IMPORTED_MODULE_11__["pollWrapper"])({
+      request: function request() {
+        return _this.getTransactionStatus(txnId);
+      },
+      pollingPeriod: pollInterval,
+      // ms
+      shouldStop: function shouldStop(txn) {
+        return _this.checkTransactionDone(_this.checkTransactionStatusFromObject(txn));
+      }
+    });
+  }
+  /**
+   * Set the wallet
+   * @param {Wallet} wallet - the wallet
+   */
+  ;
+
+  _proto.setWallet = function setWallet(wallet) {
+    this.wallet = wallet;
+  }
+  /**
+   * Set the API Key to authenticate calls
+   * @param {string} apiKey - the API Key
+   */
+  ;
+
+  _proto.setApiKey = function setApiKey(apiKey) {
+    this.apiKey = apiKey;
+  }
+  /**
+   * Set the API Key to authenticate management calls
+   * @param {string} managementKey - the management API Key
+   */
+  ;
+
+  _proto.setManagementKey = function setManagementKey(managementKey) {
+    this.managementKey = managementKey;
+  }
+  /**
+   * @private
+   * Get API Call auth headers
+   * @returns {{APIKEY: *, "Content-Type": string}}
+   */
+  ;
+
+  _proto.apiAuthHeaders = function apiAuthHeaders() {
+    return {
+      APIKEY: this.apiKey
+    };
+  }
+  /**
+   * @private
+   * Get management API Call auth headers
+   * @returns {{APIKEY: *, "Content-Type": string}}
+   */
+  ;
+
+  _proto.managementAuthHeaders = function managementAuthHeaders() {
+    return {
+      APIKEY: this.managementKey
+    };
+  }
+  /**
+   * @private
+   * Validate the method call against the app metadata
+   * @param {string} methodName - the methods name
+   * @param {Object} parameters - the parameters for the method call
+   * @param {Array} [files] - Optional array of files
+   * @returns {boolean}
+   * @throws {MissingMetadataException} - App Metadata not yet retrieved
+   * @throws {BadMetadataException} - App Metadata doesn't have methods
+   * @throws {MethodCallValidationMetadataException} - Method call fails validation
+   */
+  ;
+
+  _proto.validateCall = function validateCall(methodName, parameters, files) {
+    if (!this.metadata) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* MissingMetadataException */ "f"]("App Metadata not yet retrieved");
+    }
+
+    if (!this.metadata.methods) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* BadMetadataException */ "a"]("App Metadata doesn't have methods!");
+    }
+
+    if (!(methodName in this.metadata.methods)) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* MethodCallValidationMetadataException */ "e"]("Method \"".concat(methodName, "\" not found"));
+    }
+
+    var methodMeta = this.metadata.methods[methodName];
+
+    if (files && !('_files' in methodMeta.parameters)) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* MethodCallValidationMetadataException */ "e"]("Method \"".concat(methodName, "\" does not accept files"));
+    }
+
+    if (parameters['_files']) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* MethodCallValidationMetadataException */ "e"]("Files must not be passed in through the parameters argument");
+    }
+
+    if (files) {
+      for (var i = 0; i < files.length; i++) {
+        if (!(files[i] instanceof Blob) || !(files[i] instanceof File)) {
+          throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* MethodCallValidationMetadataException */ "e"]("Item at position ".concat(i, " of \"files\" is not a Blob or a File"));
+        }
+      }
+    }
+
+    var paramNames = Object.keys(parameters);
+    paramNames.forEach(function (key) {
+      if (!(key in methodMeta.parameters)) {
+        throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* MethodCallValidationMetadataException */ "e"]("Parameter \"".concat(key, "\" is not valid for method \"").concat(methodName, "\""));
+      } //TODO: Type checks
+
+    }); //We expect _files to be missing, as it's passed separately
+
+    var missing = Object.keys(methodMeta.parameters).filter(function (key) {
+      return paramNames.indexOf(key) < 0 && key !== '_files';
+    });
+
+    if (missing.length) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* MethodCallValidationMetadataException */ "e"]("Parameters [".concat(missing.join(','), "] not present for method \"").concat(methodName, "\""));
+    }
+
+    return true;
+  }
+  /**
+   * @private
+   * Validate the transaction list call against the app metadata
+   * @param {string} methodName - the methods name
+   * @param {Object} parameters - the parameters for the query
+   * @returns {boolean}
+   * @throws {MissingMetadataException} - App Metadata not yet retrieved
+   * @throws {BadMetadataException} - App Metadata doesn't have methods
+   * @throws {MethodCallValidationMetadataException} - Method call fails validation
+   */
+  ;
+
+  _proto.validateGetCall = function validateGetCall(methodName, parameters) {
+    if (!this.metadata) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* MissingMetadataException */ "f"]("App Metadata not yet retrieved");
+    }
+
+    if (!this.metadata.methods) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* BadMetadataException */ "a"]("App Metadata doesn't have methods!");
+    }
+
+    if (!(methodName in this.metadata.methods)) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* MethodCallValidationMetadataException */ "e"]("Method \"".concat(methodName, "\" not found"));
+    }
+
+    return true;
+  }
+  /**
+   * @private
+   * Validate the transaction list call against the app metadata
+   * @returns {boolean}
+   * @throws {MissingMetadataException} - App Metadata not yet retrieved
+   * @throws {BadMetadataException} - App Metadata doesn't have methods
+   */
+  ;
+
+  _proto.validateAnyGetCall = function validateAnyGetCall() {
+    if (!this.metadata) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* MissingMetadataException */ "f"]("App Metadata not yet retrieved");
+    }
+
+    if (!this.metadata.methods) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_12__[/* BadMetadataException */ "a"]("App Metadata doesn't have methods!");
+    }
+
+    return true;
+  };
+
+  return SimbaBase;
+}();
+
+
+
+/***/ }),
+/* 70 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9629,7 +11000,7 @@ BasePoint.prototype.dblp = function dblp(k) {
 /* unused harmony export Two */
 /* unused harmony export WeiPerEther */
 /* unused harmony export MaxUint256 */
-/* harmony import */ var _ethersproject_bignumber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
+/* harmony import */ var _ethersproject_bignumber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 
 
 const AddressZero = "0x0000000000000000000000000000000000000000";
@@ -9648,7 +11019,7 @@ const MaxUint256 = _ethersproject_bignumber__WEBPACK_IMPORTED_MODULE_0__[/* BigN
 
 
 /***/ }),
-/* 67 */
+/* 71 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9658,13 +11029,13 @@ __webpack_require__.r(__webpack_exports__);
 var lib_esm = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/strings/lib.esm/index.js + 4 modules
-var strings_lib_esm = __webpack_require__(10);
+var strings_lib_esm = __webpack_require__(11);
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/keccak256/lib.esm/index.js
-var keccak256_lib_esm = __webpack_require__(8);
+var keccak256_lib_esm = __webpack_require__(9);
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/logger/lib.esm/index.js + 1 modules
-var logger_lib_esm = __webpack_require__(3);
+var logger_lib_esm = __webpack_require__(4);
 
 // CONCATENATED MODULE: ./node_modules/@ethersproject/hash/lib.esm/_version.js
 const version = "hash/5.0.0-beta.131";
@@ -9728,16 +11099,22 @@ function hashMessage(message) {
 
 
 /***/ }),
-/* 68 */
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(201);
+
+/***/ }),
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $ = __webpack_require__(7);
-var toLength = __webpack_require__(30);
-var notARegExp = __webpack_require__(99);
-var requireObjectCoercible = __webpack_require__(36);
-var correctIsRegExpLogic = __webpack_require__(101);
+var $ = __webpack_require__(8);
+var toLength = __webpack_require__(31);
+var notARegExp = __webpack_require__(104);
+var requireObjectCoercible = __webpack_require__(37);
+var correctIsRegExpLogic = __webpack_require__(106);
 
 var nativeStartsWith = ''.startsWith;
 var min = Math.min;
@@ -9758,11 +11135,11 @@ $({ target: 'String', proto: true, forced: !correctIsRegExpLogic('startsWith') }
 
 
 /***/ }),
-/* 69 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(9);
-var isObject = __webpack_require__(17);
+var global = __webpack_require__(10);
+var isObject = __webpack_require__(18);
 
 var document = global.document;
 // typeof document.createElement is 'object' in old IE
@@ -9774,11 +11151,11 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 70 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(9);
-var hide = __webpack_require__(23);
+var global = __webpack_require__(10);
+var hide = __webpack_require__(24);
 
 module.exports = function (key, value) {
   try {
@@ -9790,7 +11167,7 @@ module.exports = function (key, value) {
 
 
 /***/ }),
-/* 71 */
+/* 76 */
 /***/ (function(module, exports) {
 
 var id = 0;
@@ -9802,18 +11179,18 @@ module.exports = function (key) {
 
 
 /***/ }),
-/* 72 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(9);
+module.exports = __webpack_require__(10);
 
 
 /***/ }),
-/* 73 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var internalObjectKeys = __webpack_require__(96);
-var enumBugKeys = __webpack_require__(74);
+var internalObjectKeys = __webpack_require__(101);
+var enumBugKeys = __webpack_require__(79);
 
 var hiddenKeys = enumBugKeys.concat('length', 'prototype');
 
@@ -9825,7 +11202,7 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 
 /***/ }),
-/* 74 */
+/* 79 */
 /***/ (function(module, exports) {
 
 // IE8- don't enum bug keys
@@ -9841,17 +11218,17 @@ module.exports = [
 
 
 /***/ }),
-/* 75 */
+/* 80 */
 /***/ (function(module, exports) {
 
 exports.f = Object.getOwnPropertySymbols;
 
 
 /***/ }),
-/* 76 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var classof = __webpack_require__(29);
+var classof = __webpack_require__(30);
 
 // `IsArray` abstract operation
 // https://tc39.github.io/ecma262/#sec-isarray
@@ -9861,14 +11238,14 @@ module.exports = Array.isArray || function isArray(arg) {
 
 
 /***/ }),
-/* 77 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var toPrimitive = __webpack_require__(53);
-var definePropertyModule = __webpack_require__(26);
-var createPropertyDescriptor = __webpack_require__(40);
+var toPrimitive = __webpack_require__(54);
+var definePropertyModule = __webpack_require__(27);
+var createPropertyDescriptor = __webpack_require__(41);
 
 module.exports = function (object, key, value) {
   var propertyKey = toPrimitive(key);
@@ -9878,14 +11255,14 @@ module.exports = function (object, key, value) {
 
 
 /***/ }),
-/* 78 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var bind = __webpack_require__(44);
-var IndexedObject = __webpack_require__(52);
-var toObject = __webpack_require__(31);
-var toLength = __webpack_require__(30);
-var arraySpeciesCreate = __webpack_require__(102);
+var bind = __webpack_require__(45);
+var IndexedObject = __webpack_require__(53);
+var toObject = __webpack_require__(32);
+var toLength = __webpack_require__(31);
+var arraySpeciesCreate = __webpack_require__(107);
 
 var push = [].push;
 
@@ -9949,12 +11326,12 @@ module.exports = {
 
 
 /***/ }),
-/* 79 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var fails = __webpack_require__(11);
+var fails = __webpack_require__(12);
 
 module.exports = function (METHOD_NAME, argument) {
   var method = [][METHOD_NAME];
@@ -9966,14 +11343,14 @@ module.exports = function (METHOD_NAME, argument) {
 
 
 /***/ }),
-/* 80 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $ = __webpack_require__(7);
-var $indexOf = __webpack_require__(97).indexOf;
-var sloppyArrayMethod = __webpack_require__(79);
+var $ = __webpack_require__(8);
+var $indexOf = __webpack_require__(102).indexOf;
+var sloppyArrayMethod = __webpack_require__(84);
 
 var nativeIndexOf = [].indexOf;
 
@@ -9993,16 +11370,16 @@ $({ target: 'Array', proto: true, forced: NEGATIVE_ZERO || SLOPPY_METHOD }, {
 
 
 /***/ }),
-/* 81 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(15);
-var defineProperties = __webpack_require__(82);
-var enumBugKeys = __webpack_require__(74);
-var hiddenKeys = __webpack_require__(55);
-var html = __webpack_require__(108);
-var documentCreateElement = __webpack_require__(69);
-var sharedKey = __webpack_require__(54);
+var anObject = __webpack_require__(16);
+var defineProperties = __webpack_require__(87);
+var enumBugKeys = __webpack_require__(79);
+var hiddenKeys = __webpack_require__(56);
+var html = __webpack_require__(113);
+var documentCreateElement = __webpack_require__(74);
+var sharedKey = __webpack_require__(55);
 var IE_PROTO = sharedKey('IE_PROTO');
 
 var PROTOTYPE = 'prototype';
@@ -10048,13 +11425,13 @@ hiddenKeys[IE_PROTO] = true;
 
 
 /***/ }),
-/* 82 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var DESCRIPTORS = __webpack_require__(14);
-var definePropertyModule = __webpack_require__(26);
-var anObject = __webpack_require__(15);
-var objectKeys = __webpack_require__(45);
+var DESCRIPTORS = __webpack_require__(15);
+var definePropertyModule = __webpack_require__(27);
+var anObject = __webpack_require__(16);
+var objectKeys = __webpack_require__(46);
 
 // `Object.defineProperties` method
 // https://tc39.github.io/ecma262/#sec-object.defineproperties
@@ -10070,14 +11447,14 @@ module.exports = DESCRIPTORS ? Object.defineProperties : function defineProperti
 
 
 /***/ }),
-/* 83 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var charAt = __webpack_require__(84).charAt;
-var InternalStateModule = __webpack_require__(33);
-var defineIterator = __webpack_require__(109);
+var charAt = __webpack_require__(89).charAt;
+var InternalStateModule = __webpack_require__(34);
+var defineIterator = __webpack_require__(114);
 
 var STRING_ITERATOR = 'String Iterator';
 var setInternalState = InternalStateModule.set;
@@ -10106,11 +11483,11 @@ defineIterator(String, 'String', function (iterated) {
 
 
 /***/ }),
-/* 84 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(57);
-var requireObjectCoercible = __webpack_require__(36);
+var toInteger = __webpack_require__(58);
+var requireObjectCoercible = __webpack_require__(37);
 
 // `String.prototype.{ codePointAt, at }` methods implementation
 var createMethod = function (CONVERT_TO_STRING) {
@@ -10139,7 +11516,7 @@ module.exports = {
 
 
 /***/ }),
-/* 85 */
+/* 90 */
 /***/ (function(module, exports) {
 
 module.exports = function (it, Constructor, name) {
@@ -10150,37 +11527,37 @@ module.exports = function (it, Constructor, name) {
 
 
 /***/ }),
-/* 86 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $ = __webpack_require__(7);
-var IS_PURE = __webpack_require__(37);
-var global = __webpack_require__(9);
-var path = __webpack_require__(72);
-var NativePromise = __webpack_require__(184);
-var redefine = __webpack_require__(24);
-var redefineAll = __webpack_require__(120);
-var setToStringTag = __webpack_require__(38);
-var setSpecies = __webpack_require__(185);
-var isObject = __webpack_require__(17);
-var aFunction = __webpack_require__(58);
-var anInstance = __webpack_require__(85);
-var classof = __webpack_require__(29);
-var iterate = __webpack_require__(186);
-var checkCorrectnessOfIteration = __webpack_require__(187);
-var speciesConstructor = __webpack_require__(188);
-var task = __webpack_require__(122).set;
-var microtask = __webpack_require__(189);
-var promiseResolve = __webpack_require__(190);
-var hostReportErrors = __webpack_require__(191);
-var newPromiseCapabilityModule = __webpack_require__(124);
-var perform = __webpack_require__(192);
-var userAgent = __webpack_require__(123);
-var InternalStateModule = __webpack_require__(33);
-var isForced = __webpack_require__(98);
-var wellKnownSymbol = __webpack_require__(6);
+var $ = __webpack_require__(8);
+var IS_PURE = __webpack_require__(38);
+var global = __webpack_require__(10);
+var path = __webpack_require__(77);
+var NativePromise = __webpack_require__(188);
+var redefine = __webpack_require__(25);
+var redefineAll = __webpack_require__(125);
+var setToStringTag = __webpack_require__(39);
+var setSpecies = __webpack_require__(189);
+var isObject = __webpack_require__(18);
+var aFunction = __webpack_require__(59);
+var anInstance = __webpack_require__(90);
+var classof = __webpack_require__(30);
+var iterate = __webpack_require__(190);
+var checkCorrectnessOfIteration = __webpack_require__(191);
+var speciesConstructor = __webpack_require__(192);
+var task = __webpack_require__(128).set;
+var microtask = __webpack_require__(193);
+var promiseResolve = __webpack_require__(194);
+var hostReportErrors = __webpack_require__(195);
+var newPromiseCapabilityModule = __webpack_require__(130);
+var perform = __webpack_require__(196);
+var userAgent = __webpack_require__(129);
+var InternalStateModule = __webpack_require__(34);
+var isForced = __webpack_require__(103);
+var wellKnownSymbol = __webpack_require__(7);
 
 var SPECIES = wellKnownSymbol('species');
 var PROMISE = 'Promise';
@@ -10528,202 +11905,12 @@ $({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION }, {
 
 
 /***/ }),
-/* 87 */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-/* 88 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var regexpFlags = __webpack_require__(125);
+var regexpFlags = __webpack_require__(131);
 
 var nativeExec = RegExp.prototype.exec;
 // This always refers to the native implementation, because the
@@ -10779,7 +11966,7 @@ module.exports = patchedExec;
 
 
 /***/ }),
-/* 89 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10787,9 +11974,9 @@ module.exports = patchedExec;
 
 var curves = exports;
 
-var hash = __webpack_require__(90);
-var curve = __webpack_require__(141);
-var utils = __webpack_require__(20);
+var hash = __webpack_require__(94);
+var curve = __webpack_require__(146);
+var utils = __webpack_require__(21);
 
 var assert = utils.assert;
 
@@ -10953,7 +12140,7 @@ defineCurve('ed25519', {
 
 var pre;
 try {
-  pre = __webpack_require__(237);
+  pre = __webpack_require__(241);
 } catch (e) {
   pre = undefined;
 }
@@ -10992,16 +12179,16 @@ defineCurve('secp256k1', {
 
 
 /***/ }),
-/* 90 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var hash = exports;
 
-hash.utils = __webpack_require__(28);
-hash.common = __webpack_require__(49);
-hash.sha = __webpack_require__(231);
-hash.ripemd = __webpack_require__(235);
-hash.hmac = __webpack_require__(236);
+hash.utils = __webpack_require__(29);
+hash.common = __webpack_require__(50);
+hash.sha = __webpack_require__(235);
+hash.ripemd = __webpack_require__(239);
+hash.hmac = __webpack_require__(240);
 
 // Proxy hash functions to the main object
 hash.sha1 = hash.sha.sha1;
@@ -11013,7 +12200,191 @@ hash.ripemd160 = hash.ripemd.ripemd160;
 
 
 /***/ }),
-/* 91 */
+/* 95 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PagedResponse; });
+/* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(63);
+/* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(64);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(88);
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(119);
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_web_url__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(120);
+/* harmony import */ var core_js_modules_web_url__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_url__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(3);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(43);
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(5);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_7__);
+
+
+
+
+
+
+
+
+
+/**
+ * Wrapper for paged responses
+ */
+var PagedResponse =
+/*#__PURE__*/
+function () {
+  /**
+   * Wrapper for paged responses
+   * @param {Object} data - The response
+   * @param {URL} url - The URL that provided the response
+   * @param {SimbaBase} simba - The SimbaBase instance that requested the response
+   */
+  function PagedResponse(data, url, simba) {
+    this.url = new URL(url);
+    this._count = data.count;
+    this._next_page = data.next;
+    this._previous_page = data.previous;
+    this.results = data.results;
+    this.simba = simba;
+  }
+  /**
+   * Grab the next page
+   * @returns {Promise<PagedResponse> | null} - Null if there's no next page
+   */
+
+
+  var _proto = PagedResponse.prototype;
+
+  _proto.next =
+  /*#__PURE__*/
+  function () {
+    var _next = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_7___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (this._next_page) {
+                _context.next = 2;
+                break;
+              }
+
+              return _context.abrupt("return", null);
+
+            case 2:
+              return _context.abrupt("return", this.simba.sendTransactionRequest(new URL(this._next_page)));
+
+            case 3:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    }));
+
+    function next() {
+      return _next.apply(this, arguments);
+    }
+
+    return next;
+  }()
+  /**
+   * Grab the previous page
+   * @returns {Promise<PagedResponse> | null} - Null if there's no next page
+   */
+  ;
+
+  _proto.previous =
+  /*#__PURE__*/
+  function () {
+    var _previous = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_7___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5___default.a.mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_5___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              if (this._previous_page) {
+                _context2.next = 2;
+                break;
+              }
+
+              return _context2.abrupt("return", null);
+
+            case 2:
+              return _context2.abrupt("return", this.simba.sendTransactionRequest(new URL(this._previous_page)));
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    }));
+
+    function previous() {
+      return _previous.apply(this, arguments);
+    }
+
+    return previous;
+  }()
+  /**
+   * Returns the actual data
+   * @returns {Object}
+   */
+  ;
+
+  _proto.data = function data() {
+    return this.results;
+  }
+  /**
+   * Returns the result count
+   * @returns {number}
+   */
+  ;
+
+  _proto.count = function count() {
+    return this._count;
+  }
+  /**
+   * Returns the current page number
+   * @returns {number}
+   */
+  ;
+
+  _proto.current_page = function current_page() {
+    return this.url.searchParams.get('page');
+  }
+  /**
+   * Returns the next page number
+   * @returns {number}
+   */
+  ;
+
+  _proto.next_page = function next_page() {
+    return this._next_page;
+  }
+  /**
+   * Returns the previous page number
+   * @returns {number}
+   */
+  ;
+
+  _proto.previous_page = function previous_page() {
+    return this._previous_page;
+  };
+
+  return PagedResponse;
+}();
+
+
+
+/***/ }),
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11021,15 +12392,15 @@ hash.ripemd160 = hash.ripemd.ripemd160;
 Object.defineProperty(exports, "__esModule", { value: true });
 // Wordlists
 // See: https://github.com/bitcoin/bips/blob/master/bip-0039/bip-0039-wordlists.md
-var wordlist_1 = __webpack_require__(145);
+var wordlist_1 = __webpack_require__(150);
 exports.Wordlist = wordlist_1.Wordlist;
-var lang_en_1 = __webpack_require__(246);
+var lang_en_1 = __webpack_require__(250);
 var wordlists = { en: lang_en_1.langEn };
 exports.wordlists = wordlists;
 
 
 /***/ }),
-/* 92 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11476,15 +12847,15 @@ exports.wordlists = wordlists;
 
 })(this);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(249).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(253).setImmediate))
 
 /***/ }),
-/* 93 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var DESCRIPTORS = __webpack_require__(14);
-var fails = __webpack_require__(11);
-var createElement = __webpack_require__(69);
+var DESCRIPTORS = __webpack_require__(15);
+var fails = __webpack_require__(12);
+var createElement = __webpack_require__(74);
 
 // Thank's IE8 for his funny defineProperty
 module.exports = !DESCRIPTORS && !fails(function () {
@@ -11495,22 +12866,22 @@ module.exports = !DESCRIPTORS && !fails(function () {
 
 
 /***/ }),
-/* 94 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var shared = __webpack_require__(41);
+var shared = __webpack_require__(42);
 
 module.exports = shared('native-function-to-string', Function.toString);
 
 
 /***/ }),
-/* 95 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getBuiltIn = __webpack_require__(56);
-var getOwnPropertyNamesModule = __webpack_require__(73);
-var getOwnPropertySymbolsModule = __webpack_require__(75);
-var anObject = __webpack_require__(15);
+var getBuiltIn = __webpack_require__(57);
+var getOwnPropertyNamesModule = __webpack_require__(78);
+var getOwnPropertySymbolsModule = __webpack_require__(80);
+var anObject = __webpack_require__(16);
 
 // all object keys, includes non-enumerable and symbols
 module.exports = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
@@ -11521,13 +12892,13 @@ module.exports = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
 
 
 /***/ }),
-/* 96 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var has = __webpack_require__(18);
-var toIndexedObject = __webpack_require__(25);
-var indexOf = __webpack_require__(97).indexOf;
-var hiddenKeys = __webpack_require__(55);
+var has = __webpack_require__(19);
+var toIndexedObject = __webpack_require__(26);
+var indexOf = __webpack_require__(102).indexOf;
+var hiddenKeys = __webpack_require__(56);
 
 module.exports = function (object, names) {
   var O = toIndexedObject(object);
@@ -11544,12 +12915,12 @@ module.exports = function (object, names) {
 
 
 /***/ }),
-/* 97 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toIndexedObject = __webpack_require__(25);
-var toLength = __webpack_require__(30);
-var toAbsoluteIndex = __webpack_require__(156);
+var toIndexedObject = __webpack_require__(26);
+var toLength = __webpack_require__(31);
+var toAbsoluteIndex = __webpack_require__(160);
 
 // `Array.prototype.{ indexOf, includes }` methods implementation
 var createMethod = function (IS_INCLUDES) {
@@ -11582,10 +12953,10 @@ module.exports = {
 
 
 /***/ }),
-/* 98 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var fails = __webpack_require__(11);
+var fails = __webpack_require__(12);
 
 var replacement = /#|\.prototype\./;
 
@@ -11609,10 +12980,10 @@ module.exports = isForced;
 
 
 /***/ }),
-/* 99 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isRegExp = __webpack_require__(157);
+var isRegExp = __webpack_require__(161);
 
 module.exports = function (it) {
   if (isRegExp(it)) {
@@ -11622,10 +12993,10 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 100 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var fails = __webpack_require__(11);
+var fails = __webpack_require__(12);
 
 module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
   // Chrome 38 Symbol has incorrect toString conversion
@@ -11635,10 +13006,10 @@ module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
 
 
 /***/ }),
-/* 101 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var wellKnownSymbol = __webpack_require__(6);
+var wellKnownSymbol = __webpack_require__(7);
 
 var MATCH = wellKnownSymbol('match');
 
@@ -11656,12 +13027,12 @@ module.exports = function (METHOD_NAME) {
 
 
 /***/ }),
-/* 102 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(17);
-var isArray = __webpack_require__(76);
-var wellKnownSymbol = __webpack_require__(6);
+var isObject = __webpack_require__(18);
+var isArray = __webpack_require__(81);
+var wellKnownSymbol = __webpack_require__(7);
 
 var SPECIES = wellKnownSymbol('species');
 
@@ -11682,11 +13053,11 @@ module.exports = function (originalArray, length) {
 
 
 /***/ }),
-/* 103 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var fails = __webpack_require__(11);
-var wellKnownSymbol = __webpack_require__(6);
+var fails = __webpack_require__(12);
+var wellKnownSymbol = __webpack_require__(7);
 
 var SPECIES = wellKnownSymbol('species');
 
@@ -11703,14 +13074,14 @@ module.exports = function (METHOD_NAME) {
 
 
 /***/ }),
-/* 104 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $ = __webpack_require__(7);
-var $filter = __webpack_require__(78).filter;
-var arrayMethodHasSpeciesSupport = __webpack_require__(103);
+var $ = __webpack_require__(8);
+var $filter = __webpack_require__(83).filter;
+var arrayMethodHasSpeciesSupport = __webpack_require__(108);
 
 // `Array.prototype.filter` method
 // https://tc39.github.io/ecma262/#sec-array.prototype.filter
@@ -11723,13 +13094,13 @@ $({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('filter'
 
 
 /***/ }),
-/* 105 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $forEach = __webpack_require__(78).forEach;
-var sloppyArrayMethod = __webpack_require__(79);
+var $forEach = __webpack_require__(83).forEach;
+var sloppyArrayMethod = __webpack_require__(84);
 
 // `Array.prototype.forEach` method implementation
 // https://tc39.github.io/ecma262/#sec-array.prototype.foreach
@@ -11739,7 +13110,7 @@ module.exports = sloppyArrayMethod('forEach') ? function forEach(callbackfn /* ,
 
 
 /***/ }),
-/* 106 */
+/* 111 */
 /***/ (function(module, exports) {
 
 // iterable DOM collections
@@ -11780,7 +13151,7 @@ module.exports = {
 
 
 /***/ }),
-/* 107 */
+/* 112 */
 /***/ (function(module, exports) {
 
 function _setPrototypeOf(o, p) {
@@ -11795,31 +13166,31 @@ function _setPrototypeOf(o, p) {
 module.exports = _setPrototypeOf;
 
 /***/ }),
-/* 108 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getBuiltIn = __webpack_require__(56);
+var getBuiltIn = __webpack_require__(57);
 
 module.exports = getBuiltIn('document', 'documentElement');
 
 
 /***/ }),
-/* 109 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $ = __webpack_require__(7);
-var createIteratorConstructor = __webpack_require__(110);
-var getPrototypeOf = __webpack_require__(112);
-var setPrototypeOf = __webpack_require__(166);
-var setToStringTag = __webpack_require__(38);
-var hide = __webpack_require__(23);
-var redefine = __webpack_require__(24);
-var wellKnownSymbol = __webpack_require__(6);
-var IS_PURE = __webpack_require__(37);
-var Iterators = __webpack_require__(46);
-var IteratorsCore = __webpack_require__(111);
+var $ = __webpack_require__(8);
+var createIteratorConstructor = __webpack_require__(115);
+var getPrototypeOf = __webpack_require__(117);
+var setPrototypeOf = __webpack_require__(170);
+var setToStringTag = __webpack_require__(39);
+var hide = __webpack_require__(24);
+var redefine = __webpack_require__(25);
+var wellKnownSymbol = __webpack_require__(7);
+var IS_PURE = __webpack_require__(38);
+var Iterators = __webpack_require__(47);
+var IteratorsCore = __webpack_require__(116);
 
 var IteratorPrototype = IteratorsCore.IteratorPrototype;
 var BUGGY_SAFARI_ITERATORS = IteratorsCore.BUGGY_SAFARI_ITERATORS;
@@ -11901,16 +13272,16 @@ module.exports = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, I
 
 
 /***/ }),
-/* 110 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var IteratorPrototype = __webpack_require__(111).IteratorPrototype;
-var create = __webpack_require__(81);
-var createPropertyDescriptor = __webpack_require__(40);
-var setToStringTag = __webpack_require__(38);
-var Iterators = __webpack_require__(46);
+var IteratorPrototype = __webpack_require__(116).IteratorPrototype;
+var create = __webpack_require__(86);
+var createPropertyDescriptor = __webpack_require__(41);
+var setToStringTag = __webpack_require__(39);
+var Iterators = __webpack_require__(47);
 
 var returnThis = function () { return this; };
 
@@ -11924,16 +13295,16 @@ module.exports = function (IteratorConstructor, NAME, next) {
 
 
 /***/ }),
-/* 111 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var getPrototypeOf = __webpack_require__(112);
-var hide = __webpack_require__(23);
-var has = __webpack_require__(18);
-var wellKnownSymbol = __webpack_require__(6);
-var IS_PURE = __webpack_require__(37);
+var getPrototypeOf = __webpack_require__(117);
+var hide = __webpack_require__(24);
+var has = __webpack_require__(19);
+var wellKnownSymbol = __webpack_require__(7);
+var IS_PURE = __webpack_require__(38);
 
 var ITERATOR = wellKnownSymbol('iterator');
 var BUGGY_SAFARI_ITERATORS = false;
@@ -11966,13 +13337,13 @@ module.exports = {
 
 
 /***/ }),
-/* 112 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var has = __webpack_require__(18);
-var toObject = __webpack_require__(31);
-var sharedKey = __webpack_require__(54);
-var CORRECT_PROTOTYPE_GETTER = __webpack_require__(165);
+var has = __webpack_require__(19);
+var toObject = __webpack_require__(32);
+var sharedKey = __webpack_require__(55);
+var CORRECT_PROTOTYPE_GETTER = __webpack_require__(169);
 
 var IE_PROTO = sharedKey('IE_PROTO');
 var ObjectPrototype = Object.prototype;
@@ -11989,11 +13360,11 @@ module.exports = CORRECT_PROTOTYPE_GETTER ? Object.getPrototypeOf : function (O)
 
 
 /***/ }),
-/* 113 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var classofRaw = __webpack_require__(29);
-var wellKnownSymbol = __webpack_require__(6);
+var classofRaw = __webpack_require__(30);
+var wellKnownSymbol = __webpack_require__(7);
 
 var TO_STRING_TAG = wellKnownSymbol('toStringTag');
 // ES3 wrong here
@@ -12020,14 +13391,14 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 114 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(9);
-var DOMIterables = __webpack_require__(106);
-var ArrayIteratorMethods = __webpack_require__(62);
-var hide = __webpack_require__(23);
-var wellKnownSymbol = __webpack_require__(6);
+var global = __webpack_require__(10);
+var DOMIterables = __webpack_require__(111);
+var ArrayIteratorMethods = __webpack_require__(63);
+var hide = __webpack_require__(24);
+var wellKnownSymbol = __webpack_require__(7);
 
 var ITERATOR = wellKnownSymbol('iterator');
 var TO_STRING_TAG = wellKnownSymbol('toStringTag');
@@ -12057,28 +13428,28 @@ for (var COLLECTION_NAME in DOMIterables) {
 
 
 /***/ }),
-/* 115 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // TODO: in core-js@4, move /modules/ dependencies to public entries for better optimization by tools like `preset-env`
-__webpack_require__(83);
-var $ = __webpack_require__(7);
-var DESCRIPTORS = __webpack_require__(14);
-var USE_NATIVE_URL = __webpack_require__(116);
-var global = __webpack_require__(9);
-var defineProperties = __webpack_require__(82);
-var redefine = __webpack_require__(24);
-var anInstance = __webpack_require__(85);
-var has = __webpack_require__(18);
-var assign = __webpack_require__(117);
-var arrayFrom = __webpack_require__(169);
-var codeAt = __webpack_require__(84).codeAt;
-var toASCII = __webpack_require__(170);
-var setToStringTag = __webpack_require__(38);
-var URLSearchParamsModule = __webpack_require__(171);
-var InternalStateModule = __webpack_require__(33);
+__webpack_require__(88);
+var $ = __webpack_require__(8);
+var DESCRIPTORS = __webpack_require__(15);
+var USE_NATIVE_URL = __webpack_require__(121);
+var global = __webpack_require__(10);
+var defineProperties = __webpack_require__(87);
+var redefine = __webpack_require__(25);
+var anInstance = __webpack_require__(90);
+var has = __webpack_require__(19);
+var assign = __webpack_require__(122);
+var arrayFrom = __webpack_require__(173);
+var codeAt = __webpack_require__(89).codeAt;
+var toASCII = __webpack_require__(174);
+var setToStringTag = __webpack_require__(39);
+var URLSearchParamsModule = __webpack_require__(175);
+var InternalStateModule = __webpack_require__(34);
 
 var NativeURL = global.URL;
 var URLSearchParams = URLSearchParamsModule.URLSearchParams;
@@ -13072,12 +14443,12 @@ $({ global: true, forced: !USE_NATIVE_URL, sham: !DESCRIPTORS }, {
 
 
 /***/ }),
-/* 116 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var fails = __webpack_require__(11);
-var wellKnownSymbol = __webpack_require__(6);
-var IS_PURE = __webpack_require__(37);
+var fails = __webpack_require__(12);
+var wellKnownSymbol = __webpack_require__(7);
+var IS_PURE = __webpack_require__(38);
 
 var ITERATOR = wellKnownSymbol('iterator');
 
@@ -13102,18 +14473,18 @@ module.exports = !fails(function () {
 
 
 /***/ }),
-/* 117 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var DESCRIPTORS = __webpack_require__(14);
-var fails = __webpack_require__(11);
-var objectKeys = __webpack_require__(45);
-var getOwnPropertySymbolsModule = __webpack_require__(75);
-var propertyIsEnumerableModule = __webpack_require__(51);
-var toObject = __webpack_require__(31);
-var IndexedObject = __webpack_require__(52);
+var DESCRIPTORS = __webpack_require__(15);
+var fails = __webpack_require__(12);
+var objectKeys = __webpack_require__(46);
+var getOwnPropertySymbolsModule = __webpack_require__(80);
+var propertyIsEnumerableModule = __webpack_require__(52);
+var toObject = __webpack_require__(32);
+var IndexedObject = __webpack_require__(53);
 
 var nativeAssign = Object.assign;
 
@@ -13150,10 +14521,10 @@ module.exports = !nativeAssign || fails(function () {
 
 
 /***/ }),
-/* 118 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(15);
+var anObject = __webpack_require__(16);
 
 // call something on iterator step with safe closing on error
 module.exports = function (iterator, fn, value, ENTRIES) {
@@ -13169,11 +14540,11 @@ module.exports = function (iterator, fn, value, ENTRIES) {
 
 
 /***/ }),
-/* 119 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var wellKnownSymbol = __webpack_require__(6);
-var Iterators = __webpack_require__(46);
+var wellKnownSymbol = __webpack_require__(7);
+var Iterators = __webpack_require__(47);
 
 var ITERATOR = wellKnownSymbol('iterator');
 var ArrayPrototype = Array.prototype;
@@ -13185,10 +14556,10 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 120 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var redefine = __webpack_require__(24);
+var redefine = __webpack_require__(25);
 
 module.exports = function (target, src, options) {
   for (var key in src) redefine(target, key, src[key], options);
@@ -13197,22 +14568,1173 @@ module.exports = function (target, src, options) {
 
 
 /***/ }),
-/* 121 */
+/* 126 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Simbachain; });
+/* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(177);
+/* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(44);
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(109);
+/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(60);
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(63);
+/* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(180);
+/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var core_js_modules_es_object_assign__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(181);
+/* harmony import */ var core_js_modules_es_object_assign__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_assign__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(182);
+/* harmony import */ var core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(183);
+/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(184);
+/* harmony import */ var core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(186);
+/* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(187);
+/* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(61);
+/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(64);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(91);
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(197);
+/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(88);
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(62);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(119);
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_18__);
+/* harmony import */ var core_js_modules_web_url__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(120);
+/* harmony import */ var core_js_modules_web_url__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_url__WEBPACK_IMPORTED_MODULE_19__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(154);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_20__);
+/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(51);
+/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_21___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_21__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(3);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22__);
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(43);
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_23__);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(5);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24__);
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(6);
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_25___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_25__);
+/* harmony import */ var _simbabase__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(69);
+/* harmony import */ var _exceptions__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(1);
+/* harmony import */ var _pagedresponse__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(95);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(72);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_29___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_29__);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_20___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+
+
+
+
+
+if (typeof XMLHttpRequest !== 'undefined') {
+  // For browsers use XHR adapter
+  axios__WEBPACK_IMPORTED_MODULE_29___default.a.defaults.adapter = __webpack_require__(67);
+} else if (typeof process !== 'undefined') {
+  // For node use HTTP adapter
+  axios__WEBPACK_IMPORTED_MODULE_29___default.a.defaults.adapter = __webpack_require__(67);
+}
+
+var request = axios__WEBPACK_IMPORTED_MODULE_29___default.a.request;
+/**
+ * libsimba API Interaction for Simbachain.com
+ */
+
+var Simbachain =
+/*#__PURE__*/
+function (_SimbaBase) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_25___default()(Simbachain, _SimbaBase);
+
+  /**
+   * libsimba API Interaction for Simbachain.com
+   * @param {string} endpoint - The endpoint of the API
+   * @param {Wallet} [wallet] - an optional {@link Wallet} instance
+   */
+  function Simbachain(endpoint, wallet) {
+    return _SimbaBase.call(this, endpoint, wallet) || this;
+  }
+  /**
+   * @private
+   * Perform asynchronous actions needed to initialise this class
+   */
+
+
+  var _proto = Simbachain.prototype;
+
+  _proto.initialize =
+  /*#__PURE__*/
+  function () {
+    var _initialize = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.mark(function _callee() {
+      var response, swagger;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return request({
+                url: "".concat(this.endpoint, "?format=openapi"),
+                responseType: 'json'
+              });
+
+            case 2:
+              response = _context.sent;
+              swagger = response.data;
+
+              if ('info' in swagger && 'x-simba-attrs' in swagger.info) {
+                this.metadata = swagger.info['x-simba-attrs'];
+              }
+
+            case 5:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    }));
+
+    function initialize() {
+      return _initialize.apply(this, arguments);
+    }
+
+    return initialize;
+  }()
+  /**
+   * @override
+   * Call a method on the API
+   * @param {string} method - the method to call
+   * @param {Object} parameters - the parameters for the method
+   * @return {Promise} - a promise resolving with the transaction details
+   */
+  ;
+
+  _proto.callMethod =
+  /*#__PURE__*/
+  function () {
+    var _callMethod = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.mark(function _callee2(method, parameters) {
+      var formData, address, _i, _Object$entries, _Object$entries$_i, key, value;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              if (this.wallet) {
+                _context2.next = 2;
+                break;
+              }
+
+              throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* WalletNotFoundException */ "p"]("No Wallet found");
+
+            case 2:
+              this.validateCall(method, parameters);
+              formData = new FormData();
+              _context2.next = 6;
+              return this.wallet.getAddress();
+
+            case 6:
+              address = _context2.sent;
+              formData.append('from', address);
+
+              for (_i = 0, _Object$entries = Object.entries(parameters); _i < _Object$entries.length; _i++) {
+                _Object$entries$_i = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_21___default()(_Object$entries[_i], 2), key = _Object$entries$_i[0], value = _Object$entries$_i[1];
+                formData.append(key, value);
+              }
+
+              return _context2.abrupt("return", this.sendMethodRequest(method, formData));
+
+            case 10:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    }));
+
+    function callMethod(_x, _x2) {
+      return _callMethod.apply(this, arguments);
+    }
+
+    return callMethod;
+  }()
+  /**
+   * @override
+   * Get the status of a transaction by ID
+   * @param {string} txnId - the transaction ID
+   * @return {Promise<Object>} - a promise resolving with the transaction details
+   */
+  ;
+
+  _proto.getTransactionStatus = function getTransactionStatus(txnId) {
+    return request({
+      url: "".concat(this.endpoint, "transaction/").concat(txnId, "/"),
+      method: 'GET',
+      headers: this.apiAuthHeaders(),
+      responseType: 'json'
+    }).then(
+    /*#__PURE__*/
+    function () {
+      var _ref = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default()(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.mark(function _callee3(response) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                return _context3.abrupt("return", response.data);
+
+              case 1:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      return function (_x3) {
+        return _ref.apply(this, arguments);
+      };
+    }()).catch(function (error) {
+      throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* TransactionStatusCheckException */ "m"](JSON.stringify(error.response.data));
+    });
+  }
+  /**
+   * @override
+   * @private
+   * Gets the status of a transaction
+   * @param {Object} txn - a transaction object
+   * @return {Object} - an object with status details
+   */
+  ;
+
+  _proto.checkTransactionStatusFromObject = function checkTransactionStatusFromObject(txn) {
+    var ret = {
+      status: '',
+      transaction_hash: ''
+    };
+
+    if (txn.transaction_hash) {
+      ret.transaction_hash = txn.transaction_hash;
+    }
+
+    if (txn.error) {
+      ret.status = 'error';
+      ret.error = txn.error;
+      ret.error_details = txn.error_details;
+    } else if (!txn.receipt) {
+      ret.status = 'pending';
+    } else {
+      ret.status = 'success';
+    }
+
+    return ret;
+  }
+  /**
+   * @override
+   * @private
+   * Check if the transaction is complete
+   * @param {Object} txn - the transaction object
+   * @return {boolean} - is the transaction complete
+   */
+  ;
+
+  _proto.checkTransactionDone = function checkTransactionDone(txn) {
+    return txn.status !== 'pending';
+  }
+  /**
+   * @override
+   * @private
+   * Gets the status of a transaction by ID
+   * @param {string} txnId - a transaction ID
+   * @return {Object} - an object with status details
+   */
+  ;
+
+  _proto.checkTransactionStatus = function checkTransactionStatus(txnId) {
+    return this.getTransactionStatus(txnId).then(this.checkTransactionStatusFromObject);
+  }
+  /**
+   * @override
+   * Get the balance for the attached Wallet
+   * @return {Promise<Object>} - the balance
+   */
+  ;
+
+  _proto.getBalance =
+  /*#__PURE__*/
+  function () {
+    var _getBalance = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.mark(function _callee4() {
+      var address, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              if (this.metadata) {
+                _context4.next = 2;
+                break;
+              }
+
+              throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* MissingMetadataException */ "f"]("App Metadata not yet retrieved");
+
+            case 2:
+              if (this.wallet) {
+                _context4.next = 4;
+                break;
+              }
+
+              throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* WalletNotFoundException */ "p"]("No Wallet found");
+
+            case 4:
+              if (!this.metadata.poa) {
+                _context4.next = 6;
+                break;
+              }
+
+              return _context4.abrupt("return", Promise.resolve({
+                amount: -1,
+                currency: "",
+                poa: true
+              }));
+
+            case 6:
+              _context4.next = 8;
+              return this.wallet.getAddress();
+
+            case 8:
+              address = _context4.sent;
+              _context4.next = 11;
+              return request({
+                url: "".concat(this.endpoint, "balance/").concat(address, "/"),
+                method: 'GET',
+                headers: Object.assign({
+                  'Content-Type': 'application/json'
+                }, this.apiAuthHeaders()),
+                responseType: 'json'
+              }).catch(function (error) {
+                throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* GetRequestException */ "c"](JSON.stringify(error.response.data));
+              });
+
+            case 11:
+              response = _context4.sent;
+              return _context4.abrupt("return", Promise.resolve(_objectSpread({}, response.data, {
+                poa: false
+              })));
+
+            case 13:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4, this);
+    }));
+
+    function getBalance() {
+      return _getBalance.apply(this, arguments);
+    }
+
+    return getBalance;
+  }()
+  /**
+   * @override
+   * Add funds to the attached Wallet.
+   * Please check the output of this method. It is of the form
+   * ```
+   * {
+   *     txnId: null,
+   *     faucet_url: null,
+   *     poa: true
+   * }
+   * ```
+   *
+   * If successful, txnId will be populated.
+   * If the network is PoA, then poa will be true, and txnId will be null
+   * If the faucet for the network is external (e.g. Rinkeby, Ropsten, etc), then txnId will be null,
+   * and faucet_url will be populated with a URL. You should present this URL to your users to direct them
+   * to request funds there.
+   * @return {Promise<Object>} - details of the txn
+   */
+  ;
+
+  _proto.addFunds =
+  /*#__PURE__*/
+  function () {
+    var _addFunds = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.mark(function _callee5() {
+      var address, requestData, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              if (this.metadata) {
+                _context5.next = 2;
+                break;
+              }
+
+              throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* MissingMetadataException */ "f"]("App Metadata not yet retrieved");
+
+            case 2:
+              if (this.wallet) {
+                _context5.next = 4;
+                break;
+              }
+
+              throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* WalletNotFoundException */ "p"]("No Wallet found");
+
+            case 4:
+              _context5.next = 6;
+              return this.wallet.getAddress();
+
+            case 6:
+              address = _context5.sent;
+
+              if (!this.metadata.poa) {
+                _context5.next = 9;
+                break;
+              }
+
+              return _context5.abrupt("return", Promise.resolve({
+                txnId: null,
+                poa: true,
+                faucet_url: null
+              }));
+
+            case 9:
+              if (this.metadata.simba_faucet) {
+                _context5.next = 11;
+                break;
+              }
+
+              return _context5.abrupt("return", Promise.resolve({
+                txnId: null,
+                poa: false,
+                faucet_url: this.metadata.faucet
+              }));
+
+            case 11:
+              requestData = {
+                account: address,
+                value: "1",
+                currency: "ether"
+              };
+              _context5.next = 14;
+              return request({
+                url: "".concat(this.endpoint, "balance/").concat(address, "/"),
+                method: 'POST',
+                headers: Object.assign({
+                  'Content-Type': 'application/json'
+                }, this.apiAuthHeaders()),
+                data: requestData,
+                responseType: 'json'
+              }).catch(function (error) {
+                throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* PostRequestException */ "i"](JSON.stringify(error.response.data));
+              });
+
+            case 14:
+              response = _context5.sent;
+              return _context5.abrupt("return", Promise.resolve(_objectSpread({}, response.data, {
+                poa: false,
+                faucet_url: null
+              })));
+
+            case 16:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5, this);
+    }));
+
+    function addFunds() {
+      return _addFunds.apply(this, arguments);
+    }
+
+    return addFunds;
+  }()
+  /**
+   * @override
+   * Call a method on the API with files
+   * @param {string} method - the method to call
+   * @param {Object} parameters- the parameters for the method
+   * @param {Array<Blob|File>} files - the files
+   * @return {Promise<Object>} - a promise resolving with the transaction details
+   */
+  ;
+
+  _proto.callMethodWithFile =
+  /*#__PURE__*/
+  function () {
+    var _callMethodWithFile = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.mark(function _callee6(method, parameters, files) {
+      var formData, address, _i2, _Object$entries2, _Object$entries2$_i, key, value, i;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              if (this.wallet) {
+                _context6.next = 2;
+                break;
+              }
+
+              throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* WalletNotFoundException */ "p"]("No Wallet found");
+
+            case 2:
+              this.validateCall(method, parameters, files);
+              formData = new FormData();
+              _context6.next = 6;
+              return this.wallet.getAddress();
+
+            case 6:
+              address = _context6.sent;
+              formData.append('from', address);
+
+              for (_i2 = 0, _Object$entries2 = Object.entries(parameters); _i2 < _Object$entries2.length; _i2++) {
+                _Object$entries2$_i = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_21___default()(_Object$entries2[_i2], 2), key = _Object$entries2$_i[0], value = _Object$entries2$_i[1];
+                formData.append(key, value);
+              }
+
+              for (i = 0; i < files.length; i++) {
+                formData.append("file[".concat(i, "]"), files[i]);
+              }
+
+              return _context6.abrupt("return", this.sendMethodRequest(method, formData));
+
+            case 11:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6, this);
+    }));
+
+    function callMethodWithFile(_x4, _x5, _x6) {
+      return _callMethodWithFile.apply(this, arguments);
+    }
+
+    return callMethodWithFile;
+  }()
+  /**
+   * @private
+   * Internal method for submitting method calls and retrying on nonce errors
+   * @param {string} txnId - the txnId
+   * @param {string} signed - The signed txn
+   * @returns {Promise<Response>} - The response with transaction data
+   */
+  ;
+
+  _proto.submitTxn =
+  /*#__PURE__*/
+  function () {
+    var _submitTxn = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.mark(function _callee7(txnId, payload, maxTries, currentTry) {
+      var _this = this;
+
+      var signed;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              if (!maxTries) maxTries = 5;
+              if (!currentTry) currentTry = 0;
+
+              if (!(currentTry > maxTries)) {
+                _context7.next = 4;
+                break;
+              }
+
+              throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* RetriesExceededException */ "j"]();
+
+            case 4:
+              _context7.next = 6;
+              return this.wallet.sign(payload);
+
+            case 6:
+              signed = _context7.sent;
+              return _context7.abrupt("return", request({
+                url: "".concat(this.endpoint, "transaction/").concat(txnId, "/"),
+                method: 'POST',
+                headers: Object.assign({
+                  'Content-Type': 'application/json'
+                }, this.apiAuthHeaders()),
+                data: {
+                  payload: signed
+                },
+                responseType: 'json'
+              }).then(function (response) {
+                // tslint:disable-next-line: no-console
+                console.log('Success!', response.data);
+                return txnId;
+              }).catch(function (ex) {
+                var body = ex.response.data;
+
+                if (body.errors && body.errors.length) {
+                  var error = body.errors[0];
+
+                  if (error.detail && error.detail.code) {
+                    var code = error.detail.code; //Nonce Error
+
+                    if (code === "15001" && error.detail.meta && error.detail.meta.suggested_nonce) {
+                      console.log("Nonce Too Low, trying again with suggested nonce " + error.detail.meta.suggested_nonce);
+                      payload.nonce = error.detail.meta.suggested_nonce;
+                      return _this.submitTxn(txnId, payload, maxTries, currentTry++);
+                    }
+                  }
+                }
+
+                throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* SubmitTransactionException */ "l"](JSON.stringify(body));
+              }));
+
+            case 8:
+            case "end":
+              return _context7.stop();
+          }
+        }
+      }, _callee7, this);
+    }));
+
+    function submitTxn(_x7, _x8, _x9, _x10) {
+      return _submitTxn.apply(this, arguments);
+    }
+
+    return submitTxn;
+  }()
+  /**
+   * @private
+   * Internal method for sending method calls
+   * @param {string} url - the url
+   * @param {FormData} formdata - Formdata for the POST
+   * @returns {Promise<Response>} - The response with transaction data
+   */
+  ;
+
+  _proto.sendMethodRequest =
+  /*#__PURE__*/
+  function () {
+    var _sendMethodRequest = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.mark(function _callee8(method, formdata) {
+      var _this2 = this;
+
+      var txnId, payload;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.wrap(function _callee8$(_context8) {
+        while (1) {
+          switch (_context8.prev = _context8.next) {
+            case 0:
+              txnId = null;
+              return _context8.abrupt("return", request({
+                url: "".concat(this.endpoint).concat(method, "/"),
+                method: 'POST',
+                headers: this.apiAuthHeaders(),
+                data: formdata,
+                responseType: 'json'
+              }).then(function (response) {
+                // tslint:disable-next-line: no-unsafe-any
+                txnId = response.data.id; // tslint:disable-next-line: no-unsafe-any
+
+                payload = response.data.payload.raw;
+                return _this2.submitTxn(txnId, payload);
+              }).catch(function (ex) {
+                throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* GenerateTransactionException */ "b"](JSON.stringify(ex.response.data));
+              }));
+
+            case 2:
+            case "end":
+              return _context8.stop();
+          }
+        }
+      }, _callee8, this);
+    }));
+
+    function sendMethodRequest(_x11, _x12) {
+      return _sendMethodRequest.apply(this, arguments);
+    }
+
+    return sendMethodRequest;
+  }()
+  /**
+   * @override
+   * Gets a specific transaction
+   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+   * @returns {Promise<Object>} - The transaction
+   */
+  ;
+
+  _proto.getTransaction =
+  /*#__PURE__*/
+  function () {
+    var _getTransaction = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.mark(function _callee9(transactionIdOrHash) {
+      var url, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.wrap(function _callee9$(_context9) {
+        while (1) {
+          switch (_context9.prev = _context9.next) {
+            case 0:
+              this.validateAnyGetCall();
+              url = new URL("".concat(this.endpoint, "transaction/").concat(transactionIdOrHash, "/"));
+              _context9.next = 4;
+              return request({
+                url: url,
+                method: 'GET',
+                headers: this.apiAuthHeaders(),
+                responseType: 'json'
+              }).catch(function (ex) {
+                throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* GetTransactionsException */ "d"](ex.response.data);
+              });
+
+            case 4:
+              response = _context9.sent;
+              return _context9.abrupt("return", response.data);
+
+            case 6:
+            case "end":
+              return _context9.stop();
+          }
+        }
+      }, _callee9, this);
+    }));
+
+    function getTransaction(_x13) {
+      return _getTransaction.apply(this, arguments);
+    }
+
+    return getTransaction;
+  }()
+  /**
+   * @override
+   * Gets a paged list of transactions
+   * @param {Object} parameters - The query parameters
+   * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
+   */
+  ;
+
+  _proto.getTransactions =
+  /*#__PURE__*/
+  function () {
+    var _getTransactions = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.mark(function _callee10(parameters) {
+      var url, _i3, _Object$entries3, _Object$entries3$_i, key, value;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.wrap(function _callee10$(_context10) {
+        while (1) {
+          switch (_context10.prev = _context10.next) {
+            case 0:
+              this.validateAnyGetCall();
+              url = new URL("".concat(this.endpoint, "transaction/"));
+
+              for (_i3 = 0, _Object$entries3 = Object.entries(parameters); _i3 < _Object$entries3.length; _i3++) {
+                _Object$entries3$_i = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_21___default()(_Object$entries3[_i3], 2), key = _Object$entries3$_i[0], value = _Object$entries3$_i[1];
+                url.searchParams.set(key, value);
+              }
+
+              return _context10.abrupt("return", this.sendTransactionRequest(url.toString()));
+
+            case 4:
+            case "end":
+              return _context10.stop();
+          }
+        }
+      }, _callee10, this);
+    }));
+
+    function getTransactions(_x14) {
+      return _getTransactions.apply(this, arguments);
+    }
+
+    return getTransactions;
+  }()
+  /**
+   * @override
+   * Gets a paged list of transactions for the method
+   * @param {string} method - The method
+   * @param {Object} parameters - The query parameters
+   * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
+   */
+  ;
+
+  _proto.getMethodTransactions =
+  /*#__PURE__*/
+  function () {
+    var _getMethodTransactions = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.mark(function _callee11(method, parameters) {
+      var url, _i4, _Object$entries4, _Object$entries4$_i, key, value;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.wrap(function _callee11$(_context11) {
+        while (1) {
+          switch (_context11.prev = _context11.next) {
+            case 0:
+              this.validateGetCall(method, parameters);
+              url = new URL("".concat(this.endpoint).concat(method, "/"));
+
+              for (_i4 = 0, _Object$entries4 = Object.entries(parameters); _i4 < _Object$entries4.length; _i4++) {
+                _Object$entries4$_i = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_21___default()(_Object$entries4[_i4], 2), key = _Object$entries4$_i[0], value = _Object$entries4$_i[1];
+                url.searchParams.set(key, value);
+              }
+
+              return _context11.abrupt("return", this.sendTransactionRequest(url.toString()));
+
+            case 4:
+            case "end":
+              return _context11.stop();
+          }
+        }
+      }, _callee11, this);
+    }));
+
+    function getMethodTransactions(_x15, _x16) {
+      return _getMethodTransactions.apply(this, arguments);
+    }
+
+    return getMethodTransactions;
+  }()
+  /**
+   * @protected
+   * @override
+   * Internal function for sending transaction GET requests
+   * @param {URL} url - The URL
+   * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
+   */
+  ;
+
+  _proto.sendTransactionRequest =
+  /*#__PURE__*/
+  function () {
+    var _sendTransactionRequest = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.mark(function _callee12(url) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.wrap(function _callee12$(_context12) {
+        while (1) {
+          switch (_context12.prev = _context12.next) {
+            case 0:
+              _context12.next = 2;
+              return request({
+                url: url,
+                method: 'GET',
+                headers: this.apiAuthHeaders(),
+                responseType: 'json'
+              }).catch(function (ex) {
+                throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* GetTransactionsException */ "d"](ex.response.data);
+              });
+
+            case 2:
+              response = _context12.sent;
+              return _context12.abrupt("return", new _pagedresponse__WEBPACK_IMPORTED_MODULE_28__[/* default */ "a"](response.data, url, this));
+
+            case 4:
+            case "end":
+              return _context12.stop();
+          }
+        }
+      }, _callee12, this);
+    }));
+
+    function sendTransactionRequest(_x17) {
+      return _sendTransactionRequest.apply(this, arguments);
+    }
+
+    return sendTransactionRequest;
+  }()
+  /**
+   * @override
+   * Gets a the bundle metadata for a transaction
+   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+   * @returns {Promise<Object>} - The bundle metadata
+   */
+  ;
+
+  _proto.getBundleMetadataForTransaction =
+  /*#__PURE__*/
+  function () {
+    var _getBundleMetadataForTransaction = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.mark(function _callee13(transactionIdOrHash) {
+      var url, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.wrap(function _callee13$(_context13) {
+        while (1) {
+          switch (_context13.prev = _context13.next) {
+            case 0:
+              url = new URL("".concat(this.endpoint, "transaction/").concat(transactionIdOrHash, "/bundle/"));
+              url.searchParams.append('no_files', true);
+              _context13.next = 4;
+              return request({
+                url: url,
+                method: 'GET',
+                headers: this.apiAuthHeaders(),
+                json: true
+              }).catch(function (ex) {
+                throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* GetRequestException */ "c"](ex.response.data);
+              });
+
+            case 4:
+              response = _context13.sent;
+              return _context13.abrupt("return", response.data);
+
+            case 6:
+            case "end":
+              return _context13.stop();
+          }
+        }
+      }, _callee13, this);
+    }));
+
+    function getBundleMetadataForTransaction(_x18) {
+      return _getBundleMetadataForTransaction.apply(this, arguments);
+    }
+
+    return getBundleMetadataForTransaction;
+  }()
+  /**
+   * @override
+   * Gets the bundle for a transaction
+   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+   * @returns {Promise<ReadableStream|Blob>} - The bundle
+   */
+  ;
+
+  _proto.getBundleForTransaction =
+  /*#__PURE__*/
+  function () {
+    var _getBundleForTransaction = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.mark(function _callee14(transactionIdOrHash) {
+      var url, responseType, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.wrap(function _callee14$(_context14) {
+        while (1) {
+          switch (_context14.prev = _context14.next) {
+            case 0:
+              url = new URL("".concat(this.endpoint, "transaction/").concat(transactionIdOrHash, "/bundle_raw/"));
+              responseType = 'arraybuffer';
+
+              if (typeof window !== 'undefined') {
+                //in a browser
+                responseType = 'blob';
+              }
+
+              _context14.next = 5;
+              return request({
+                url: url,
+                method: 'GET',
+                headers: this.apiAuthHeaders(),
+                responseType: responseType
+              }).catch(function (ex) {
+                throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* GetRequestException */ "c"](ex.response.data);
+              });
+
+            case 5:
+              response = _context14.sent;
+              return _context14.abrupt("return", response.data);
+
+            case 7:
+            case "end":
+              return _context14.stop();
+          }
+        }
+      }, _callee14, this);
+    }));
+
+    function getBundleForTransaction(_x19) {
+      return _getBundleForTransaction.apply(this, arguments);
+    }
+
+    return getBundleForTransaction;
+  }()
+  /**
+   * @override
+   * Gets a file from the bundle for a transaction
+   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+   * @param {number} fileIdx - The index of the file in the bundle metadata
+   * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
+   * @returns {Promise<ReadableStream|Blob>} - The file
+   */
+  ;
+
+  _proto.getFileFromBundleForTransaction =
+  /*#__PURE__*/
+  function () {
+    var _getFileFromBundleForTransaction = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.mark(function _callee15(transactionIdOrHash, fileIdx, stream) {
+      var url, responseType, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.wrap(function _callee15$(_context15) {
+        while (1) {
+          switch (_context15.prev = _context15.next) {
+            case 0:
+              url = new URL("".concat(this.endpoint, "transaction/").concat(transactionIdOrHash, "/file/").concat(fileIdx, "/"));
+              responseType = 'arraybuffer';
+
+              if (typeof window !== 'undefined') {
+                //in a browser
+                responseType = 'blob';
+              }
+
+              if (stream) {
+                responseType = 'stream';
+              }
+
+              _context15.next = 6;
+              return request({
+                url: url,
+                method: 'GET',
+                headers: this.apiAuthHeaders(),
+                responseType: responseType
+              }).catch(function (ex) {
+                throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* GetRequestException */ "c"](ex.response.data);
+              });
+
+            case 6:
+              response = _context15.sent;
+              console.log(response);
+              return _context15.abrupt("return", response.data);
+
+            case 9:
+            case "end":
+              return _context15.stop();
+          }
+        }
+      }, _callee15, this);
+    }));
+
+    function getFileFromBundleForTransaction(_x20, _x21, _x22) {
+      return _getFileFromBundleForTransaction.apply(this, arguments);
+    }
+
+    return getFileFromBundleForTransaction;
+  }()
+  /**
+   * @override
+   * Gets a file from the bundle for a transaction
+   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
+   * @param {string} fileName - The name of the file in the bundle metadata
+   * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
+   * @returns {Promise<ReadableStream|Blob>} - The file
+   */
+  ;
+
+  _proto.getFileFromBundleByNameForTransaction =
+  /*#__PURE__*/
+  function () {
+    var _getFileFromBundleByNameForTransaction = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_24___default()(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.mark(function _callee16(transactionIdOrHash, fileName, stream) {
+      var url, responseType, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_22___default.a.wrap(function _callee16$(_context16) {
+        while (1) {
+          switch (_context16.prev = _context16.next) {
+            case 0:
+              url = new URL("".concat(this.endpoint, "transaction/").concat(transactionIdOrHash, "/fileByName/").concat(fileName, "/"));
+              responseType = 'arraybuffer';
+
+              if (typeof window !== 'undefined') {
+                //in a browser
+                responseType = 'blob';
+              }
+
+              if (stream) {
+                responseType = 'stream';
+              }
+
+              _context16.next = 6;
+              return request({
+                url: url,
+                method: 'GET',
+                headers: this.apiAuthHeaders(),
+                responseType: responseType
+              }).catch(function (ex) {
+                throw new _exceptions__WEBPACK_IMPORTED_MODULE_27__[/* GetRequestException */ "c"](ex.response.data);
+              });
+
+            case 6:
+              response = _context16.sent;
+              console.log(response);
+              return _context16.abrupt("return", response.data);
+
+            case 9:
+            case "end":
+              return _context16.stop();
+          }
+        }
+      }, _callee16, this);
+    }));
+
+    function getFileFromBundleByNameForTransaction(_x23, _x24, _x25) {
+      return _getFileFromBundleByNameForTransaction.apply(this, arguments);
+    }
+
+    return getFileFromBundleByNameForTransaction;
+  }();
+
+  return Simbachain;
+}(_simbabase__WEBPACK_IMPORTED_MODULE_26__[/* default */ "a"]);
+
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(66)))
+
+/***/ }),
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.f = __webpack_require__(6);
+exports.f = __webpack_require__(7);
 
 
 /***/ }),
-/* 122 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(9);
-var fails = __webpack_require__(11);
-var classof = __webpack_require__(29);
-var bind = __webpack_require__(44);
-var html = __webpack_require__(108);
-var createElement = __webpack_require__(69);
+var global = __webpack_require__(10);
+var fails = __webpack_require__(12);
+var classof = __webpack_require__(30);
+var bind = __webpack_require__(45);
+var html = __webpack_require__(113);
+var createElement = __webpack_require__(74);
 
 var location = global.location;
 var set = global.setImmediate;
@@ -13309,21 +15831,21 @@ module.exports = {
 
 
 /***/ }),
-/* 123 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getBuiltIn = __webpack_require__(56);
+var getBuiltIn = __webpack_require__(57);
 
 module.exports = getBuiltIn('navigator', 'userAgent') || '';
 
 
 /***/ }),
-/* 124 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var aFunction = __webpack_require__(58);
+var aFunction = __webpack_require__(59);
 
 var PromiseCapability = function (C) {
   var resolve, reject;
@@ -13343,12 +15865,12 @@ module.exports.f = function (C) {
 
 
 /***/ }),
-/* 125 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var anObject = __webpack_require__(15);
+var anObject = __webpack_require__(16);
 
 // `RegExp.prototype.flags` getter implementation
 // https://tc39.github.io/ecma262/#sec-get-regexp.prototype.flags
@@ -13366,7 +15888,7 @@ module.exports = function () {
 
 
 /***/ }),
-/* 126 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13384,13 +15906,13 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 127 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(16);
+var utils = __webpack_require__(17);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -13462,7 +15984,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 128 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13474,14 +15996,14 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 129 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(16);
-var normalizeHeaderName = __webpack_require__(203);
+var utils = __webpack_require__(17);
+var normalizeHeaderName = __webpack_require__(207);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -13498,10 +16020,10 @@ function getDefaultAdapter() {
   // Only Node.JS has a process variable that is of [[Class]] process
   if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(130);
+    adapter = __webpack_require__(67);
   } else if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(130);
+    adapter = __webpack_require__(67);
   }
   return adapter;
 }
@@ -13577,197 +16099,16 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(87)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(66)))
 
 /***/ }),
-/* 130 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(16);
-var settle = __webpack_require__(204);
-var buildURL = __webpack_require__(127);
-var parseHeaders = __webpack_require__(206);
-var isURLSameOrigin = __webpack_require__(207);
-var createError = __webpack_require__(131);
-
-module.exports = function xhrAdapter(config) {
-  return new Promise(function dispatchXhrRequest(resolve, reject) {
-    var requestData = config.data;
-    var requestHeaders = config.headers;
-
-    if (utils.isFormData(requestData)) {
-      delete requestHeaders['Content-Type']; // Let the browser set it
-    }
-
-    var request = new XMLHttpRequest();
-
-    // HTTP basic authentication
-    if (config.auth) {
-      var username = config.auth.username || '';
-      var password = config.auth.password || '';
-      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
-    }
-
-    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
-
-    // Set the request timeout in MS
-    request.timeout = config.timeout;
-
-    // Listen for ready state
-    request.onreadystatechange = function handleLoad() {
-      if (!request || request.readyState !== 4) {
-        return;
-      }
-
-      // The request errored out and we didn't get a response, this will be
-      // handled by onerror instead
-      // With one exception: request that using file: protocol, most browsers
-      // will return status as 0 even though it's a successful request
-      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
-        return;
-      }
-
-      // Prepare the response
-      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
-      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
-      var response = {
-        data: responseData,
-        status: request.status,
-        statusText: request.statusText,
-        headers: responseHeaders,
-        config: config,
-        request: request
-      };
-
-      settle(resolve, reject, response);
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle browser request cancellation (as opposed to a manual cancellation)
-    request.onabort = function handleAbort() {
-      if (!request) {
-        return;
-      }
-
-      reject(createError('Request aborted', config, 'ECONNABORTED', request));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle low level network errors
-    request.onerror = function handleError() {
-      // Real errors are hidden from us by the browser
-      // onerror should only fire if it's a network error
-      reject(createError('Network Error', config, null, request));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle timeout
-    request.ontimeout = function handleTimeout() {
-      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
-        request));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Add xsrf header
-    // This is only done if running in a standard browser environment.
-    // Specifically not if we're in a web worker, or react-native.
-    if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(208);
-
-      // Add xsrf header
-      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-        cookies.read(config.xsrfCookieName) :
-        undefined;
-
-      if (xsrfValue) {
-        requestHeaders[config.xsrfHeaderName] = xsrfValue;
-      }
-    }
-
-    // Add headers to the request
-    if ('setRequestHeader' in request) {
-      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
-        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
-          // Remove Content-Type if data is undefined
-          delete requestHeaders[key];
-        } else {
-          // Otherwise add header to the request
-          request.setRequestHeader(key, val);
-        }
-      });
-    }
-
-    // Add withCredentials to request if needed
-    if (config.withCredentials) {
-      request.withCredentials = true;
-    }
-
-    // Add responseType to request if needed
-    if (config.responseType) {
-      try {
-        request.responseType = config.responseType;
-      } catch (e) {
-        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
-        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
-        if (config.responseType !== 'json') {
-          throw e;
-        }
-      }
-    }
-
-    // Handle progress if needed
-    if (typeof config.onDownloadProgress === 'function') {
-      request.addEventListener('progress', config.onDownloadProgress);
-    }
-
-    // Not all browsers support upload events
-    if (typeof config.onUploadProgress === 'function' && request.upload) {
-      request.upload.addEventListener('progress', config.onUploadProgress);
-    }
-
-    if (config.cancelToken) {
-      // Handle cancellation
-      config.cancelToken.promise.then(function onCanceled(cancel) {
-        if (!request) {
-          return;
-        }
-
-        request.abort();
-        reject(cancel);
-        // Clean up request
-        request = null;
-      });
-    }
-
-    if (requestData === undefined) {
-      requestData = null;
-    }
-
-    // Send the request
-    request.send(requestData);
-  });
-};
-
-
-/***/ }),
-/* 131 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var enhanceError = __webpack_require__(205);
+var enhanceError = __webpack_require__(209);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -13786,13 +16127,13 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 132 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(16);
+var utils = __webpack_require__(17);
 
 /**
  * Config-specific merge-function which creates a new config-object
@@ -13844,7 +16185,7 @@ module.exports = function mergeConfig(config1, config2) {
 
 
 /***/ }),
-/* 133 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13870,13 +16211,13 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 134 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $ = __webpack_require__(7);
-var exec = __webpack_require__(88);
+var $ = __webpack_require__(8);
+var exec = __webpack_require__(92);
 
 $({ target: 'RegExp', proto: true, forced: /./.exec !== exec }, {
   exec: exec
@@ -13884,19 +16225,19 @@ $({ target: 'RegExp', proto: true, forced: /./.exec !== exec }, {
 
 
 /***/ }),
-/* 135 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var fixRegExpWellKnownSymbolLogic = __webpack_require__(213);
-var anObject = __webpack_require__(15);
-var toObject = __webpack_require__(31);
-var toLength = __webpack_require__(30);
-var toInteger = __webpack_require__(57);
-var requireObjectCoercible = __webpack_require__(36);
-var advanceStringIndex = __webpack_require__(214);
-var regExpExec = __webpack_require__(215);
+var fixRegExpWellKnownSymbolLogic = __webpack_require__(217);
+var anObject = __webpack_require__(16);
+var toObject = __webpack_require__(32);
+var toLength = __webpack_require__(31);
+var toInteger = __webpack_require__(58);
+var requireObjectCoercible = __webpack_require__(37);
+var advanceStringIndex = __webpack_require__(218);
+var regExpExec = __webpack_require__(219);
 
 var max = Math.max;
 var min = Math.min;
@@ -14017,13 +16358,13 @@ fixRegExpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, ma
 
 
 /***/ }),
-/* 136 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(27);
+var utils = __webpack_require__(28);
 var rotr32 = utils.rotr32;
 
 function ft_1(s, x, y, z) {
@@ -14073,16 +16414,16 @@ exports.g1_256 = g1_256;
 
 
 /***/ }),
-/* 137 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(27);
-var common = __webpack_require__(48);
-var shaCommon = __webpack_require__(136);
-var assert = __webpack_require__(19);
+var utils = __webpack_require__(28);
+var common = __webpack_require__(49);
+var shaCommon = __webpack_require__(141);
+var assert = __webpack_require__(20);
 
 var sum32 = utils.sum32;
 var sum32_4 = utils.sum32_4;
@@ -14185,15 +16526,15 @@ SHA256.prototype._digest = function digest(enc) {
 
 
 /***/ }),
-/* 138 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(27);
-var common = __webpack_require__(48);
-var assert = __webpack_require__(19);
+var utils = __webpack_require__(28);
+var common = __webpack_require__(49);
+var assert = __webpack_require__(20);
 
 var rotr64_hi = utils.rotr64_hi;
 var rotr64_lo = utils.rotr64_lo;
@@ -14522,7 +16863,7 @@ function g1_512_lo(xh, xl) {
 
 
 /***/ }),
-/* 139 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14587,7 +16928,7 @@ utils.encode = function encode(arr, enc) {
 
 
 /***/ }),
-/* 140 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var r;
@@ -14645,7 +16986,7 @@ if (typeof self === 'object') {
 } else {
   // Node.js or Web worker with no crypto support
   try {
-    var crypto = __webpack_require__(227);
+    var crypto = __webpack_require__(231);
     if (typeof crypto.randomBytes !== 'function')
       throw new Error('Not supported');
 
@@ -14658,7 +16999,7 @@ if (typeof self === 'object') {
 
 
 /***/ }),
-/* 141 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14666,20 +17007,20 @@ if (typeof self === 'object') {
 
 var curve = exports;
 
-curve.base = __webpack_require__(65);
-curve.short = __webpack_require__(228);
-curve.mont = __webpack_require__(229);
-curve.edwards = __webpack_require__(230);
+curve.base = __webpack_require__(68);
+curve.short = __webpack_require__(232);
+curve.mont = __webpack_require__(233);
+curve.edwards = __webpack_require__(234);
 
 
 /***/ }),
-/* 142 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(28);
+var utils = __webpack_require__(29);
 var rotr32 = utils.rotr32;
 
 function ft_1(s, x, y, z) {
@@ -14729,16 +17070,16 @@ exports.g1_256 = g1_256;
 
 
 /***/ }),
-/* 143 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(28);
-var common = __webpack_require__(49);
-var shaCommon = __webpack_require__(142);
-var assert = __webpack_require__(19);
+var utils = __webpack_require__(29);
+var common = __webpack_require__(50);
+var shaCommon = __webpack_require__(147);
+var assert = __webpack_require__(20);
 
 var sum32 = utils.sum32;
 var sum32_4 = utils.sum32_4;
@@ -14841,15 +17182,15 @@ SHA256.prototype._digest = function digest(enc) {
 
 
 /***/ }),
-/* 144 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(28);
-var common = __webpack_require__(49);
-var assert = __webpack_require__(19);
+var utils = __webpack_require__(29);
+var common = __webpack_require__(50);
+var assert = __webpack_require__(20);
 
 var rotr64_hi = utils.rotr64_hi;
 var rotr64_lo = utils.rotr64_lo;
@@ -15178,7 +17519,7 @@ function g1_512_lo(xh, xl) {
 
 
 /***/ }),
-/* 145 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15186,10 +17527,10 @@ function g1_512_lo(xh, xl) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // This gets overriddenby gulp during bip39-XX
 var exportWordlist = false;
-var hash_1 = __webpack_require__(67);
-var properties_1 = __webpack_require__(1);
-var logger_1 = __webpack_require__(3);
-var _version_1 = __webpack_require__(245);
+var hash_1 = __webpack_require__(71);
+var properties_1 = __webpack_require__(2);
+var logger_1 = __webpack_require__(4);
+var _version_1 = __webpack_require__(249);
 var logger = new logger_1.Logger(_version_1.version);
 function check(wordlist) {
     var words = [];
@@ -15241,10 +17582,10 @@ function register(lang, name) {
 }
 exports.register = register;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(32)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(33)))
 
 /***/ }),
-/* 146 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15288,7 +17629,7 @@ var pollWrapper = exports.pollWrapper = function pollWrapper(_ref) {
 exports.default = pollWrapper;
 
 /***/ }),
-/* 147 */
+/* 152 */
 /***/ (function(module, exports) {
 
 function _assertThisInitialized(self) {
@@ -15302,16 +17643,16 @@ function _assertThisInitialized(self) {
 module.exports = _assertThisInitialized;
 
 /***/ }),
-/* 148 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getPrototypeOf = __webpack_require__(161);
+var getPrototypeOf = __webpack_require__(165);
 
-var setPrototypeOf = __webpack_require__(107);
+var setPrototypeOf = __webpack_require__(112);
 
-var isNativeFunction = __webpack_require__(162);
+var isNativeFunction = __webpack_require__(166);
 
-var construct = __webpack_require__(163);
+var construct = __webpack_require__(167);
 
 function _wrapNativeSuper(Class) {
   var _cache = typeof Map === "function" ? new Map() : undefined;
@@ -15350,7 +17691,7 @@ function _wrapNativeSuper(Class) {
 module.exports = _wrapNativeSuper;
 
 /***/ }),
-/* 149 */
+/* 154 */
 /***/ (function(module, exports) {
 
 function _defineProperty(obj, key, value) {
@@ -15371,13 +17712,7 @@ function _defineProperty(obj, key, value) {
 module.exports = _defineProperty;
 
 /***/ }),
-/* 150 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(197);
-
-/***/ }),
-/* 151 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process, global) {/**
@@ -15856,10 +18191,10 @@ module.exports = __webpack_require__(197);
   }
 })();
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(87), __webpack_require__(32)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(66), __webpack_require__(33)))
 
 /***/ }),
-/* 152 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15867,19 +18202,19 @@ module.exports = __webpack_require__(197);
 
 var elliptic = exports;
 
-elliptic.version = __webpack_require__(226).version;
-elliptic.utils = __webpack_require__(20);
-elliptic.rand = __webpack_require__(140);
-elliptic.curve = __webpack_require__(141);
-elliptic.curves = __webpack_require__(89);
+elliptic.version = __webpack_require__(230).version;
+elliptic.utils = __webpack_require__(21);
+elliptic.rand = __webpack_require__(145);
+elliptic.curve = __webpack_require__(146);
+elliptic.curves = __webpack_require__(93);
 
 // Protocols
-elliptic.ec = __webpack_require__(238);
-elliptic.eddsa = __webpack_require__(242);
+elliptic.ec = __webpack_require__(242);
+elliptic.eddsa = __webpack_require__(246);
 
 
 /***/ }),
-/* 153 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //     uuid.js
@@ -15890,7 +18225,7 @@ elliptic.eddsa = __webpack_require__(242);
 // Unique ID creation requires a high quality random # generator.  We feature
 // detect to determine the best RNG source, normalizing to a function that
 // returns 128-bits of randomness, since that's what's usually required
-var _rng = __webpack_require__(251);
+var _rng = __webpack_require__(255);
 
 // Maps for number <-> hex string conversion
 var _byteToHex = [];
@@ -16068,11 +18403,11 @@ module.exports = uuid;
 
 
 /***/ }),
-/* 154 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(9);
-var nativeFunctionToString = __webpack_require__(94);
+var global = __webpack_require__(10);
+var nativeFunctionToString = __webpack_require__(99);
 
 var WeakMap = global.WeakMap;
 
@@ -16080,13 +18415,13 @@ module.exports = typeof WeakMap === 'function' && /native code/.test(nativeFunct
 
 
 /***/ }),
-/* 155 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var has = __webpack_require__(18);
-var ownKeys = __webpack_require__(95);
-var getOwnPropertyDescriptorModule = __webpack_require__(35);
-var definePropertyModule = __webpack_require__(26);
+var has = __webpack_require__(19);
+var ownKeys = __webpack_require__(100);
+var getOwnPropertyDescriptorModule = __webpack_require__(36);
+var definePropertyModule = __webpack_require__(27);
 
 module.exports = function (target, source) {
   var keys = ownKeys(source);
@@ -16100,10 +18435,10 @@ module.exports = function (target, source) {
 
 
 /***/ }),
-/* 156 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(57);
+var toInteger = __webpack_require__(58);
 
 var max = Math.max;
 var min = Math.min;
@@ -16118,12 +18453,12 @@ module.exports = function (index, length) {
 
 
 /***/ }),
-/* 157 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(17);
-var classof = __webpack_require__(29);
-var wellKnownSymbol = __webpack_require__(6);
+var isObject = __webpack_require__(18);
+var classof = __webpack_require__(30);
+var wellKnownSymbol = __webpack_require__(7);
 
 var MATCH = wellKnownSymbol('match');
 
@@ -16136,15 +18471,15 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 158 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $ = __webpack_require__(7);
-var IndexedObject = __webpack_require__(52);
-var toIndexedObject = __webpack_require__(25);
-var sloppyArrayMethod = __webpack_require__(79);
+var $ = __webpack_require__(8);
+var IndexedObject = __webpack_require__(53);
+var toIndexedObject = __webpack_require__(26);
+var sloppyArrayMethod = __webpack_require__(84);
 
 var nativeJoin = [].join;
 
@@ -16161,16 +18496,16 @@ $({ target: 'Array', proto: true, forced: ES3_STRINGS || SLOPPY_METHOD }, {
 
 
 /***/ }),
-/* 159 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $ = __webpack_require__(7);
-var toLength = __webpack_require__(30);
-var notARegExp = __webpack_require__(99);
-var requireObjectCoercible = __webpack_require__(36);
-var correctIsRegExpLogic = __webpack_require__(101);
+var $ = __webpack_require__(8);
+var toLength = __webpack_require__(31);
+var notARegExp = __webpack_require__(104);
+var requireObjectCoercible = __webpack_require__(37);
+var correctIsRegExpLogic = __webpack_require__(106);
 
 var nativeEndsWith = ''.endsWith;
 var min = Math.min;
@@ -16193,11 +18528,11 @@ $({ target: 'String', proto: true, forced: !correctIsRegExpLogic('endsWith') }, 
 
 
 /***/ }),
-/* 160 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var DESCRIPTORS = __webpack_require__(14);
-var defineProperty = __webpack_require__(26).f;
+var DESCRIPTORS = __webpack_require__(15);
+var defineProperty = __webpack_require__(27).f;
 
 var FunctionPrototype = Function.prototype;
 var FunctionPrototypeToString = FunctionPrototype.toString;
@@ -16221,7 +18556,7 @@ if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
 
 
 /***/ }),
-/* 161 */
+/* 165 */
 /***/ (function(module, exports) {
 
 function _getPrototypeOf(o) {
@@ -16234,7 +18569,7 @@ function _getPrototypeOf(o) {
 module.exports = _getPrototypeOf;
 
 /***/ }),
-/* 162 */
+/* 166 */
 /***/ (function(module, exports) {
 
 function _isNativeFunction(fn) {
@@ -16244,10 +18579,10 @@ function _isNativeFunction(fn) {
 module.exports = _isNativeFunction;
 
 /***/ }),
-/* 163 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var setPrototypeOf = __webpack_require__(107);
+var setPrototypeOf = __webpack_require__(112);
 
 function isNativeReflectConstruct() {
   if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -16282,12 +18617,12 @@ function _construct(Parent, args, Class) {
 module.exports = _construct;
 
 /***/ }),
-/* 164 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var wellKnownSymbol = __webpack_require__(6);
-var create = __webpack_require__(81);
-var hide = __webpack_require__(23);
+var wellKnownSymbol = __webpack_require__(7);
+var create = __webpack_require__(86);
+var hide = __webpack_require__(24);
 
 var UNSCOPABLES = wellKnownSymbol('unscopables');
 var ArrayPrototype = Array.prototype;
@@ -16305,10 +18640,10 @@ module.exports = function (key) {
 
 
 /***/ }),
-/* 165 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var fails = __webpack_require__(11);
+var fails = __webpack_require__(12);
 
 module.exports = !fails(function () {
   function F() { /* empty */ }
@@ -16318,11 +18653,11 @@ module.exports = !fails(function () {
 
 
 /***/ }),
-/* 166 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(15);
-var aPossiblePrototype = __webpack_require__(167);
+var anObject = __webpack_require__(16);
+var aPossiblePrototype = __webpack_require__(171);
 
 // `Object.setPrototypeOf` method
 // https://tc39.github.io/ecma262/#sec-object.setprototypeof
@@ -16348,10 +18683,10 @@ module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
 
 
 /***/ }),
-/* 167 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(17);
+var isObject = __webpack_require__(18);
 
 module.exports = function (it) {
   if (!isObject(it) && it !== null) {
@@ -16361,13 +18696,13 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 168 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var classof = __webpack_require__(113);
-var wellKnownSymbol = __webpack_require__(6);
+var classof = __webpack_require__(118);
+var wellKnownSymbol = __webpack_require__(7);
 
 var TO_STRING_TAG = wellKnownSymbol('toStringTag');
 var test = {};
@@ -16382,18 +18717,18 @@ module.exports = String(test) !== '[object z]' ? function toString() {
 
 
 /***/ }),
-/* 169 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var bind = __webpack_require__(44);
-var toObject = __webpack_require__(31);
-var callWithSafeIterationClosing = __webpack_require__(118);
-var isArrayIteratorMethod = __webpack_require__(119);
-var toLength = __webpack_require__(30);
-var createProperty = __webpack_require__(77);
-var getIteratorMethod = __webpack_require__(64);
+var bind = __webpack_require__(45);
+var toObject = __webpack_require__(32);
+var callWithSafeIterationClosing = __webpack_require__(123);
+var isArrayIteratorMethod = __webpack_require__(124);
+var toLength = __webpack_require__(31);
+var createProperty = __webpack_require__(82);
+var getIteratorMethod = __webpack_require__(65);
 
 // `Array.from` method implementation
 // https://tc39.github.io/ecma262/#sec-array.from
@@ -16430,7 +18765,7 @@ module.exports = function from(arrayLike /* , mapfn = undefined, thisArg = undef
 
 
 /***/ }),
-/* 170 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16605,28 +18940,28 @@ module.exports = function (input) {
 
 
 /***/ }),
-/* 171 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // TODO: in core-js@4, move /modules/ dependencies to public entries for better optimization by tools like `preset-env`
-__webpack_require__(62);
-var $ = __webpack_require__(7);
-var USE_NATIVE_URL = __webpack_require__(116);
-var redefine = __webpack_require__(24);
-var redefineAll = __webpack_require__(120);
-var setToStringTag = __webpack_require__(38);
-var createIteratorConstructor = __webpack_require__(110);
-var InternalStateModule = __webpack_require__(33);
-var anInstance = __webpack_require__(85);
-var hasOwn = __webpack_require__(18);
-var bind = __webpack_require__(44);
-var anObject = __webpack_require__(15);
-var isObject = __webpack_require__(17);
-var getIterator = __webpack_require__(172);
-var getIteratorMethod = __webpack_require__(64);
-var wellKnownSymbol = __webpack_require__(6);
+__webpack_require__(63);
+var $ = __webpack_require__(8);
+var USE_NATIVE_URL = __webpack_require__(121);
+var redefine = __webpack_require__(25);
+var redefineAll = __webpack_require__(125);
+var setToStringTag = __webpack_require__(39);
+var createIteratorConstructor = __webpack_require__(115);
+var InternalStateModule = __webpack_require__(34);
+var anInstance = __webpack_require__(90);
+var hasOwn = __webpack_require__(19);
+var bind = __webpack_require__(45);
+var anObject = __webpack_require__(16);
+var isObject = __webpack_require__(18);
+var getIterator = __webpack_require__(176);
+var getIteratorMethod = __webpack_require__(65);
+var wellKnownSymbol = __webpack_require__(7);
 
 var ITERATOR = wellKnownSymbol('iterator');
 var URL_SEARCH_PARAMS = 'URLSearchParams';
@@ -16923,11 +19258,11 @@ module.exports = {
 
 
 /***/ }),
-/* 172 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(15);
-var getIteratorMethod = __webpack_require__(64);
+var anObject = __webpack_require__(16);
+var getIteratorMethod = __webpack_require__(65);
 
 module.exports = function (it) {
   var iteratorMethod = getIteratorMethod(it);
@@ -16938,45 +19273,45 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 173 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $ = __webpack_require__(7);
-var global = __webpack_require__(9);
-var IS_PURE = __webpack_require__(37);
-var DESCRIPTORS = __webpack_require__(14);
-var NATIVE_SYMBOL = __webpack_require__(100);
-var fails = __webpack_require__(11);
-var has = __webpack_require__(18);
-var isArray = __webpack_require__(76);
-var isObject = __webpack_require__(17);
-var anObject = __webpack_require__(15);
-var toObject = __webpack_require__(31);
-var toIndexedObject = __webpack_require__(25);
-var toPrimitive = __webpack_require__(53);
-var createPropertyDescriptor = __webpack_require__(40);
-var nativeObjectCreate = __webpack_require__(81);
-var objectKeys = __webpack_require__(45);
-var getOwnPropertyNamesModule = __webpack_require__(73);
-var getOwnPropertyNamesExternal = __webpack_require__(174);
-var getOwnPropertySymbolsModule = __webpack_require__(75);
-var getOwnPropertyDescriptorModule = __webpack_require__(35);
-var definePropertyModule = __webpack_require__(26);
-var propertyIsEnumerableModule = __webpack_require__(51);
-var hide = __webpack_require__(23);
-var redefine = __webpack_require__(24);
-var shared = __webpack_require__(41);
-var sharedKey = __webpack_require__(54);
-var hiddenKeys = __webpack_require__(55);
-var uid = __webpack_require__(71);
-var wellKnownSymbol = __webpack_require__(6);
-var wrappedWellKnownSymbolModule = __webpack_require__(121);
-var defineWellKnownSymbol = __webpack_require__(175);
-var setToStringTag = __webpack_require__(38);
-var InternalStateModule = __webpack_require__(33);
-var $forEach = __webpack_require__(78).forEach;
+var $ = __webpack_require__(8);
+var global = __webpack_require__(10);
+var IS_PURE = __webpack_require__(38);
+var DESCRIPTORS = __webpack_require__(15);
+var NATIVE_SYMBOL = __webpack_require__(105);
+var fails = __webpack_require__(12);
+var has = __webpack_require__(19);
+var isArray = __webpack_require__(81);
+var isObject = __webpack_require__(18);
+var anObject = __webpack_require__(16);
+var toObject = __webpack_require__(32);
+var toIndexedObject = __webpack_require__(26);
+var toPrimitive = __webpack_require__(54);
+var createPropertyDescriptor = __webpack_require__(41);
+var nativeObjectCreate = __webpack_require__(86);
+var objectKeys = __webpack_require__(46);
+var getOwnPropertyNamesModule = __webpack_require__(78);
+var getOwnPropertyNamesExternal = __webpack_require__(178);
+var getOwnPropertySymbolsModule = __webpack_require__(80);
+var getOwnPropertyDescriptorModule = __webpack_require__(36);
+var definePropertyModule = __webpack_require__(27);
+var propertyIsEnumerableModule = __webpack_require__(52);
+var hide = __webpack_require__(24);
+var redefine = __webpack_require__(25);
+var shared = __webpack_require__(42);
+var sharedKey = __webpack_require__(55);
+var hiddenKeys = __webpack_require__(56);
+var uid = __webpack_require__(76);
+var wellKnownSymbol = __webpack_require__(7);
+var wrappedWellKnownSymbolModule = __webpack_require__(127);
+var defineWellKnownSymbol = __webpack_require__(179);
+var setToStringTag = __webpack_require__(39);
+var InternalStateModule = __webpack_require__(34);
+var $forEach = __webpack_require__(83).forEach;
 
 var HIDDEN = sharedKey('hidden');
 var SYMBOL = 'Symbol';
@@ -17244,11 +19579,11 @@ hiddenKeys[HIDDEN] = true;
 
 
 /***/ }),
-/* 174 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toIndexedObject = __webpack_require__(25);
-var nativeGetOwnPropertyNames = __webpack_require__(73).f;
+var toIndexedObject = __webpack_require__(26);
+var nativeGetOwnPropertyNames = __webpack_require__(78).f;
 
 var toString = {}.toString;
 
@@ -17272,13 +19607,13 @@ module.exports.f = function getOwnPropertyNames(it) {
 
 
 /***/ }),
-/* 175 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var path = __webpack_require__(72);
-var has = __webpack_require__(18);
-var wrappedWellKnownSymbolModule = __webpack_require__(121);
-var defineProperty = __webpack_require__(26).f;
+var path = __webpack_require__(77);
+var has = __webpack_require__(19);
+var wrappedWellKnownSymbolModule = __webpack_require__(127);
+var defineProperty = __webpack_require__(27).f;
 
 module.exports = function (NAME) {
   var Symbol = path.Symbol || (path.Symbol = {});
@@ -17289,10 +19624,10 @@ module.exports = function (NAME) {
 
 
 /***/ }),
-/* 176 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var redefine = __webpack_require__(24);
+var redefine = __webpack_require__(25);
 
 var DatePrototype = Date.prototype;
 var INVALID_DATE = 'Invalid Date';
@@ -17312,11 +19647,11 @@ if (new Date(NaN) + '' != INVALID_DATE) {
 
 
 /***/ }),
-/* 177 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $ = __webpack_require__(7);
-var assign = __webpack_require__(117);
+var $ = __webpack_require__(8);
+var assign = __webpack_require__(122);
 
 // `Object.assign` method
 // https://tc39.github.io/ecma262/#sec-object.assign
@@ -17326,12 +19661,12 @@ $({ target: 'Object', stat: true, forced: Object.assign !== assign }, {
 
 
 /***/ }),
-/* 178 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $ = __webpack_require__(7);
-var DESCRIPTORS = __webpack_require__(14);
-var defineProperties = __webpack_require__(82);
+var $ = __webpack_require__(8);
+var DESCRIPTORS = __webpack_require__(15);
+var defineProperties = __webpack_require__(87);
 
 // `Object.defineProperties` method
 // https://tc39.github.io/ecma262/#sec-object.defineproperties
@@ -17341,12 +19676,12 @@ $({ target: 'Object', stat: true, forced: !DESCRIPTORS, sham: !DESCRIPTORS }, {
 
 
 /***/ }),
-/* 179 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $ = __webpack_require__(7);
-var DESCRIPTORS = __webpack_require__(14);
-var objectDefinePropertyModile = __webpack_require__(26);
+var $ = __webpack_require__(8);
+var DESCRIPTORS = __webpack_require__(15);
+var objectDefinePropertyModile = __webpack_require__(27);
 
 // `Object.defineProperty` method
 // https://tc39.github.io/ecma262/#sec-object.defineproperty
@@ -17356,11 +19691,11 @@ $({ target: 'Object', stat: true, forced: !DESCRIPTORS, sham: !DESCRIPTORS }, {
 
 
 /***/ }),
-/* 180 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $ = __webpack_require__(7);
-var $entries = __webpack_require__(181).entries;
+var $ = __webpack_require__(8);
+var $entries = __webpack_require__(185).entries;
 
 // `Object.entries` method
 // https://tc39.github.io/ecma262/#sec-object.entries
@@ -17372,13 +19707,13 @@ $({ target: 'Object', stat: true }, {
 
 
 /***/ }),
-/* 181 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var DESCRIPTORS = __webpack_require__(14);
-var objectKeys = __webpack_require__(45);
-var toIndexedObject = __webpack_require__(25);
-var propertyIsEnumerable = __webpack_require__(51).f;
+var DESCRIPTORS = __webpack_require__(15);
+var objectKeys = __webpack_require__(46);
+var toIndexedObject = __webpack_require__(26);
+var propertyIsEnumerable = __webpack_require__(52).f;
 
 // `Object.{ entries, values }` methods implementation
 var createMethod = function (TO_ENTRIES) {
@@ -17410,14 +19745,14 @@ module.exports = {
 
 
 /***/ }),
-/* 182 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $ = __webpack_require__(7);
-var fails = __webpack_require__(11);
-var toIndexedObject = __webpack_require__(25);
-var nativeGetOwnPropertyDescriptor = __webpack_require__(35).f;
-var DESCRIPTORS = __webpack_require__(14);
+var $ = __webpack_require__(8);
+var fails = __webpack_require__(12);
+var toIndexedObject = __webpack_require__(26);
+var nativeGetOwnPropertyDescriptor = __webpack_require__(36).f;
+var DESCRIPTORS = __webpack_require__(15);
 
 var FAILS_ON_PRIMITIVES = fails(function () { nativeGetOwnPropertyDescriptor(1); });
 var FORCED = !DESCRIPTORS || FAILS_ON_PRIMITIVES;
@@ -17432,15 +19767,15 @@ $({ target: 'Object', stat: true, forced: FORCED, sham: !DESCRIPTORS }, {
 
 
 /***/ }),
-/* 183 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $ = __webpack_require__(7);
-var DESCRIPTORS = __webpack_require__(14);
-var ownKeys = __webpack_require__(95);
-var toIndexedObject = __webpack_require__(25);
-var getOwnPropertyDescriptorModule = __webpack_require__(35);
-var createProperty = __webpack_require__(77);
+var $ = __webpack_require__(8);
+var DESCRIPTORS = __webpack_require__(15);
+var ownKeys = __webpack_require__(100);
+var toIndexedObject = __webpack_require__(26);
+var getOwnPropertyDescriptorModule = __webpack_require__(36);
+var createProperty = __webpack_require__(82);
 
 // `Object.getOwnPropertyDescriptors` method
 // https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptors
@@ -17462,24 +19797,24 @@ $({ target: 'Object', stat: true, sham: !DESCRIPTORS }, {
 
 
 /***/ }),
-/* 184 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(9);
+var global = __webpack_require__(10);
 
 module.exports = global.Promise;
 
 
 /***/ }),
-/* 185 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var getBuiltIn = __webpack_require__(56);
-var definePropertyModule = __webpack_require__(26);
-var wellKnownSymbol = __webpack_require__(6);
-var DESCRIPTORS = __webpack_require__(14);
+var getBuiltIn = __webpack_require__(57);
+var definePropertyModule = __webpack_require__(27);
+var wellKnownSymbol = __webpack_require__(7);
+var DESCRIPTORS = __webpack_require__(15);
 
 var SPECIES = wellKnownSymbol('species');
 
@@ -17497,15 +19832,15 @@ module.exports = function (CONSTRUCTOR_NAME) {
 
 
 /***/ }),
-/* 186 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(15);
-var isArrayIteratorMethod = __webpack_require__(119);
-var toLength = __webpack_require__(30);
-var bind = __webpack_require__(44);
-var getIteratorMethod = __webpack_require__(64);
-var callWithSafeIterationClosing = __webpack_require__(118);
+var anObject = __webpack_require__(16);
+var isArrayIteratorMethod = __webpack_require__(124);
+var toLength = __webpack_require__(31);
+var bind = __webpack_require__(45);
+var getIteratorMethod = __webpack_require__(65);
+var callWithSafeIterationClosing = __webpack_require__(123);
 
 var Result = function (stopped, result) {
   this.stopped = stopped;
@@ -17545,10 +19880,10 @@ iterate.stop = function (result) {
 
 
 /***/ }),
-/* 187 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var wellKnownSymbol = __webpack_require__(6);
+var wellKnownSymbol = __webpack_require__(7);
 
 var ITERATOR = wellKnownSymbol('iterator');
 var SAFE_CLOSING = false;
@@ -17589,12 +19924,12 @@ module.exports = function (exec, SKIP_CLOSING) {
 
 
 /***/ }),
-/* 188 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(15);
-var aFunction = __webpack_require__(58);
-var wellKnownSymbol = __webpack_require__(6);
+var anObject = __webpack_require__(16);
+var aFunction = __webpack_require__(59);
+var wellKnownSymbol = __webpack_require__(7);
 
 var SPECIES = wellKnownSymbol('species');
 
@@ -17608,14 +19943,14 @@ module.exports = function (O, defaultConstructor) {
 
 
 /***/ }),
-/* 189 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(9);
-var getOwnPropertyDescriptor = __webpack_require__(35).f;
-var classof = __webpack_require__(29);
-var macrotask = __webpack_require__(122).set;
-var userAgent = __webpack_require__(123);
+var global = __webpack_require__(10);
+var getOwnPropertyDescriptor = __webpack_require__(36).f;
+var classof = __webpack_require__(30);
+var macrotask = __webpack_require__(128).set;
+var userAgent = __webpack_require__(129);
 
 var MutationObserver = global.MutationObserver || global.WebKitMutationObserver;
 var process = global.process;
@@ -17692,12 +20027,12 @@ module.exports = queueMicrotask || function (fn) {
 
 
 /***/ }),
-/* 190 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(15);
-var isObject = __webpack_require__(17);
-var newPromiseCapability = __webpack_require__(124);
+var anObject = __webpack_require__(16);
+var isObject = __webpack_require__(18);
+var newPromiseCapability = __webpack_require__(130);
 
 module.exports = function (C, x) {
   anObject(C);
@@ -17710,10 +20045,10 @@ module.exports = function (C, x) {
 
 
 /***/ }),
-/* 191 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(9);
+var global = __webpack_require__(10);
 
 module.exports = function (a, b) {
   var console = global.console;
@@ -17724,7 +20059,7 @@ module.exports = function (a, b) {
 
 
 /***/ }),
-/* 192 */
+/* 196 */
 /***/ (function(module, exports) {
 
 module.exports = function (exec) {
@@ -17737,15 +20072,15 @@ module.exports = function (exec) {
 
 
 /***/ }),
-/* 193 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var redefine = __webpack_require__(24);
-var anObject = __webpack_require__(15);
-var fails = __webpack_require__(11);
-var flags = __webpack_require__(125);
+var redefine = __webpack_require__(25);
+var anObject = __webpack_require__(16);
+var fails = __webpack_require__(12);
+var flags = __webpack_require__(131);
 
 var TO_STRING = 'toString';
 var RegExpPrototype = RegExp.prototype;
@@ -17769,7 +20104,7 @@ if (NOT_GENERIC || INCORRECT_NAME) {
 
 
 /***/ }),
-/* 194 */
+/* 198 */
 /***/ (function(module, exports) {
 
 function _arrayWithHoles(arr) {
@@ -17779,7 +20114,7 @@ function _arrayWithHoles(arr) {
 module.exports = _arrayWithHoles;
 
 /***/ }),
-/* 195 */
+/* 199 */
 /***/ (function(module, exports) {
 
 function _iterableToArrayLimit(arr, i) {
@@ -17815,7 +20150,7 @@ function _iterableToArrayLimit(arr, i) {
 module.exports = _iterableToArrayLimit;
 
 /***/ }),
-/* 196 */
+/* 200 */
 /***/ (function(module, exports) {
 
 function _nonIterableRest() {
@@ -17825,17 +20160,17 @@ function _nonIterableRest() {
 module.exports = _nonIterableRest;
 
 /***/ }),
-/* 197 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(16);
-var bind = __webpack_require__(126);
-var Axios = __webpack_require__(199);
-var mergeConfig = __webpack_require__(132);
-var defaults = __webpack_require__(129);
+var utils = __webpack_require__(17);
+var bind = __webpack_require__(132);
+var Axios = __webpack_require__(203);
+var mergeConfig = __webpack_require__(137);
+var defaults = __webpack_require__(135);
 
 /**
  * Create an instance of Axios
@@ -17868,15 +20203,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(133);
-axios.CancelToken = __webpack_require__(211);
-axios.isCancel = __webpack_require__(128);
+axios.Cancel = __webpack_require__(138);
+axios.CancelToken = __webpack_require__(215);
+axios.isCancel = __webpack_require__(134);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(212);
+axios.spread = __webpack_require__(216);
 
 module.exports = axios;
 
@@ -17885,7 +20220,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 198 */
+/* 202 */
 /***/ (function(module, exports) {
 
 /*!
@@ -17902,17 +20237,17 @@ module.exports = function isBuffer (obj) {
 
 
 /***/ }),
-/* 199 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(16);
-var buildURL = __webpack_require__(127);
-var InterceptorManager = __webpack_require__(200);
-var dispatchRequest = __webpack_require__(201);
-var mergeConfig = __webpack_require__(132);
+var utils = __webpack_require__(17);
+var buildURL = __webpack_require__(133);
+var InterceptorManager = __webpack_require__(204);
+var dispatchRequest = __webpack_require__(205);
+var mergeConfig = __webpack_require__(137);
 
 /**
  * Create a new instance of Axios
@@ -17995,13 +20330,13 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 200 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(16);
+var utils = __webpack_require__(17);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -18054,18 +20389,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 201 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(16);
-var transformData = __webpack_require__(202);
-var isCancel = __webpack_require__(128);
-var defaults = __webpack_require__(129);
-var isAbsoluteURL = __webpack_require__(209);
-var combineURLs = __webpack_require__(210);
+var utils = __webpack_require__(17);
+var transformData = __webpack_require__(206);
+var isCancel = __webpack_require__(134);
+var defaults = __webpack_require__(135);
+var isAbsoluteURL = __webpack_require__(213);
+var combineURLs = __webpack_require__(214);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -18147,13 +20482,13 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 202 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(16);
+var utils = __webpack_require__(17);
 
 /**
  * Transform the data for a request or a response
@@ -18174,13 +20509,13 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 203 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(16);
+var utils = __webpack_require__(17);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -18193,13 +20528,13 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 204 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(131);
+var createError = __webpack_require__(136);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -18225,7 +20560,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 205 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18274,13 +20609,13 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 206 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(16);
+var utils = __webpack_require__(17);
 
 // Headers whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -18334,13 +20669,13 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 207 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(16);
+var utils = __webpack_require__(17);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -18409,13 +20744,13 @@ module.exports = (
 
 
 /***/ }),
-/* 208 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(16);
+var utils = __webpack_require__(17);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -18469,7 +20804,7 @@ module.exports = (
 
 
 /***/ }),
-/* 209 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18490,7 +20825,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 210 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18511,13 +20846,13 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 211 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(133);
+var Cancel = __webpack_require__(138);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -18575,7 +20910,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 212 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18609,16 +20944,16 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 213 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var hide = __webpack_require__(23);
-var redefine = __webpack_require__(24);
-var fails = __webpack_require__(11);
-var wellKnownSymbol = __webpack_require__(6);
-var regexpExec = __webpack_require__(88);
+var hide = __webpack_require__(24);
+var redefine = __webpack_require__(25);
+var fails = __webpack_require__(12);
+var wellKnownSymbol = __webpack_require__(7);
+var regexpExec = __webpack_require__(92);
 
 var SPECIES = wellKnownSymbol('species');
 
@@ -18709,12 +21044,12 @@ module.exports = function (KEY, length, exec, sham) {
 
 
 /***/ }),
-/* 214 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var charAt = __webpack_require__(84).charAt;
+var charAt = __webpack_require__(89).charAt;
 
 // `AdvanceStringIndex` abstract operation
 // https://tc39.github.io/ecma262/#sec-advancestringindex
@@ -18724,11 +21059,11 @@ module.exports = function (S, index, unicode) {
 
 
 /***/ }),
-/* 215 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var classof = __webpack_require__(29);
-var regexpExec = __webpack_require__(88);
+var classof = __webpack_require__(30);
+var regexpExec = __webpack_require__(92);
 
 // `RegExpExec` abstract operation
 // https://tc39.github.io/ecma262/#sec-regexpexec
@@ -18752,7 +21087,7 @@ module.exports = function (R, S) {
 
 
 /***/ }),
-/* 216 */
+/* 220 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -18780,22 +21115,22 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 217 */
+/* 221 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 218 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var hash = exports;
 
-hash.utils = __webpack_require__(27);
-hash.common = __webpack_require__(48);
-hash.sha = __webpack_require__(219);
-hash.ripemd = __webpack_require__(223);
-hash.hmac = __webpack_require__(224);
+hash.utils = __webpack_require__(28);
+hash.common = __webpack_require__(49);
+hash.sha = __webpack_require__(223);
+hash.ripemd = __webpack_require__(227);
+hash.hmac = __webpack_require__(228);
 
 // Proxy hash functions to the main object
 hash.sha1 = hash.sha.sha1;
@@ -18807,29 +21142,29 @@ hash.ripemd160 = hash.ripemd.ripemd160;
 
 
 /***/ }),
-/* 219 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.sha1 = __webpack_require__(220);
-exports.sha224 = __webpack_require__(221);
-exports.sha256 = __webpack_require__(137);
-exports.sha384 = __webpack_require__(222);
-exports.sha512 = __webpack_require__(138);
+exports.sha1 = __webpack_require__(224);
+exports.sha224 = __webpack_require__(225);
+exports.sha256 = __webpack_require__(142);
+exports.sha384 = __webpack_require__(226);
+exports.sha512 = __webpack_require__(143);
 
 
 /***/ }),
-/* 220 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(27);
-var common = __webpack_require__(48);
-var shaCommon = __webpack_require__(136);
+var utils = __webpack_require__(28);
+var common = __webpack_require__(49);
+var shaCommon = __webpack_require__(141);
 
 var rotl32 = utils.rotl32;
 var sum32 = utils.sum32;
@@ -18902,14 +21237,14 @@ SHA1.prototype._digest = function digest(enc) {
 
 
 /***/ }),
-/* 221 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(27);
-var SHA256 = __webpack_require__(137);
+var utils = __webpack_require__(28);
+var SHA256 = __webpack_require__(142);
 
 function SHA224() {
   if (!(this instanceof SHA224))
@@ -18939,15 +21274,15 @@ SHA224.prototype._digest = function digest(enc) {
 
 
 /***/ }),
-/* 222 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(27);
+var utils = __webpack_require__(28);
 
-var SHA512 = __webpack_require__(138);
+var SHA512 = __webpack_require__(143);
 
 function SHA384() {
   if (!(this instanceof SHA384))
@@ -18981,14 +21316,14 @@ SHA384.prototype._digest = function digest(enc) {
 
 
 /***/ }),
-/* 223 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(27);
-var common = __webpack_require__(48);
+var utils = __webpack_require__(28);
+var common = __webpack_require__(49);
 
 var rotl32 = utils.rotl32;
 var sum32 = utils.sum32;
@@ -19134,14 +21469,14 @@ var sh = [
 
 
 /***/ }),
-/* 224 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(27);
-var assert = __webpack_require__(19);
+var utils = __webpack_require__(28);
+var assert = __webpack_require__(20);
 
 function Hmac(hash, key, enc) {
   if (!(this instanceof Hmac))
@@ -19188,7 +21523,7 @@ Hmac.prototype.digest = function digest(enc) {
 
 
 /***/ }),
-/* 225 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19198,28 +21533,28 @@ exports.version = "sha2/5.0.0-beta.132";
 
 
 /***/ }),
-/* 226 */
+/* 230 */
 /***/ (function(module) {
 
 module.exports = JSON.parse("{\"_from\":\"elliptic@6.5.0\",\"_id\":\"elliptic@6.5.0\",\"_inBundle\":false,\"_integrity\":\"sha512-eFOJTMyCYb7xtE/caJ6JJu+bhi67WCYNbkGSknu20pmM8Ke/bqOfdnZWxyoGN26JgfxTbXrsCkEw4KheCT/KGg==\",\"_location\":\"/elliptic\",\"_phantomChildren\":{},\"_requested\":{\"type\":\"version\",\"registry\":true,\"raw\":\"elliptic@6.5.0\",\"name\":\"elliptic\",\"escapedName\":\"elliptic\",\"rawSpec\":\"6.5.0\",\"saveSpec\":null,\"fetchSpec\":\"6.5.0\"},\"_requiredBy\":[\"/@ethersproject/signing-key\",\"/browserify-sign\",\"/create-ecdh\"],\"_resolved\":\"https://registry.npmjs.org/elliptic/-/elliptic-6.5.0.tgz\",\"_shasum\":\"2b8ed4c891b7de3200e14412a5b8248c7af505ca\",\"_spec\":\"elliptic@6.5.0\",\"_where\":\"C:\\\\Users\\\\Kieran David Evans\\\\Code\\\\libsimba-js\\\\node_modules\\\\@ethersproject\\\\signing-key\",\"author\":{\"name\":\"Fedor Indutny\",\"email\":\"fedor@indutny.com\"},\"bugs\":{\"url\":\"https://github.com/indutny/elliptic/issues\"},\"bundleDependencies\":false,\"dependencies\":{\"bn.js\":\"^4.4.0\",\"brorand\":\"^1.0.1\",\"hash.js\":\"^1.0.0\",\"hmac-drbg\":\"^1.0.0\",\"inherits\":\"^2.0.1\",\"minimalistic-assert\":\"^1.0.0\",\"minimalistic-crypto-utils\":\"^1.0.0\"},\"deprecated\":false,\"description\":\"EC cryptography\",\"devDependencies\":{\"brfs\":\"^1.4.3\",\"coveralls\":\"^2.11.3\",\"grunt\":\"^0.4.5\",\"grunt-browserify\":\"^5.0.0\",\"grunt-cli\":\"^1.2.0\",\"grunt-contrib-connect\":\"^1.0.0\",\"grunt-contrib-copy\":\"^1.0.0\",\"grunt-contrib-uglify\":\"^1.0.1\",\"grunt-mocha-istanbul\":\"^3.0.1\",\"grunt-saucelabs\":\"^8.6.2\",\"istanbul\":\"^0.4.2\",\"jscs\":\"^2.9.0\",\"jshint\":\"^2.6.0\",\"mocha\":\"^2.1.0\"},\"files\":[\"lib\"],\"homepage\":\"https://github.com/indutny/elliptic\",\"keywords\":[\"EC\",\"Elliptic\",\"curve\",\"Cryptography\"],\"license\":\"MIT\",\"main\":\"lib/elliptic.js\",\"name\":\"elliptic\",\"repository\":{\"type\":\"git\",\"url\":\"git+ssh://git@github.com/indutny/elliptic.git\"},\"scripts\":{\"jscs\":\"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js\",\"jshint\":\"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js\",\"lint\":\"npm run jscs && npm run jshint\",\"test\":\"npm run lint && npm run unit\",\"unit\":\"istanbul test _mocha --reporter=spec test/index.js\",\"version\":\"grunt dist && git add dist/\"},\"version\":\"6.5.0\"}");
 
 /***/ }),
-/* 227 */
+/* 231 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 228 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(20);
-var BN = __webpack_require__(13);
-var inherits = __webpack_require__(47);
-var Base = __webpack_require__(65);
+var utils = __webpack_require__(21);
+var BN = __webpack_require__(14);
+var inherits = __webpack_require__(48);
+var Base = __webpack_require__(68);
 
 var assert = utils.assert;
 
@@ -20153,17 +22488,17 @@ JPoint.prototype.isInfinity = function isInfinity() {
 
 
 /***/ }),
-/* 229 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var BN = __webpack_require__(13);
-var inherits = __webpack_require__(47);
-var Base = __webpack_require__(65);
+var BN = __webpack_require__(14);
+var inherits = __webpack_require__(48);
+var Base = __webpack_require__(68);
 
-var utils = __webpack_require__(20);
+var utils = __webpack_require__(21);
 
 function MontCurve(conf) {
   Base.call(this, 'mont', conf);
@@ -20338,16 +22673,16 @@ Point.prototype.getX = function getX() {
 
 
 /***/ }),
-/* 230 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(20);
-var BN = __webpack_require__(13);
-var inherits = __webpack_require__(47);
-var Base = __webpack_require__(65);
+var utils = __webpack_require__(21);
+var BN = __webpack_require__(14);
+var inherits = __webpack_require__(48);
+var Base = __webpack_require__(68);
 
 var assert = utils.assert;
 
@@ -20777,29 +23112,29 @@ Point.prototype.mixedAdd = Point.prototype.add;
 
 
 /***/ }),
-/* 231 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.sha1 = __webpack_require__(232);
-exports.sha224 = __webpack_require__(233);
-exports.sha256 = __webpack_require__(143);
-exports.sha384 = __webpack_require__(234);
-exports.sha512 = __webpack_require__(144);
+exports.sha1 = __webpack_require__(236);
+exports.sha224 = __webpack_require__(237);
+exports.sha256 = __webpack_require__(148);
+exports.sha384 = __webpack_require__(238);
+exports.sha512 = __webpack_require__(149);
 
 
 /***/ }),
-/* 232 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(28);
-var common = __webpack_require__(49);
-var shaCommon = __webpack_require__(142);
+var utils = __webpack_require__(29);
+var common = __webpack_require__(50);
+var shaCommon = __webpack_require__(147);
 
 var rotl32 = utils.rotl32;
 var sum32 = utils.sum32;
@@ -20872,14 +23207,14 @@ SHA1.prototype._digest = function digest(enc) {
 
 
 /***/ }),
-/* 233 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(28);
-var SHA256 = __webpack_require__(143);
+var utils = __webpack_require__(29);
+var SHA256 = __webpack_require__(148);
 
 function SHA224() {
   if (!(this instanceof SHA224))
@@ -20909,15 +23244,15 @@ SHA224.prototype._digest = function digest(enc) {
 
 
 /***/ }),
-/* 234 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(28);
+var utils = __webpack_require__(29);
 
-var SHA512 = __webpack_require__(144);
+var SHA512 = __webpack_require__(149);
 
 function SHA384() {
   if (!(this instanceof SHA384))
@@ -20951,14 +23286,14 @@ SHA384.prototype._digest = function digest(enc) {
 
 
 /***/ }),
-/* 235 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(28);
-var common = __webpack_require__(49);
+var utils = __webpack_require__(29);
+var common = __webpack_require__(50);
 
 var rotl32 = utils.rotl32;
 var sum32 = utils.sum32;
@@ -21104,14 +23439,14 @@ var sh = [
 
 
 /***/ }),
-/* 236 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(28);
-var assert = __webpack_require__(19);
+var utils = __webpack_require__(29);
+var assert = __webpack_require__(20);
 
 function Hmac(hash, key, enc) {
   if (!(this instanceof Hmac))
@@ -21158,7 +23493,7 @@ Hmac.prototype.digest = function digest(enc) {
 
 
 /***/ }),
-/* 237 */
+/* 241 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -21944,21 +24279,21 @@ module.exports = {
 
 
 /***/ }),
-/* 238 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var BN = __webpack_require__(13);
-var HmacDRBG = __webpack_require__(239);
-var utils = __webpack_require__(20);
-var curves = __webpack_require__(89);
-var rand = __webpack_require__(140);
+var BN = __webpack_require__(14);
+var HmacDRBG = __webpack_require__(243);
+var utils = __webpack_require__(21);
+var curves = __webpack_require__(93);
+var rand = __webpack_require__(145);
 var assert = utils.assert;
 
-var KeyPair = __webpack_require__(240);
-var Signature = __webpack_require__(241);
+var KeyPair = __webpack_require__(244);
+var Signature = __webpack_require__(245);
 
 function EC(options) {
   if (!(this instanceof EC))
@@ -22192,15 +24527,15 @@ EC.prototype.getKeyRecoveryParam = function(e, signature, Q, enc) {
 
 
 /***/ }),
-/* 239 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var hash = __webpack_require__(90);
-var utils = __webpack_require__(139);
-var assert = __webpack_require__(19);
+var hash = __webpack_require__(94);
+var utils = __webpack_require__(144);
+var assert = __webpack_require__(20);
 
 function HmacDRBG(options) {
   if (!(this instanceof HmacDRBG))
@@ -22312,14 +24647,14 @@ HmacDRBG.prototype.generate = function generate(len, enc, add, addEnc) {
 
 
 /***/ }),
-/* 240 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var BN = __webpack_require__(13);
-var utils = __webpack_require__(20);
+var BN = __webpack_require__(14);
+var utils = __webpack_require__(21);
 var assert = utils.assert;
 
 function KeyPair(ec, options) {
@@ -22437,15 +24772,15 @@ KeyPair.prototype.inspect = function inspect() {
 
 
 /***/ }),
-/* 241 */
+/* 245 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var BN = __webpack_require__(13);
+var BN = __webpack_require__(14);
 
-var utils = __webpack_require__(20);
+var utils = __webpack_require__(21);
 var assert = utils.assert;
 
 function Signature(options, enc) {
@@ -22578,19 +24913,19 @@ Signature.prototype.toDER = function toDER(enc) {
 
 
 /***/ }),
-/* 242 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var hash = __webpack_require__(90);
-var curves = __webpack_require__(89);
-var utils = __webpack_require__(20);
+var hash = __webpack_require__(94);
+var curves = __webpack_require__(93);
+var utils = __webpack_require__(21);
 var assert = utils.assert;
 var parseBytes = utils.parseBytes;
-var KeyPair = __webpack_require__(243);
-var Signature = __webpack_require__(244);
+var KeyPair = __webpack_require__(247);
+var Signature = __webpack_require__(248);
 
 function EDDSA(curve) {
   assert(curve === 'ed25519', 'only tested with ed25519 so far');
@@ -22703,13 +25038,13 @@ EDDSA.prototype.isPoint = function isPoint(val) {
 
 
 /***/ }),
-/* 243 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(20);
+var utils = __webpack_require__(21);
 var assert = utils.assert;
 var parseBytes = utils.parseBytes;
 var cachedProperty = utils.cachedProperty;
@@ -22805,14 +25140,14 @@ module.exports = KeyPair;
 
 
 /***/ }),
-/* 244 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var BN = __webpack_require__(13);
-var utils = __webpack_require__(20);
+var BN = __webpack_require__(14);
+var utils = __webpack_require__(21);
 var assert = utils.assert;
 var cachedProperty = utils.cachedProperty;
 var parseBytes = utils.parseBytes;
@@ -22877,7 +25212,7 @@ module.exports = Signature;
 
 
 /***/ }),
-/* 245 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22887,7 +25222,7 @@ exports.version = "wordlists/5.0.0-beta.131";
 
 
 /***/ }),
-/* 246 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22906,7 +25241,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var wordlist_1 = __webpack_require__(145);
+var wordlist_1 = __webpack_require__(150);
 var words = "AbandonAbilityAbleAboutAboveAbsentAbsorbAbstractAbsurdAbuseAccessAccidentAccountAccuseAchieveAcidAcousticAcquireAcrossActActionActorActressActualAdaptAddAddictAddressAdjustAdmitAdultAdvanceAdviceAerobicAffairAffordAfraidAgainAgeAgentAgreeAheadAimAirAirportAisleAlarmAlbumAlcoholAlertAlienAllAlleyAllowAlmostAloneAlphaAlreadyAlsoAlterAlwaysAmateurAmazingAmongAmountAmusedAnalystAnchorAncientAngerAngleAngryAnimalAnkleAnnounceAnnualAnotherAnswerAntennaAntiqueAnxietyAnyApartApologyAppearAppleApproveAprilArchArcticAreaArenaArgueArmArmedArmorArmyAroundArrangeArrestArriveArrowArtArtefactArtistArtworkAskAspectAssaultAssetAssistAssumeAsthmaAthleteAtomAttackAttendAttitudeAttractAuctionAuditAugustAuntAuthorAutoAutumnAverageAvocadoAvoidAwakeAwareAwayAwesomeAwfulAwkwardAxisBabyBachelorBaconBadgeBagBalanceBalconyBallBambooBananaBannerBarBarelyBargainBarrelBaseBasicBasketBattleBeachBeanBeautyBecauseBecomeBeefBeforeBeginBehaveBehindBelieveBelowBeltBenchBenefitBestBetrayBetterBetweenBeyondBicycleBidBikeBindBiologyBirdBirthBitterBlackBladeBlameBlanketBlastBleakBlessBlindBloodBlossomBlouseBlueBlurBlushBoardBoatBodyBoilBombBoneBonusBookBoostBorderBoringBorrowBossBottomBounceBoxBoyBracketBrainBrandBrassBraveBreadBreezeBrickBridgeBriefBrightBringBriskBroccoliBrokenBronzeBroomBrotherBrownBrushBubbleBuddyBudgetBuffaloBuildBulbBulkBulletBundleBunkerBurdenBurgerBurstBusBusinessBusyButterBuyerBuzzCabbageCabinCableCactusCageCakeCallCalmCameraCampCanCanalCancelCandyCannonCanoeCanvasCanyonCapableCapitalCaptainCarCarbonCardCargoCarpetCarryCartCaseCashCasinoCastleCasualCatCatalogCatchCategoryCattleCaughtCauseCautionCaveCeilingCeleryCementCensusCenturyCerealCertainChairChalkChampionChangeChaosChapterChargeChaseChatCheapCheckCheeseChefCherryChestChickenChiefChildChimneyChoiceChooseChronicChuckleChunkChurnCigarCinnamonCircleCitizenCityCivilClaimClapClarifyClawClayCleanClerkCleverClickClientCliffClimbClinicClipClockClogCloseClothCloudClownClubClumpClusterClutchCoachCoastCoconutCodeCoffeeCoilCoinCollectColorColumnCombineComeComfortComicCommonCompanyConcertConductConfirmCongressConnectConsiderControlConvinceCookCoolCopperCopyCoralCoreCornCorrectCostCottonCouchCountryCoupleCourseCousinCoverCoyoteCrackCradleCraftCramCraneCrashCraterCrawlCrazyCreamCreditCreekCrewCricketCrimeCrispCriticCropCrossCrouchCrowdCrucialCruelCruiseCrumbleCrunchCrushCryCrystalCubeCultureCupCupboardCuriousCurrentCurtainCurveCushionCustomCuteCycleDadDamageDampDanceDangerDaringDashDaughterDawnDayDealDebateDebrisDecadeDecemberDecideDeclineDecorateDecreaseDeerDefenseDefineDefyDegreeDelayDeliverDemandDemiseDenialDentistDenyDepartDependDepositDepthDeputyDeriveDescribeDesertDesignDeskDespairDestroyDetailDetectDevelopDeviceDevoteDiagramDialDiamondDiaryDiceDieselDietDifferDigitalDignityDilemmaDinnerDinosaurDirectDirtDisagreeDiscoverDiseaseDishDismissDisorderDisplayDistanceDivertDivideDivorceDizzyDoctorDocumentDogDollDolphinDomainDonateDonkeyDonorDoorDoseDoubleDoveDraftDragonDramaDrasticDrawDreamDressDriftDrillDrinkDripDriveDropDrumDryDuckDumbDuneDuringDustDutchDutyDwarfDynamicEagerEagleEarlyEarnEarthEasilyEastEasyEchoEcologyEconomyEdgeEditEducateEffortEggEightEitherElbowElderElectricElegantElementElephantElevatorEliteElseEmbarkEmbodyEmbraceEmergeEmotionEmployEmpowerEmptyEnableEnactEndEndlessEndorseEnemyEnergyEnforceEngageEngineEnhanceEnjoyEnlistEnoughEnrichEnrollEnsureEnterEntireEntryEnvelopeEpisodeEqualEquipEraEraseErodeErosionErrorEruptEscapeEssayEssenceEstateEternalEthicsEvidenceEvilEvokeEvolveExactExampleExcessExchangeExciteExcludeExcuseExecuteExerciseExhaustExhibitExileExistExitExoticExpandExpectExpireExplainExposeExpressExtendExtraEyeEyebrowFabricFaceFacultyFadeFaintFaithFallFalseFameFamilyFamousFanFancyFantasyFarmFashionFatFatalFatherFatigueFaultFavoriteFeatureFebruaryFederalFeeFeedFeelFemaleFenceFestivalFetchFeverFewFiberFictionFieldFigureFileFilmFilterFinalFindFineFingerFinishFireFirmFirstFiscalFishFitFitnessFixFlagFlameFlashFlatFlavorFleeFlightFlipFloatFlockFloorFlowerFluidFlushFlyFoamFocusFogFoilFoldFollowFoodFootForceForestForgetForkFortuneForumForwardFossilFosterFoundFoxFragileFrameFrequentFreshFriendFringeFrogFrontFrostFrownFrozenFruitFuelFunFunnyFurnaceFuryFutureGadgetGainGalaxyGalleryGameGapGarageGarbageGardenGarlicGarmentGasGaspGateGatherGaugeGazeGeneralGeniusGenreGentleGenuineGestureGhostGiantGiftGiggleGingerGiraffeGirlGiveGladGlanceGlareGlassGlideGlimpseGlobeGloomGloryGloveGlowGlueGoatGoddessGoldGoodGooseGorillaGospelGossipGovernGownGrabGraceGrainGrantGrapeGrassGravityGreatGreenGridGriefGritGroceryGroupGrowGruntGuardGuessGuideGuiltGuitarGunGymHabitHairHalfHammerHamsterHandHappyHarborHardHarshHarvestHatHaveHawkHazardHeadHealthHeartHeavyHedgehogHeightHelloHelmetHelpHenHeroHiddenHighHillHintHipHireHistoryHobbyHockeyHoldHoleHolidayHollowHomeHoneyHoodHopeHornHorrorHorseHospitalHostHotelHourHoverHubHugeHumanHumbleHumorHundredHungryHuntHurdleHurryHurtHusbandHybridIceIconIdeaIdentifyIdleIgnoreIllIllegalIllnessImageImitateImmenseImmuneImpactImposeImproveImpulseInchIncludeIncomeIncreaseIndexIndicateIndoorIndustryInfantInflictInformInhaleInheritInitialInjectInjuryInmateInnerInnocentInputInquiryInsaneInsectInsideInspireInstallIntactInterestIntoInvestInviteInvolveIronIslandIsolateIssueItemIvoryJacketJaguarJarJazzJealousJeansJellyJewelJobJoinJokeJourneyJoyJudgeJuiceJumpJungleJuniorJunkJustKangarooKeenKeepKetchupKeyKickKidKidneyKindKingdomKissKitKitchenKiteKittenKiwiKneeKnifeKnockKnowLabLabelLaborLadderLadyLakeLampLanguageLaptopLargeLaterLatinLaughLaundryLavaLawLawnLawsuitLayerLazyLeaderLeafLearnLeaveLectureLeftLegLegalLegendLeisureLemonLendLengthLensLeopardLessonLetterLevelLiarLibertyLibraryLicenseLifeLiftLightLikeLimbLimitLinkLionLiquidListLittleLiveLizardLoadLoanLobsterLocalLockLogicLonelyLongLoopLotteryLoudLoungeLoveLoyalLuckyLuggageLumberLunarLunchLuxuryLyricsMachineMadMagicMagnetMaidMailMainMajorMakeMammalManManageMandateMangoMansionManualMapleMarbleMarchMarginMarineMarketMarriageMaskMassMasterMatchMaterialMathMatrixMatterMaximumMazeMeadowMeanMeasureMeatMechanicMedalMediaMelodyMeltMemberMemoryMentionMenuMercyMergeMeritMerryMeshMessageMetalMethodMiddleMidnightMilkMillionMimicMindMinimumMinorMinuteMiracleMirrorMiseryMissMistakeMixMixedMixtureMobileModelModifyMomMomentMonitorMonkeyMonsterMonthMoonMoralMoreMorningMosquitoMotherMotionMotorMountainMouseMoveMovieMuchMuffinMuleMultiplyMuscleMuseumMushroomMusicMustMutualMyselfMysteryMythNaiveNameNapkinNarrowNastyNationNatureNearNeckNeedNegativeNeglectNeitherNephewNerveNestNetNetworkNeutralNeverNewsNextNiceNightNobleNoiseNomineeNoodleNormalNorthNoseNotableNoteNothingNoticeNovelNowNuclearNumberNurseNutOakObeyObjectObligeObscureObserveObtainObviousOccurOceanOctoberOdorOffOfferOfficeOftenOilOkayOldOliveOlympicOmitOnceOneOnionOnlineOnlyOpenOperaOpinionOpposeOptionOrangeOrbitOrchardOrderOrdinaryOrganOrientOriginalOrphanOstrichOtherOutdoorOuterOutputOutsideOvalOvenOverOwnOwnerOxygenOysterOzonePactPaddlePagePairPalacePalmPandaPanelPanicPantherPaperParadeParentParkParrotPartyPassPatchPathPatientPatrolPatternPausePavePaymentPeacePeanutPearPeasantPelicanPenPenaltyPencilPeoplePepperPerfectPermitPersonPetPhonePhotoPhrasePhysicalPianoPicnicPicturePiecePigPigeonPillPilotPinkPioneerPipePistolPitchPizzaPlacePlanetPlasticPlatePlayPleasePledgePluckPlugPlungePoemPoetPointPolarPolePolicePondPonyPoolPopularPortionPositionPossiblePostPotatoPotteryPovertyPowderPowerPracticePraisePredictPreferPreparePresentPrettyPreventPricePridePrimaryPrintPriorityPrisonPrivatePrizeProblemProcessProduceProfitProgramProjectPromoteProofPropertyProsperProtectProudProvidePublicPuddingPullPulpPulsePumpkinPunchPupilPuppyPurchasePurityPurposePursePushPutPuzzlePyramidQualityQuantumQuarterQuestionQuickQuitQuizQuoteRabbitRaccoonRaceRackRadarRadioRailRainRaiseRallyRampRanchRandomRangeRapidRareRateRatherRavenRawRazorReadyRealReasonRebelRebuildRecallReceiveRecipeRecordRecycleReduceReflectReformRefuseRegionRegretRegularRejectRelaxReleaseReliefRelyRemainRememberRemindRemoveRenderRenewRentReopenRepairRepeatReplaceReportRequireRescueResembleResistResourceResponseResultRetireRetreatReturnReunionRevealReviewRewardRhythmRibRibbonRiceRichRideRidgeRifleRightRigidRingRiotRippleRiskRitualRivalRiverRoadRoastRobotRobustRocketRomanceRoofRookieRoomRoseRotateRoughRoundRouteRoyalRubberRudeRugRuleRunRunwayRuralSadSaddleSadnessSafeSailSaladSalmonSalonSaltSaluteSameSampleSandSatisfySatoshiSauceSausageSaveSayScaleScanScareScatterSceneSchemeSchoolScienceScissorsScorpionScoutScrapScreenScriptScrubSeaSearchSeasonSeatSecondSecretSectionSecuritySeedSeekSegmentSelectSellSeminarSeniorSenseSentenceSeriesServiceSessionSettleSetupSevenShadowShaftShallowShareShedShellSheriffShieldShiftShineShipShiverShockShoeShootShopShortShoulderShoveShrimpShrugShuffleShySiblingSickSideSiegeSightSignSilentSilkSillySilverSimilarSimpleSinceSingSirenSisterSituateSixSizeSkateSketchSkiSkillSkinSkirtSkullSlabSlamSleepSlenderSliceSlideSlightSlimSloganSlotSlowSlushSmallSmartSmileSmokeSmoothSnackSnakeSnapSniffSnowSoapSoccerSocialSockSodaSoftSolarSoldierSolidSolutionSolveSomeoneSongSoonSorrySortSoulSoundSoupSourceSouthSpaceSpareSpatialSpawnSpeakSpecialSpeedSpellSpendSphereSpiceSpiderSpikeSpinSpiritSplitSpoilSponsorSpoonSportSpotSpraySpreadSpringSpySquareSqueezeSquirrelStableStadiumStaffStageStairsStampStandStartStateStaySteakSteelStemStepStereoStickStillStingStockStomachStoneStoolStoryStoveStrategyStreetStrikeStrongStruggleStudentStuffStumbleStyleSubjectSubmitSubwaySuccessSuchSuddenSufferSugarSuggestSuitSummerSunSunnySunsetSuperSupplySupremeSureSurfaceSurgeSurpriseSurroundSurveySuspectSustainSwallowSwampSwapSwarmSwearSweetSwiftSwimSwingSwitchSwordSymbolSymptomSyrupSystemTableTackleTagTailTalentTalkTankTapeTargetTaskTasteTattooTaxiTeachTeamTellTenTenantTennisTentTermTestTextThankThatThemeThenTheoryThereTheyThingThisThoughtThreeThriveThrowThumbThunderTicketTideTigerTiltTimberTimeTinyTipTiredTissueTitleToastTobaccoTodayToddlerToeTogetherToiletTokenTomatoTomorrowToneTongueTonightToolToothTopTopicToppleTorchTornadoTortoiseTossTotalTouristTowardTowerTownToyTrackTradeTrafficTragicTrainTransferTrapTrashTravelTrayTreatTreeTrendTrialTribeTrickTriggerTrimTripTrophyTroubleTruckTrueTrulyTrumpetTrustTruthTryTubeTuitionTumbleTunaTunnelTurkeyTurnTurtleTwelveTwentyTwiceTwinTwistTwoTypeTypicalUglyUmbrellaUnableUnawareUncleUncoverUnderUndoUnfairUnfoldUnhappyUniformUniqueUnitUniverseUnknownUnlockUntilUnusualUnveilUpdateUpgradeUpholdUponUpperUpsetUrbanUrgeUsageUseUsedUsefulUselessUsualUtilityVacantVacuumVagueValidValleyValveVanVanishVaporVariousVastVaultVehicleVelvetVendorVentureVenueVerbVerifyVersionVeryVesselVeteranViableVibrantViciousVictoryVideoViewVillageVintageViolinVirtualVirusVisaVisitVisualVitalVividVocalVoiceVoidVolcanoVolumeVoteVoyageWageWagonWaitWalkWallWalnutWantWarfareWarmWarriorWashWaspWasteWaterWaveWayWealthWeaponWearWeaselWeatherWebWeddingWeekendWeirdWelcomeWestWetWhaleWhatWheatWheelWhenWhereWhipWhisperWideWidthWifeWildWillWinWindowWineWingWinkWinnerWinterWireWisdomWiseWishWitnessWolfWomanWonderWoodWoolWordWorkWorldWorryWorthWrapWreckWrestleWristWriteWrongYardYearYellowYouYoungYouthZebraZeroZoneZoo";
 var wordlist = null;
 function loadWords(lang) {
@@ -22940,7 +25275,7 @@ wordlist_1.register(langEn);
 
 
 /***/ }),
-/* 247 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22950,7 +25285,7 @@ exports.version = "random/5.0.0-beta.131";
 
 
 /***/ }),
-/* 248 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22970,7 +25305,7 @@ exports.shuffled = shuffled;
 
 
 /***/ }),
-/* 249 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
@@ -23026,7 +25361,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(250);
+__webpack_require__(254);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -23037,10 +25372,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (typeof global !== "undefined" && global.clearImmediate) ||
                          (this && this.clearImmediate);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(32)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(33)))
 
 /***/ }),
-/* 250 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -23230,10 +25565,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(32), __webpack_require__(87)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(33), __webpack_require__(66)))
 
 /***/ }),
-/* 251 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -23268,2307 +25603,44 @@ if (!rng) {
 module.exports = rng;
 
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(32)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(33)))
 
 /***/ }),
-/* 252 */
+/* 256 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.starts-with.js
-var es_string_starts_with = __webpack_require__(68);
+var es_string_starts_with = __webpack_require__(73);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
-var regenerator = __webpack_require__(2);
+var regenerator = __webpack_require__(3);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
 
 // EXTERNAL MODULE: ./node_modules/regenerator-runtime/runtime.js
-var runtime = __webpack_require__(42);
+var runtime = __webpack_require__(43);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(4);
+var asyncToGenerator = __webpack_require__(5);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator);
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
-var es_array_concat = __webpack_require__(43);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.filter.js
-var es_array_filter = __webpack_require__(104);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.for-each.js
-var es_array_for_each = __webpack_require__(59);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.index-of.js
-var es_array_index_of = __webpack_require__(80);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.join.js
-var es_array_join = __webpack_require__(158);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
-var es_object_keys = __webpack_require__(60);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.ends-with.js
-var es_string_ends_with = __webpack_require__(159);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
-var web_dom_collections_for_each = __webpack_require__(61);
-
-// EXTERNAL MODULE: ./node_modules/poll-js/lib/index.js
-var lib = __webpack_require__(146);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
-var es_function_name = __webpack_require__(160);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/assertThisInitialized.js
-var assertThisInitialized = __webpack_require__(147);
-var assertThisInitialized_default = /*#__PURE__*/__webpack_require__.n(assertThisInitialized);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/inheritsLoose.js
-var inheritsLoose = __webpack_require__(5);
-var inheritsLoose_default = /*#__PURE__*/__webpack_require__.n(inheritsLoose);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/wrapNativeSuper.js
-var wrapNativeSuper = __webpack_require__(148);
-var wrapNativeSuper_default = /*#__PURE__*/__webpack_require__.n(wrapNativeSuper);
-
-// CONCATENATED MODULE: ./src/exceptions.js
-
-
-
-
-
-
-/**
- * Base exception that all libsimba Exceptions extend
- */
-var exceptions_BaseException =
-/*#__PURE__*/
-function (_Error) {
-  inheritsLoose_default()(BaseException, _Error);
-
-  /**
-   * Base exception that all libsimba Exceptions extend
-   * @param {string} message - the error message
-   * @param {Error|string} [cause] - (Optional) wrap an existing error
-   */
-  function BaseException(message, cause) {
-    var _this;
-
-    _this = _Error.call(this) || this;
-    _this.name = 'BaseException';
-    _this.message = message;
-    _this.cause = cause; // Maintains proper stack trace for where our error was thrown (only available on V8)
-
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(assertThisInitialized_default()(_this), _this.constructor);
-    }
-
-    return _this;
-  }
-
-  return BaseException;
-}(wrapNativeSuper_default()(Error));
-/**
- * Thrown when a method that should be implemented is not
- */
-
-var exceptions_NotImplementedException =
-/*#__PURE__*/
-function (_BaseException) {
-  inheritsLoose_default()(NotImplementedException, _BaseException);
-
-  function NotImplementedException() {
-    var _this2;
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _this2 = _BaseException.call.apply(_BaseException, [this].concat(args)) || this;
-    _this2.name = 'NotImplementedException';
-    return _this2;
-  }
-
-  return NotImplementedException;
-}(exceptions_BaseException);
-/**
- * Thrown when a method on a class inheriting [SimbaBase]{@link SimbaBase} is called before
- * metadata is retrieved.
- */
-
-var exceptions_MissingMetadataException =
-/*#__PURE__*/
-function (_BaseException2) {
-  inheritsLoose_default()(MissingMetadataException, _BaseException2);
-
-  function MissingMetadataException() {
-    var _this3;
-
-    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      args[_key2] = arguments[_key2];
-    }
-
-    _this3 = _BaseException2.call.apply(_BaseException2, [this].concat(args)) || this;
-    _this3.name = 'MissingMetadataException';
-    return _this3;
-  }
-
-  return MissingMetadataException;
-}(exceptions_BaseException);
-/**
- * Thrown when metadata doesn't have something it should have
- */
-
-var exceptions_BadMetadataException =
-/*#__PURE__*/
-function (_BaseException3) {
-  inheritsLoose_default()(BadMetadataException, _BaseException3);
-
-  function BadMetadataException() {
-    var _this4;
-
-    for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-      args[_key3] = arguments[_key3];
-    }
-
-    _this4 = _BaseException3.call.apply(_BaseException3, [this].concat(args)) || this;
-    _this4.name = 'BadMetadataException';
-    return _this4;
-  }
-
-  return BadMetadataException;
-}(exceptions_BaseException);
-/**
- * Thrown when a method call isn't valid
- */
-
-var exceptions_MethodCallValidationMetadataException =
-/*#__PURE__*/
-function (_BaseException4) {
-  inheritsLoose_default()(MethodCallValidationMetadataException, _BaseException4);
-
-  function MethodCallValidationMetadataException() {
-    var _this5;
-
-    for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-      args[_key4] = arguments[_key4];
-    }
-
-    _this5 = _BaseException4.call.apply(_BaseException4, [this].concat(args)) || this;
-    _this5.name = 'MethodCallValidationMetadataException';
-    return _this5;
-  }
-
-  return MethodCallValidationMetadataException;
-}(exceptions_BaseException);
-/**
- * Thrown when the server fails to generate the transaction for signing
- */
-
-var exceptions_GenerateTransactionException =
-/*#__PURE__*/
-function (_BaseException5) {
-  inheritsLoose_default()(GenerateTransactionException, _BaseException5);
-
-  function GenerateTransactionException() {
-    var _this6;
-
-    for (var _len5 = arguments.length, args = new Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
-      args[_key5] = arguments[_key5];
-    }
-
-    _this6 = _BaseException5.call.apply(_BaseException5, [this].concat(args)) || this;
-    _this6.name = 'GenerateTransactionException';
-    return _this6;
-  }
-
-  return GenerateTransactionException;
-}(exceptions_BaseException);
-/**
- * Thrown when the server returns an error after submitting a signed transaction
- */
-
-var exceptions_SubmitTransactionException =
-/*#__PURE__*/
-function (_BaseException6) {
-  inheritsLoose_default()(SubmitTransactionException, _BaseException6);
-
-  function SubmitTransactionException() {
-    var _this7;
-
-    for (var _len6 = arguments.length, args = new Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
-      args[_key6] = arguments[_key6];
-    }
-
-    _this7 = _BaseException6.call.apply(_BaseException6, [this].concat(args)) || this;
-    _this7.name = 'SubmitTransactionException';
-    return _this7;
-  }
-
-  return SubmitTransactionException;
-}(exceptions_BaseException);
-/**
- * Thrown when the server returns an error when querying transactions
- */
-
-var exceptions_GetRequestException =
-/*#__PURE__*/
-function (_BaseException7) {
-  inheritsLoose_default()(GetRequestException, _BaseException7);
-
-  function GetRequestException() {
-    var _this8;
-
-    for (var _len7 = arguments.length, args = new Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
-      args[_key7] = arguments[_key7];
-    }
-
-    _this8 = _BaseException7.call.apply(_BaseException7, [this].concat(args)) || this;
-    _this8.name = 'GetRequestException';
-    return _this8;
-  }
-
-  return GetRequestException;
-}(exceptions_BaseException);
-/**
- * Thrown when the server returns an error when querying transactions
- */
-
-var exceptions_PostRequestException =
-/*#__PURE__*/
-function (_BaseException8) {
-  inheritsLoose_default()(PostRequestException, _BaseException8);
-
-  function PostRequestException() {
-    var _this9;
-
-    for (var _len8 = arguments.length, args = new Array(_len8), _key8 = 0; _key8 < _len8; _key8++) {
-      args[_key8] = arguments[_key8];
-    }
-
-    _this9 = _BaseException8.call.apply(_BaseException8, [this].concat(args)) || this;
-    _this9.name = 'PostRequestException';
-    return _this9;
-  }
-
-  return PostRequestException;
-}(exceptions_BaseException);
-/**
- * Thrown when the server returns an error when querying transactions
- */
-
-var exceptions_GetTransactionsException =
-/*#__PURE__*/
-function (_GetRequestException) {
-  inheritsLoose_default()(GetTransactionsException, _GetRequestException);
-
-  function GetTransactionsException() {
-    var _this10;
-
-    for (var _len9 = arguments.length, args = new Array(_len9), _key9 = 0; _key9 < _len9; _key9++) {
-      args[_key9] = arguments[_key9];
-    }
-
-    _this10 = _GetRequestException.call.apply(_GetRequestException, [this].concat(args)) || this;
-    _this10.name = 'GetTransactionsException';
-    return _this10;
-  }
-
-  return GetTransactionsException;
-}(exceptions_GetRequestException);
-/**
- * Thrown when an error occurs checking a transactions status
- */
-
-var exceptions_TransactionStatusCheckException =
-/*#__PURE__*/
-function (_BaseException9) {
-  inheritsLoose_default()(TransactionStatusCheckException, _BaseException9);
-
-  function TransactionStatusCheckException() {
-    var _this11;
-
-    for (var _len10 = arguments.length, args = new Array(_len10), _key10 = 0; _key10 < _len10; _key10++) {
-      args[_key10] = arguments[_key10];
-    }
-
-    _this11 = _BaseException9.call.apply(_BaseException9, [this].concat(args)) || this;
-    _this11.name = 'TransactionStatusCheckException';
-    return _this11;
-  }
-
-  return TransactionStatusCheckException;
-}(exceptions_BaseException);
-/**
- * Thrown when there's an error signing a transaction
- */
-
-var exceptions_SigningException =
-/*#__PURE__*/
-function (_BaseException10) {
-  inheritsLoose_default()(SigningException, _BaseException10);
-
-  function SigningException() {
-    var _this12;
-
-    for (var _len11 = arguments.length, args = new Array(_len11), _key11 = 0; _key11 < _len11; _key11++) {
-      args[_key11] = arguments[_key11];
-    }
-
-    _this12 = _BaseException10.call.apply(_BaseException10, [this].concat(args)) || this;
-    _this12.name = 'SigningException';
-    return _this12;
-  }
-
-  return SigningException;
-}(exceptions_BaseException);
-/**
- * Thrown when a LocalWallet is created in a non browser environment
- */
-
-var exceptions_NotInBrowserException =
-/*#__PURE__*/
-function (_BaseException11) {
-  inheritsLoose_default()(NotInBrowserException, _BaseException11);
-
-  function NotInBrowserException() {
-    var _this13;
-
-    for (var _len12 = arguments.length, args = new Array(_len12), _key12 = 0; _key12 < _len12; _key12++) {
-      args[_key12] = arguments[_key12];
-    }
-
-    _this13 = _BaseException11.call.apply(_BaseException11, [this].concat(args)) || this;
-    _this13.name = 'NotInBrowserException';
-    return _this13;
-  }
-
-  return NotInBrowserException;
-}(exceptions_BaseException);
-/**
- * Thrown when the user rejects the request to sign
- */
-
-var exceptions_UserRejectedSigningException =
-/*#__PURE__*/
-function (_SigningException) {
-  inheritsLoose_default()(UserRejectedSigningException, _SigningException);
-
-  function UserRejectedSigningException() {
-    var _this14;
-
-    for (var _len13 = arguments.length, args = new Array(_len13), _key13 = 0; _key13 < _len13; _key13++) {
-      args[_key13] = arguments[_key13];
-    }
-
-    _this14 = _SigningException.call.apply(_SigningException, [this].concat(args)) || this;
-    _this14.name = 'UserRejectedSigningException';
-    return _this14;
-  }
-
-  return UserRejectedSigningException;
-}(exceptions_SigningException);
-/**
- * Thrown when a method on a class inheriting [SimbaBase]{@link SimbaBase} is called that requires
- * a [Wallet]{@link Wallet} to be set, and it isn't.
- */
-
-var exceptions_WalletNotFoundException =
-/*#__PURE__*/
-function (_SigningException2) {
-  inheritsLoose_default()(WalletNotFoundException, _SigningException2);
-
-  function WalletNotFoundException() {
-    var _this15;
-
-    for (var _len14 = arguments.length, args = new Array(_len14), _key14 = 0; _key14 < _len14; _key14++) {
-      args[_key14] = arguments[_key14];
-    }
-
-    _this15 = _SigningException2.call.apply(_SigningException2, [this].concat(args)) || this;
-    _this15.name = 'WalletNotFoundException';
-    return _this15;
-  }
-
-  return WalletNotFoundException;
-}(exceptions_SigningException);
-/**
- * Thrown when a method on a class inheriting [SimbaBase]{@link SimbaBase} is called that requires
- * a [Wallet]{@link Wallet} to be unlocked, and it isn't.
- */
-
-var exceptions_WalletLockedException =
-/*#__PURE__*/
-function (_SigningException3) {
-  inheritsLoose_default()(WalletLockedException, _SigningException3);
-
-  function WalletLockedException() {
-    var _this16;
-
-    for (var _len15 = arguments.length, args = new Array(_len15), _key15 = 0; _key15 < _len15; _key15++) {
-      args[_key15] = arguments[_key15];
-    }
-
-    _this16 = _SigningException3.call.apply(_SigningException3, [this].concat(args)) || this;
-    _this16.name = 'WalletLockedException';
-    return _this16;
-  }
-
-  return WalletLockedException;
-}(exceptions_SigningException);
-/**
- * Thrown when a method call exceeds the max retries
- */
-
-var exceptions_RetriesExceededException =
-/*#__PURE__*/
-function (_SigningException4) {
-  inheritsLoose_default()(RetriesExceededException, _SigningException4);
-
-  function RetriesExceededException() {
-    var _this17;
-
-    for (var _len16 = arguments.length, args = new Array(_len16), _key16 = 0; _key16 < _len16; _key16++) {
-      args[_key16] = arguments[_key16];
-    }
-
-    _this17 = _SigningException4.call.apply(_SigningException4, [this].concat(args)) || this;
-    _this17.name = 'RetriesExceededException';
-    return _this17;
-  }
-
-  return RetriesExceededException;
-}(exceptions_SigningException);
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__(62);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.to-string.js
-var es_object_to_string = __webpack_require__(63);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.iterator.js
-var es_string_iterator = __webpack_require__(83);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.iterator.js
-var web_dom_collections_iterator = __webpack_require__(114);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/web.url.js
-var web_url = __webpack_require__(115);
-
-// CONCATENATED MODULE: ./src/simba/pagedresponse.js
-
-
-
-
-
-
-
-
-
-/**
- * Wrapper for paged responses
- */
-var pagedresponse_PagedResponse =
-/*#__PURE__*/
-function () {
-  /**
-   * Wrapper for paged responses
-   * @param {Object} data - The response
-   * @param {URL} url - The URL that provided the response
-   * @param {SimbaBase} simba - The SimbaBase instance that requested the response
-   */
-  function PagedResponse(data, url, simba) {
-    this.url = new URL(url);
-    this._count = data.count;
-    this._next_page = data.next;
-    this._previous_page = data.previous;
-    this.results = data.results;
-    this.simba = simba;
-  }
-  /**
-   * Grab the next page
-   * @returns {Promise<PagedResponse> | null} - Null if there's no next page
-   */
-
-
-  var _proto = PagedResponse.prototype;
-
-  _proto.next =
-  /*#__PURE__*/
-  function () {
-    var _next = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee() {
-      return regenerator_default.a.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              if (this._next_page) {
-                _context.next = 2;
-                break;
-              }
-
-              return _context.abrupt("return", null);
-
-            case 2:
-              return _context.abrupt("return", this.simba.sendTransactionRequest(new URL(this._next_page)));
-
-            case 3:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee, this);
-    }));
-
-    function next() {
-      return _next.apply(this, arguments);
-    }
-
-    return next;
-  }()
-  /**
-   * Grab the previous page
-   * @returns {Promise<PagedResponse> | null} - Null if there's no next page
-   */
-  ;
-
-  _proto.previous =
-  /*#__PURE__*/
-  function () {
-    var _previous = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee2() {
-      return regenerator_default.a.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              if (this._previous_page) {
-                _context2.next = 2;
-                break;
-              }
-
-              return _context2.abrupt("return", null);
-
-            case 2:
-              return _context2.abrupt("return", this.simba.sendTransactionRequest(new URL(this._previous_page)));
-
-            case 3:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2, this);
-    }));
-
-    function previous() {
-      return _previous.apply(this, arguments);
-    }
-
-    return previous;
-  }()
-  /**
-   * Returns the actual data
-   * @returns {Object}
-   */
-  ;
-
-  _proto.data = function data() {
-    return this.results;
-  }
-  /**
-   * Returns the result count
-   * @returns {number}
-   */
-  ;
-
-  _proto.count = function count() {
-    return this._count;
-  }
-  /**
-   * Returns the current page number
-   * @returns {number}
-   */
-  ;
-
-  _proto.current_page = function current_page() {
-    return this.url.searchParams.get('page');
-  }
-  /**
-   * Returns the next page number
-   * @returns {number}
-   */
-  ;
-
-  _proto.next_page = function next_page() {
-    return this._next_page;
-  }
-  /**
-   * Returns the previous page number
-   * @returns {number}
-   */
-  ;
-
-  _proto.previous_page = function previous_page() {
-    return this._previous_page;
-  };
-
-  return PagedResponse;
-}();
-
-
-// CONCATENATED MODULE: ./src/simba/simbabase.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * @interface
- * Base class for libsimba API Interaction implementations
- */
-
-var simbabase_SimbaBase =
-/*#__PURE__*/
-function () {
-  /**
-   * Base class for libsimba API Interaction implementations
-   * @param {string} endpoint - The endpoint of the API
-   * @param {Wallet} [wallet] - an optional {@link Wallet} instance
-   */
-  function SimbaBase(endpoint, wallet) {
-    if (!endpoint.endsWith('/')) {
-      this.endpoint = "".concat(endpoint, "/");
-    } else {
-      this.endpoint = endpoint;
-    }
-
-    this.wallet = wallet;
-    this.metadata = {};
-
-    if (this.constructor === SimbaBase) {
-      // Error Type 1. Abstract class can not be constructed.
-      throw new TypeError('Can not construct abstract class.');
-    }
-
-    if (this.initialize === SimbaBase.prototype.initialize) {
-      throw new exceptions_NotImplementedException('Please implement abstract method callMethod.');
-    }
-
-    if (this.callMethod === SimbaBase.prototype.callMethod) {
-      throw new exceptions_NotImplementedException('Please implement abstract method callMethod.');
-    }
-
-    if (this.getTransactionStatus === SimbaBase.prototype.getTransactionStatus) {
-      throw new exceptions_NotImplementedException('Please implement abstract method getTransactionStatus.');
-    }
-
-    if (this.checkTransactionStatusFromObject === SimbaBase.prototype.checkTransactionStatusFromObject) {
-      throw new exceptions_NotImplementedException('Please implement abstract method checkTransactionStatusFromObject.');
-    }
-
-    if (this.checkTransactionDone === SimbaBase.prototype.checkTransactionDone) {
-      throw new exceptions_NotImplementedException('Please implement abstract method checkTransactionDone.');
-    }
-
-    if (this.checkTransactionStatus === SimbaBase.prototype.checkTransactionStatus) {
-      throw new exceptions_NotImplementedException('Please implement abstract method checkTransactionStatus.');
-    }
-
-    if (this.getBalance === SimbaBase.prototype.getBalance) {
-      throw new exceptions_NotImplementedException('Please implement abstract method getBalance.');
-    }
-
-    if (this.addFunds === SimbaBase.prototype.addFunds) {
-      throw new exceptions_NotImplementedException('Please implement abstract method addFunds.');
-    }
-
-    if (this.getMethodTransactions === SimbaBase.prototype.getMethodTransactions) {
-      throw new exceptions_NotImplementedException('Please implement abstract method getMethodTransactions.');
-    }
-
-    if (this.getTransaction === SimbaBase.prototype.getTransaction) {
-      throw new exceptions_NotImplementedException('Please implement abstract method getTransaction.');
-    }
-
-    if (this.getTransactions === SimbaBase.prototype.getTransactions) {
-      throw new exceptions_NotImplementedException('Please implement abstract method getTransactions.');
-    }
-
-    if (this.getBundleMetadataForTransaction === SimbaBase.prototype.getBundleMetadataForTransaction) {
-      throw new exceptions_NotImplementedException('Please implement abstract method getBundleMetadataForTransaction.');
-    }
-
-    if (this.getBundleForTransaction === SimbaBase.prototype.getBundleForTransaction) {
-      throw new exceptions_NotImplementedException('Please implement abstract method getBundleForTransaction.');
-    }
-
-    if (this.getFileFromBundleForTransaction === SimbaBase.prototype.getFileFromBundleForTransaction) {
-      throw new exceptions_NotImplementedException('Please implement abstract method getFileFromBundleForTransaction.');
-    }
-
-    if (this.getFileFromBundleByNameForTransaction === SimbaBase.prototype.getFileFromBundleByNameForTransaction) {
-      throw new exceptions_NotImplementedException('Please implement abstract method getFileFromBundleByNameForTransaction.');
-    }
-
-    if (this.sendTransactionRequest === SimbaBase.prototype.sendTransactionRequest) {
-      throw new exceptions_NotImplementedException('Please implement abstract method sendTransactionRequest.');
-    }
-  }
-  /**
-   * @abstract
-   * (Abstract) Perform any asynchronous actions needed to initialise this class
-   */
-
-
-  var _proto = SimbaBase.prototype;
-
-  _proto.initialize = function initialize() {
-    throw new exceptions_NotImplementedException('SimbaBase.initialize Not Implemented');
-  }
-  /**
-   * @abstract
-   * (Abstract) Call a method on the API
-   * @param {string} method - the method to call
-   * @param {Object} parameters - the parameters for the method
-   * @return {Promise} - a promise resolving with the transaction details
-   */
-  ;
-
-  _proto.callMethod = function callMethod(method, parameters) {
-    throw new exceptions_NotImplementedException('SimbaBase.callMethod Not Implemented');
-  }
-  /**
-   * @abstract
-   * (Abstract) Gets a paged list of transactions for the method
-   * @param {string} method - The method
-   * @param {Object} parameters - The query parameters
-   */
-  ;
-
-  _proto.getMethodTransactions = function getMethodTransactions(method, parameters) {
-    throw new exceptions_NotImplementedException('SimbaBase.callMethod Not Implemented');
-  }
-  /**
-   * @abstract
-   * (Abstract) Gets a specific transaction
-   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
-   * @returns {Promise<Object>} - The transaction
-   */
-  ;
-
-  _proto.getTransaction = function getTransaction(transactionIdOrHash) {
-    throw new exceptions_NotImplementedException('SimbaBase.getTransaction Not Implemented');
-  }
-  /**
-   * @abstract
-   * (Abstract) Gets a the bundle metadata for a transaction
-   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
-   * @returns {Promise<Object>} - The bundle metadata
-   */
-  ;
-
-  _proto.getBundleMetadataForTransaction = function getBundleMetadataForTransaction(transactionIdOrHash) {
-    throw new exceptions_NotImplementedException('SimbaBase.getTransaction Not Implemented');
-  }
-  /**
-   * @abstract
-   * (Abstract) Gets the bundle for a transaction
-   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
-   * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
-   * @returns {Promise<ReadableStream|Blob>} - The bundle
-   */
-  ;
-
-  _proto.getBundleForTransaction = function getBundleForTransaction(transactionIdOrHash, stream) {
-    throw new exceptions_NotImplementedException('SimbaBase.getTransaction Not Implemented');
-  }
-  /**
-   * @abstract
-   * (Abstract) Gets a file from the bundle for a transaction
-   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
-   * @param {number} fileIdx - The index of the file in the bundle metadata
-   * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
-   * @returns {Promise<ReadableStream|Blob>} - The file
-   */
-  ;
-
-  _proto.getFileFromBundleForTransaction = function getFileFromBundleForTransaction(transactionIdOrHash, fileIdx, stream) {
-    throw new exceptions_NotImplementedException('SimbaBase.getTransaction Not Implemented');
-  }
-  /**
-   * @abstract
-   * (Abstract) Gets a file from the bundle for a transaction
-   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
-   * @param {string} fileName - The name of the file in the bundle metadata
-   * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
-   * @returns {Promise<ReadableStream|Blob>} - The file
-   */
-  ;
-
-  _proto.getFileFromBundleByNameForTransaction = function getFileFromBundleByNameForTransaction(transactionIdOrHash, fileName, stream) {
-    throw new exceptions_NotImplementedException('SimbaBase.getTransaction Not Implemented');
-  }
-  /**
-   * @abstract
-   * (Abstract) Gets a paged list of transactions
-   * @param {Object} parameters - The query parameters
-   * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
-   */
-  ;
-
-  _proto.getTransactions = function getTransactions(parameters) {
-    throw new exceptions_NotImplementedException('SimbaBase.callMethod Not Implemented');
-  }
-  /**
-   * @abstract
-   * Internal function for sending transaction GET requests
-   * @param {URL} url - The URL
-   * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
-   */
-  ;
-
-  _proto.sendTransactionRequest =
-  /*#__PURE__*/
-  function () {
-    var _sendTransactionRequest = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee(url) {
-      return regenerator_default.a.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              throw new exceptions_NotImplementedException('SimbaBase.sendTransactionRequest Not Implemented');
-
-            case 1:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }));
-
-    function sendTransactionRequest(_x) {
-      return _sendTransactionRequest.apply(this, arguments);
-    }
-
-    return sendTransactionRequest;
-  }()
-  /**
-   * @abstract
-   * (Abstract) Call a method on the API with files
-   * @param {string} method - the method to call
-   * @param {Object} parameters - the parameters for the method
-   * @param {Array<Blob|File>} files - the files
-   * @return {Promise<Object>} - a promise resolving with the transaction details
-   */
-  ;
-
-  _proto.callMethodWithFile = function callMethodWithFile(method, parameters, files) {
-    throw new exceptions_NotImplementedException('SimbaBase.callMethod Not Implemented');
-  }
-  /**
-   * @abstract
-   * (Abstract) Get the status of a transaction by ID
-   * @param {string} txnId - the transaction ID
-   * @return {Promise<Object>} - a promise resolving with the transaction details
-   */
-  ;
-
-  _proto.getTransactionStatus = function getTransactionStatus(txnId) {
-    throw new exceptions_NotImplementedException('SimbaBase.getTransactionStatus Not Implemented');
-  }
-  /**
-   * @abstract
-   * @private
-   * (Abstract) Gets the status of a transaction
-   * @param {Object} txn - a transaction object
-   * @return {Object} - an object with status details
-   */
-  ;
-
-  _proto.checkTransactionStatusFromObject = function checkTransactionStatusFromObject(txn) {
-    throw new exceptions_NotImplementedException('SimbaBase.checkTransactionStatusFromObject Not Implemented');
-  }
-  /**
-   * @abstract
-   * @private
-   * (Abstract) Check if the transaction is complete
-   * @param {Object} txn - the transaction object
-   * @return {boolean} - is the transaction complete
-   */
-  ;
-
-  _proto.checkTransactionDone = function checkTransactionDone(txn) {
-    throw new exceptions_NotImplementedException('SimbaBase.checkTransactionDone Not Implemented');
-  }
-  /**
-   * @abstract
-   * (Abstract) Gets the status of a transaction by ID
-   * @param {string} txnId - a transaction ID
-   * @return {Object} - an object with status details
-   */
-  ;
-
-  _proto.checkTransactionStatus = function checkTransactionStatus(txnId) {
-    throw new exceptions_NotImplementedException('SimbaBase.checkTransactionStatus Not Implemented');
-  }
-  /**
-   * @abstract
-   * (Abstract) Get the balance for the attached Wallet
-   * @return {Promise<Object>} - the balance
-   */
-  ;
-
-  _proto.getBalance = function getBalance() {
-    throw new exceptions_NotImplementedException('SimbaBase.getBalance Not Implemented');
-  }
-  /**
-   * @abstract
-   * (Abstract) Add funds to the attached Wallet.
-   * Please check the output of this method. It is of the form
-   * ```
-   * {
-   *     txnId: null,
-   *     faucet_url: null,
-   *     poa: true
-   * }
-   * ```
-   *
-   * If successful, txnId will be populated.
-   * If the network is PoA, then poa will be true, and txnId will be null
-   * If the faucet for the network is external (e.g. Rinkeby, Ropsten, etc), then txnId will be null,
-   * and faucet_url will be populated with a URL. You should present this URL to your users to direct them
-   * to request funds there.
-   * @return {Promise<Object>} - details of the txn
-   */
-  ;
-
-  _proto.addFunds = function addFunds() {
-    throw new exceptions_NotImplementedException('SimbaBase.addFunds Not Implemented');
-  }
-  /**
-   * Returns an object with 'future' and 'cancel' keys.
-   * future is the promise to listen on for the response or an error.
-   * cancel is a function - call it to cancel the polling.
-   * @param {string} txnId - the transaction ID
-   * @param {number} [pollInterval=5000] - the interval in ms for polling
-   */
-  ;
-
-  _proto.waitForSuccessOrError = function waitForSuccessOrError(txnId, pollInterval) {
-    var _this = this;
-
-    if (!pollInterval) pollInterval = 5000;
-    return Object(lib["pollWrapper"])({
-      request: function request() {
-        return _this.getTransactionStatus(txnId);
-      },
-      pollingPeriod: pollInterval,
-      // ms
-      shouldStop: function shouldStop(txn) {
-        return _this.checkTransactionDone(_this.checkTransactionStatusFromObject(txn));
-      }
-    });
-  }
-  /**
-   * Set the wallet
-   * @param {Wallet} wallet - the wallet
-   */
-  ;
-
-  _proto.setWallet = function setWallet(wallet) {
-    this.wallet = wallet;
-  }
-  /**
-   * Set the API Key to authenticate calls
-   * @param {string} apiKey - the API Key
-   */
-  ;
-
-  _proto.setApiKey = function setApiKey(apiKey) {
-    this.apiKey = apiKey;
-  }
-  /**
-   * Set the API Key to authenticate management calls
-   * @param {string} managementKey - the management API Key
-   */
-  ;
-
-  _proto.setManagementKey = function setManagementKey(managementKey) {
-    this.managementKey = managementKey;
-  }
-  /**
-   * @private
-   * Get API Call auth headers
-   * @returns {{APIKEY: *, "Content-Type": string}}
-   */
-  ;
-
-  _proto.apiAuthHeaders = function apiAuthHeaders() {
-    return {
-      APIKEY: this.apiKey
-    };
-  }
-  /**
-   * @private
-   * Get management API Call auth headers
-   * @returns {{APIKEY: *, "Content-Type": string}}
-   */
-  ;
-
-  _proto.managementAuthHeaders = function managementAuthHeaders() {
-    return {
-      APIKEY: this.managementKey
-    };
-  }
-  /**
-   * @private
-   * Validate the method call against the app metadata
-   * @param {string} methodName - the methods name
-   * @param {Object} parameters - the parameters for the method call
-   * @param {Array} [files] - Optional array of files
-   * @returns {boolean}
-   * @throws {MissingMetadataException} - App Metadata not yet retrieved
-   * @throws {BadMetadataException} - App Metadata doesn't have methods
-   * @throws {MethodCallValidationMetadataException} - Method call fails validation
-   */
-  ;
-
-  _proto.validateCall = function validateCall(methodName, parameters, files) {
-    if (!this.metadata) {
-      throw new exceptions_MissingMetadataException("App Metadata not yet retrieved");
-    }
-
-    if (!this.metadata.methods) {
-      throw new exceptions_BadMetadataException("App Metadata doesn't have methods!");
-    }
-
-    if (!(methodName in this.metadata.methods)) {
-      throw new exceptions_MethodCallValidationMetadataException("Method \"".concat(methodName, "\" not found"));
-    }
-
-    var methodMeta = this.metadata.methods[methodName];
-
-    if (files && !('_files' in methodMeta.parameters)) {
-      throw new exceptions_MethodCallValidationMetadataException("Method \"".concat(methodName, "\" does not accept files"));
-    }
-
-    if (parameters['_files']) {
-      throw new exceptions_MethodCallValidationMetadataException("Files must not be passed in through the parameters argument");
-    }
-
-    if (files) {
-      for (var i = 0; i < files.length; i++) {
-        if (!(files[i] instanceof Blob) || !(files[i] instanceof File)) {
-          throw new exceptions_MethodCallValidationMetadataException("Item at position ".concat(i, " of \"files\" is not a Blob or a File"));
-        }
-      }
-    }
-
-    var paramNames = Object.keys(parameters);
-    paramNames.forEach(function (key) {
-      if (!(key in methodMeta.parameters)) {
-        throw new exceptions_MethodCallValidationMetadataException("Parameter \"".concat(key, "\" is not valid for method \"").concat(methodName, "\""));
-      } //TODO: Type checks
-
-    }); //We expect _files to be missing, as it's passed separately
-
-    var missing = Object.keys(methodMeta.parameters).filter(function (key) {
-      return paramNames.indexOf(key) < 0 && key !== '_files';
-    });
-
-    if (missing.length) {
-      throw new exceptions_MethodCallValidationMetadataException("Parameters [".concat(missing.join(','), "] not present for method \"").concat(methodName, "\""));
-    }
-
-    return true;
-  }
-  /**
-   * @private
-   * Validate the transaction list call against the app metadata
-   * @param {string} methodName - the methods name
-   * @param {Object} parameters - the parameters for the query
-   * @returns {boolean}
-   * @throws {MissingMetadataException} - App Metadata not yet retrieved
-   * @throws {BadMetadataException} - App Metadata doesn't have methods
-   * @throws {MethodCallValidationMetadataException} - Method call fails validation
-   */
-  ;
-
-  _proto.validateGetCall = function validateGetCall(methodName, parameters) {
-    if (!this.metadata) {
-      throw new exceptions_MissingMetadataException("App Metadata not yet retrieved");
-    }
-
-    if (!this.metadata.methods) {
-      throw new exceptions_BadMetadataException("App Metadata doesn't have methods!");
-    }
-
-    if (!(methodName in this.metadata.methods)) {
-      throw new exceptions_MethodCallValidationMetadataException("Method \"".concat(methodName, "\" not found"));
-    }
-
-    return true;
-  }
-  /**
-   * @private
-   * Validate the transaction list call against the app metadata
-   * @returns {boolean}
-   * @throws {MissingMetadataException} - App Metadata not yet retrieved
-   * @throws {BadMetadataException} - App Metadata doesn't have methods
-   */
-  ;
-
-  _proto.validateAnyGetCall = function validateAnyGetCall() {
-    if (!this.metadata) {
-      throw new exceptions_MissingMetadataException("App Metadata not yet retrieved");
-    }
-
-    if (!this.metadata.methods) {
-      throw new exceptions_BadMetadataException("App Metadata doesn't have methods!");
-    }
-
-    return true;
-  };
-
-  return SimbaBase;
-}();
-
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.js
-var es_symbol = __webpack_require__(173);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.date.to-string.js
-var es_date_to_string = __webpack_require__(176);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.assign.js
-var es_object_assign = __webpack_require__(177);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.define-properties.js
-var es_object_define_properties = __webpack_require__(178);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.define-property.js
-var es_object_define_property = __webpack_require__(179);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.entries.js
-var es_object_entries = __webpack_require__(180);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.get-own-property-descriptor.js
-var es_object_get_own_property_descriptor = __webpack_require__(182);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.get-own-property-descriptors.js
-var es_object_get_own_property_descriptors = __webpack_require__(183);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.promise.js
-var es_promise = __webpack_require__(86);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.to-string.js
-var es_regexp_to_string = __webpack_require__(193);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/defineProperty.js
-var defineProperty = __webpack_require__(149);
-var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/slicedToArray.js
-var slicedToArray = __webpack_require__(50);
-var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray);
-
-// EXTERNAL MODULE: ./node_modules/axios/index.js
-var axios = __webpack_require__(150);
-var axios_default = /*#__PURE__*/__webpack_require__.n(axios);
-
-// CONCATENATED MODULE: ./src/simba/simba.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { defineProperty_default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-
-
-
-
-var request = axios_default.a.request;
-/**
- * libsimba API Interaction for Simbachain.com
- */
-
-var simba_Simbachain =
-/*#__PURE__*/
-function (_SimbaBase) {
-  inheritsLoose_default()(Simbachain, _SimbaBase);
-
-  /**
-   * libsimba API Interaction for Simbachain.com
-   * @param {string} endpoint - The endpoint of the API
-   * @param {Wallet} [wallet] - an optional {@link Wallet} instance
-   */
-  function Simbachain(endpoint, wallet) {
-    return _SimbaBase.call(this, endpoint, wallet) || this;
-  }
-  /**
-   * @private
-   * Perform asynchronous actions needed to initialise this class
-   */
-
-
-  var _proto = Simbachain.prototype;
-
-  _proto.initialize =
-  /*#__PURE__*/
-  function () {
-    var _initialize = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee() {
-      var response, swagger;
-      return regenerator_default.a.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return request({
-                url: "".concat(this.endpoint, "?format=openapi"),
-                responseType: 'json'
-              });
-
-            case 2:
-              response = _context.sent;
-              swagger = response.data;
-
-              if ('info' in swagger && 'x-simba-attrs' in swagger.info) {
-                this.metadata = swagger.info['x-simba-attrs'];
-              }
-
-            case 5:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee, this);
-    }));
-
-    function initialize() {
-      return _initialize.apply(this, arguments);
-    }
-
-    return initialize;
-  }()
-  /**
-   * @override
-   * Call a method on the API
-   * @param {string} method - the method to call
-   * @param {Object} parameters - the parameters for the method
-   * @return {Promise} - a promise resolving with the transaction details
-   */
-  ;
-
-  _proto.callMethod =
-  /*#__PURE__*/
-  function () {
-    var _callMethod = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee2(method, parameters) {
-      var formData, address, _i, _Object$entries, _Object$entries$_i, key, value;
-
-      return regenerator_default.a.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              if (this.wallet) {
-                _context2.next = 2;
-                break;
-              }
-
-              throw new exceptions_WalletNotFoundException("No Wallet found");
-
-            case 2:
-              this.validateCall(method, parameters);
-              formData = new FormData();
-              _context2.next = 6;
-              return this.wallet.getAddress();
-
-            case 6:
-              address = _context2.sent;
-              formData.append('from', address);
-
-              for (_i = 0, _Object$entries = Object.entries(parameters); _i < _Object$entries.length; _i++) {
-                _Object$entries$_i = slicedToArray_default()(_Object$entries[_i], 2), key = _Object$entries$_i[0], value = _Object$entries$_i[1];
-                formData.append(key, value);
-              }
-
-              return _context2.abrupt("return", this.sendMethodRequest(method, formData));
-
-            case 10:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2, this);
-    }));
-
-    function callMethod(_x, _x2) {
-      return _callMethod.apply(this, arguments);
-    }
-
-    return callMethod;
-  }()
-  /**
-   * @override
-   * Get the status of a transaction by ID
-   * @param {string} txnId - the transaction ID
-   * @return {Promise<Object>} - a promise resolving with the transaction details
-   */
-  ;
-
-  _proto.getTransactionStatus = function getTransactionStatus(txnId) {
-    return request({
-      url: "".concat(this.endpoint, "transaction/").concat(txnId, "/"),
-      method: 'GET',
-      headers: this.apiAuthHeaders(),
-      responseType: 'json'
-    }).then(
-    /*#__PURE__*/
-    function () {
-      var _ref = asyncToGenerator_default()(
-      /*#__PURE__*/
-      regenerator_default.a.mark(function _callee3(response) {
-        return regenerator_default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                return _context3.abrupt("return", response.data);
-
-              case 1:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }));
-
-      return function (_x3) {
-        return _ref.apply(this, arguments);
-      };
-    }()).catch(function (error) {
-      throw new exceptions_TransactionStatusCheckException(JSON.stringify(error.response.data));
-    });
-  }
-  /**
-   * @override
-   * @private
-   * Gets the status of a transaction
-   * @param {Object} txn - a transaction object
-   * @return {Object} - an object with status details
-   */
-  ;
-
-  _proto.checkTransactionStatusFromObject = function checkTransactionStatusFromObject(txn) {
-    var ret = {
-      status: '',
-      transaction_hash: ''
-    };
-
-    if (txn.transaction_hash) {
-      ret.transaction_hash = txn.transaction_hash;
-    }
-
-    if (txn.error) {
-      ret.status = 'error';
-      ret.error = txn.error;
-      ret.error_details = txn.error_details;
-    } else if (!txn.receipt) {
-      ret.status = 'pending';
-    } else {
-      ret.status = 'success';
-    }
-
-    return ret;
-  }
-  /**
-   * @override
-   * @private
-   * Check if the transaction is complete
-   * @param {Object} txn - the transaction object
-   * @return {boolean} - is the transaction complete
-   */
-  ;
-
-  _proto.checkTransactionDone = function checkTransactionDone(txn) {
-    return txn.status !== 'pending';
-  }
-  /**
-   * @override
-   * @private
-   * Gets the status of a transaction by ID
-   * @param {string} txnId - a transaction ID
-   * @return {Object} - an object with status details
-   */
-  ;
-
-  _proto.checkTransactionStatus = function checkTransactionStatus(txnId) {
-    return this.getTransactionStatus(txnId).then(this.checkTransactionStatusFromObject);
-  }
-  /**
-   * @override
-   * Get the balance for the attached Wallet
-   * @return {Promise<Object>} - the balance
-   */
-  ;
-
-  _proto.getBalance =
-  /*#__PURE__*/
-  function () {
-    var _getBalance = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee4() {
-      var address, response;
-      return regenerator_default.a.wrap(function _callee4$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              if (this.metadata) {
-                _context4.next = 2;
-                break;
-              }
-
-              throw new exceptions_MissingMetadataException("App Metadata not yet retrieved");
-
-            case 2:
-              if (this.wallet) {
-                _context4.next = 4;
-                break;
-              }
-
-              throw new exceptions_WalletNotFoundException("No Wallet found");
-
-            case 4:
-              if (!this.metadata.poa) {
-                _context4.next = 6;
-                break;
-              }
-
-              return _context4.abrupt("return", Promise.resolve({
-                amount: -1,
-                currency: "",
-                poa: true
-              }));
-
-            case 6:
-              _context4.next = 8;
-              return this.wallet.getAddress();
-
-            case 8:
-              address = _context4.sent;
-              _context4.next = 11;
-              return request({
-                url: "".concat(this.endpoint, "balance/").concat(address, "/"),
-                method: 'GET',
-                headers: Object.assign({
-                  'Content-Type': 'application/json'
-                }, this.apiAuthHeaders()),
-                responseType: 'json'
-              }).catch(function (error) {
-                throw new exceptions_GetRequestException(JSON.stringify(error.response.data));
-              });
-
-            case 11:
-              response = _context4.sent;
-              return _context4.abrupt("return", Promise.resolve(_objectSpread({}, response.data, {
-                poa: false
-              })));
-
-            case 13:
-            case "end":
-              return _context4.stop();
-          }
-        }
-      }, _callee4, this);
-    }));
-
-    function getBalance() {
-      return _getBalance.apply(this, arguments);
-    }
-
-    return getBalance;
-  }()
-  /**
-   * @override
-   * Add funds to the attached Wallet.
-   * Please check the output of this method. It is of the form
-   * ```
-   * {
-   *     txnId: null,
-   *     faucet_url: null,
-   *     poa: true
-   * }
-   * ```
-   *
-   * If successful, txnId will be populated.
-   * If the network is PoA, then poa will be true, and txnId will be null
-   * If the faucet for the network is external (e.g. Rinkeby, Ropsten, etc), then txnId will be null,
-   * and faucet_url will be populated with a URL. You should present this URL to your users to direct them
-   * to request funds there.
-   * @return {Promise<Object>} - details of the txn
-   */
-  ;
-
-  _proto.addFunds =
-  /*#__PURE__*/
-  function () {
-    var _addFunds = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee5() {
-      var address, requestData, response;
-      return regenerator_default.a.wrap(function _callee5$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              if (this.metadata) {
-                _context5.next = 2;
-                break;
-              }
-
-              throw new exceptions_MissingMetadataException("App Metadata not yet retrieved");
-
-            case 2:
-              if (this.wallet) {
-                _context5.next = 4;
-                break;
-              }
-
-              throw new exceptions_WalletNotFoundException("No Wallet found");
-
-            case 4:
-              _context5.next = 6;
-              return this.wallet.getAddress();
-
-            case 6:
-              address = _context5.sent;
-
-              if (!this.metadata.poa) {
-                _context5.next = 9;
-                break;
-              }
-
-              return _context5.abrupt("return", Promise.resolve({
-                txnId: null,
-                poa: true,
-                faucet_url: null
-              }));
-
-            case 9:
-              if (this.metadata.simba_faucet) {
-                _context5.next = 11;
-                break;
-              }
-
-              return _context5.abrupt("return", Promise.resolve({
-                txnId: null,
-                poa: false,
-                faucet_url: this.metadata.faucet
-              }));
-
-            case 11:
-              requestData = {
-                account: address,
-                value: "1",
-                currency: "ether"
-              };
-              _context5.next = 14;
-              return request({
-                url: "".concat(this.endpoint, "balance/").concat(address, "/"),
-                method: 'POST',
-                headers: Object.assign({
-                  'Content-Type': 'application/json'
-                }, this.apiAuthHeaders()),
-                data: requestData,
-                responseType: 'json'
-              }).catch(function (error) {
-                throw new exceptions_PostRequestException(JSON.stringify(error.response.data));
-              });
-
-            case 14:
-              response = _context5.sent;
-              return _context5.abrupt("return", Promise.resolve(_objectSpread({}, response.data, {
-                poa: false,
-                faucet_url: null
-              })));
-
-            case 16:
-            case "end":
-              return _context5.stop();
-          }
-        }
-      }, _callee5, this);
-    }));
-
-    function addFunds() {
-      return _addFunds.apply(this, arguments);
-    }
-
-    return addFunds;
-  }()
-  /**
-   * @override
-   * Call a method on the API with files
-   * @param {string} method - the method to call
-   * @param {Object} parameters- the parameters for the method
-   * @param {Array<Blob|File>} files - the files
-   * @return {Promise<Object>} - a promise resolving with the transaction details
-   */
-  ;
-
-  _proto.callMethodWithFile =
-  /*#__PURE__*/
-  function () {
-    var _callMethodWithFile = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee6(method, parameters, files) {
-      var formData, address, _i2, _Object$entries2, _Object$entries2$_i, key, value, i;
-
-      return regenerator_default.a.wrap(function _callee6$(_context6) {
-        while (1) {
-          switch (_context6.prev = _context6.next) {
-            case 0:
-              if (this.wallet) {
-                _context6.next = 2;
-                break;
-              }
-
-              throw new exceptions_WalletNotFoundException("No Wallet found");
-
-            case 2:
-              this.validateCall(method, parameters, files);
-              formData = new FormData();
-              _context6.next = 6;
-              return this.wallet.getAddress();
-
-            case 6:
-              address = _context6.sent;
-              formData.append('from', address);
-
-              for (_i2 = 0, _Object$entries2 = Object.entries(parameters); _i2 < _Object$entries2.length; _i2++) {
-                _Object$entries2$_i = slicedToArray_default()(_Object$entries2[_i2], 2), key = _Object$entries2$_i[0], value = _Object$entries2$_i[1];
-                formData.append(key, value);
-              }
-
-              for (i = 0; i < files.length; i++) {
-                formData.append("file[".concat(i, "]"), files[i]);
-              }
-
-              return _context6.abrupt("return", this.sendMethodRequest(method, formData));
-
-            case 11:
-            case "end":
-              return _context6.stop();
-          }
-        }
-      }, _callee6, this);
-    }));
-
-    function callMethodWithFile(_x4, _x5, _x6) {
-      return _callMethodWithFile.apply(this, arguments);
-    }
-
-    return callMethodWithFile;
-  }()
-  /**
-   * @private
-   * Internal method for submitting method calls and retrying on nonce errors
-   * @param {string} txnId - the txnId
-   * @param {string} signed - The signed txn
-   * @returns {Promise<Response>} - The response with transaction data
-   */
-  ;
-
-  _proto.submitTxn =
-  /*#__PURE__*/
-  function () {
-    var _submitTxn = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee7(txnId, payload, maxTries, currentTry) {
-      var _this = this;
-
-      var signed;
-      return regenerator_default.a.wrap(function _callee7$(_context7) {
-        while (1) {
-          switch (_context7.prev = _context7.next) {
-            case 0:
-              if (!maxTries) maxTries = 5;
-              if (!currentTry) currentTry = 0;
-
-              if (!(currentTry > maxTries)) {
-                _context7.next = 4;
-                break;
-              }
-
-              throw new exceptions_RetriesExceededException();
-
-            case 4:
-              _context7.next = 6;
-              return this.wallet.sign(payload);
-
-            case 6:
-              signed = _context7.sent;
-              return _context7.abrupt("return", request({
-                url: "".concat(this.endpoint, "transaction/").concat(txnId, "/"),
-                method: 'POST',
-                headers: Object.assign({
-                  'Content-Type': 'application/json'
-                }, this.apiAuthHeaders()),
-                data: {
-                  payload: signed
-                },
-                responseType: 'json'
-              }).then(function (response) {
-                // tslint:disable-next-line: no-console
-                console.log('Success!', response.data);
-                return txnId;
-              }).catch(function (ex) {
-                var body = ex.response.data;
-
-                if (body.errors && body.errors.length) {
-                  var error = body.errors[0];
-
-                  if (error.detail && error.detail.code) {
-                    var code = error.detail.code; //Nonce Error
-
-                    if (code === "15001" && error.detail.meta && error.detail.meta.suggested_nonce) {
-                      console.log("Nonce Too Low, trying again with suggested nonce " + error.detail.meta.suggested_nonce);
-                      payload.nonce = error.detail.meta.suggested_nonce;
-                      return _this.submitTxn(txnId, payload, maxTries, currentTry++);
-                    }
-                  }
-                }
-
-                throw new exceptions_SubmitTransactionException(JSON.stringify(body));
-              }));
-
-            case 8:
-            case "end":
-              return _context7.stop();
-          }
-        }
-      }, _callee7, this);
-    }));
-
-    function submitTxn(_x7, _x8, _x9, _x10) {
-      return _submitTxn.apply(this, arguments);
-    }
-
-    return submitTxn;
-  }()
-  /**
-   * @private
-   * Internal method for sending method calls
-   * @param {string} url - the url
-   * @param {FormData} formdata - Formdata for the POST
-   * @returns {Promise<Response>} - The response with transaction data
-   */
-  ;
-
-  _proto.sendMethodRequest =
-  /*#__PURE__*/
-  function () {
-    var _sendMethodRequest = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee8(method, formdata) {
-      var _this2 = this;
-
-      var txnId, payload;
-      return regenerator_default.a.wrap(function _callee8$(_context8) {
-        while (1) {
-          switch (_context8.prev = _context8.next) {
-            case 0:
-              txnId = null;
-              return _context8.abrupt("return", request({
-                url: "".concat(this.endpoint).concat(method, "/"),
-                method: 'POST',
-                headers: this.apiAuthHeaders(),
-                data: formdata,
-                responseType: 'json'
-              }).then(function (response) {
-                // tslint:disable-next-line: no-unsafe-any
-                txnId = response.data.id; // tslint:disable-next-line: no-unsafe-any
-
-                payload = response.data.payload.raw;
-                return _this2.submitTxn(txnId, payload);
-              }).catch(function (ex) {
-                throw new exceptions_GenerateTransactionException(JSON.stringify(ex.response.data));
-              }));
-
-            case 2:
-            case "end":
-              return _context8.stop();
-          }
-        }
-      }, _callee8, this);
-    }));
-
-    function sendMethodRequest(_x11, _x12) {
-      return _sendMethodRequest.apply(this, arguments);
-    }
-
-    return sendMethodRequest;
-  }()
-  /**
-   * @override
-   * Gets a specific transaction
-   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
-   * @returns {Promise<Object>} - The transaction
-   */
-  ;
-
-  _proto.getTransaction =
-  /*#__PURE__*/
-  function () {
-    var _getTransaction = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee9(transactionIdOrHash) {
-      var url, response;
-      return regenerator_default.a.wrap(function _callee9$(_context9) {
-        while (1) {
-          switch (_context9.prev = _context9.next) {
-            case 0:
-              this.validateAnyGetCall();
-              url = new URL("".concat(this.endpoint, "transaction/").concat(transactionIdOrHash, "/"));
-              _context9.next = 4;
-              return request({
-                url: url,
-                method: 'GET',
-                headers: this.apiAuthHeaders(),
-                responseType: 'json'
-              }).catch(function (ex) {
-                throw new exceptions_GetTransactionsException(ex.response.data);
-              });
-
-            case 4:
-              response = _context9.sent;
-              return _context9.abrupt("return", response.data);
-
-            case 6:
-            case "end":
-              return _context9.stop();
-          }
-        }
-      }, _callee9, this);
-    }));
-
-    function getTransaction(_x13) {
-      return _getTransaction.apply(this, arguments);
-    }
-
-    return getTransaction;
-  }()
-  /**
-   * @override
-   * Gets a paged list of transactions
-   * @param {Object} parameters - The query parameters
-   * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
-   */
-  ;
-
-  _proto.getTransactions =
-  /*#__PURE__*/
-  function () {
-    var _getTransactions = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee10(parameters) {
-      var url, _i3, _Object$entries3, _Object$entries3$_i, key, value;
-
-      return regenerator_default.a.wrap(function _callee10$(_context10) {
-        while (1) {
-          switch (_context10.prev = _context10.next) {
-            case 0:
-              this.validateAnyGetCall();
-              url = new URL("".concat(this.endpoint, "transaction/"));
-
-              for (_i3 = 0, _Object$entries3 = Object.entries(parameters); _i3 < _Object$entries3.length; _i3++) {
-                _Object$entries3$_i = slicedToArray_default()(_Object$entries3[_i3], 2), key = _Object$entries3$_i[0], value = _Object$entries3$_i[1];
-                url.searchParams.set(key, value);
-              }
-
-              return _context10.abrupt("return", this.sendTransactionRequest(url.toString()));
-
-            case 4:
-            case "end":
-              return _context10.stop();
-          }
-        }
-      }, _callee10, this);
-    }));
-
-    function getTransactions(_x14) {
-      return _getTransactions.apply(this, arguments);
-    }
-
-    return getTransactions;
-  }()
-  /**
-   * @override
-   * Gets a paged list of transactions for the method
-   * @param {string} method - The method
-   * @param {Object} parameters - The query parameters
-   * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
-   */
-  ;
-
-  _proto.getMethodTransactions =
-  /*#__PURE__*/
-  function () {
-    var _getMethodTransactions = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee11(method, parameters) {
-      var url, _i4, _Object$entries4, _Object$entries4$_i, key, value;
-
-      return regenerator_default.a.wrap(function _callee11$(_context11) {
-        while (1) {
-          switch (_context11.prev = _context11.next) {
-            case 0:
-              this.validateGetCall(method, parameters);
-              url = new URL("".concat(this.endpoint).concat(method, "/"));
-
-              for (_i4 = 0, _Object$entries4 = Object.entries(parameters); _i4 < _Object$entries4.length; _i4++) {
-                _Object$entries4$_i = slicedToArray_default()(_Object$entries4[_i4], 2), key = _Object$entries4$_i[0], value = _Object$entries4$_i[1];
-                url.searchParams.set(key, value);
-              }
-
-              return _context11.abrupt("return", this.sendTransactionRequest(url.toString()));
-
-            case 4:
-            case "end":
-              return _context11.stop();
-          }
-        }
-      }, _callee11, this);
-    }));
-
-    function getMethodTransactions(_x15, _x16) {
-      return _getMethodTransactions.apply(this, arguments);
-    }
-
-    return getMethodTransactions;
-  }()
-  /**
-   * @protected
-   * @override
-   * Internal function for sending transaction GET requests
-   * @param {URL} url - The URL
-   * @returns {Promise<PagedResponse>} - A response wrapped in a {@link PagedResponse} helper
-   */
-  ;
-
-  _proto.sendTransactionRequest =
-  /*#__PURE__*/
-  function () {
-    var _sendTransactionRequest = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee12(url) {
-      var response;
-      return regenerator_default.a.wrap(function _callee12$(_context12) {
-        while (1) {
-          switch (_context12.prev = _context12.next) {
-            case 0:
-              _context12.next = 2;
-              return request({
-                url: url,
-                method: 'GET',
-                headers: this.apiAuthHeaders(),
-                responseType: 'json'
-              }).catch(function (ex) {
-                throw new exceptions_GetTransactionsException(ex.response.data);
-              });
-
-            case 2:
-              response = _context12.sent;
-              return _context12.abrupt("return", new pagedresponse_PagedResponse(response.data, url, this));
-
-            case 4:
-            case "end":
-              return _context12.stop();
-          }
-        }
-      }, _callee12, this);
-    }));
-
-    function sendTransactionRequest(_x17) {
-      return _sendTransactionRequest.apply(this, arguments);
-    }
-
-    return sendTransactionRequest;
-  }()
-  /**
-   * @override
-   * Gets a the bundle metadata for a transaction
-   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
-   * @returns {Promise<Object>} - The bundle metadata
-   */
-  ;
-
-  _proto.getBundleMetadataForTransaction =
-  /*#__PURE__*/
-  function () {
-    var _getBundleMetadataForTransaction = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee13(transactionIdOrHash) {
-      var url, response;
-      return regenerator_default.a.wrap(function _callee13$(_context13) {
-        while (1) {
-          switch (_context13.prev = _context13.next) {
-            case 0:
-              url = new URL("".concat(this.endpoint, "transaction/").concat(transactionIdOrHash, "/bundle/"));
-              url.searchParams.append('no_files', true);
-              _context13.next = 4;
-              return request({
-                url: url,
-                method: 'GET',
-                headers: this.apiAuthHeaders(),
-                json: true
-              }).catch(function (ex) {
-                throw new exceptions_GetRequestException(ex.response.data);
-              });
-
-            case 4:
-              response = _context13.sent;
-              return _context13.abrupt("return", response.data);
-
-            case 6:
-            case "end":
-              return _context13.stop();
-          }
-        }
-      }, _callee13, this);
-    }));
-
-    function getBundleMetadataForTransaction(_x18) {
-      return _getBundleMetadataForTransaction.apply(this, arguments);
-    }
-
-    return getBundleMetadataForTransaction;
-  }()
-  /**
-   * @override
-   * Gets the bundle for a transaction
-   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
-   * @returns {Promise<ReadableStream|Blob>} - The bundle
-   */
-  ;
-
-  _proto.getBundleForTransaction =
-  /*#__PURE__*/
-  function () {
-    var _getBundleForTransaction = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee14(transactionIdOrHash) {
-      var url, responseType, response;
-      return regenerator_default.a.wrap(function _callee14$(_context14) {
-        while (1) {
-          switch (_context14.prev = _context14.next) {
-            case 0:
-              url = new URL("".concat(this.endpoint, "transaction/").concat(transactionIdOrHash, "/bundle_raw/"));
-              responseType = 'arraybuffer';
-
-              if (typeof window !== 'undefined') {
-                //in a browser
-                responseType = 'blob';
-              }
-
-              _context14.next = 5;
-              return request({
-                url: url,
-                method: 'GET',
-                headers: this.apiAuthHeaders(),
-                responseType: responseType
-              }).catch(function (ex) {
-                throw new exceptions_GetRequestException(ex.response.data);
-              });
-
-            case 5:
-              response = _context14.sent;
-              return _context14.abrupt("return", response.data);
-
-            case 7:
-            case "end":
-              return _context14.stop();
-          }
-        }
-      }, _callee14, this);
-    }));
-
-    function getBundleForTransaction(_x19) {
-      return _getBundleForTransaction.apply(this, arguments);
-    }
-
-    return getBundleForTransaction;
-  }()
-  /**
-   * @override
-   * Gets a file from the bundle for a transaction
-   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
-   * @param {number} fileIdx - The index of the file in the bundle metadata
-   * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
-   * @returns {Promise<ReadableStream|Blob>} - The file
-   */
-  ;
-
-  _proto.getFileFromBundleForTransaction =
-  /*#__PURE__*/
-  function () {
-    var _getFileFromBundleForTransaction = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee15(transactionIdOrHash, fileIdx, stream) {
-      var url, responseType, response;
-      return regenerator_default.a.wrap(function _callee15$(_context15) {
-        while (1) {
-          switch (_context15.prev = _context15.next) {
-            case 0:
-              url = new URL("".concat(this.endpoint, "transaction/").concat(transactionIdOrHash, "/file/").concat(fileIdx, "/"));
-              responseType = 'arraybuffer';
-
-              if (typeof window !== 'undefined') {
-                //in a browser
-                responseType = 'blob';
-              }
-
-              if (stream) {
-                responseType = 'stream';
-              }
-
-              _context15.next = 6;
-              return request({
-                url: url,
-                method: 'GET',
-                headers: this.apiAuthHeaders(),
-                responseType: responseType
-              }).catch(function (ex) {
-                throw new exceptions_GetRequestException(ex.response.data);
-              });
-
-            case 6:
-              response = _context15.sent;
-              console.log(response);
-              return _context15.abrupt("return", response.data);
-
-            case 9:
-            case "end":
-              return _context15.stop();
-          }
-        }
-      }, _callee15, this);
-    }));
-
-    function getFileFromBundleForTransaction(_x20, _x21, _x22) {
-      return _getFileFromBundleForTransaction.apply(this, arguments);
-    }
-
-    return getFileFromBundleForTransaction;
-  }()
-  /**
-   * @override
-   * Gets a file from the bundle for a transaction
-   * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
-   * @param {string} fileName - The name of the file in the bundle metadata
-   * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
-   * @returns {Promise<ReadableStream|Blob>} - The file
-   */
-  ;
-
-  _proto.getFileFromBundleByNameForTransaction =
-  /*#__PURE__*/
-  function () {
-    var _getFileFromBundleByNameForTransaction = asyncToGenerator_default()(
-    /*#__PURE__*/
-    regenerator_default.a.mark(function _callee16(transactionIdOrHash, fileName, stream) {
-      var url, responseType, response;
-      return regenerator_default.a.wrap(function _callee16$(_context16) {
-        while (1) {
-          switch (_context16.prev = _context16.next) {
-            case 0:
-              url = new URL("".concat(this.endpoint, "transaction/").concat(transactionIdOrHash, "/fileByName/").concat(fileName, "/"));
-              responseType = 'arraybuffer';
-
-              if (typeof window !== 'undefined') {
-                //in a browser
-                responseType = 'blob';
-              }
-
-              if (stream) {
-                responseType = 'stream';
-              }
-
-              _context16.next = 6;
-              return request({
-                url: url,
-                method: 'GET',
-                headers: this.apiAuthHeaders(),
-                responseType: responseType
-              }).catch(function (ex) {
-                throw new exceptions_GetRequestException(ex.response.data);
-              });
-
-            case 6:
-              response = _context16.sent;
-              console.log(response);
-              return _context16.abrupt("return", response.data);
-
-            case 9:
-            case "end":
-              return _context16.stop();
-          }
-        }
-      }, _callee16, this);
-    }));
-
-    function getFileFromBundleByNameForTransaction(_x23, _x24, _x25) {
-      return _getFileFromBundleByNameForTransaction.apply(this, arguments);
-    }
-
-    return getFileFromBundleByNameForTransaction;
-  }();
-
-  return Simbachain;
-}(simbabase_SimbaBase);
-
+// EXTERNAL MODULE: ./src/simba/simbabase.js
+var simbabase = __webpack_require__(69);
+
+// EXTERNAL MODULE: ./src/simba/simba.js
+var simba_simba = __webpack_require__(126);
 
 // CONCATENATED MODULE: ./src/simba/index.js
 
 
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.to-string.js
+var es_object_to_string = __webpack_require__(64);
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.promise.js
+var es_promise = __webpack_require__(91);
 
 // CONCATENATED MODULE: ./src/wallet/wallet.js
 
@@ -25693,23 +25765,42 @@ function () {
 }();
 
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
+var es_array_concat = __webpack_require__(44);
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.for-each.js
+var es_array_for_each = __webpack_require__(60);
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.index-of.js
+var es_array_index_of = __webpack_require__(85);
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
+var es_object_keys = __webpack_require__(61);
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.exec.js
-var es_regexp_exec = __webpack_require__(134);
+var es_regexp_exec = __webpack_require__(139);
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.replace.js
-var es_string_replace = __webpack_require__(135);
+var es_string_replace = __webpack_require__(140);
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
+var web_dom_collections_for_each = __webpack_require__(62);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/inheritsLoose.js
+var inheritsLoose = __webpack_require__(6);
+var inheritsLoose_default = /*#__PURE__*/__webpack_require__.n(inheritsLoose);
 
 // EXTERNAL MODULE: ./node_modules/bn.js/lib/bn.js
-var bn = __webpack_require__(13);
+var bn = __webpack_require__(14);
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/bytes/lib.esm/index.js + 1 modules
 var lib_esm = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/bignumber/lib.esm/index.js + 3 modules
-var bignumber_lib_esm = __webpack_require__(12);
+var bignumber_lib_esm = __webpack_require__(13);
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/keccak256/lib.esm/index.js
-var keccak256_lib_esm = __webpack_require__(8);
+var keccak256_lib_esm = __webpack_require__(9);
 
 // CONCATENATED MODULE: ./node_modules/@ethersproject/rlp/lib.esm/index.js
 
@@ -25827,7 +25918,7 @@ function decode(data) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/logger/lib.esm/index.js + 1 modules
-var logger_lib_esm = __webpack_require__(3);
+var logger_lib_esm = __webpack_require__(4);
 
 // CONCATENATED MODULE: ./node_modules/@ethersproject/address/lib.esm/_version.js
 const version = "address/5.0.0-beta.131";
@@ -25964,7 +26055,7 @@ function getContractAddress(transaction) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/properties/lib.esm/index.js + 1 modules
-var properties_lib_esm = __webpack_require__(1);
+var properties_lib_esm = __webpack_require__(2);
 
 // CONCATENATED MODULE: ./node_modules/@ethersproject/abstract-provider/lib.esm/_version.js
 const _version_version = "abstract-provider/5.0.0-beta.134";
@@ -26223,7 +26314,7 @@ class lib_esm_VoidSigner extends lib_esm_Signer {
 }
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/hash/lib.esm/index.js + 1 modules
-var hash_lib_esm = __webpack_require__(67);
+var hash_lib_esm = __webpack_require__(71);
 
 // CONCATENATED MODULE: ./node_modules/@ethersproject/basex/lib.esm/index.js
 /**
@@ -26346,13 +26437,13 @@ const Base58 = new lib_esm_BaseX("123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmn
 //console.log(Base58.encode(Base58.decode("Qmd2V777o5XvJbYMeMb8k2nU5f8d3ciUQ5YpYuWhzv8iDj")))
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/strings/lib.esm/index.js + 4 modules
-var strings_lib_esm = __webpack_require__(10);
+var strings_lib_esm = __webpack_require__(11);
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/pbkdf2/lib/browser.js
-var browser = __webpack_require__(39);
+var browser = __webpack_require__(40);
 
 // EXTERNAL MODULE: ./node_modules/elliptic/lib/elliptic.js
-var elliptic = __webpack_require__(152);
+var elliptic = __webpack_require__(156);
 
 // CONCATENATED MODULE: ./node_modules/@ethersproject/signing-key/lib.esm/_version.js
 const signing_key_lib_esm_version_version = "signing-key/5.0.0-beta.132";
@@ -26434,10 +26525,10 @@ function computePublicKey(key, compressed) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/sha2/lib/browser.js
-var lib_browser = __webpack_require__(21);
+var lib_browser = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/constants/lib.esm/index.js
-var constants_lib_esm = __webpack_require__(66);
+var constants_lib_esm = __webpack_require__(70);
 
 // CONCATENATED MODULE: ./node_modules/@ethersproject/transactions/lib.esm/_version.js
 const transactions_lib_esm_version_version = "transactions/5.0.0-beta.131";
@@ -26594,7 +26685,7 @@ function parse(rawTransaction) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/wordlists/lib/browser.js
-var wordlists_lib_browser = __webpack_require__(91);
+var wordlists_lib_browser = __webpack_require__(96);
 
 // CONCATENATED MODULE: ./node_modules/@ethersproject/hdnode/lib.esm/_version.js
 const hdnode_lib_esm_version_version = "hdnode/5.0.0-beta.133";
@@ -26890,10 +26981,10 @@ function isValidMnemonic(mnemonic, wordlist) {
 }
 
 // EXTERNAL MODULE: ./node_modules/@ethersproject/random/lib/browser.js
-var random_lib_browser = __webpack_require__(34);
+var random_lib_browser = __webpack_require__(35);
 
 // EXTERNAL MODULE: ./node_modules/aes-js/index.js
-var aes_js = __webpack_require__(22);
+var aes_js = __webpack_require__(23);
 var aes_js_default = /*#__PURE__*/__webpack_require__.n(aes_js);
 
 // CONCATENATED MODULE: ./node_modules/@ethersproject/json-wallets/lib.esm/_version.js
@@ -27059,11 +27150,11 @@ function getJsonWalletAddress(json) {
 }
 
 // EXTERNAL MODULE: ./node_modules/scrypt-js/scrypt.js
-var scrypt = __webpack_require__(92);
+var scrypt = __webpack_require__(97);
 var scrypt_default = /*#__PURE__*/__webpack_require__.n(scrypt);
 
 // EXTERNAL MODULE: ./node_modules/uuid/uuid.js
-var uuid = __webpack_require__(153);
+var uuid = __webpack_require__(157);
 var uuid_default = /*#__PURE__*/__webpack_require__.n(uuid);
 
 // CONCATENATED MODULE: ./node_modules/@ethersproject/json-wallets/lib.esm/keystore.js
@@ -27559,6 +27650,9 @@ function verifyMessage(message, signature) {
     return recoverAddress(Object(hash_lib_esm["hashMessage"])(message), signature);
 }
 
+// EXTERNAL MODULE: ./src/exceptions.js
+var exceptions = __webpack_require__(1);
+
 // CONCATENATED MODULE: ./src/wallet/localwallet.js
 
 
@@ -27594,7 +27688,7 @@ function (_Wallet) {
     _this = _Wallet.call(this, signingConfirmation) || this;
 
     if (typeof window === 'undefined') {
-      throw new exceptions_NotInBrowserException("LocalWallet can only be used in a browser!");
+      throw new exceptions["h" /* NotInBrowserException */]("LocalWallet can only be used in a browser!");
     }
 
     _this.window = window;
@@ -27722,11 +27816,11 @@ function (_Wallet) {
 
   _proto.getMnemonic = function getMnemonic() {
     if (!this.walletExists()) {
-      throw new exceptions_WalletNotFoundException("No wallet generated!");
+      throw new exceptions["p" /* WalletNotFoundException */]("No wallet generated!");
     }
 
     if (!this.wallet) {
-      throw new exceptions_WalletLockedException("Wallet not unlocked!");
+      throw new exceptions["o" /* WalletLockedException */]("Wallet not unlocked!");
     }
 
     return this.wallet.mnemonic;
@@ -27741,11 +27835,11 @@ function (_Wallet) {
 
   _proto.getEncryptedJson = function getEncryptedJson(passkey, progressCB) {
     if (!this.walletExists()) {
-      throw new exceptions_WalletNotFoundException("No wallet generated!");
+      throw new exceptions["p" /* WalletNotFoundException */]("No wallet generated!");
     }
 
     if (!this.wallet) {
-      throw new exceptions_WalletLockedException("Wallet not unlocked!");
+      throw new exceptions["o" /* WalletLockedException */]("Wallet not unlocked!");
     }
 
     return this.wallet.encrypt(passkey, progressCB);
@@ -27763,11 +27857,11 @@ function (_Wallet) {
     var _this7 = this;
 
     if (!this.walletExists()) {
-      throw new exceptions_WalletNotFoundException("No wallet generated!");
+      throw new exceptions["p" /* WalletNotFoundException */]("No wallet generated!");
     }
 
     if (!this.wallet) {
-      throw new exceptions_WalletLockedException("Wallet not unlocked!");
+      throw new exceptions["o" /* WalletLockedException */]("Wallet not unlocked!");
     }
 
     return this.signingConfirmation().then(function (allow) {
@@ -27775,11 +27869,11 @@ function (_Wallet) {
         var cleanedPayload = _this7.cleanPayload(payload);
 
         return _this7.wallet.signTransaction(cleanedPayload).catch(function (error) {
-          throw new exceptions_SigningException("Failed to sign transaction", error);
+          throw new exceptions["k" /* SigningException */]("Failed to sign transaction", error);
         });
       }
 
-      throw new exceptions_UserRejectedSigningException("User rejected signing");
+      throw new exceptions["n" /* UserRejectedSigningException */]("User rejected signing");
     });
   }
   /**
@@ -27913,11 +28007,11 @@ function (_Wallet) {
 
   _proto.getMnemonic = function getMnemonic() {
     if (!this.walletExists()) {
-      throw new exceptions_WalletNotFoundException("No wallet generated!");
+      throw new exceptions["p" /* WalletNotFoundException */]("No wallet generated!");
     }
 
     if (!this.wallet) {
-      throw new exceptions_WalletLockedException("Wallet not unlocked!");
+      throw new exceptions["o" /* WalletLockedException */]("Wallet not unlocked!");
     }
 
     return this.wallet.mnemonic;
@@ -27932,11 +28026,11 @@ function (_Wallet) {
 
   _proto.getEncryptedJson = function getEncryptedJson(passkey, progressCB) {
     if (!this.walletExists()) {
-      throw new exceptions_WalletNotFoundException("No wallet generated!");
+      throw new exceptions["p" /* WalletNotFoundException */]("No wallet generated!");
     }
 
     if (!this.wallet) {
-      throw new exceptions_WalletLockedException("Wallet not unlocked!");
+      throw new exceptions["o" /* WalletLockedException */]("Wallet not unlocked!");
     }
 
     return this.wallet.encrypt(passkey, progressCB);
@@ -27954,11 +28048,11 @@ function (_Wallet) {
     var _this2 = this;
 
     if (!this.walletExists()) {
-      throw new exceptions_WalletNotFoundException("No wallet generated!");
+      throw new exceptions["p" /* WalletNotFoundException */]("No wallet generated!");
     }
 
     if (!this.wallet) {
-      throw new exceptions_WalletLockedException("Wallet not unlocked!");
+      throw new exceptions["o" /* WalletLockedException */]("Wallet not unlocked!");
     }
 
     return this.signingConfirmation().then(function (allow) {
@@ -27966,11 +28060,11 @@ function (_Wallet) {
         var cleanedPayload = _this2.cleanPayload(payload);
 
         return _this2.wallet.signTransaction(cleanedPayload).catch(function (error) {
-          throw new exceptions_SigningException("Failed to sign transaction", error);
+          throw new exceptions["k" /* SigningException */]("Failed to sign transaction", error);
         });
       }
 
-      throw new exceptions_UserRejectedSigningException("User rejected signing");
+      throw new exceptions["n" /* UserRejectedSigningException */]("User rejected signing");
     });
   }
   /**
@@ -28018,8 +28112,8 @@ function (_Wallet) {
 
 // CONCATENATED MODULE: ./src/index.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSimbaInstance", function() { return getSimbaInstance; });
-/* concated harmony reexport SimbaBase */__webpack_require__.d(__webpack_exports__, "SimbaBase", function() { return simbabase_SimbaBase; });
-/* concated harmony reexport Simbachain */__webpack_require__.d(__webpack_exports__, "Simbachain", function() { return simba_Simbachain; });
+/* concated harmony reexport SimbaBase */__webpack_require__.d(__webpack_exports__, "SimbaBase", function() { return simbabase["a" /* default */]; });
+/* concated harmony reexport Simbachain */__webpack_require__.d(__webpack_exports__, "Simbachain", function() { return simba_simba["a" /* default */]; });
 /* concated harmony reexport Wallet */__webpack_require__.d(__webpack_exports__, "Wallet", function() { return wallet_Wallet; });
 /* concated harmony reexport LocalWallet */__webpack_require__.d(__webpack_exports__, "LocalWallet", function() { return localwallet_LocalWallet; });
 /* concated harmony reexport PKWallet */__webpack_require__.d(__webpack_exports__, "PKWallet", function() { return pkwallet_PKWallet; });
@@ -28057,7 +28151,7 @@ function () {
             }
 
             //.com
-            simba = new simba_Simbachain(url, wallet);
+            simba = new simba_simba["a" /* default */](url, wallet);
 
             if (apiKey) {
               simba.setApiKey(apiKey);
@@ -28074,7 +28168,7 @@ function () {
             return _context.abrupt("return", simba);
 
           case 9:
-            throw new exceptions_NotImplementedException("SCaaS Support not yet implemented, sorry.");
+            throw new exceptions["g" /* NotImplementedException */]("SCaaS Support not yet implemented, sorry.");
 
           case 10:
           case "end":

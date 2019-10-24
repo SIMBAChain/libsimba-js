@@ -65,8 +65,8 @@
       "expectCount": 23,
       "actualCount": 21,
       "undocumentLines": [
-        16,
-        43
+        25,
+        52
       ]
     },
     "src/simba/simbabase.js": {

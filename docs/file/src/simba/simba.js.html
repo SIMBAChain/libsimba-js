@@ -73,6 +73,15 @@ import {
 } from &apos;../exceptions&apos;;
 import PagedResponse from &quot;./pagedresponse&quot;;
 import axios from &apos;axios&apos;;
+
+if (typeof XMLHttpRequest !== &apos;undefined&apos;) {
+    // For browsers use XHR adapter
+    axios.defaults.adapter = require(&apos;axios/lib/adapters/xhr&apos;);
+} else if (typeof process !== &apos;undefined&apos;) {
+    // For node use HTTP adapter
+    axios.defaults.adapter = require(&apos;axios/lib/adapters/http&apos;);
+}
+
 const request = axios.request;
 
 /**
