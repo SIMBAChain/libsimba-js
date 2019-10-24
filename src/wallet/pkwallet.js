@@ -17,7 +17,7 @@ export default class PKWallet extends Wallet {
     constructor(private_key, signingConfirmation) {
         super(signingConfirmation);
         this.pk = private_key;
-        this.wallet = EthersWallet(this.pk);
+        this.wallet = new EthersWallet(this.pk);
     }
 
     /**
