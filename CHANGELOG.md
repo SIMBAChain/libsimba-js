@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://github.com/simbachain/libsimba-js/compare/v0.4.2...v0.5.0) (2019-10-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* **requests:** All requests moved from fetch to axios
+
+* **requests:** moved to Axios for cross env https requests ([9b70da4](https://github.com/simbachain/libsimba-js/commit/9b70da4f2b204c64e1bba38ccf8067f4a61c998b))
+
 ### [0.4.2](https://github.com/simbachain/libsimba-js/compare/v0.4.1...v0.4.2) (2019-10-24)
 
 
