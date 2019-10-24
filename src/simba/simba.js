@@ -13,6 +13,15 @@ import {
 } from '../exceptions';
 import PagedResponse from "./pagedresponse";
 import axios from 'axios';
+
+if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    axios.defaults.adapter = require('axios/lib/adapters/xhr');
+} else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    axios.defaults.adapter = require('axios/lib/adapters/http');
+}
+
 const request = axios.request;
 
 /**
