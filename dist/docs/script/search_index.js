@@ -72,6 +72,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "@simbachain/libsimba-js/src/exceptions.js~postrequestexception",
+    "class/src/exceptions.js~PostRequestException.html",
+    "<span>PostRequestException</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/exceptions.js</span>",
+    "class"
+  ],
+  [
     "@simbachain/libsimba-js/src/exceptions.js~retriesexceededexception",
     "class/src/exceptions.js~RetriesExceededException.html",
     "<span>RetriesExceededException</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/exceptions.js</span>",
@@ -543,6 +549,18 @@ window.esdocSearchIndex = [
     "src/exceptions.js~notinbrowserexception#name",
     "class/src/exceptions.js~NotInBrowserException.html#instance-member-name",
     "src/exceptions.js~NotInBrowserException#name",
+    "member"
+  ],
+  [
+    "src/exceptions.js~postrequestexception#constructor",
+    "class/src/exceptions.js~PostRequestException.html#instance-constructor-constructor",
+    "src/exceptions.js~PostRequestException#constructor",
+    "method"
+  ],
+  [
+    "src/exceptions.js~postrequestexception#name",
+    "class/src/exceptions.js~PostRequestException.html#instance-member-name",
+    "src/exceptions.js~PostRequestException#name",
     "member"
   ],
   [
@@ -1086,16 +1104,16 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/wallet/localwallet.js",
-    "file/src/wallet/localwallet.js.html",
-    "src/wallet/localwallet.js",
-    "file"
-  ],
-  [
     "",
     "test-file/test/localwallet.spec.js.html#lineNumber3",
     "src/wallet/localwallet.js",
     "test"
+  ],
+  [
+    "src/wallet/localwallet.js",
+    "file/src/wallet/localwallet.js.html",
+    "src/wallet/localwallet.js",
+    "file"
   ],
   [
     "",

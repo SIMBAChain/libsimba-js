@@ -1,33 +1,42 @@
 const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin'); //installed via npm
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    devtool: 'eval-source-map',
-    entry: './src/index.js',
+    devtool: 'source-map',
+    entry: ["core-js/stable", "regenerator-runtime/runtime", './src/index.js'],
     devServer: {
         port: 8080,
         contentBase: path.join(__dirname, "dist")
+    },
+    optimization: {
+        minimize: false
+    },
+    resolve: {
+        mainFields: ['browser', 'main', 'module']
     },
     node: {
         fs: 'empty'
     },
     output: {
+        path: `${__dirname}/dist`,
         library: 'libsimba',
+        filename: 'libsimba.js',
         libraryTarget: 'umd',
-        globalObject: 'this'
+        globalObject: '(typeof self !== \'undefined\' ? self : this)' // TODO Hack (for Webpack 4+) to enable create UMD build which can be required by Node without throwing error for window being undefined (https://github.com/webpack/webpack/issues/6522)
     },
     module: {
         rules: [
             {
                 test: /\.js$/,
-                use: ["source-map-loader"],
-                enforce: "pre"
-            },
-            {
-                test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader'
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        babelrc: true,
+                    },
+                }
             }
         ],
     },

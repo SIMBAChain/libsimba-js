@@ -1,3 +1,7 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+import "@ethersproject/shims/dist/index"
+
 import {SimbaBase, Simbachain} from './simba';
 import {Wallet, LocalWallet, PKWallet} from './wallet';
 import {NotImplementedException} from './exceptions';
