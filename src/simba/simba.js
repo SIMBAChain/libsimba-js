@@ -12,6 +12,7 @@ import {
     RetriesExceededException
 } from '../exceptions';
 import PagedResponse from "./pagedresponse";
+var FormData = require('form-data');
 import axios from 'axios';
 
 /**
@@ -57,11 +58,11 @@ export default class Simbachain extends SimbaBase {
 
         this.validateCall(method, parameters);
 
-        let formData = {};
+        let formData = new FormData();
         let address = await this.wallet.getAddress();
-        formData.from = address;
+        formData.append('from', address);
         for (let [key, value] of Object.entries(parameters)) {
-            formData[key] = value;
+            formData.append(key, value);
         }
 
         return this.sendMethodRequest(method, formData);
@@ -268,15 +269,15 @@ export default class Simbachain extends SimbaBase {
 
         this.validateCall(method, parameters, files);
 
-        let formData = {};
+        let formData = new FormData();
         let address = await this.wallet.getAddress();
-        formData.from = address;
+        formData.append('from', address);
         for (let [key, value] of Object.entries(parameters)) {
-            formData[key] = value;
+            formData.append(key, value);
         }
 
         for(let i = 0; i < files.length; i++){
-            formData[`file[${i}]`] = files[i];
+            formData.append(`file[${i}]`, files[i]);
         }
 
         return this.sendMethodRequest(method, formData);
@@ -337,10 +338,19 @@ export default class Simbachain extends SimbaBase {
         let txnId = null;
         let payload;
 
+        let headers = {};
+
+        headers = Object.assign(headers,this.apiAuthHeaders());
+
+        if(formdata.getHeaders){
+            //For NodeJS
+            headers = Object.assign(headers,formdata.getHeaders());
+        }
+
         return axios.request({
             url: `${this.endpoint}${method}/`,
             method: 'POST',
-            headers: this.apiAuthHeaders(),
+            headers: headers,
             data: formdata,
             responseType: 'json'
         })
