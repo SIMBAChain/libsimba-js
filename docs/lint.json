@@ -4,40 +4,40 @@
     "filePath": "src/simba/simba.js",
     "lines": [
       {
-        "lineNumber": 255,
-        "line": "    /**"
-      },
-      {
         "lineNumber": 256,
-        "line": "     * @override"
+        "line": "    /**\r"
       },
       {
         "lineNumber": 257,
-        "line": "     * Call a method on the API with files"
+        "line": "     * @override\r"
       },
       {
         "lineNumber": 258,
-        "line": "     * @param {string} method - the method to call"
+        "line": "     * Call a method on the API with files\r"
       },
       {
         "lineNumber": 259,
-        "line": "     * @param {Object} parameters- the parameters for the method"
+        "line": "     * @param {string} method - the method to call\r"
       },
       {
         "lineNumber": 260,
-        "line": "     * @param {Array<Blob|File>} files - the files"
+        "line": "     * @param {Object} parameters- the parameters for the method\r"
       },
       {
         "lineNumber": 261,
-        "line": "     * @return {Promise<Object>} - a promise resolving with the transaction details"
+        "line": "     * @param {Array<Blob|File>} files - the files\r"
       },
       {
         "lineNumber": 262,
-        "line": "     */"
+        "line": "     * @return {Promise<Object>} - a promise resolving with the transaction details\r"
       },
       {
         "lineNumber": 263,
-        "line": "    async callMethodWithFile(method, parameters, files) {"
+        "line": "     */\r"
+      },
+      {
+        "lineNumber": 264,
+        "line": "    async callMethodWithFile(method, parameters, files) {\r"
       }
     ],
     "codeParams": [
@@ -56,36 +56,36 @@
     "filePath": "src/simba/simba.js",
     "lines": [
       {
-        "lineNumber": 284,
-        "line": "    /**"
-      },
-      {
         "lineNumber": 285,
-        "line": "     * @private"
+        "line": "    /**\r"
       },
       {
         "lineNumber": 286,
-        "line": "     * Internal method for submitting method calls and retrying on nonce errors"
+        "line": "     * @private\r"
       },
       {
         "lineNumber": 287,
-        "line": "     * @param {string} txnId - the txnId"
+        "line": "     * Internal method for submitting method calls and retrying on nonce errors\r"
       },
       {
         "lineNumber": 288,
-        "line": "     * @param {string} signed - The signed txn"
+        "line": "     * @param {string} txnId - the txnId\r"
       },
       {
         "lineNumber": 289,
-        "line": "     * @returns {Promise<Response>} - The response with transaction data"
+        "line": "     * @param {string} signed - The signed txn\r"
       },
       {
         "lineNumber": 290,
-        "line": "     */"
+        "line": "     * @returns {Promise<Response>} - The response with transaction data\r"
       },
       {
         "lineNumber": 291,
-        "line": "    async submitTxn(txnId, payload, maxTries, currentTry){"
+        "line": "     */\r"
+      },
+      {
+        "lineNumber": 292,
+        "line": "    async submitTxn(txnId, payload, maxTries, currentTry){\r"
       }
     ],
     "codeParams": [
@@ -104,36 +104,36 @@
     "filePath": "src/simba/simba.js",
     "lines": [
       {
-        "lineNumber": 328,
-        "line": "    /**"
-      },
-      {
         "lineNumber": 329,
-        "line": "     * @private"
+        "line": "    /**\r"
       },
       {
         "lineNumber": 330,
-        "line": "     * Internal method for sending method calls"
+        "line": "     * @private\r"
       },
       {
         "lineNumber": 331,
-        "line": "     * @param {string} url - the url"
+        "line": "     * Internal method for sending method calls\r"
       },
       {
         "lineNumber": 332,
-        "line": "     * @param {object} formdata - Formdata for the POST"
+        "line": "     * @param {string} url - the url\r"
       },
       {
         "lineNumber": 333,
-        "line": "     * @returns {Promise<Response>} - The response with transaction data"
+        "line": "     * @param {object} formdata - Formdata for the POST\r"
       },
       {
         "lineNumber": 334,
-        "line": "     */"
+        "line": "     * @returns {Promise<Response>} - The response with transaction data\r"
       },
       {
         "lineNumber": 335,
-        "line": "    async sendMethodRequest(method, formdata){"
+        "line": "     */\r"
+      },
+      {
+        "lineNumber": 336,
+        "line": "    async sendMethodRequest(method, formdata){\r"
       }
     ],
     "codeParams": [
@@ -151,35 +151,35 @@
     "lines": [
       {
         "lineNumber": 33,
-        "line": "    /**"
+        "line": "    /**\r"
       },
       {
         "lineNumber": 34,
-        "line": "     * @override"
+        "line": "     * @override\r"
       },
       {
         "lineNumber": 35,
-        "line": "     * Generate a wallet"
+        "line": "     * Generate a wallet\r"
       },
       {
         "lineNumber": 36,
-        "line": "     * @param {string} passkey - The pass key to lock the wallet"
+        "line": "     * @param {string} passkey - The pass key to lock the wallet\r"
       },
       {
         "lineNumber": 37,
-        "line": "     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress"
+        "line": "     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress\r"
       },
       {
         "lineNumber": 38,
-        "line": "     * @returns {Promise} - Returns a promise resolving with the private key when the wallet is created"
+        "line": "     * @returns {Promise} - Returns a promise resolving with the private key when the wallet is created\r"
       },
       {
         "lineNumber": 39,
-        "line": "     */"
+        "line": "     */\r"
       },
       {
         "lineNumber": 40,
-        "line": "    generateWallet(progressCB){"
+        "line": "    generateWallet(progressCB){\r"
       }
     ],
     "codeParams": [

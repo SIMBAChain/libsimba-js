@@ -454,6 +454,7 @@ export default class SimbaBase {
                 }else{
                     if(!(files[i] instanceof ArrayBuffer)
                         &amp;&amp; !(files[i] instanceof Uint8Array)
+                        &amp;&amp; !(files[i].constructor.name === &apos;ReadStream&apos;)
                         &amp;&amp; !(files[i] instanceof Buffer)){
                         throw new MethodCallValidationMetadataException(`Item at position ${i} of &quot;files&quot; is not a Blob or a File`);
                     }

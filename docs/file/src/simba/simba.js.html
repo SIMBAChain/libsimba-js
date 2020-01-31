@@ -72,6 +72,7 @@ import {
     RetriesExceededException
 } from &apos;../exceptions&apos;;
 import PagedResponse from &quot;./pagedresponse&quot;;
+var FormData = require(&apos;form-data&apos;);
 import axios from &apos;axios&apos;;
 
 /**
@@ -117,11 +118,11 @@ export default class Simbachain extends SimbaBase {
 
         this.validateCall(method, parameters);
 
-        let formData = {};
+        let formData = new FormData();
         let address = await this.wallet.getAddress();
-        formData.from = address;
+        formData.append(&apos;from&apos;, address);
         for (let [key, value] of Object.entries(parameters)) {
-            formData[key] = value;
+            formData.append(key, value);
         }
 
         return this.sendMethodRequest(method, formData);
@@ -328,15 +329,15 @@ export default class Simbachain extends SimbaBase {
 
         this.validateCall(method, parameters, files);
 
-        let formData = {};
+        let formData = new FormData();
         let address = await this.wallet.getAddress();
-        formData.from = address;
+        formData.append(&apos;from&apos;, address);
         for (let [key, value] of Object.entries(parameters)) {
-            formData[key] = value;
+            formData.append(key, value);
         }
 
         for(let i = 0; i &lt; files.length; i++){
-            formData[`file[${i}]`] = files[i];
+            formData.append(`file[${i}]`, files[i]);
         }
 
         return this.sendMethodRequest(method, formData);
@@ -397,10 +398,19 @@ export default class Simbachain extends SimbaBase {
         let txnId = null;
         let payload;
 
+        let headers = {};
+
+        headers = Object.assign(headers,this.apiAuthHeaders());
+
+        if(formdata.getHeaders){
+            //For NodeJS
+            headers = Object.assign(headers,formdata.getHeaders());
+        }
+
         return axios.request({
             url: `${this.endpoint}${method}/`,
             method: &apos;POST&apos;,
-            headers: this.apiAuthHeaders(),
+            headers: headers,
             data: formdata,
             responseType: &apos;json&apos;
         })
