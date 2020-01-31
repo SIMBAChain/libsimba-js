@@ -4,39 +4,39 @@
     "filePath": "src/simba/simba.js",
     "lines": [
       {
-        "lineNumber": 249,
+        "lineNumber": 255,
         "line": "    /**"
       },
       {
-        "lineNumber": 250,
+        "lineNumber": 256,
         "line": "     * @override"
       },
       {
-        "lineNumber": 251,
+        "lineNumber": 257,
         "line": "     * Call a method on the API with files"
       },
       {
-        "lineNumber": 252,
+        "lineNumber": 258,
         "line": "     * @param {string} method - the method to call"
       },
       {
-        "lineNumber": 253,
+        "lineNumber": 259,
         "line": "     * @param {Object} parameters- the parameters for the method"
       },
       {
-        "lineNumber": 254,
+        "lineNumber": 260,
         "line": "     * @param {Array<Blob|File>} files - the files"
       },
       {
-        "lineNumber": 255,
+        "lineNumber": 261,
         "line": "     * @return {Promise<Object>} - a promise resolving with the transaction details"
       },
       {
-        "lineNumber": 256,
+        "lineNumber": 262,
         "line": "     */"
       },
       {
-        "lineNumber": 257,
+        "lineNumber": 263,
         "line": "    async callMethodWithFile(method, parameters, files) {"
       }
     ],
@@ -52,39 +52,87 @@
     ]
   },
   {
+    "name": "Simbachain#submitTxn",
+    "filePath": "src/simba/simba.js",
+    "lines": [
+      {
+        "lineNumber": 284,
+        "line": "    /**"
+      },
+      {
+        "lineNumber": 285,
+        "line": "     * @private"
+      },
+      {
+        "lineNumber": 286,
+        "line": "     * Internal method for submitting method calls and retrying on nonce errors"
+      },
+      {
+        "lineNumber": 287,
+        "line": "     * @param {string} txnId - the txnId"
+      },
+      {
+        "lineNumber": 288,
+        "line": "     * @param {string} signed - The signed txn"
+      },
+      {
+        "lineNumber": 289,
+        "line": "     * @returns {Promise<Response>} - The response with transaction data"
+      },
+      {
+        "lineNumber": 290,
+        "line": "     */"
+      },
+      {
+        "lineNumber": 291,
+        "line": "    async submitTxn(txnId, payload, maxTries, currentTry){"
+      }
+    ],
+    "codeParams": [
+      "txnId",
+      "payload",
+      "maxTries",
+      "currentTry"
+    ],
+    "docParams": [
+      "txnId",
+      "signed"
+    ]
+  },
+  {
     "name": "Simbachain#sendMethodRequest",
     "filePath": "src/simba/simba.js",
     "lines": [
       {
-        "lineNumber": 278,
+        "lineNumber": 328,
         "line": "    /**"
       },
       {
-        "lineNumber": 279,
+        "lineNumber": 329,
         "line": "     * @private"
       },
       {
-        "lineNumber": 280,
+        "lineNumber": 330,
         "line": "     * Internal method for sending method calls"
       },
       {
-        "lineNumber": 281,
+        "lineNumber": 331,
         "line": "     * @param {string} url - the url"
       },
       {
-        "lineNumber": 282,
-        "line": "     * @param {FormData} formdata - Formdata for the POST"
+        "lineNumber": 332,
+        "line": "     * @param {object} formdata - Formdata for the POST"
       },
       {
-        "lineNumber": 283,
+        "lineNumber": 333,
         "line": "     * @returns {Promise<Response>} - The response with transaction data"
       },
       {
-        "lineNumber": 284,
+        "lineNumber": 334,
         "line": "     */"
       },
       {
-        "lineNumber": 285,
+        "lineNumber": 335,
         "line": "    async sendMethodRequest(method, formdata){"
       }
     ],
@@ -95,6 +143,51 @@
     "docParams": [
       "url",
       "formdata"
+    ]
+  },
+  {
+    "name": "PKWallet#generateWallet",
+    "filePath": "src/wallet/pkwallet.js",
+    "lines": [
+      {
+        "lineNumber": 33,
+        "line": "    /**"
+      },
+      {
+        "lineNumber": 34,
+        "line": "     * @override"
+      },
+      {
+        "lineNumber": 35,
+        "line": "     * Generate a wallet"
+      },
+      {
+        "lineNumber": 36,
+        "line": "     * @param {string} passkey - The pass key to lock the wallet"
+      },
+      {
+        "lineNumber": 37,
+        "line": "     * @param {function} [progressCB] - A callback, accepting a number between 0-1, indicating decryption progress"
+      },
+      {
+        "lineNumber": 38,
+        "line": "     * @returns {Promise} - Returns a promise resolving with the private key when the wallet is created"
+      },
+      {
+        "lineNumber": 39,
+        "line": "     */"
+      },
+      {
+        "lineNumber": 40,
+        "line": "    generateWallet(progressCB){"
+      }
+    ],
+    "codeParams": [
+      "progressCB"
+    ],
+    "docParams": [
+      "passkey",
+      "progressCB"
     ]
   }
 ]

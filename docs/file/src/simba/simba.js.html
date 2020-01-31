@@ -37,6 +37,9 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MethodCallValidationMetadataException.html">MethodCallValidationMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MissingMetadataException.html">MissingMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~NotImplementedException.html">NotImplementedException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~NotInBrowserException.html">NotInBrowserException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~PostRequestException.html">PostRequestException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~RetriesExceededException.html">RetriesExceededException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~SigningException.html">SigningException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~SubmitTransactionException.html">SubmitTransactionException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~TransactionStatusCheckException.html">TransactionStatusCheckException</a></span></span></li>
@@ -48,6 +51,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/simba/simba.js~Simbachain.html">Simbachain</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/simba/simbabase.js~SimbaBase.html">SimbaBase</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#wallet">wallet</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/wallet/localwallet.js~LocalWallet.html">LocalWallet</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/wallet/pkwallet.js~PKWallet.html">PKWallet</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/wallet/wallet.js~Wallet.html">Wallet</a></span></span></li>
 </ul>
 </div>
@@ -63,9 +67,12 @@ import {
     TransactionStatusCheckException,
     NotImplementedException,
     GetTransactionsException,
-    GetRequestException
+    GetRequestException,
+    PostRequestException,
+    RetriesExceededException
 } from &apos;../exceptions&apos;;
 import PagedResponse from &quot;./pagedresponse&quot;;
+import axios from &apos;axios&apos;;
 
 /**
  * libsimba API Interaction for Simbachain.com
@@ -85,8 +92,11 @@ export default class Simbachain extends SimbaBase {
      * Perform asynchronous actions needed to initialise this class
      */
     async initialize() {
-        let result = await fetch(`${this.endpoint}?format=openapi`);
-        let swagger = await result.json();
+        let response = await axios.request({
+            url: `${this.endpoint}?format=openapi`,
+            responseType: &apos;json&apos;
+        });
+        let swagger = response.data;
 
         if (&apos;info&apos; in swagger &amp;&amp; &apos;x-simba-attrs&apos; in swagger.info) {
             this.metadata = swagger.info[&apos;x-simba-attrs&apos;];
@@ -107,11 +117,11 @@ export default class Simbachain extends SimbaBase {
 
         this.validateCall(method, parameters);
 
-        let formData = new FormData();
+        let formData = {};
         let address = await this.wallet.getAddress();
-        formData.append(&apos;from&apos;, address);
+        formData.from = address;
         for (let [key, value] of Object.entries(parameters)) {
-            formData.append(key, value);
+            formData[key] = value;
         }
 
         return this.sendMethodRequest(method, formData);
@@ -124,19 +134,17 @@ export default class Simbachain extends SimbaBase {
      * @return {Promise&lt;Object&gt;} - a promise resolving with the transaction details
      */
     getTransactionStatus(txnId) {
-        return fetch(`${this.endpoint}transaction/${txnId}/`, {
+        return axios.request({
+            url: `${this.endpoint}transaction/${txnId}/`,
             method: &apos;GET&apos;,
-            cache: &apos;no-cache&apos;,
             headers: this.apiAuthHeaders(),
+            responseType: &apos;json&apos;
         })
             .then(async (response) =&gt; {
-                let data = await response.json();
-
-                if (!response.ok) {
-                    throw new TransactionStatusCheckException(JSON.stringify(data));
-                }
-
-                return data;
+                return response.data;
+            })
+            .catch(error=&gt;{
+                throw new TransactionStatusCheckException(JSON.stringify(error.response.data));
             });
     }
 
@@ -216,18 +224,19 @@ export default class Simbachain extends SimbaBase {
         }
 
         let address = await this.wallet.getAddress();
-        let response = await fetch(
-            `${this.endpoint}balance/${address}/`,
+        let response = await axios.request(
             {
+                url: `${this.endpoint}balance/${address}/`,
                 method: &apos;GET&apos;,
-                cache: &apos;no-cache&apos;,
-                headers: Object.assign({&apos;Content-Type&apos;:&apos;application/json&apos;},this.apiAuthHeaders())
+                headers: Object.assign({&apos;Content-Type&apos;:&apos;application/json&apos;},this.apiAuthHeaders()),
+                responseType: &apos;json&apos;
             }
-        );
-        let data = await response.json();
+        ).catch(error=&gt;{
+                throw new GetRequestException(JSON.stringify(error.response.data));
+            });
 
         return Promise.resolve({
-            ...data,
+            ...response.data,
             poa: false
         });
     }
@@ -284,20 +293,21 @@ export default class Simbachain extends SimbaBase {
             currency: &quot;ether&quot;
         };
 
-        let response = await fetch(
-            `${this.endpoint}balance/${address}/`,
+        let response = await axios.request(
             {
+                url: `${this.endpoint}balance/${address}/`,
                 method: &apos;POST&apos;,
-                cache: &apos;no-cache&apos;,
                 headers: Object.assign({&apos;Content-Type&apos;:&apos;application/json&apos;}, this.apiAuthHeaders()),
-                body: JSON.stringify(requestData)
+                data: requestData,
+                responseType: &apos;json&apos;
             }
-        );
+        ).catch(error=&gt;{
+            throw new PostRequestException(JSON.stringify(error.response.data));
+        });
 
-        let data = await response.json();
 
         return Promise.resolve({
-            ...data,
+            ...response.data,
             poa: false,
             faucet_url: null
         });
@@ -318,15 +328,15 @@ export default class Simbachain extends SimbaBase {
 
         this.validateCall(method, parameters, files);
 
-        let formData = new FormData();
+        let formData = {};
         let address = await this.wallet.getAddress();
-        formData.append(&apos;from&apos;, address);
+        formData.from = address;
         for (let [key, value] of Object.entries(parameters)) {
-            formData.append(key, value);
+            formData[key] = value;
         }
 
         for(let i = 0; i &lt; files.length; i++){
-            formData.append(`file[${i}]`, files[i]);
+            formData[`file[${i}]`] = files[i];
         }
 
         return this.sendMethodRequest(method, formData);
@@ -334,51 +344,78 @@ export default class Simbachain extends SimbaBase {
 
     /**
      * @private
+     * Internal method for submitting method calls and retrying on nonce errors
+     * @param {string} txnId - the txnId
+     * @param {string} signed - The signed txn
+     * @returns {Promise&lt;Response&gt;} - The response with transaction data
+     */
+    async submitTxn(txnId, payload, maxTries, currentTry){
+        if(!maxTries) maxTries = 5;
+        if(!currentTry) currentTry = 0;
+        if(currentTry &gt; maxTries){
+            throw new RetriesExceededException();
+        }
+        // tslint:disable-next-line: no-unsafe-any
+        const signed = await this.wallet.sign(payload);
+
+        return axios.request({
+            url: `${this.endpoint}transaction/${txnId}/`,
+            method: &apos;POST&apos;,
+            headers: Object.assign({&apos;Content-Type&apos;:&apos;application/json&apos;},this.apiAuthHeaders()),
+            data: {payload: signed},
+            responseType: &apos;json&apos;
+        }).then(response =&gt; {
+            // tslint:disable-next-line: no-console
+            console.log(&apos;Success!&apos;, response.data);
+            return txnId;
+        }).catch(ex=&gt;{
+            let body = ex.response.data;
+            if(body.errors &amp;&amp; body.errors.length){
+                let error = body.errors[0];
+                if(error.detail &amp;&amp; error.detail.code){
+                    let code = error.detail.code;
+                    //Nonce Error
+                    if(code === &quot;15001&quot; &amp;&amp; error.detail.meta &amp;&amp; error.detail.meta.suggested_nonce){
+                        console.log(&quot;Nonce Too Low, trying again with suggested nonce &quot; + error.detail.meta.suggested_nonce);
+                        payload.nonce = error.detail.meta.suggested_nonce;
+                        return this.submitTxn(txnId, payload, maxTries, currentTry++);
+                    }
+                }
+            }
+            throw new SubmitTransactionException(JSON.stringify(body));
+        });
+    }
+
+    /**
+     * @private
      * Internal method for sending method calls
      * @param {string} url - the url
-     * @param {FormData} formdata - Formdata for the POST
+     * @param {object} formdata - Formdata for the POST
      * @returns {Promise&lt;Response&gt;} - The response with transaction data
      */
     async sendMethodRequest(method, formdata){
         let txnId = null;
+        let payload;
 
-        return fetch(`${this.endpoint}${method}/`, {
+        return axios.request({
+            url: `${this.endpoint}${method}/`,
             method: &apos;POST&apos;,
-            cache: &apos;no-cache&apos;,
             headers: this.apiAuthHeaders(),
-            body: formdata,
+            data: formdata,
+            responseType: &apos;json&apos;
         })
-            .then(async (response) =&gt; {
-                let data = await response.json();
+            .then((response) =&gt; {
+                // tslint:disable-next-line: no-unsafe-any
+                txnId = response.data.id;
+                // tslint:disable-next-line: no-unsafe-any
 
-                if (!response.ok) {
-                    throw new GenerateTransactionException(JSON.stringify(data));
-                }
-                // tslint:disable-next-line: no-unsafe-any
-                txnId = data.id;
-                // tslint:disable-next-line: no-unsafe-any
-                const payload = data.payload.raw;
-                // tslint:disable-next-line: no-unsafe-any
-                const signed = await this.wallet.sign(payload);
+                payload = response.data.payload.raw;
 
-                return fetch(`${this.endpoint}transaction/${txnId}/`, {
-                    method: &apos;POST&apos;,
-                    cache: &apos;no-cache&apos;,
-                    headers: Object.assign({&apos;Content-Type&apos;:&apos;application/json&apos;},this.apiAuthHeaders()),
-                    body: JSON.stringify({payload: signed}),
-                })
+                return this.submitTxn(txnId, payload);
             })
-            .then(async (response) =&gt; {
-                let data = await response.json();
-
-                if (!response.ok) {
-                    throw new SubmitTransactionException(JSON.stringify(data));
-                }
-                // tslint:disable-next-line: no-console
-                console.log(&apos;Success!&apos;, data);
-
-                return txnId;
-            })
+            .catch(ex=&gt;{
+                throw new GenerateTransactionException(JSON.stringify(ex.response.data));
+            });
     }
 
     /**
@@ -392,16 +429,17 @@ export default class Simbachain extends SimbaBase {
 
         let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/`);
 
-        let response = await fetch(url, {
+        let response = await axios.request({
+            url: url,
             method: &apos;GET&apos;,
-            headers: this.apiAuthHeaders()
-        });
+            headers: this.apiAuthHeaders(),
+            responseType: &apos;json&apos;
+        })
+            .catch(ex=&gt;{
+                throw new GetTransactionsException(ex.response.data);
+            });
 
-        if (!response.ok) {
-            throw new GetTransactionsException(await response.text());
-        }
-
-        return await response.json();
+        return response.data;
     }
 
     /**
@@ -419,7 +457,7 @@ export default class Simbachain extends SimbaBase {
             url.searchParams.set(key, value);
         }
 
-        return this.sendTransactionRequest(url);
+        return this.sendTransactionRequest(url.toString());
     }
 
     /**
@@ -438,7 +476,7 @@ export default class Simbachain extends SimbaBase {
             url.searchParams.set(key, value);
         }
 
-        return this.sendTransactionRequest(url);
+        return this.sendTransactionRequest(url.toString());
     }
 
     /**
@@ -449,18 +487,17 @@ export default class Simbachain extends SimbaBase {
      * @returns {Promise&lt;PagedResponse&gt;} - A response wrapped in a {@link PagedResponse} helper
      */
     async sendTransactionRequest(url){
-        let response = await fetch(url, {
+        let response = await axios.request({
+            url: url,
             method: &apos;GET&apos;,
-            headers: this.apiAuthHeaders()
-        });
+            headers: this.apiAuthHeaders(),
+            responseType: &apos;json&apos;
+        })
+            .catch(ex=&gt;{
+                throw new GetTransactionsException(ex.response.data);
+            });
 
-        if (!response.ok) {
-            throw new GetTransactionsException(await response.text());
-        }
-
-        let json = await response.json();
-
-        return new PagedResponse(json, url, this);
+        return new PagedResponse(response.data, url, this);
     }
 
 
@@ -475,43 +512,45 @@ export default class Simbachain extends SimbaBase {
 
         url.searchParams.append(&apos;no_files&apos;, true);
 
-        let response = await fetch(url, {
+        let response = await axios.request({
+            url: url,
             method: &apos;GET&apos;,
-            headers: this.apiAuthHeaders()
-        });
+            headers: this.apiAuthHeaders(),
+            json: true
+        })
+            .catch(ex=&gt;{
+                throw new GetRequestException(ex.response.data);
+            });
 
-        if (!response.ok) {
-            throw new GetRequestException(await response.text());
-        }
-
-        return response.json();
+        return response.data;
     }
 
     /**
      * @override
      * Gets the bundle for a transaction
      * @param {string} transactionIdOrHash - Either a transaction ID or a transaction hash
-     * @param {boolean} stream - If true, returns a {@link ReadableStream}, otherwise returns a {@link Blob}
      * @returns {Promise&lt;ReadableStream|Blob&gt;} - The bundle
      */
-    async getBundleForTransaction(transactionIdOrHash, stream) {
+    async getBundleForTransaction(transactionIdOrHash) {
         let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/bundle_raw/`);
 
-        let response = await fetch(url, {
+        let responseType = &apos;arraybuffer&apos;;
+        if (typeof window !== &apos;undefined&apos;){
+            //in a browser
+            responseType = &apos;blob&apos;;
+        }
+
+        let response = await axios.request({
+            url: url,
             method: &apos;GET&apos;,
-            headers: this.apiAuthHeaders()
-        });
+            headers: this.apiAuthHeaders(),
+            responseType: responseType
+        })
+            .catch(ex=&gt;{
+                throw new GetRequestException(ex.response.data);
+            });
 
-        if (!response.ok) {
-            throw new GetRequestException(await response.text());
-        }
-
-
-        if(!stream){
-            return response.blob();
-        }
-
-        return response.body;
+        return response.data;
     }
 
     /**
@@ -525,21 +564,27 @@ export default class Simbachain extends SimbaBase {
     async getFileFromBundleForTransaction(transactionIdOrHash, fileIdx, stream) {
         let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/file/${fileIdx}/`);
 
-        let response = await fetch(url, {
+        let responseType = &apos;arraybuffer&apos;;
+        if (typeof window !== &apos;undefined&apos;){
+            //in a browser
+            responseType = &apos;blob&apos;;
+        }
+        if(stream){
+            responseType = &apos;stream&apos;;
+        }
+
+        let response = await axios.request({
+            url: url,
             method: &apos;GET&apos;,
-            headers: this.apiAuthHeaders()
-        });
+            headers: this.apiAuthHeaders(),
+            responseType: responseType
+        })
+            .catch(ex=&gt;{
+                throw new GetRequestException(ex.response.data);
+            });
 
-        if (!response.ok) {
-            throw new GetRequestException(await response.text());
-        }
-
-
-        if (!stream) {
-            return response.blob();
-        }
-
-        return response.body;
+        console.log(response);
+        return response.data;
     }
 
     /**
@@ -553,21 +598,27 @@ export default class Simbachain extends SimbaBase {
     async getFileFromBundleByNameForTransaction(transactionIdOrHash, fileName, stream) {
         let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/fileByName/${fileName}/`);
 
-        let response = await fetch(url, {
+        let responseType = &apos;arraybuffer&apos;;
+        if (typeof window !== &apos;undefined&apos;){
+            //in a browser
+            responseType = &apos;blob&apos;;
+        }
+        if(stream){
+            responseType = &apos;stream&apos;;
+        }
+
+        let response = await axios.request({
+            url: url,
             method: &apos;GET&apos;,
-            headers: this.apiAuthHeaders()
-        });
+            headers: this.apiAuthHeaders(),
+            responseType: responseType
+        })
+            .catch(ex=&gt;{
+                throw new GetRequestException(ex.response.data);
+            });
 
-        if (!response.ok) {
-            throw new GetRequestException(await response.text());
-        }
-
-
-        if (!stream) {
-            return response.blob();
-        }
-
-        return response.body;
+        console.log(response);
+        return response.data;
     }
 }
 </code></pre>

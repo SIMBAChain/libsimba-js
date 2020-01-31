@@ -387,8 +387,16 @@ export default class SimbaBase {
 
         if(files){
             for(let i = 0; i < files.length; i++){
-                if(!(files[i] instanceof Blob) || !(files[i] instanceof File)){
-                    throw new MethodCallValidationMetadataException(`Item at position ${i} of "files" is not a Blob or a File`);
+                if(typeof window !== 'undefined' && typeof window.document !== 'undefined'){
+                    if(!(files[i] instanceof Blob) && !(files[i] instanceof File)){
+                        throw new MethodCallValidationMetadataException(`Item at position ${i} of "files" is not a Blob or a File`);
+                    }
+                }else{
+                    if(!(files[i] instanceof ArrayBuffer)
+                        && !(files[i] instanceof Uint8Array)
+                        && !(files[i] instanceof Buffer)){
+                        throw new MethodCallValidationMetadataException(`Item at position ${i} of "files" is not a Blob or a File`);
+                    }
                 }
             }
         }

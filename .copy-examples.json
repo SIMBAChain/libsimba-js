@@ -11,6 +11,10 @@
         {
             "from": "dist/libsimba.js.map",
             "to": "docs/libsimba.js.map"
+        },
+        {
+            "from": "docs/**/*",
+            "to": "dist/docs/"
         }
     ]
 }

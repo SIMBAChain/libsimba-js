@@ -54,9 +54,33 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "@simbachain/libsimba-js/src/exceptions.js~notinbrowserexception",
+    "class/src/exceptions.js~NotInBrowserException.html",
+    "<span>NotInBrowserException</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/exceptions.js</span>",
+    "class"
+  ],
+  [
+    "@simbachain/libsimba-js/src/wallet/pkwallet.js~pkwallet",
+    "class/src/wallet/pkwallet.js~PKWallet.html",
+    "<span>PKWallet</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/wallet/pkwallet.js</span>",
+    "class"
+  ],
+  [
     "@simbachain/libsimba-js/src/simba/pagedresponse.js~pagedresponse",
     "class/src/simba/pagedresponse.js~PagedResponse.html",
     "<span>PagedResponse</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/simba/pagedresponse.js</span>",
+    "class"
+  ],
+  [
+    "@simbachain/libsimba-js/src/exceptions.js~postrequestexception",
+    "class/src/exceptions.js~PostRequestException.html",
+    "<span>PostRequestException</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/exceptions.js</span>",
+    "class"
+  ],
+  [
+    "@simbachain/libsimba-js/src/exceptions.js~retriesexceededexception",
+    "class/src/exceptions.js~RetriesExceededException.html",
+    "<span>RetriesExceededException</span> <span class=\"search-result-import-path\">@simbachain/libsimba-js/src/exceptions.js</span>",
     "class"
   ],
   [
@@ -516,6 +540,42 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/exceptions.js~notinbrowserexception#constructor",
+    "class/src/exceptions.js~NotInBrowserException.html#instance-constructor-constructor",
+    "src/exceptions.js~NotInBrowserException#constructor",
+    "method"
+  ],
+  [
+    "src/exceptions.js~notinbrowserexception#name",
+    "class/src/exceptions.js~NotInBrowserException.html#instance-member-name",
+    "src/exceptions.js~NotInBrowserException#name",
+    "member"
+  ],
+  [
+    "src/exceptions.js~postrequestexception#constructor",
+    "class/src/exceptions.js~PostRequestException.html#instance-constructor-constructor",
+    "src/exceptions.js~PostRequestException#constructor",
+    "method"
+  ],
+  [
+    "src/exceptions.js~postrequestexception#name",
+    "class/src/exceptions.js~PostRequestException.html#instance-member-name",
+    "src/exceptions.js~PostRequestException#name",
+    "member"
+  ],
+  [
+    "src/exceptions.js~retriesexceededexception#constructor",
+    "class/src/exceptions.js~RetriesExceededException.html#instance-constructor-constructor",
+    "src/exceptions.js~RetriesExceededException#constructor",
+    "method"
+  ],
+  [
+    "src/exceptions.js~retriesexceededexception#name",
+    "class/src/exceptions.js~RetriesExceededException.html#instance-member-name",
+    "src/exceptions.js~RetriesExceededException#name",
+    "member"
+  ],
+  [
     "src/exceptions.js~signingexception#constructor",
     "class/src/exceptions.js~SigningException.html#instance-constructor-constructor",
     "src/exceptions.js~SigningException#constructor",
@@ -834,6 +894,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/simba/simba.js~simbachain#submittxn",
+    "class/src/simba/simba.js~Simbachain.html#instance-method-submitTxn",
+    "src/simba/simba.js~Simbachain#submitTxn",
+    "method"
+  ],
+  [
     "src/simba/simbabase.js",
     "file/src/simba/simbabase.js.html",
     "src/simba/simbabase.js",
@@ -1143,6 +1209,90 @@ window.esdocSearchIndex = [
     "src/wallet/localwallet.js~localwallet#walletexists",
     "class/src/wallet/localwallet.js~LocalWallet.html#instance-method-walletExists",
     "src/wallet/localwallet.js~LocalWallet#walletExists",
+    "method"
+  ],
+  [
+    "src/wallet/localwallet.js~localwallet#window",
+    "class/src/wallet/localwallet.js~LocalWallet.html#instance-member-window",
+    "src/wallet/localwallet.js~LocalWallet#window",
+    "member"
+  ],
+  [
+    "src/wallet/pkwallet.js",
+    "file/src/wallet/pkwallet.js.html",
+    "src/wallet/pkwallet.js",
+    "file"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#cleanpayload",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-cleanPayload",
+    "src/wallet/pkwallet.js~PKWallet#cleanPayload",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#constructor",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-constructor-constructor",
+    "src/wallet/pkwallet.js~PKWallet#constructor",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#deletewallet",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-deleteWallet",
+    "src/wallet/pkwallet.js~PKWallet#deleteWallet",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#generatewallet",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-generateWallet",
+    "src/wallet/pkwallet.js~PKWallet#generateWallet",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#getaddress",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-getAddress",
+    "src/wallet/pkwallet.js~PKWallet#getAddress",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#getencryptedjson",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-getEncryptedJson",
+    "src/wallet/pkwallet.js~PKWallet#getEncryptedJson",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#getmnemonic",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-getMnemonic",
+    "src/wallet/pkwallet.js~PKWallet#getMnemonic",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#pk",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-member-pk",
+    "src/wallet/pkwallet.js~PKWallet#pk",
+    "member"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#sign",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-sign",
+    "src/wallet/pkwallet.js~PKWallet#sign",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#unlockwallet",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-unlockWallet",
+    "src/wallet/pkwallet.js~PKWallet#unlockWallet",
+    "method"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#wallet",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-member-wallet",
+    "src/wallet/pkwallet.js~PKWallet#wallet",
+    "member"
+  ],
+  [
+    "src/wallet/pkwallet.js~pkwallet#walletexists",
+    "class/src/wallet/pkwallet.js~PKWallet.html#instance-method-walletExists",
+    "src/wallet/pkwallet.js~PKWallet#walletExists",
     "method"
   ],
   [

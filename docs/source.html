@@ -37,6 +37,9 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MethodCallValidationMetadataException.html">MethodCallValidationMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MissingMetadataException.html">MissingMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~NotImplementedException.html">NotImplementedException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~NotInBrowserException.html">NotInBrowserException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~PostRequestException.html">PostRequestException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~RetriesExceededException.html">RetriesExceededException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~SigningException.html">SigningException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~SubmitTransactionException.html">SubmitTransactionException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~TransactionStatusCheckException.html">TransactionStatusCheckException</a></span></span></li>
@@ -48,12 +51,13 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/simba/simba.js~Simbachain.html">Simbachain</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/simba/simbabase.js~SimbaBase.html">SimbaBase</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#wallet">wallet</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/wallet/localwallet.js~LocalWallet.html">LocalWallet</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/wallet/pkwallet.js~PKWallet.html">PKWallet</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/wallet/wallet.js~Wallet.html">Wallet</a></span></span></li>
 </ul>
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">95/138</span></h1>
+<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">110/162</span></h1>
 
 <table class="files-summary" data-ice="files" data-use-coverage="true">
   <thead>
@@ -69,7 +73,7 @@
   <tbody>
     
   <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/exceptions.js.html#errorLines=100,108,110,118,12,120,128,13,130,139,14,141,150,152,27,29,38,40,48,50,58,60,68,70,78,80,88,90,98">src/exceptions.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/src/exceptions.js.html#errorLines=100,108,110,118,12,120,128,13,130,138,14,140,148,150,159,161,170,172,180,182,27,29,38,40,48,50,58,60,68,70,78,80,88,90,98">src/exceptions.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/src/exceptions.js~BadMetadataException.html">BadMetadataException</a></span>
 <span><a href="class/src/exceptions.js~BaseException.html">BaseException</a></span>
 <span><a href="class/src/exceptions.js~GenerateTransactionException.html">GenerateTransactionException</a></span>
@@ -78,24 +82,27 @@
 <span><a href="class/src/exceptions.js~MethodCallValidationMetadataException.html">MethodCallValidationMetadataException</a></span>
 <span><a href="class/src/exceptions.js~MissingMetadataException.html">MissingMetadataException</a></span>
 <span><a href="class/src/exceptions.js~NotImplementedException.html">NotImplementedException</a></span>
+<span><a href="class/src/exceptions.js~NotInBrowserException.html">NotInBrowserException</a></span>
+<span><a href="class/src/exceptions.js~PostRequestException.html">PostRequestException</a></span>
+<span><a href="class/src/exceptions.js~RetriesExceededException.html">RetriesExceededException</a></span>
 <span><a href="class/src/exceptions.js~SigningException.html">SigningException</a></span>
 <span><a href="class/src/exceptions.js~SubmitTransactionException.html">SubmitTransactionException</a></span>
 <span><a href="class/src/exceptions.js~TransactionStatusCheckException.html">TransactionStatusCheckException</a></span>
 <span><a href="class/src/exceptions.js~UserRejectedSigningException.html">UserRejectedSigningException</a></span>
 <span><a href="class/src/exceptions.js~WalletLockedException.html">WalletLockedException</a></span>
 <span><a href="class/src/exceptions.js~WalletNotFoundException.html">WalletNotFoundException</a></span></td>
-      <td class="coverage"><span data-ice="coverage">34 %</span><span data-ice="coverageCount" class="coverage-count">15/44</span></td>
-      <td style="display: none;" data-ice="size">4031 byte</td>
-      <td style="display: none;" data-ice="lines">155</td>
-      <td style="display: none;" data-ice="updated">2019-09-05 12:02:50 (UTC)</td>
+      <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">18/53</span></td>
+      <td style="display: none;" data-ice="size">4740 byte</td>
+      <td style="display: none;" data-ice="lines">185</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 12:33:10 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/index.js.html">src/index.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-getSimbaInstance">getSimbaInstance</a></span></td>
       <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
-      <td style="display: none;" data-ice="size">1300 byte</td>
-      <td style="display: none;" data-ice="lines">42</td>
-      <td style="display: none;" data-ice="updated">2019-09-06 15:00:18 (UTC)</td>
+      <td style="display: none;" data-ice="size">1324 byte</td>
+      <td style="display: none;" data-ice="lines">43</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 12:21:41 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/simba/index.js.html">src/simba/index.js</a></span></td>
@@ -114,36 +121,44 @@
       <td style="display: none;" data-ice="updated">2019-09-04 17:56:14 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/simba/simba.js.html#errorLines=36">src/simba/simba.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/src/simba/simba.js.html#errorLines=42">src/simba/simba.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/src/simba/simba.js~Simbachain.html">Simbachain</a></span></td>
-      <td class="coverage"><span data-ice="coverage">95 %</span><span data-ice="coverageCount" class="coverage-count">20/21</span></td>
-      <td style="display: none;" data-ice="size">15668 byte</td>
-      <td style="display: none;" data-ice="lines">516</td>
-      <td style="display: none;" data-ice="updated">2019-09-07 15:24:30 (UTC)</td>
+      <td class="coverage"><span data-ice="coverage">95 %</span><span data-ice="coverageCount" class="coverage-count">21/22</span></td>
+      <td style="display: none;" data-ice="size">17715 byte</td>
+      <td style="display: none;" data-ice="lines">563</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 14:43:57 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/simba/simbabase.js.html#errorLines=23,27,29,321,329">src/simba/simbabase.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/src/simba/simbabase.js~SimbaBase.html">SimbaBase</a></span></td>
       <td class="coverage"><span data-ice="coverage">84 %</span><span data-ice="coverageCount" class="coverage-count">28/33</span></td>
-      <td style="display: none;" data-ice="size">17000 byte</td>
-      <td style="display: none;" data-ice="lines">459</td>
-      <td style="display: none;" data-ice="updated">2019-09-02 08:58:57 (UTC)</td>
+      <td style="display: none;" data-ice="size">17479 byte</td>
+      <td style="display: none;" data-ice="lines">467</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 14:31:06 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/wallet/index.js.html">src/wallet/index.js</a></span></td>
       <td data-ice="identifier" class="identifiers">-</td>
       <td class="coverage"><span data-ice="coverage">-</span></td>
-      <td style="display: none;" data-ice="size">119 byte</td>
-      <td style="display: none;" data-ice="lines">7</td>
-      <td style="display: none;" data-ice="updated">2019-09-02 11:37:32 (UTC)</td>
+      <td style="display: none;" data-ice="size">170 byte</td>
+      <td style="display: none;" data-ice="lines">9</td>
+      <td style="display: none;" data-ice="updated">2019-10-04 10:08:08 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/wallet/localwallet.js.html#errorLines=40">src/wallet/localwallet.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/src/wallet/localwallet.js.html#errorLines=22,45">src/wallet/localwallet.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/src/wallet/localwallet.js~LocalWallet.html">LocalWallet</a></span></td>
-      <td class="coverage"><span data-ice="coverage">93 %</span><span data-ice="coverageCount" class="coverage-count">14/15</span></td>
-      <td style="display: none;" data-ice="size">7601 byte</td>
-      <td style="display: none;" data-ice="lines">201</td>
-      <td style="display: none;" data-ice="updated">2019-09-04 21:04:28 (UTC)</td>
+      <td class="coverage"><span data-ice="coverage">87 %</span><span data-ice="coverageCount" class="coverage-count">14/16</span></td>
+      <td style="display: none;" data-ice="size">7835 byte</td>
+      <td style="display: none;" data-ice="lines">206</td>
+      <td style="display: none;" data-ice="updated">2019-10-04 10:21:29 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/wallet/pkwallet.js.html#errorLines=19,20">src/wallet/pkwallet.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/wallet/pkwallet.js~PKWallet.html">PKWallet</a></span></td>
+      <td class="coverage"><span data-ice="coverage">84 %</span><span data-ice="coverageCount" class="coverage-count">11/13</span></td>
+      <td style="display: none;" data-ice="size">5393 byte</td>
+      <td style="display: none;" data-ice="lines">153</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 10:29:57 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/wallet/wallet.js.html#errorLines=15">src/wallet/wallet.js</a></span></td>
@@ -151,7 +166,7 @@
       <td class="coverage"><span data-ice="coverage">88 %</span><span data-ice="coverageCount" class="coverage-count">8/9</span></td>
       <td style="display: none;" data-ice="size">3239 byte</td>
       <td style="display: none;" data-ice="lines">101</td>
-      <td style="display: none;" data-ice="updated">2019-09-04 21:04:28 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2019-10-02 13:48:28 (UTC)</td>
     </tr>
 </tbody>
 </table>

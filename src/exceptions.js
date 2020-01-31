@@ -94,6 +94,16 @@ export class GetRequestException extends BaseException{
 /**
  * Thrown when the server returns an error when querying transactions
  */
+export class PostRequestException extends BaseException{
+    constructor(...args){
+        super(...args);
+        this.name = 'PostRequestException';
+    }
+}
+
+/**
+ * Thrown when the server returns an error when querying transactions
+ */
 export class GetTransactionsException extends GetRequestException{
     constructor(...args){
         super(...args);
@@ -118,6 +128,16 @@ export class SigningException extends BaseException{
     constructor(...args){
         super(...args);
         this.name = 'SigningException';
+    }
+}
+
+/**
+ * Thrown when a LocalWallet is created in a non browser environment
+ */
+export class NotInBrowserException extends BaseException{
+    constructor(...args){
+        super(...args);
+        this.name = 'NotInBrowserException';
     }
 }
 

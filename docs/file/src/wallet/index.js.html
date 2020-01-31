@@ -37,6 +37,9 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MethodCallValidationMetadataException.html">MethodCallValidationMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~MissingMetadataException.html">MissingMetadataException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~NotImplementedException.html">NotImplementedException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~NotInBrowserException.html">NotInBrowserException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~PostRequestException.html">PostRequestException</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~RetriesExceededException.html">RetriesExceededException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~SigningException.html">SigningException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~SubmitTransactionException.html">SubmitTransactionException</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/exceptions.js~TransactionStatusCheckException.html">TransactionStatusCheckException</a></span></span></li>
@@ -48,6 +51,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/simba/simba.js~Simbachain.html">Simbachain</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/simba/simbabase.js~SimbaBase.html">SimbaBase</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#wallet">wallet</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/wallet/localwallet.js~LocalWallet.html">LocalWallet</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/wallet/pkwallet.js~PKWallet.html">PKWallet</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/wallet/wallet.js~Wallet.html">Wallet</a></span></span></li>
 </ul>
 </div>
@@ -56,10 +60,12 @@
 <div class="content" data-ice="content"><h1 data-ice="title">src/wallet/index.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Wallet from &apos;./wallet&apos;;
 import LocalWallet from &apos;./localwallet&apos;;
+import PKWallet from &apos;./pkwallet&apos;;
 
 export {
     Wallet,
-    LocalWallet
+    LocalWallet,
+    PKWallet
 }
 </code></pre>
 
