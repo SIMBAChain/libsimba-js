@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.5](https://github.com/simbachain/libsimba-js/compare/v0.5.4...v0.5.5) (2020-08-24)
+
+
+### Features
+
+* **deps:** update standard-version dep ([2315330](https://github.com/simbachain/libsimba-js/commit/2315330c80e87ba883497d707a0eef6eb64c53a5)), closes [#25](https://github.com/simbachain/libsimba-js/issues/25) [#25](https://github.com/simbachain/libsimba-js/issues/25)
+
 ### [0.5.4](https://github.com/simbachain/libsimba-js/compare/v0.5.3...v0.5.4) (2020-08-24)
 
 ### [0.5.3](https://github.com/simbachain/libsimba-js/compare/v0.5.2...v0.5.3) (2020-01-31)
