@@ -93,7 +93,7 @@
         "nyc": "^14.1.1",
         "sinon": "^7.4.2",
         "source-map-loader": "0.2.4",
-        "standard-version": "^7.0.0",
+        "standard-version": "^8.0.2",
         "terser-webpack-plugin": "^2.2.1",
         "typedoc": "^0.15.0",
         "url-loader": "2.2.0",
