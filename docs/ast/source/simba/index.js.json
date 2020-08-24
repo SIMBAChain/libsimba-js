@@ -1,7 +1,7 @@
 {
   "type": "File",
   "start": 0,
-  "end": 113,
+  "end": 120,
   "loc": {
     "start": {
       "line": 1,
@@ -15,7 +15,7 @@
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 113,
+    "end": 120,
     "loc": {
       "start": {
         "line": 1,
@@ -99,8 +99,8 @@
       },
       {
         "type": "ImportDeclaration",
-        "start": 37,
-        "end": 70,
+        "start": 38,
+        "end": 71,
         "loc": {
           "start": {
             "line": 2,
@@ -114,8 +114,8 @@
         "specifiers": [
           {
             "type": "ImportDefaultSpecifier",
-            "start": 44,
-            "end": 54,
+            "start": 45,
+            "end": 55,
             "loc": {
               "start": {
                 "line": 2,
@@ -128,8 +128,8 @@
             },
             "local": {
               "type": "Identifier",
-              "start": 44,
-              "end": 54,
+              "start": 45,
+              "end": 55,
               "loc": {
                 "start": {
                   "line": 2,
@@ -147,8 +147,8 @@
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 60,
-          "end": 69,
+          "start": 61,
+          "end": 70,
           "loc": {
             "start": {
               "line": 2,
@@ -168,8 +168,8 @@
       },
       {
         "type": "ExportNamedDeclaration",
-        "start": 72,
-        "end": 112,
+        "start": 75,
+        "end": 118,
         "loc": {
           "start": {
             "line": 4,
@@ -184,8 +184,8 @@
         "specifiers": [
           {
             "type": "ExportSpecifier",
-            "start": 85,
-            "end": 94,
+            "start": 89,
+            "end": 98,
             "loc": {
               "start": {
                 "line": 5,
@@ -198,8 +198,8 @@
             },
             "local": {
               "type": "Identifier",
-              "start": 85,
-              "end": 94,
+              "start": 89,
+              "end": 98,
               "loc": {
                 "start": {
                   "line": 5,
@@ -215,8 +215,8 @@
             },
             "exported": {
               "type": "Identifier",
-              "start": 85,
-              "end": 94,
+              "start": 89,
+              "end": 98,
               "loc": {
                 "start": {
                   "line": 5,
@@ -233,8 +233,8 @@
           },
           {
             "type": "ExportSpecifier",
-            "start": 100,
-            "end": 110,
+            "start": 105,
+            "end": 115,
             "loc": {
               "start": {
                 "line": 6,
@@ -247,8 +247,8 @@
             },
             "local": {
               "type": "Identifier",
-              "start": 100,
-              "end": 110,
+              "start": 105,
+              "end": 115,
               "loc": {
                 "start": {
                   "line": 6,
@@ -264,8 +264,8 @@
             },
             "exported": {
               "type": "Identifier",
-              "start": 100,
-              "end": 110,
+              "start": 105,
+              "end": 115,
               "loc": {
                 "start": {
                   "line": 6,
@@ -436,8 +436,8 @@
         "updateContext": null
       },
       "value": "import",
-      "start": 37,
-      "end": 43,
+      "start": 38,
+      "end": 44,
       "loc": {
         "start": {
           "line": 2,
@@ -462,8 +462,8 @@
         "binop": null
       },
       "value": "Simbachain",
-      "start": 44,
-      "end": 54,
+      "start": 45,
+      "end": 55,
       "loc": {
         "start": {
           "line": 2,
@@ -488,8 +488,8 @@
         "binop": null
       },
       "value": "from",
-      "start": 55,
-      "end": 59,
+      "start": 56,
+      "end": 60,
       "loc": {
         "start": {
           "line": 2,
@@ -515,8 +515,8 @@
         "updateContext": null
       },
       "value": "./simba",
-      "start": 60,
-      "end": 69,
+      "start": 61,
+      "end": 70,
       "loc": {
         "start": {
           "line": 2,
@@ -541,8 +541,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 69,
-      "end": 70,
+      "start": 70,
+      "end": 71,
       "loc": {
         "start": {
           "line": 2,
@@ -569,8 +569,8 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 72,
-      "end": 78,
+      "start": 75,
+      "end": 81,
       "loc": {
         "start": {
           "line": 4,
@@ -594,8 +594,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 79,
-      "end": 80,
+      "start": 82,
+      "end": 83,
       "loc": {
         "start": {
           "line": 4,
@@ -620,8 +620,8 @@
         "binop": null
       },
       "value": "SimbaBase",
-      "start": 85,
-      "end": 94,
+      "start": 89,
+      "end": 98,
       "loc": {
         "start": {
           "line": 5,
@@ -646,8 +646,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 94,
-      "end": 95,
+      "start": 98,
+      "end": 99,
       "loc": {
         "start": {
           "line": 5,
@@ -672,8 +672,8 @@
         "binop": null
       },
       "value": "Simbachain",
-      "start": 100,
-      "end": 110,
+      "start": 105,
+      "end": 115,
       "loc": {
         "start": {
           "line": 6,
@@ -697,8 +697,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 111,
-      "end": 112,
+      "start": 117,
+      "end": 118,
       "loc": {
         "start": {
           "line": 7,
@@ -723,8 +723,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 113,
-      "end": 113,
+      "start": 120,
+      "end": 120,
       "loc": {
         "start": {
           "line": 8,

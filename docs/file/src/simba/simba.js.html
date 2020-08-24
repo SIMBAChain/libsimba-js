@@ -337,7 +337,7 @@ export default class Simbachain extends SimbaBase {
         }
 
         for(let i = 0; i &lt; files.length; i++){
-            formData.append(`file[${i}]`, files[i]);
+            formData.append(&apos;data&apos;, files[i], { filename: `files[${i}]`});
         }
 
         return this.sendMethodRequest(method, formData);
