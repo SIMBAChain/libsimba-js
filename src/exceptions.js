@@ -12,8 +12,8 @@ export class BaseException extends Error{
         this.name = 'BaseException';
 
         if('response' in message){
-            this.message = ex.response.data;
-            this.cause = cause || ex;
+            this.message = message.response.data;
+            this.cause = cause || message;
         }else{
             this.message = message;
             this.cause = cause;
