@@ -2,7 +2,7 @@
  * @simbachain/libsimba-js
  * libsimba-js is a library simplifying the use of SIMBAChain APIs. We aim to abstract away the various blockchain concepts, reducing the necessary time needed to get to working code.
  * 
- * @version v0.5.5
+ * @version v0.5.6
  * @author Kieran David Evans <kieran.evans@simbachain.com>
  * @homepage 
  * @repository git+https://github.com/simbachain/libsimba-js.git
