@@ -9,7 +9,7 @@ export default class PagedResponse {
      * @param {SimbaBase} simba - The SimbaBase instance that requested the response
      */
     constructor(data, url, simba){
-        this.url = new URL(url);
+        this.url = new URL(url).toString();
         this._count = data.count;
         this._next_page = data.next;
         this._previous_page = data.previous;
@@ -23,7 +23,7 @@ export default class PagedResponse {
      */
     async next(){
         if(!this._next_page) return null;
-        return this.simba.sendTransactionRequest(new URL(this._next_page));
+        return this.simba.sendTransactionRequest(new URL(this._next_page).toString());
     }
 
     /**
@@ -32,7 +32,7 @@ export default class PagedResponse {
      */
     async previous(){
         if(!this._previous_page) return null;
-        return this.simba.sendTransactionRequest(new URL(this._previous_page));
+        return this.simba.sendTransactionRequest(new URL(this._previous_page).toString());
     }
 
     /**

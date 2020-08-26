@@ -380,7 +380,7 @@ export default class Simbachain extends SimbaBase {
         let url = new URL(`${this.endpoint}transaction/${transactionIdOrHash}/`);
 
         let response = await axios.request({
-            url: url,
+            url: url.toString(),
             method: 'GET',
             headers: this.apiAuthHeaders(),
             responseType: 'json'
@@ -438,7 +438,7 @@ export default class Simbachain extends SimbaBase {
      */
     async sendTransactionRequest(url){
         let response = await axios.request({
-            url: url,
+            url: url.toString(),
             method: 'GET',
             headers: this.apiAuthHeaders(),
             responseType: 'json'
@@ -463,7 +463,7 @@ export default class Simbachain extends SimbaBase {
         url.searchParams.append('no_files', true);
 
         let response = await axios.request({
-            url: url,
+            url: url.toString(),
             method: 'GET',
             headers: this.apiAuthHeaders(),
             json: true
@@ -491,7 +491,7 @@ export default class Simbachain extends SimbaBase {
         }
 
         let response = await axios.request({
-            url: url,
+            url: url.toString(),
             method: 'GET',
             headers: this.apiAuthHeaders(),
             responseType: responseType
@@ -524,7 +524,7 @@ export default class Simbachain extends SimbaBase {
         }
 
         let response = await axios.request({
-            url: url,
+            url: url.toString(),
             method: 'GET',
             headers: this.apiAuthHeaders(),
             responseType: responseType
@@ -558,7 +558,7 @@ export default class Simbachain extends SimbaBase {
         }
 
         let response = await axios.request({
-            url: url,
+            url: url.toString(),
             method: 'GET',
             headers: this.apiAuthHeaders(),
             responseType: responseType
