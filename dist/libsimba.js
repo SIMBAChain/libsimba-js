@@ -570,8 +570,15 @@ function (_Error) {
 
     _this = _Error.call(this) || this;
     _this.name = 'BaseException';
-    _this.message = message;
-    _this.cause = cause; // Maintains proper stack trace for where our error was thrown (only available on V8)
+
+    if ('response' in message) {
+      _this.message = ex.response.data;
+      _this.cause = cause || ex;
+    } else {
+      _this.message = message;
+      _this.cause = cause;
+    } // Maintains proper stack trace for where our error was thrown (only available on V8)
+
 
     if (Error.captureStackTrace) {
       Error.captureStackTrace(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), _this.constructor);
@@ -28461,7 +28468,7 @@ function (_SimbaBase) {
         return _ref.apply(this, arguments);
       };
     }()).catch(function (error) {
-      throw new exceptions["m" /* TransactionStatusCheckException */](JSON.stringify(error.response.data));
+      throw new exceptions["m" /* TransactionStatusCheckException */](error);
     });
   }
   /**
@@ -28579,7 +28586,7 @@ function (_SimbaBase) {
                 }, this.apiAuthHeaders()),
                 responseType: 'json'
               }).catch(function (error) {
-                throw new exceptions["c" /* GetRequestException */](JSON.stringify(error.response.data));
+                throw new exceptions["c" /* GetRequestException */](error);
               });
 
             case 11:
@@ -28695,7 +28702,7 @@ function (_SimbaBase) {
                 data: requestData,
                 responseType: 'json'
               }).catch(function (error) {
-                throw new exceptions["i" /* PostRequestException */](JSON.stringify(error.response.data));
+                throw new exceptions["i" /* PostRequestException */](error);
               });
 
             case 14:
@@ -28854,7 +28861,7 @@ function (_SimbaBase) {
                   }
                 }
 
-                throw new exceptions["l" /* SubmitTransactionException */](JSON.stringify(body));
+                throw new exceptions["l" /* SubmitTransactionException */](JSON.stringify(body), ex);
               }));
 
             case 8:
@@ -28915,7 +28922,7 @@ function (_SimbaBase) {
                 payload = response.data.payload.raw;
                 return _this2.submitTxn(txnId, payload);
               }).catch(function (ex) {
-                throw new exceptions["b" /* GenerateTransactionException */](JSON.stringify(ex.response.data));
+                throw new exceptions["b" /* GenerateTransactionException */](ex);
               }));
 
             case 5:
@@ -28960,7 +28967,7 @@ function (_SimbaBase) {
                 headers: this.apiAuthHeaders(),
                 responseType: 'json'
               }).catch(function (ex) {
-                throw new exceptions["d" /* GetTransactionsException */](ex.response.data);
+                throw new exceptions["d" /* GetTransactionsException */](ex);
               });
 
             case 4:
@@ -29097,7 +29104,7 @@ function (_SimbaBase) {
                 headers: this.apiAuthHeaders(),
                 responseType: 'json'
               }).catch(function (ex) {
-                throw new exceptions["d" /* GetTransactionsException */](ex.response.data);
+                throw new exceptions["d" /* GetTransactionsException */](ex);
               });
 
             case 2:
@@ -29146,7 +29153,7 @@ function (_SimbaBase) {
                 headers: this.apiAuthHeaders(),
                 json: true
               }).catch(function (ex) {
-                throw new exceptions["c" /* GetRequestException */](ex.response.data);
+                throw new exceptions["c" /* GetRequestException */](ex);
               });
 
             case 4:
@@ -29201,7 +29208,7 @@ function (_SimbaBase) {
                 headers: this.apiAuthHeaders(),
                 responseType: responseType
               }).catch(function (ex) {
-                throw new exceptions["c" /* GetRequestException */](ex.response.data);
+                throw new exceptions["c" /* GetRequestException */](ex);
               });
 
             case 5:
@@ -29262,7 +29269,7 @@ function (_SimbaBase) {
                 headers: this.apiAuthHeaders(),
                 responseType: responseType
               }).catch(function (ex) {
-                throw new exceptions["c" /* GetRequestException */](ex.response.data);
+                throw new exceptions["c" /* GetRequestException */](ex);
               });
 
             case 6:
@@ -29324,7 +29331,7 @@ function (_SimbaBase) {
                 headers: this.apiAuthHeaders(),
                 responseType: responseType
               }).catch(function (ex) {
-                throw new exceptions["c" /* GetRequestException */](ex.response.data);
+                throw new exceptions["c" /* GetRequestException */](ex);
               });
 
             case 6:

@@ -70,8 +70,14 @@ export class BaseException extends Error{
     constructor(message, cause){
         super();
         this.name = &apos;BaseException&apos;;
-        this.message = message;
-        this.cause = cause;
+
+        if(&apos;response&apos; in message){
+            this.message = ex.response.data;
+            this.cause = cause || ex;
+        }else{
+            this.message = message;
+            this.cause = cause;
+        }
 
         // Maintains proper stack trace for where our error was thrown (only available on V8)
         if (Error.captureStackTrace) {

@@ -85,7 +85,7 @@ export default class Simbachain extends SimbaBase {
                 return response.data;
             })
             .catch(error=>{
-                throw new TransactionStatusCheckException(JSON.stringify(error.response.data));
+                throw new TransactionStatusCheckException(error);
             });
     }
 
@@ -173,7 +173,7 @@ export default class Simbachain extends SimbaBase {
                 responseType: 'json'
             }
         ).catch(error=>{
-                throw new GetRequestException(JSON.stringify(error.response.data));
+                throw new GetRequestException(error);
             });
 
         return Promise.resolve({
@@ -243,7 +243,7 @@ export default class Simbachain extends SimbaBase {
                 responseType: 'json'
             }
         ).catch(error=>{
-            throw new PostRequestException(JSON.stringify(error.response.data));
+            throw new PostRequestException(error);
         });
 
 
@@ -323,7 +323,7 @@ export default class Simbachain extends SimbaBase {
                     }
                 }
             }
-            throw new SubmitTransactionException(JSON.stringify(body));
+            throw new SubmitTransactionException(JSON.stringify(body), ex);
         });
     }
 
@@ -364,7 +364,7 @@ export default class Simbachain extends SimbaBase {
                 return this.submitTxn(txnId, payload);
             })
             .catch(ex=>{
-                throw new GenerateTransactionException(JSON.stringify(ex.response.data));
+                throw new GenerateTransactionException(ex);
             });
     }
 
@@ -386,7 +386,7 @@ export default class Simbachain extends SimbaBase {
             responseType: 'json'
         })
             .catch(ex=>{
-                throw new GetTransactionsException(ex.response.data);
+                throw new GetTransactionsException(ex);
             });
 
         return response.data;
@@ -444,7 +444,7 @@ export default class Simbachain extends SimbaBase {
             responseType: 'json'
         })
             .catch(ex=>{
-                throw new GetTransactionsException(ex.response.data);
+                throw new GetTransactionsException(ex);
             });
 
         return new PagedResponse(response.data, url, this);
@@ -469,7 +469,7 @@ export default class Simbachain extends SimbaBase {
             json: true
         })
             .catch(ex=>{
-                throw new GetRequestException(ex.response.data);
+                throw new GetRequestException(ex);
             });
 
         return response.data;
@@ -497,7 +497,7 @@ export default class Simbachain extends SimbaBase {
             responseType: responseType
         })
             .catch(ex=>{
-                throw new GetRequestException(ex.response.data);
+                throw new GetRequestException(ex);
             });
 
         return response.data;
@@ -530,7 +530,7 @@ export default class Simbachain extends SimbaBase {
             responseType: responseType
         })
             .catch(ex=>{
-                throw new GetRequestException(ex.response.data);
+                throw new GetRequestException(ex);
             });
 
         console.log(response);
@@ -564,7 +564,7 @@ export default class Simbachain extends SimbaBase {
             responseType: responseType
         })
             .catch(ex=>{
-                throw new GetRequestException(ex.response.data);
+                throw new GetRequestException(ex);
             });
 
         console.log(response);
